@@ -9,3 +9,6 @@ editor_options:
 ---
 
 Welcome to my research website.
+
+
+Go to the [statistics page](index.html)...

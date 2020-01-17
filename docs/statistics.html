@@ -1,0 +1,7099 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Statistical analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">respiration_exp_evolution</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Statistical analysis</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2020-01-17
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong> <code>respiration_exp_evolution/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/jdblischak/workflowr">workflowr</a> (version 1.4.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20190703code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20190703)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrong9decb09"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> 9decb09 </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrong9decb09" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
+
+Untracked files:
+    Untracked:  analysis/statistics.Rmd
+    Untracked:  code/2.Metabolic_rates.R
+    Untracked:  code/old lavann code.R
+    Untracked:  data/2.metabolic_rates.csv
+    Untracked:  data/paths_VO2.rds
+    Untracked:  data/posterior_predictions.rds
+    Untracked:  docs/figure/
+    Untracked:  output/Figure 2.pdf
+    Untracked:  output/bayesian_R2_values.rds
+    Untracked:  output/bayesian_R2_values_2020.rds
+    Untracked:  output/brms_SEM.rds
+    Untracked:  output/brms_SEM_2020.rds
+
+Unstaged changes:
+    Modified:   .Rprofile
+    Modified:   .gitignore
+    Modified:   README.md
+    Modified:   _workflowr.yml
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/license.Rmd
+    Modified:   code/README.md
+    Modified:   data/README.md
+    Modified:   docs/.nojekyll
+    Modified:   output/README.md
+    Modified:   respiration_exp_evolution.Rproj
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="load-packages" class="section level2">
+<h2>Load packages</h2>
+<pre class="r"><code>library(tidyverse)
+library(gridExtra)
+library(brms)
+library(RColorBrewer)
+library(glue)
+library(kableExtra)
+library(tidybayes)
+library(bayestestR)
+options(stringsAsFactors = FALSE)</code></pre>
+</div>
+<div id="load-data" class="section level2">
+<h2>Load data</h2>
+<pre class="r"><code>respiration &lt;- read_csv(&quot;data/2.metabolic_rates.csv&quot;) %&gt;%
+  rename(SELECTION = `?SELECTION`)</code></pre>
+</div>
+<div id="inspecting-the-raw-data" class="section level2">
+<h2>Inspecting the raw data</h2>
+<div id="selection-treatment-has-affected-activity-and-body-size" class="section level3">
+<h3>Selection treatment has affected activity and body size</h3>
+<p>There is a strong effect of selection treatment on activity in both sexes, and an effect of selection on female body size.</p>
+<pre class="r"><code>respiration %&gt;%
+  filter(CYCLE == &quot;I&quot;) %&gt;%
+  mutate(`Body weight` = scale(BODY_WEIGHT),
+         `Activity level` = scale(ACTIVITY)) %&gt;%
+  gather(trait, value, `Body weight`, `Activity level`) %&gt;%
+  ggplot(aes(SEX, value, colour = SELECTION)) + 
+  stat_summary(position = position_dodge(0.4), size = 0.3) + 
+  facet_wrap(~ trait) + 
+  scale_color_brewer(palette = &quot;Set1&quot;, direction = -1)</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="fit-a-structural-equation-model-with-brms" class="section level2">
+<h2>Fit a structural equation model with <code>brms</code></h2>
+<div id="scale-the-data" class="section level3">
+<h3>Scale the data</h3>
+<p>Here, I scale and centre the body mass (across all samples), and multiply VO2 and VCO2 by 1000 so that their units (and resulting regression coefficients) are close to those assumed by the <code>brms</code> default priors.</p>
+<p>I did not scale and centre VO2 and VCO2, because I will soon relate them to each other via the respiratory quotient, RQ, so it makes sense to leave them in their original units. I also did not scale and centre activity level, because this variable is naturally bounded by zero and one, and so I can model it on its original scale using the <a href="https://en.wikipedia.org/wiki/Beta_distribution">beta distribution</a>.</p>
+<pre class="r"><code>scaled_data &lt;- respiration %&gt;%
+  mutate(VO2 = VO2 * 1000, 
+         VCO2 = VCO2 * 1000,
+         BODY_WEIGHT = as.numeric(scale(BODY_WEIGHT))) %&gt;% 
+  rename(BODYMASS = BODY_WEIGHT)</code></pre>
+</div>
+</div>
+<div id="formulae-for-the-brms-structural-equation-model-sem" class="section level2">
+<h2>Formulae for the <code>brms</code> structural equation model (SEM)</h2>
+<p>The following <code>brms</code> code seeks to estimate the coefficients for more than one model formula simultaneously. There is a model for both of the mediator variables (activity and body mass), a model of oxygen production (VO2), and a model of CO2 production (which is related to VO2 via the parameter RQ, the respiratory quotient, which the model also estimates).</p>
+<p>The formulae were chosen <em>a priori</em>, to reflect our biological intuition about factors that might affect each response variable.</p>
+<div id="activity-level-one-value-per-cycle-i.e.3-measures-on-each-sample-of-individuals" class="section level3">
+<h3>Activity level (one value per cycle, i.e. 3 measures on each ‘sample’ of individuals)</h3>
+<p>Formula: <code>ACTIVITY ~ SELECTION * SEX + CYCLE + (1 | LINE) + (1 | SAMPLE)</code></p>
+<p>This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction), and for an effect of cycle (coded as a 3-level factor, allowing non-linear change across the 3 cycles). The random factors were added due to our repeated measures of replicate selection lines and samples (same for the following forrmulae).</p>
+</div>
+<div id="body-mass" class="section level3">
+<h3>Body mass</h3>
+<p>Formula: <code>BODYMASS ~ SELECTION * SEX + (1 | LINE)</code></p>
+<p>This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction). Because there is only one measure of body mass for each sample of flies, we do not need to fit a sample-level random effect; also, this model is run on only a subset of the full dataset (one of the 3 cycles), since we would incur pseudo-replication if we used the full dataset.</p>
+</div>
+<div id="vo2" class="section level3">
+<h3>VO2</h3>
+<p>Formula: <code>VO2 ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +</code><br />
+<code>SELECTION:BODYMASS + SELECTION:ACTIVITY +</code> <code>SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)</code></p>
+<p>This formula allows for effects on activity of sex, selection an cycle (and their 2- and 3-way interactions), and for sex- and selection treatment-specific effects of body mass and activity level.</p>
+</div>
+<div id="vco2-as-determined-by-the-parameter-rq" class="section level3">
+<h3>VCO2 (as determined by the parameter RQ)</h3>
+<p>Formulae (2-part model, see <code>vignette(&quot;brms_nonlinear&quot;)</code>):</p>
+<p><code>VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))</code></p>
+<p><code>RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +</code><br />
+<code>SELECTION:BODYMASS + SELECTION:ACTIVITY +</code> <code>SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)</code></p>
+<p>VCO2 is assumed to depend on the value of VO2 from the same measurement, multiplied by RQ, a parameter that is constrained to vary between 0.7 and 1 (based on our prior knowledge of the chemistry of respiration) through the use of the inverse logit function. In turn, RQ is assumed to depend on the same set of predictors as for VO2.</p>
+</div>
+<div id="priors" class="section level3">
+<h3>Priors</h3>
+<p>To apply some mild regularisation and assist model convergence, we set a prior on all the fixed effect parameters of <code>normal(0, 10)</code>.</p>
+</div>
+<div id="family" class="section level3">
+<h3>Family</h3>
+<p>All response variables are assumed to follow a normal (Gaussian) distribution, except for activity level (beta); as we shall see, this turns out to be a reasonable approximation of the response variables’ true distributions.</p>
+</div>
+<div id="fit-the-brms-model" class="section level3">
+<h3>Fit the <code>brms</code> model</h3>
+<pre class="r"><code>inv_logit &lt;- function(x) 1 / (1 + exp(-x))
+
+# add a subsetting variable, so that we can estimate the effects of selection and sex on body size without having three redundant measures of body size (one per cycle). See ?brmsformula, section beginning &quot;For multivariate models, subset may be used...&quot;
+scaled_data &lt;- scaled_data %&gt;%
+      mutate(body_subset = CYCLE == &quot;I&quot;)
+
+if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
+  
+  brms_formula &lt;- 
+    bf(VO2 ~ SELECTION * SEX * CYCLE + 
+         BODYMASS + ACTIVITY +  
+         SELECTION:BODYMASS + SELECTION:ACTIVITY + 
+         SEX:BODYMASS + SEX:ACTIVITY + 
+         (1 | LINE) + (1 | SAMPLE)) +
+    bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), 
+       RQ ~ SELECTION * SEX * CYCLE + 
+         BODYMASS + ACTIVITY + 
+         SELECTION:BODYMASS + SELECTION:ACTIVITY + 
+         SEX:BODYMASS + SEX:ACTIVITY + 
+         (1 | LINE) + (1 | SAMPLE),
+       nl = TRUE) +
+    bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + 
+         (1 | LINE)) +
+    bf(ACTIVITY ~ SELECTION * SEX + CYCLE + 
+         (1 | LINE) + (1 | SAMPLE), family = &quot;beta&quot;) +
+    set_rescor(FALSE)
+  
+  brms_SEM &lt;- brm(
+    brms_formula,  
+    data = scaled_data,
+    iter = 10000, chains = 4, cores = 4,
+    prior = prior(normal(0, 10), class = &quot;b&quot;),
+    control = list(max_treedepth = 20, adapt_delta = 0.99)
+  )
+  
+  saveRDS(brms_SEM, file = &quot;output/brms_SEM.rds&quot;)
+  bayesian_R2_values &lt;- bayes_R2(brms_SEM)
+  saveRDS(bayesian_R2_values,
+          file = &quot;output/bayesian_R2_values.rds&quot;)
+  
+} else {
+  brms_SEM &lt;- readRDS(&quot;output/brms_SEM.rds&quot;)
+  bayesian_R2_values &lt;-
+    readRDS(&quot;output/bayesian_R2_values.rds&quot;)
+}</code></pre>
+</div>
+<div id="inspect-the-model-output" class="section level3">
+<h3>Inspect the model output</h3>
+<p>Here is the complete output of <code>summary()</code> called on the model. Note that the model has converged ok (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of their coefficients (“Estimate” column) are not directly comparable.</p>
+<pre class="r"><code>pvalues &lt;- as.data.frame(p_direction(brms_SEM)) %&gt;% 
+  mutate(Parameter = str_remove_all(Parameter, &quot;b_&quot;),
+         Parameter = str_replace_all(Parameter, &quot;[.]&quot;, &quot;:&quot;),
+         p = (100 - pd) / 100) %&gt;%
+  filter(!grepl(&quot;[.]1&quot;, Parameter))
+
+
+fixef(brms_SEM) %&gt;% 
+  as.data.frame() %&gt;%
+  rownames_to_column(&quot;Parameter&quot;) %&gt;%
+  left_join(pvalues %&gt;% select(-pd), by = &quot;Parameter&quot;) %&gt;%
+  mutate(` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+         ` ` = replace(` `, p &gt; 0.05 &amp; p &lt; 0.1, &quot;~&quot;),
+         ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;), 
+         ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;)) %&gt;%
+  mutate(Response = map_chr(strsplit(Parameter, split = &quot;_&quot;), ~ .x[1]),
+         Response = str_replace_all(Response, &quot;BODYMASS&quot;, &quot;Body mass&quot;),
+         Response = str_replace_all(Response, &quot;ACTIVITY&quot;, &quot;Activity&quot;),
+         Response = str_replace_all(Response, &quot;VCO2&quot;, &quot;RQ&quot;),
+         Parameter = str_replace_all(Parameter, &quot;BODYMASS&quot;, &quot;Body mass&quot;),
+         Parameter = str_replace_all(Parameter, &quot;ACTIVITY&quot;, &quot;Activity&quot;),
+         Parameter = str_remove_all(Parameter, &quot;.+_&quot;),
+         Parameter = str_replace_all(Parameter, &quot;SELECTIONPoly&quot;, &quot;Polyandry&quot;),
+         Parameter = str_replace_all(Parameter, &quot;CYCLEIII&quot;, &quot;Cycle III&quot;),
+         Parameter = str_replace_all(Parameter, &quot;CYCLEII&quot;, &quot;Cycle II&quot;),
+         Parameter = str_replace_all(Parameter, &quot;SEXM&quot;, &quot;Male&quot;),
+         Parameter = str_replace_all(Parameter, &quot;:&quot;, &quot; x &quot;)) %&gt;%
+  select(Response, Parameter, everything()) %&gt;%
+  mutate(Response = factor(Response, 
+                           c(&quot;Activity&quot;, &quot;Body mass&quot;, &quot;VO2&quot;, &quot;RQ&quot;))) %&gt;%
+  arrange(Response) %&gt;% select(-Response) %&gt;%
+  kable(digits = 3) %&gt;% kable_styling() %&gt;%
+  group_rows(&quot;Activity level&quot;, 1, 6) %&gt;%
+  group_rows(&quot;Body mass&quot;, 7, 10) %&gt;%
+  group_rows(&quot;VO2&quot;, 11, 28) %&gt;%
+  group_rows(&quot;Respiratory quotient (RQ)&quot;, 29, 46)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Parameter
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+Est.Error
+</th>
+<th style="text-align:right;">
+Q2.5
+</th>
+<th style="text-align:right;">
+Q97.5
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="6">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>Activity level</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
+</td>
+<td style="text-align:right;">
+-4.247
+</td>
+<td style="text-align:right;">
+0.210
+</td>
+<td style="text-align:right;">
+-4.664
+</td>
+<td style="text-align:right;">
+-3.840
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.996
+</td>
+<td style="text-align:right;">
+0.278
+</td>
+<td style="text-align:right;">
+0.450
+</td>
+<td style="text-align:right;">
+1.548
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:left;">
+**
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+0.197
+</td>
+<td style="text-align:right;">
+0.242
+</td>
+<td style="text-align:right;">
+-0.278
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle II
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.090
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+0.276
+</td>
+<td style="text-align:right;">
+0.131
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle III
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+0.092
+</td>
+<td style="text-align:right;">
+-0.147
+</td>
+<td style="text-align:right;">
+0.215
+</td>
+<td style="text-align:right;">
+0.357
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male
+</td>
+<td style="text-align:right;">
+0.096
+</td>
+<td style="text-align:right;">
+0.329
+</td>
+<td style="text-align:right;">
+-0.544
+</td>
+<td style="text-align:right;">
+0.757
+</td>
+<td style="text-align:right;">
+0.385
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr grouplength="4">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>Body mass</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
+</td>
+<td style="text-align:right;">
+0.340
+</td>
+<td style="text-align:right;">
+0.394
+</td>
+<td style="text-align:right;">
+-0.447
+</td>
+<td style="text-align:right;">
+1.124
+</td>
+<td style="text-align:right;">
+0.165
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.597
+</td>
+<td style="text-align:right;">
+0.556
+</td>
+<td style="text-align:right;">
+-0.494
+</td>
+<td style="text-align:right;">
+1.693
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+-1.049
+</td>
+<td style="text-align:right;">
+0.274
+</td>
+<td style="text-align:right;">
+-1.584
+</td>
+<td style="text-align:right;">
+-0.508
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male
+</td>
+<td style="text-align:right;">
+-0.466
+</td>
+<td style="text-align:right;">
+0.385
+</td>
+<td style="text-align:right;">
+-1.228
+</td>
+<td style="text-align:right;">
+0.296
+</td>
+<td style="text-align:right;">
+0.111
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr grouplength="18">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>VO2</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
+</td>
+<td style="text-align:right;">
+7.458
+</td>
+<td style="text-align:right;">
+0.629
+</td>
+<td style="text-align:right;">
+6.242
+</td>
+<td style="text-align:right;">
+8.718
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry
+</td>
+<td style="text-align:right;">
+-0.568
+</td>
+<td style="text-align:right;">
+0.965
+</td>
+<td style="text-align:right;">
+-2.467
+</td>
+<td style="text-align:right;">
+1.249
+</td>
+<td style="text-align:right;">
+0.269
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+-1.616
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+-3.248
+</td>
+<td style="text-align:right;">
+0.021
+</td>
+<td style="text-align:right;">
+0.027
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle II
+</td>
+<td style="text-align:right;">
+-1.465
+</td>
+<td style="text-align:right;">
+0.425
+</td>
+<td style="text-align:right;">
+-2.297
+</td>
+<td style="text-align:right;">
+-0.622
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle III
+</td>
+<td style="text-align:right;">
+-1.960
+</td>
+<td style="text-align:right;">
+0.426
+</td>
+<td style="text-align:right;">
+-2.806
+</td>
+<td style="text-align:right;">
+-1.131
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:right;">
+0.142
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+-1.124
+</td>
+<td style="text-align:right;">
+1.406
+</td>
+<td style="text-align:right;">
+0.410
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Activity
+</td>
+<td style="text-align:right;">
+20.418
+</td>
+<td style="text-align:right;">
+6.896
+</td>
+<td style="text-align:right;">
+7.005
+</td>
+<td style="text-align:right;">
+33.789
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+<td style="text-align:left;">
+**
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male
+</td>
+<td style="text-align:right;">
+0.866
+</td>
+<td style="text-align:right;">
+1.178
+</td>
+<td style="text-align:right;">
+-1.453
+</td>
+<td style="text-align:right;">
+3.188
+</td>
+<td style="text-align:right;">
+0.231
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle II
+</td>
+<td style="text-align:right;">
+0.803
+</td>
+<td style="text-align:right;">
+0.596
+</td>
+<td style="text-align:right;">
+-0.380
+</td>
+<td style="text-align:right;">
+1.956
+</td>
+<td style="text-align:right;">
+0.087
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle III
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:right;">
+0.596
+</td>
+<td style="text-align:right;">
+-1.045
+</td>
+<td style="text-align:right;">
+1.293
+</td>
+<td style="text-align:right;">
+0.427
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle II
+</td>
+<td style="text-align:right;">
+0.534
+</td>
+<td style="text-align:right;">
+0.607
+</td>
+<td style="text-align:right;">
+-0.647
+</td>
+<td style="text-align:right;">
+1.720
+</td>
+<td style="text-align:right;">
+0.190
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle III
+</td>
+<td style="text-align:right;">
+-0.412
+</td>
+<td style="text-align:right;">
+0.613
+</td>
+<td style="text-align:right;">
+-1.611
+</td>
+<td style="text-align:right;">
+0.788
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Body mass
+</td>
+<td style="text-align:right;">
+-0.031
+</td>
+<td style="text-align:right;">
+0.699
+</td>
+<td style="text-align:right;">
+-1.388
+</td>
+<td style="text-align:right;">
+1.373
+</td>
+<td style="text-align:right;">
+0.475
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Activity
+</td>
+<td style="text-align:right;">
+13.370
+</td>
+<td style="text-align:right;">
+7.563
+</td>
+<td style="text-align:right;">
+-1.354
+</td>
+<td style="text-align:right;">
+28.119
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Body mass
+</td>
+<td style="text-align:right;">
+0.325
+</td>
+<td style="text-align:right;">
+0.532
+</td>
+<td style="text-align:right;">
+-0.731
+</td>
+<td style="text-align:right;">
+1.364
+</td>
+<td style="text-align:right;">
+0.265
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Activity
+</td>
+<td style="text-align:right;">
+10.700
+</td>
+<td style="text-align:right;">
+7.973
+</td>
+<td style="text-align:right;">
+-4.900
+</td>
+<td style="text-align:right;">
+26.215
+</td>
+<td style="text-align:right;">
+0.089
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle II
+</td>
+<td style="text-align:right;">
+-0.728
+</td>
+<td style="text-align:right;">
+0.856
+</td>
+<td style="text-align:right;">
+-2.404
+</td>
+<td style="text-align:right;">
+0.982
+</td>
+<td style="text-align:right;">
+0.195
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle III
+</td>
+<td style="text-align:right;">
+0.412
+</td>
+<td style="text-align:right;">
+0.852
+</td>
+<td style="text-align:right;">
+-1.256
+</td>
+<td style="text-align:right;">
+2.104
+</td>
+<td style="text-align:right;">
+0.315
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr grouplength="18">
+<td colspan="7" style="border-bottom: 1px solid;">
+<strong>Respiratory quotient (RQ)</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Intercept
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+-1.197
+</td>
+<td style="text-align:right;">
+1.492
+</td>
+<td style="text-align:right;">
+0.418
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.295
+</td>
+<td style="text-align:right;">
+0.983
+</td>
+<td style="text-align:right;">
+-1.704
+</td>
+<td style="text-align:right;">
+2.207
+</td>
+<td style="text-align:right;">
+0.361
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male
+</td>
+<td style="text-align:right;">
+0.258
+</td>
+<td style="text-align:right;">
+0.866
+</td>
+<td style="text-align:right;">
+-1.401
+</td>
+<td style="text-align:right;">
+2.046
+</td>
+<td style="text-align:right;">
+0.389
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle II
+</td>
+<td style="text-align:right;">
+0.549
+</td>
+<td style="text-align:right;">
+0.561
+</td>
+<td style="text-align:right;">
+-0.500
+</td>
+<td style="text-align:right;">
+1.715
+</td>
+<td style="text-align:right;">
+0.160
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Cycle III
+</td>
+<td style="text-align:right;">
+-0.438
+</td>
+<td style="text-align:right;">
+0.531
+</td>
+<td style="text-align:right;">
+-1.533
+</td>
+<td style="text-align:right;">
+0.595
+</td>
+<td style="text-align:right;">
+0.199
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:right;">
+0.361
+</td>
+<td style="text-align:right;">
+0.601
+</td>
+<td style="text-align:right;">
+-0.809
+</td>
+<td style="text-align:right;">
+1.569
+</td>
+<td style="text-align:right;">
+0.268
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Activity
+</td>
+<td style="text-align:right;">
+-3.490
+</td>
+<td style="text-align:right;">
+7.159
+</td>
+<td style="text-align:right;">
+-17.599
+</td>
+<td style="text-align:right;">
+10.285
+</td>
+<td style="text-align:right;">
+0.316
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+1.094
+</td>
+<td style="text-align:right;">
+-1.930
+</td>
+<td style="text-align:right;">
+2.411
+</td>
+<td style="text-align:right;">
+0.393
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle II
+</td>
+<td style="text-align:right;">
+0.100
+</td>
+<td style="text-align:right;">
+0.696
+</td>
+<td style="text-align:right;">
+-1.299
+</td>
+<td style="text-align:right;">
+1.458
+</td>
+<td style="text-align:right;">
+0.437
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle III
+</td>
+<td style="text-align:right;">
+1.202
+</td>
+<td style="text-align:right;">
+0.711
+</td>
+<td style="text-align:right;">
+-0.157
+</td>
+<td style="text-align:right;">
+2.667
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle II
+</td>
+<td style="text-align:right;">
+-0.585
+</td>
+<td style="text-align:right;">
+0.910
+</td>
+<td style="text-align:right;">
+-2.392
+</td>
+<td style="text-align:right;">
+1.142
+</td>
+<td style="text-align:right;">
+0.251
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle III
+</td>
+<td style="text-align:right;">
+1.374
+</td>
+<td style="text-align:right;">
+2.048
+</td>
+<td style="text-align:right;">
+-0.953
+</td>
+<td style="text-align:right;">
+7.187
+</td>
+<td style="text-align:right;">
+0.158
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Body mass
+</td>
+<td style="text-align:right;">
+-0.148
+</td>
+<td style="text-align:right;">
+0.623
+</td>
+<td style="text-align:right;">
+-1.384
+</td>
+<td style="text-align:right;">
+1.072
+</td>
+<td style="text-align:right;">
+0.400
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Activity
+</td>
+<td style="text-align:right;">
+-7.417
+</td>
+<td style="text-align:right;">
+7.855
+</td>
+<td style="text-align:right;">
+-22.718
+</td>
+<td style="text-align:right;">
+8.108
+</td>
+<td style="text-align:right;">
+0.172
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Body mass
+</td>
+<td style="text-align:right;">
+-0.688
+</td>
+<td style="text-align:right;">
+0.473
+</td>
+<td style="text-align:right;">
+-1.629
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Activity
+</td>
+<td style="text-align:right;">
+4.833
+</td>
+<td style="text-align:right;">
+8.633
+</td>
+<td style="text-align:right;">
+-12.096
+</td>
+<td style="text-align:right;">
+21.577
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle II
+</td>
+<td style="text-align:right;">
+-0.844
+</td>
+<td style="text-align:right;">
+1.107
+</td>
+<td style="text-align:right;">
+-2.991
+</td>
+<td style="text-align:right;">
+1.321
+</td>
+<td style="text-align:right;">
+0.217
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle III
+</td>
+<td style="text-align:right;">
+-2.756
+</td>
+<td style="text-align:right;">
+2.176
+</td>
+<td style="text-align:right;">
+-8.736
+</td>
+<td style="text-align:right;">
+-0.002
+</td>
+<td style="text-align:right;">
+0.025
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="inspect-the-model-r2-values" class="section level3">
+<h3>Inspect the model R^2 values</h3>
+<p>These are all pretty high, which doesn’t tell us much, but it’s included here for completeness.</p>
+<pre class="r"><code>bayesian_R2_values %&gt;%
+  as.data.frame() %&gt;%
+  rownames_to_column(&quot;Response variable&quot;) %&gt;%
+  mutate(`Response variable` = gsub(&quot;R2&quot;, &quot;&quot;, `Response variable`)) %&gt;%
+  kable(digits=2) %&gt;% kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Response variable
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+Est.Error
+</th>
+<th style="text-align:right;">
+Q2.5
+</th>
+<th style="text-align:right;">
+Q97.5
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:right;">
+0.77
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+0.71
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VCO2
+</td>
+<td style="text-align:right;">
+0.92
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+0.91
+</td>
+<td style="text-align:right;">
+0.94
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BODYMASS
+</td>
+<td style="text-align:right;">
+0.61
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.45
+</td>
+<td style="text-align:right;">
+0.71
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+ACTIVITY
+</td>
+<td style="text-align:right;">
+0.74
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+0.66
+</td>
+<td style="text-align:right;">
+0.79
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="plot-posterior-predictive-checks" class="section level3">
+<h3>Plot posterior predictive checks</h3>
+<p>Here, we draw 10 samples from the posterior of the model, and apply them to the original predictor variables, to check that the predicted values resemble the real data (they should, if the model is a sensible approximation of the real processes that generated the data). The plot looks good, mostly, though the fit is a little off for ACTIVITY because this variable is bounded at zero (prior to being scaled). Rather than adding a more complex model, we elected to settle for the Gaussian approximation.</p>
+<pre class="r"><code>my_check &lt;- function(r) {
+  pp_check(brms_SEM, resp = r) + 
+    theme(legend.position = &quot;none&quot;) + 
+    labs(subtitle = r)
+}
+
+grid.arrange(
+  my_check(&quot;VO2&quot;),
+  my_check(&quot;VCO2&quot;),
+  my_check(&quot;ACTIVITY&quot;),
+  my_check(&quot;BODYMASS&quot;)
+)</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="extract-the-posterior-estimates-of-the-means" class="section level3">
+<h3>Extract the posterior estimates of the means</h3>
+<p>These are used for plotting the range of means that is supported by the data, given our priors. The posterior estimates show the mean of each group, accounting for all the random effects (i.e. the design of the experiment), the covariance structure of the response variables, etc.</p>
+<p>We will also use these posteriors for hypothesis testing, e.g. to see if the mean body size of the polyandry flies differs from that of monogamy flies, by subtracting one posterior from the other to get the posterior estimate of the <em>difference</em> in means. If most (e.g. &gt;95%) of this posterior difference lies on one side of zero, the two means may be considered ‘significantly different’ as conventionally defined. The magnitude of the difference in means is also an intuitive measure of effect size, and the posterior gives a sense of how precisely we have estimated effect size.</p>
+<pre class="r"><code>new &lt;- scaled_data %&gt;%
+  select(SELECTION, SEX, CYCLE) %&gt;%
+  distinct() %&gt;%
+  mutate(body_subset = TRUE)
+
+# Get the posterior estimate of body weight and activity, 
+# for the 4 combinations of sex and monogamy/polandry treatment
+bodymass &lt;- brms_SEM %&gt;% 
+  fitted(new, re_formula = NA, 
+         resp = &quot;BODYMASS&quot;, summary = FALSE)
+activity &lt;- brms_SEM %&gt;% 
+  fitted(new, re_formula = NA, 
+         resp = &quot;ACTIVITY&quot;, summary = FALSE)
+
+if(!file.exists(&quot;data/posterior_predictions.rds&quot;)){
+  
+  # Calculate the posterior VO2 and RQ for the levels of &#39;new&#39;, either by assuming bodysize and acitivity are at their global means, or by using the means we have estimated for each combination of selection, sex, and cycle
+  get_post_response &lt;- function(body, act){
+    
+    n_combos &lt;- nrow(new)
+    if(!body) bodyweight &lt;- matrix(0, ncol = n_combos, nrow = 1)
+    if(!act)  activity &lt;- matrix(0, ncol = n_combos, nrow = 1)
+    
+    get_diagonal &lt;- function(mat){
+      if(ncol(mat) == nrow(mat)) return(diag(mat))
+      mat
+    }
+    
+    VO2_posterior &lt;- map(
+      1:n_combos, 
+      ~ brms_SEM %&gt;% 
+        fitted(data.frame(
+          SELECTION = new$SELECTION[.x],
+          SEX = new$SEX[.x],
+          CYCLE = new$CYCLE[.x],
+          BODYMASS = bodymass[, .x], 
+          ACTIVITY = activity[, .x]), 
+          re_formula = NA, resp = &quot;VO2&quot;, 
+          summary = FALSE) %&gt;%
+        get_diagonal()) %&gt;%
+      do.call(&quot;cbind&quot;, .)
+    
+    RQ_posterior &lt;- map(
+      1:n_combos, 
+      ~ brms_SEM %&gt;% 
+        fitted(data.frame(
+          SELECTION = new$SELECTION[.x],
+          SEX = new$SEX[.x],
+          BODYMASS = bodymass[, .x], 
+          ACTIVITY = activity[, .x],
+          CYCLE = new$CYCLE[.x],
+          VO2 = VO2_posterior[, .x]), 
+          re_formula = NA, resp = &quot;VCO2&quot;, 
+          nlpar = &quot;RQ&quot;, summary = FALSE) %&gt;%
+        get_diagonal()) %&gt;%
+      do.call(&quot;cbind&quot;, .)
+    
+    n_draws &lt;- nrow(VO2_posterior)
+    
+    posterior &lt;- tibble(
+      value = c(VO2_posterior),
+      resp = &quot;VO2&quot;,
+      selection = rep(new$SELECTION, each = n_draws),
+      sex = rep(new$SEX, each = n_draws),
+      cycle = rep(new$CYCLE, each = n_draws)
+    ) %&gt;% bind_rows(
+      tibble(
+        value = c(RQ_posterior),
+        resp = &quot;RQ&quot;,
+        selection = rep(new$SELECTION, each = n_draws),
+        sex = rep(new$SEX, each = n_draws),
+        cycle = rep(new$CYCLE, each = n_draws)
+      )
+    ) %&gt;% mutate(
+      value = ifelse(resp == &quot;RQ&quot;, 
+                     0.7 + 0.3 * inv_logit(value), 
+                     value))
+  }
+  
+  posterior_predictions &lt;- list(
+    direct_path = get_post_response(body = F, act = F),
+    direct_path_plus_bodyweight = get_post_response(body = T, act = F),
+    direct_path_plus_activity = get_post_response(body = F, act = T),
+    all_paths = get_post_response(body = T, act = T))
+  
+  posterior_predictions &lt;- lapply(
+    names(posterior_predictions), function(i) {
+      posterior_predictions[[i]] %&gt;% mutate(path = i)
+    }) %&gt;% bind_rows() %&gt;%
+    mutate(path = factor(path, unique(path)))
+  
+  posterior_predictions &lt;- posterior_predictions %&gt;%
+    mutate(sex = ifelse(sex == &quot;M&quot;, &quot;Male&quot;, &quot;Female&quot;),
+           sex = factor(sex, c(&quot;Male&quot;, &quot;Female&quot;)),
+           path = replace(as.character(path), 
+                          path == &quot;direct_path&quot;, 
+                          &quot;1. Direct effect&quot;),
+           path = replace(path, 
+                          path == &quot;direct_path_plus_bodyweight&quot;, 
+                          &quot;2. Direct + body mass&quot;),
+           path = replace(path, 
+                          path == &quot;direct_path_plus_activity&quot;, 
+                          &quot;3. Direct + activity level&quot;),
+           path = replace(path, 
+                          path == &quot;all_paths&quot;, 
+                          &quot;4. Direct + both mediators&quot;)) 
+  
+  posterior_predictions %&gt;% 
+    saveRDS(&quot;data/posterior_predictions.rds&quot;)
+} else {
+  posterior_predictions &lt;- 
+    readRDS(&quot;data/posterior_predictions.rds&quot;)
+}</code></pre>
+</div>
+</div>
+<div id="effect-of-selection-treatment-on-mediator-variables" class="section level2">
+<h2>Effect of selection treatment on mediator variables</h2>
+<p>Here, we see that flies from the polyandry and monogamy selection treatments differ strongly in activity levels, and (for females) in body mass. Thus, in subsequent analyses, we attempt to partition out the effect of selection on respiration that is due to the difference in body size, activity, or other unmeasured mediator variables (e.g. physiological differences).</p>
+<pre class="r"><code>parse_mediators &lt;- function(x){
+  var &lt;- x
+  x &lt;- get(x)
+  colnames(x) &lt;- apply(new, 1, paste0, collapse=&quot;~&quot;)
+  gather(as_tibble(x)) %&gt;%
+    mutate(draw = rep(1:(n()/4), 4),
+           split = strsplit(key, split = &quot;~&quot;),
+           selection = map_chr(split, ~.x[1]),
+           sex = map_chr(split, ~.x[2])) %&gt;%
+    select(draw, sex, selection, value) %&gt;%
+    mutate(mediator = var)
+}
+
+mediators &lt;- parse_mediators(&quot;bodymass&quot;) %&gt;%
+  bind_rows(parse_mediators(&quot;activity&quot;)) %&gt;%
+  mutate(mediator = factor(mediator, unique(mediator))) %&gt;%
+  mutate(
+    mediator = replace(as.character(mediator), 
+                       mediator == &quot;bodymass&quot;, 
+                       &quot;A. Body mass&quot;),
+    mediator = gsub(&quot;activity&quot;, 
+                    &quot;B. Activity&quot;, 
+                    mediator),
+    Sex = relevel(factor(ifelse(sex == &quot;F&quot;, 
+                                &quot;Female&quot;, 
+                                &quot;Male&quot;)), ref = &quot;Male&quot;),
+    selection = ifelse(selection == &quot;Mono&quot;, 
+                       &quot;Monogamy&quot;, 
+                       &quot;Polyandry&quot;))
+
+pd &lt;- position_dodge(0.9)
+
+mediator_plot &lt;- function(dat){
+  dat  %&gt;%
+    ggplot(aes(Sex, value, fill = selection)) +
+    scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;&quot;) +
+    geom_hline(yintercept = 0, linetype = 2) +
+    stat_eye (alpha = 0.6, position = pd) + 
+    facet_wrap(~ mediator) +
+    #coord_cartesian(ylim = c(-2, 2)) +
+    theme_bw() + 
+    theme(legend.position = &quot;top&quot;,
+          strip.background = element_blank(),
+          strip.text = element_text(hjust = 0),
+          panel.grid.major.y = element_blank()) + 
+    ylab(NULL) + xlab(NULL) 
+}
+
+grid.arrange(
+  mediators  %&gt;%
+    filter(mediator == &quot;A. Body mass&quot;) %&gt;%
+    mediator_plot() + coord_cartesian(ylim = c(-2.4, 2.8)),
+  mediators  %&gt;%
+    filter(mediator == &quot;B. Activity&quot;) %&gt;%
+    mediator_plot() + coord_cartesian(ylim = c(0, 0.1)), 
+  ncol = 2, left = &quot;Mean trait value (posterior estimate)&quot;, bottom = &quot;Sex&quot;)</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Figure 2:</strong> Polyandry females were larger than monogamy females, and polyandry flies of both sexes were more active than monogamy flies. The y-axis shows the posterior estimate of the mean trait value (scaled to have mean zero, SD = 1). The coloured areas show the posterior distribution, the black circles show the median, the thick bars show the 95% credible intervals on the median, and the thin bars show the 95% quantiles of the posterior.</p>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="effect-of-selection-treatment-on-respiration" class="section level2">
+<h2>Effect of selection treatment on respiration</h2>
+<div id="plot-the-posterior-means-for-vo2" class="section level3">
+<h3>Plot the posterior means for VO2</h3>
+<p>The plot show the model’s best estimates of the mean, with the shading showing the posterior distribution of these guesses. The four rows show the effect of: - selection on VO2, independently of both mediator variables - selection on VO2, independently of activity level but incorporating the mediating effect of body mass - selection on VO2, independently of body weight but incorporating the mediating effect of activity level - selection on VO2, including the effects of both mediator variables</p>
+<pre class="r"><code>posterior_predictions %&gt;% 
+  filter(resp == &quot;VO2&quot;) %&gt;%
+  ggplot(aes(x = cycle, y = scale(value), fill = selection)) +
+  scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1, name = NULL) +
+  geom_eye (alpha=0.6, .width = c(0.88), position = pd) +
+  coord_cartesian(ylim = c(-3.5, 2.8)) +
+  facet_grid(path~sex) + 
+  theme_bw() + 
+  theme(legend.position = &quot;top&quot;,
+        panel.grid.major.x = element_blank()) +   
+  xlab(&quot;Cycle&quot;) + 
+  ylab(&quot;Oxygen consumption (Posterior estimate of mean VO2)&quot;) </code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-11-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+<div id="plot-the-posterior-means-for-rq" class="section level3">
+<h3>Plot the posterior means for RQ</h3>
+<pre class="r"><code>posterior_predictions %&gt;%
+  filter(resp == &quot;RQ&quot;) %&gt;%
+  ggplot(aes(x = cycle, y = value, fill = selection)) +
+  scale_fill_brewer(palette = &quot;Set1&quot;, direction = -1) +
+  geom_eye (alpha=0.6, .width = c(0.88), position = pd) +
+  facet_grid(path~sex) + 
+  theme_bw() + 
+  theme(legend.position = &quot;top&quot;,
+        panel.grid.major.x = element_blank()) +   
+  xlab(&quot;Cycle&quot;) + 
+  ylab(&quot;RQ (Posterior estimate of group means)&quot;)</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="table-of-posterior-means" class="section level2 tabset">
+<h2>Table of posterior means</h2>
+<p>These tables show the mean values of VO2 and RQ in each treatment/cycle/sex combination.</p>
+<pre class="r"><code>tableS1_S2 &lt;- posterior_predictions %&gt;%
+  group_by(resp, path, cycle, sex, selection) %&gt;%
+  summarise(x = list(posterior_summary(value))) %&gt;%
+  mutate(Estimate = map_dbl(x, ~ .x[1]),
+         Error = map_dbl(x, ~ .x[2]),
+         Lower95CI = map_dbl(x, ~ .x[3]),
+         Upper95CI = map_dbl(x, ~ .x[4])) %&gt;% 
+  select(-x) %&gt;% ungroup()
+
+tableS1 &lt;- tableS1_S2 %&gt;%
+  filter(resp == &quot;VO2&quot;) %&gt;%
+  rename(`Mean VO2` = Estimate) %&gt;%
+  select(-resp)
+
+tableS2 &lt;- tableS1_S2 %&gt;%
+  filter(resp == &quot;RQ&quot;) %&gt;%
+  rename(`Mean RQ` = Estimate) %&gt;%
+  select(-resp)</code></pre>
+<div id="vo2-1" class="section level3">
+<h3>VO2</h3>
+<pre class="r"><code>tableS1 %&gt;% kable(digits=3) %&gt;% kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+path
+</th>
+<th style="text-align:left;">
+cycle
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+selection
+</th>
+<th style="text-align:right;">
+Mean VO2
+</th>
+<th style="text-align:right;">
+Error
+</th>
+<th style="text-align:right;">
+Lower95CI
+</th>
+<th style="text-align:right;">
+Upper95CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.513
+</td>
+<td style="text-align:right;">
+0.708
+</td>
+<td style="text-align:right;">
+4.106
+</td>
+<td style="text-align:right;">
+6.887
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.888
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+4.304
+</td>
+<td style="text-align:right;">
+7.530
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+7.507
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+6.236
+</td>
+<td style="text-align:right;">
+8.762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.995
+</td>
+<td style="text-align:right;">
+0.709
+</td>
+<td style="text-align:right;">
+5.642
+</td>
+<td style="text-align:right;">
+8.419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+4.583
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+3.215
+</td>
+<td style="text-align:right;">
+5.914
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.034
+</td>
+<td style="text-align:right;">
+0.845
+</td>
+<td style="text-align:right;">
+3.397
+</td>
+<td style="text-align:right;">
+6.750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.043
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+4.766
+</td>
+<td style="text-align:right;">
+7.326
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.333
+</td>
+<td style="text-align:right;">
+0.730
+</td>
+<td style="text-align:right;">
+4.957
+</td>
+<td style="text-align:right;">
+7.800
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+3.141
+</td>
+<td style="text-align:right;">
+0.676
+</td>
+<td style="text-align:right;">
+1.789
+</td>
+<td style="text-align:right;">
+4.447
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+4.044
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+2.432
+</td>
+<td style="text-align:right;">
+5.726
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.547
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+4.266
+</td>
+<td style="text-align:right;">
+6.826
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.150
+</td>
+<td style="text-align:right;">
+0.723
+</td>
+<td style="text-align:right;">
+3.772
+</td>
+<td style="text-align:right;">
+6.589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.513
+</td>
+<td style="text-align:right;">
+0.708
+</td>
+<td style="text-align:right;">
+4.106
+</td>
+<td style="text-align:right;">
+6.887
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.888
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+4.304
+</td>
+<td style="text-align:right;">
+7.530
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+7.507
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+6.236
+</td>
+<td style="text-align:right;">
+8.762
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.995
+</td>
+<td style="text-align:right;">
+0.709
+</td>
+<td style="text-align:right;">
+5.642
+</td>
+<td style="text-align:right;">
+8.419
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+4.583
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+3.215
+</td>
+<td style="text-align:right;">
+5.914
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.034
+</td>
+<td style="text-align:right;">
+0.845
+</td>
+<td style="text-align:right;">
+3.397
+</td>
+<td style="text-align:right;">
+6.750
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.043
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+4.766
+</td>
+<td style="text-align:right;">
+7.326
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.333
+</td>
+<td style="text-align:right;">
+0.730
+</td>
+<td style="text-align:right;">
+4.957
+</td>
+<td style="text-align:right;">
+7.800
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+3.141
+</td>
+<td style="text-align:right;">
+0.676
+</td>
+<td style="text-align:right;">
+1.789
+</td>
+<td style="text-align:right;">
+4.447
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+4.044
+</td>
+<td style="text-align:right;">
+0.839
+</td>
+<td style="text-align:right;">
+2.432
+</td>
+<td style="text-align:right;">
+5.726
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.547
+</td>
+<td style="text-align:right;">
+0.652
+</td>
+<td style="text-align:right;">
+4.266
+</td>
+<td style="text-align:right;">
+6.826
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+5.150
+</td>
+<td style="text-align:right;">
+0.723
+</td>
+<td style="text-align:right;">
+3.772
+</td>
+<td style="text-align:right;">
+6.589
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.057
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+4.704
+</td>
+<td style="text-align:right;">
+7.385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+8.118
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+6.613
+</td>
+<td style="text-align:right;">
+9.729
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+7.801
+</td>
+<td style="text-align:right;">
+0.643
+</td>
+<td style="text-align:right;">
+6.532
+</td>
+<td style="text-align:right;">
+9.056
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+8.277
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+6.977
+</td>
+<td style="text-align:right;">
+9.633
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.183
+</td>
+<td style="text-align:right;">
+0.677
+</td>
+<td style="text-align:right;">
+3.839
+</td>
+<td style="text-align:right;">
+6.517
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+7.484
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+5.961
+</td>
+<td style="text-align:right;">
+9.160
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.367
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+5.102
+</td>
+<td style="text-align:right;">
+7.632
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+7.745
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+<td style="text-align:right;">
+6.436
+</td>
+<td style="text-align:right;">
+9.105
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+3.703
+</td>
+<td style="text-align:right;">
+0.673
+</td>
+<td style="text-align:right;">
+2.355
+</td>
+<td style="text-align:right;">
+5.012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.344
+</td>
+<td style="text-align:right;">
+0.799
+</td>
+<td style="text-align:right;">
+4.807
+</td>
+<td style="text-align:right;">
+7.951
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.851
+</td>
+<td style="text-align:right;">
+0.642
+</td>
+<td style="text-align:right;">
+4.592
+</td>
+<td style="text-align:right;">
+7.120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.474
+</td>
+<td style="text-align:right;">
+0.687
+</td>
+<td style="text-align:right;">
+5.175
+</td>
+<td style="text-align:right;">
+7.826
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.057
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+4.704
+</td>
+<td style="text-align:right;">
+7.385
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+8.118
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+6.613
+</td>
+<td style="text-align:right;">
+9.729
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+7.801
+</td>
+<td style="text-align:right;">
+0.643
+</td>
+<td style="text-align:right;">
+6.532
+</td>
+<td style="text-align:right;">
+9.056
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+8.277
+</td>
+<td style="text-align:right;">
+0.685
+</td>
+<td style="text-align:right;">
+6.977
+</td>
+<td style="text-align:right;">
+9.633
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.183
+</td>
+<td style="text-align:right;">
+0.677
+</td>
+<td style="text-align:right;">
+3.839
+</td>
+<td style="text-align:right;">
+6.517
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+7.484
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+5.961
+</td>
+<td style="text-align:right;">
+9.160
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+6.367
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+5.102
+</td>
+<td style="text-align:right;">
+7.632
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+7.745
+</td>
+<td style="text-align:right;">
+0.691
+</td>
+<td style="text-align:right;">
+6.436
+</td>
+<td style="text-align:right;">
+9.105
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+3.703
+</td>
+<td style="text-align:right;">
+0.673
+</td>
+<td style="text-align:right;">
+2.355
+</td>
+<td style="text-align:right;">
+5.012
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.344
+</td>
+<td style="text-align:right;">
+0.799
+</td>
+<td style="text-align:right;">
+4.807
+</td>
+<td style="text-align:right;">
+7.951
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+5.851
+</td>
+<td style="text-align:right;">
+0.642
+</td>
+<td style="text-align:right;">
+4.592
+</td>
+<td style="text-align:right;">
+7.120
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+6.474
+</td>
+<td style="text-align:right;">
+0.687
+</td>
+<td style="text-align:right;">
+5.175
+</td>
+<td style="text-align:right;">
+7.826
+</td>
+</tr>
+</tbody>
+</table></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol>
+</div>
+<div id="rq" class="section level3">
+<h3>RQ</h3>
+<pre class="r"><code>tableS2 %&gt;% kable(digits=3) %&gt;% kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+path
+</th>
+<th style="text-align:left;">
+cycle
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+selection
+</th>
+<th style="text-align:right;">
+Mean RQ
+</th>
+<th style="text-align:right;">
+Error
+</th>
+<th style="text-align:right;">
+Lower95CI
+</th>
+<th style="text-align:right;">
+Upper95CI
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.785
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.922
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.987
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.867
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.772
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+0.966
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.887
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.878
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.764
+</td>
+<td style="text-align:right;">
+0.970
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.901
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.800
+</td>
+<td style="text-align:right;">
+0.977
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.983
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.921
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0.800
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.888
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.770
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.837
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.745
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+0.985
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.785
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.922
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.812
+</td>
+<td style="text-align:right;">
+0.987
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.867
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.772
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+0.966
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.887
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.878
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.764
+</td>
+<td style="text-align:right;">
+0.970
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.901
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.800
+</td>
+<td style="text-align:right;">
+0.977
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.927
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.983
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.921
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0.800
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.888
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:right;">
+0.770
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.837
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+<td style="text-align:right;">
+0.745
+</td>
+<td style="text-align:right;">
+0.936
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.932
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.841
+</td>
+<td style="text-align:right;">
+0.985
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.793
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.909
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.863
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.771
+</td>
+<td style="text-align:right;">
+0.949
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.864
+</td>
+<td style="text-align:right;">
+0.042
+</td>
+<td style="text-align:right;">
+0.777
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.786
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.897
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.798
+</td>
+<td style="text-align:right;">
+0.975
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.903
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.816
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.923
+</td>
+<td style="text-align:right;">
+0.052
+</td>
+<td style="text-align:right;">
+0.804
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.870
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.774
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.743
+</td>
+<td style="text-align:right;">
+0.933
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.911
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.891
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.793
+</td>
+<td style="text-align:right;">
+0.972
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.909
+</td>
+<td style="text-align:right;">
+0.040
+</td>
+<td style="text-align:right;">
+0.817
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.863
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.771
+</td>
+<td style="text-align:right;">
+0.949
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.864
+</td>
+<td style="text-align:right;">
+0.042
+</td>
+<td style="text-align:right;">
+0.777
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.889
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.786
+</td>
+<td style="text-align:right;">
+0.971
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.766
+</td>
+<td style="text-align:right;">
+0.945
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.897
+</td>
+<td style="text-align:right;">
+0.045
+</td>
+<td style="text-align:right;">
+0.798
+</td>
+<td style="text-align:right;">
+0.975
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.903
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.816
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.923
+</td>
+<td style="text-align:right;">
+0.052
+</td>
+<td style="text-align:right;">
+0.804
+</td>
+<td style="text-align:right;">
+1.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.870
+</td>
+<td style="text-align:right;">
+0.046
+</td>
+<td style="text-align:right;">
+0.774
+</td>
+<td style="text-align:right;">
+0.955
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.834
+</td>
+<td style="text-align:right;">
+0.048
+</td>
+<td style="text-align:right;">
+0.743
+</td>
+<td style="text-align:right;">
+0.933
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.911
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.821
+</td>
+<td style="text-align:right;">
+0.974
+</td>
+</tr>
+</tbody>
+</table></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol>
+</div>
+</div>
+<div id="tables-of-posterior-differences-between-selection-treatments" class="section level2">
+<h2>Tables of posterior differences between selection treatments</h2>
+<p>The table tests for differences between the M and P treatments in VO2 and RQ. It was calculated as the difference in mean VO2 or RQ between M and P, either alone, or including one or both of the two mediator variables (body size and activity level). The comparison was made separately in each sex/cycle combination. The biggest effect is on males in cycle III: the M males are less active, and therefore they respire less – there was no evidence for a treatment effect unless the effect of selection on activity level was considered. There were no treatment effects on RQ.</p>
+<pre class="r"><code>my_summary &lt;- function(posterior) { 
+  p &lt;- (100 - as.numeric(p_direction(posterior))) / 100 
+  print(head(posterior))
+  posterior_summary(posterior) %&gt;%  
+    as.data.frame() %&gt;% 
+    mutate(p = p) %&gt;%
+    mutate(` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+           ` ` = replace(` `, p &gt; 0.05 &amp; p &lt; 0.1, &quot;~&quot;),
+           ` ` = replace(` `, p &lt; 0.01, &quot;**&quot;), 
+           ` ` = replace(` `, p &lt; 0.001, &quot;***&quot;)) 
+} 
+
+make_posterior_diff_table &lt;- function(posterior_predictions){
+  
+  posterior_differences &lt;- posterior_predictions %&gt;%
+    group_by(resp, path, sex, cycle) %&gt;%
+    summarise(x = list(my_summary(
+      value[selection==&quot;Mono&quot;] - 
+        value[selection==&quot;Poly&quot;]))) 
+  
+  bind_cols(
+    posterior_differences[,-5], 
+    do.call(&quot;rbind&quot;, posterior_differences %&gt;% pull(5)))  %&gt;%
+    arrange(desc(resp)) 
+}
+
+posterior_differences &lt;- posterior_predictions %&gt;% 
+  make_posterior_diff_table()</code></pre>
+<pre><code>[1]  0.0255155566  0.0049195742  0.0161323214 -0.0812251079 -0.0006175649
+[6] -0.1145804986
+[1]  0.05837160  0.10617496  0.08812255 -0.09052677  0.02537433 -0.07595019
+[1]  0.11149694  0.08027736  0.18001335 -0.09571654  0.01823668  0.05399187
+[1]  0.0372715066 -0.0502805000 -0.0006365541 -0.0222962113  0.0177996462
+[6] -0.0723253022
+[1] -0.020506386 -0.058092185 -0.003092491 -0.051895173  0.016495744
+[6] -0.118929783
+[1] -0.03198733 -0.10328106 -0.09247215 -0.17148950 -0.05056070 -0.18255979
+[1]  0.0255155566  0.0049195742  0.0161323214 -0.0812251079 -0.0006175649
+[6] -0.1145804986
+[1]  0.05837160  0.10617496  0.08812255 -0.09052677  0.02537433 -0.07595019
+[1]  0.11149694  0.08027736  0.18001335 -0.09571654  0.01823668  0.05399187
+[1]  0.0372715066 -0.0502805000 -0.0006365541 -0.0222962113  0.0177996462
+[6] -0.0723253022
+[1] -0.020506386 -0.058092185 -0.003092491 -0.051895173  0.016495744
+[6] -0.118929783
+[1] -0.03198733 -0.10328106 -0.09247215 -0.17148950 -0.05056070 -0.18255979
+[1]  0.028761416  0.007651108  0.005521318 -0.050637853  0.070014356
+[6] -0.095635869
+[1]  0.06115435  0.10654084  0.07485501 -0.03279752  0.13191682 -0.03925970
+[1]  0.10674785  0.08310316  0.17043279 -0.04783327  0.11463704  0.09095350
+[1]  0.04566616 -0.02920566  0.01125881  0.02998536  0.05581979 -0.01205675
+[1] -0.013576807 -0.036716604  0.010061602 -0.001006691  0.050464967
+[6] -0.089793330
+[1] -0.022673963 -0.086571208 -0.092428360 -0.135715277 -0.006075645
+[6] -0.140822803
+[1]  0.028761416  0.007651108  0.005521318 -0.050637853  0.070014356
+[6] -0.095635869
+[1]  0.06115435  0.10654084  0.07485501 -0.03279752  0.13191682 -0.03925970
+[1]  0.10674785  0.08310316  0.17043279 -0.04783327  0.11463704  0.09095350
+[1]  0.04566616 -0.02920566  0.01125881  0.02998536  0.05581979 -0.01205675
+[1] -0.013576807 -0.036716604  0.010061602 -0.001006691  0.050464967
+[6] -0.089793330
+[1] -0.022673963 -0.086571208 -0.092428360 -0.135715277 -0.006075645
+[6] -0.140822803
+[1] -1.3664642  0.1161488 -1.7554824 -0.1591319 -1.8218765  1.0215697
+[1] -1.5608668  0.4824813 -2.0310179  0.3079093 -2.1520739  0.1268161
+[1] -2.5020315 -0.2253275 -1.5348342 -0.9564741 -1.9852218  0.2621261
+[1] 0.4844147 1.1073511 0.6503093 1.2596026 0.4876432 0.4866549
+[1] -0.57030381  0.32932501 -0.60623910  1.21428661 -0.07251216  0.10805661
+[1] 0.47086224 0.19625332 0.31180067 1.07354685 1.71878946 0.06829221
+[1] -1.3664642  0.1161488 -1.7554824 -0.1591319 -1.8218765  1.0215697
+[1] -1.5608668  0.4824813 -2.0310179  0.3079093 -2.1520739  0.1268161
+[1] -2.5020315 -0.2253275 -1.5348342 -0.9564741 -1.9852218  0.2621261
+[1] 0.4844147 1.1073511 0.6503093 1.2596026 0.4876432 0.4866549
+[1] -0.57030381  0.32932501 -0.60623910  1.21428661 -0.07251216  0.10805661
+[1] 0.47086224 0.19625332 0.31180067 1.07354685 1.71878946 0.06829221
+[1] -2.5531703 -3.1070198 -3.5975164 -1.8140719 -3.4019080 -0.5119998
+[1] -2.831967 -2.857700 -4.205526 -1.335449 -3.870301 -1.562949
+[1] -3.744140 -3.440867 -3.463299 -2.603507 -3.710391 -1.349511
+[1] -0.1392188 -0.6242122 -0.4761682  0.0674958 -0.3659934 -1.0574944
+[1] -1.23939586 -1.46636454 -1.93721509  0.03057802 -1.00222875 -1.59368757
+[1] -0.1825965 -1.5311320 -0.8678036 -0.1128264  0.7852450 -1.5546163
+[1] -2.5531703 -3.1070198 -3.5975164 -1.8140719 -3.4019080 -0.5119998
+[1] -2.831967 -2.857700 -4.205526 -1.335449 -3.870301 -1.562949
+[1] -3.744140 -3.440867 -3.463299 -2.603507 -3.710391 -1.349511
+[1] -0.1392188 -0.6242122 -0.4761682  0.0674958 -0.3659934 -1.0574944
+[1] -1.23939586 -1.46636454 -1.93721509  0.03057802 -1.00222875 -1.59368757
+[1] -0.1825965 -1.5311320 -0.8678036 -0.1128264  0.7852450 -1.5546163</code></pre>
+<pre class="r"><code>posterior_differences %&gt;% 
+  kable(digits=3) %&gt;% 
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+resp
+</th>
+<th style="text-align:left;">
+path
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+cycle
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+Est.Error
+</th>
+<th style="text-align:right;">
+Q2.5
+</th>
+<th style="text-align:right;">
+Q97.5
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.375
+</td>
+<td style="text-align:right;">
+1.009
+</td>
+<td style="text-align:right;">
+-2.372
+</td>
+<td style="text-align:right;">
+1.599
+</td>
+<td style="text-align:right;">
+0.344
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.451
+</td>
+<td style="text-align:right;">
+1.034
+</td>
+<td style="text-align:right;">
+-2.511
+</td>
+<td style="text-align:right;">
+1.529
+</td>
+<td style="text-align:right;">
+0.321
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.903
+</td>
+<td style="text-align:right;">
+1.034
+</td>
+<td style="text-align:right;">
+-2.957
+</td>
+<td style="text-align:right;">
+1.119
+</td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.513
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+-1.343
+</td>
+<td style="text-align:right;">
+2.322
+</td>
+<td style="text-align:right;">
+0.277
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.290
+</td>
+<td style="text-align:right;">
+0.957
+</td>
+<td style="text-align:right;">
+-2.197
+</td>
+<td style="text-align:right;">
+1.528
+</td>
+<td style="text-align:right;">
+0.374
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.398
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+<td style="text-align:right;">
+-1.470
+</td>
+<td style="text-align:right;">
+2.203
+</td>
+<td style="text-align:right;">
+0.325
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.375
+</td>
+<td style="text-align:right;">
+1.009
+</td>
+<td style="text-align:right;">
+-2.372
+</td>
+<td style="text-align:right;">
+1.599
+</td>
+<td style="text-align:right;">
+0.344
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.451
+</td>
+<td style="text-align:right;">
+1.034
+</td>
+<td style="text-align:right;">
+-2.511
+</td>
+<td style="text-align:right;">
+1.529
+</td>
+<td style="text-align:right;">
+0.321
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.903
+</td>
+<td style="text-align:right;">
+1.034
+</td>
+<td style="text-align:right;">
+-2.957
+</td>
+<td style="text-align:right;">
+1.119
+</td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+0.513
+</td>
+<td style="text-align:right;">
+0.946
+</td>
+<td style="text-align:right;">
+-1.343
+</td>
+<td style="text-align:right;">
+2.322
+</td>
+<td style="text-align:right;">
+0.277
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.290
+</td>
+<td style="text-align:right;">
+0.957
+</td>
+<td style="text-align:right;">
+-2.197
+</td>
+<td style="text-align:right;">
+1.528
+</td>
+<td style="text-align:right;">
+0.374
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.398
+</td>
+<td style="text-align:right;">
+0.951
+</td>
+<td style="text-align:right;">
+-1.470
+</td>
+<td style="text-align:right;">
+2.203
+</td>
+<td style="text-align:right;">
+0.325
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-2.061
+</td>
+<td style="text-align:right;">
+1.041
+</td>
+<td style="text-align:right;">
+-4.156
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-2.301
+</td>
+<td style="text-align:right;">
+1.059
+</td>
+<td style="text-align:right;">
+-4.449
+</td>
+<td style="text-align:right;">
+-0.262
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-2.642
+</td>
+<td style="text-align:right;">
+1.048
+</td>
+<td style="text-align:right;">
+-4.721
+</td>
+<td style="text-align:right;">
+-0.619
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:left;">
+**
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.476
+</td>
+<td style="text-align:right;">
+0.942
+</td>
+<td style="text-align:right;">
+-2.337
+</td>
+<td style="text-align:right;">
+1.336
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-1.377
+</td>
+<td style="text-align:right;">
+0.948
+</td>
+<td style="text-align:right;">
+-3.247
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.623
+</td>
+<td style="text-align:right;">
+0.943
+</td>
+<td style="text-align:right;">
+-2.448
+</td>
+<td style="text-align:right;">
+1.174
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-2.061
+</td>
+<td style="text-align:right;">
+1.041
+</td>
+<td style="text-align:right;">
+-4.156
+</td>
+<td style="text-align:right;">
+-0.052
+</td>
+<td style="text-align:right;">
+0.022
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-2.301
+</td>
+<td style="text-align:right;">
+1.059
+</td>
+<td style="text-align:right;">
+-4.449
+</td>
+<td style="text-align:right;">
+-0.262
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-2.642
+</td>
+<td style="text-align:right;">
+1.048
+</td>
+<td style="text-align:right;">
+-4.721
+</td>
+<td style="text-align:right;">
+-0.619
+</td>
+<td style="text-align:right;">
+0.008
+</td>
+<td style="text-align:left;">
+**
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.476
+</td>
+<td style="text-align:right;">
+0.942
+</td>
+<td style="text-align:right;">
+-2.337
+</td>
+<td style="text-align:right;">
+1.336
+</td>
+<td style="text-align:right;">
+0.291
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-1.377
+</td>
+<td style="text-align:right;">
+0.948
+</td>
+<td style="text-align:right;">
+-3.247
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.623
+</td>
+<td style="text-align:right;">
+0.943
+</td>
+<td style="text-align:right;">
+-2.448
+</td>
+<td style="text-align:right;">
+1.174
+</td>
+<td style="text-align:right;">
+0.238
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.034
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.270
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+0.457
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:right;">
+0.317
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.024
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+-0.146
+</td>
+<td style="text-align:right;">
+0.106
+</td>
+<td style="text-align:right;">
+0.329
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.026
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+-0.142
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.307
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol style="list-style-type: decimal">
+<li>Direct effect
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+0.060
+</td>
+<td style="text-align:right;">
+-0.206
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.034
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+-0.151
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.270
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+0.069
+</td>
+<td style="text-align:right;">
+-0.126
+</td>
+<td style="text-align:right;">
+0.150
+</td>
+<td style="text-align:right;">
+0.457
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:right;">
+0.073
+</td>
+<td style="text-align:right;">
+-0.115
+</td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:right;">
+0.317
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.024
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+-0.146
+</td>
+<td style="text-align:right;">
+0.106
+</td>
+<td style="text-align:right;">
+0.329
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.026
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+-0.142
+</td>
+<td style="text-align:right;">
+0.094
+</td>
+<td style="text-align:right;">
+0.307
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="2" style="list-style-type: decimal">
+<li>Direct + body mass
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.095
+</td>
+<td style="text-align:right;">
+0.060
+</td>
+<td style="text-align:right;">
+-0.206
+</td>
+<td style="text-align:right;">
+0.032
+</td>
+<td style="text-align:right;">
+0.063
+</td>
+<td style="text-align:left;">
+~
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.018
+</td>
+<td style="text-align:right;">
+0.060
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.369
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+0.158
+</td>
+<td style="text-align:right;">
+0.306
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:right;">
+-0.093
+</td>
+<td style="text-align:right;">
+0.186
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+-0.124
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:right;">
+0.494
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+0.059
+</td>
+<td style="text-align:right;">
+-0.123
+</td>
+<td style="text-align:right;">
+0.114
+</td>
+<td style="text-align:right;">
+0.458
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="3" style="list-style-type: decimal">
+<li>Direct + activity level
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+-0.193
+</td>
+<td style="text-align:right;">
+0.051
+</td>
+<td style="text-align:right;">
+0.102
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.018
+</td>
+<td style="text-align:right;">
+0.060
+</td>
+<td style="text-align:right;">
+-0.137
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+0.369
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+0.031
+</td>
+<td style="text-align:right;">
+0.066
+</td>
+<td style="text-align:right;">
+-0.101
+</td>
+<td style="text-align:right;">
+0.158
+</td>
+<td style="text-align:right;">
+0.306
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+0.053
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:right;">
+-0.093
+</td>
+<td style="text-align:right;">
+0.186
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+-0.001
+</td>
+<td style="text-align:right;">
+0.061
+</td>
+<td style="text-align:right;">
+-0.124
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:right;">
+0.494
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+-0.006
+</td>
+<td style="text-align:right;">
+0.059
+</td>
+<td style="text-align:right;">
+-0.123
+</td>
+<td style="text-align:right;">
+0.114
+</td>
+<td style="text-align:right;">
+0.458
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+<ol start="4" style="list-style-type: decimal">
+<li>Direct + both mediators
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+-0.078
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:right;">
+-0.193
+</td>
+<td style="text-align:right;">
+0.051
+</td>
+<td style="text-align:right;">
+0.102
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol></li>
+</ol>
+<!-- ```{r} -->
+<!-- columns <- c("Female~Monogamy", "Male~Monogamy", "Female~Polyandry", "Male~Polyandry") -->
+<!-- get_post_response <- function(body, act){ -->
+<!--   if(body){ -->
+<!--     b1 <- bodyweight[ ,1] -->
+<!--     b2 <- bodyweight[ ,2] -->
+<!--     b3 <- bodyweight[ ,3] -->
+<!--     b4 <- bodyweight[ ,4] -->
+<!--   } else { -->
+<!--     b1 <- 0 -->
+<!--     b2 <- 0 -->
+<!--     b3 <- 0 -->
+<!--     b4 <- 0 -->
+<!--   } -->
+<!--   if(act){ -->
+<!--     a1 <- activity[ ,1] -->
+<!--     a2 <- activity[ ,2] -->
+<!--     a3 <- activity[ ,3] -->
+<!--     a4 <- activity[ ,4] -->
+<!--   } else { -->
+<!--     a1 <- 0 -->
+<!--     a2 <- 0 -->
+<!--     a3 <- 0 -->
+<!--     a4 <- 0 -->
+<!--   } -->
+<!--   get_diagonal <- function(mat){ -->
+<!--     if(ncol(mat) == nrow(mat)) return(diag(mat)) -->
+<!--     mat -->
+<!--   } -->
+<!--   VO2_output <- cbind( -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Female",  -->
+<!--                         POLYANDRY = "M",  -->
+<!--                         BODYWEIGHT = b1,  -->
+<!--                         ACTIVITY = a1),  -->
+<!--              re_formula = NA, resp = "EstimateVO2", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Male",  -->
+<!--                         POLYANDRY = "M",  -->
+<!--                         BODYWEIGHT = b2,  -->
+<!--                         ACTIVITY = a2),  -->
+<!--              re_formula = NA, resp = "EstimateVO2", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Female",  -->
+<!--                         POLYANDRY = "P",  -->
+<!--                         BODYWEIGHT = b3,  -->
+<!--                         ACTIVITY = a3),  -->
+<!--              re_formula = NA, resp = "EstimateVO2", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Male",  -->
+<!--                         POLYANDRY = "P",  -->
+<!--                         BODYWEIGHT = b4,  -->
+<!--                         ACTIVITY = a4),  -->
+<!--              re_formula = NA, resp = "EstimateVO2", summary = FALSE) %>%  -->
+<!--       get_diagonal() -->
+<!--   ) -->
+<!--   colnames(VO2_output) <- columns -->
+<!--   RQ_output <- cbind( -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Female",  -->
+<!--                         POLYANDRY = "M",  -->
+<!--                         BODYWEIGHT = b1,  -->
+<!--                         EstimateVO2 = VO2_output[,1], -->
+<!--                         ACTIVITY = a1),  -->
+<!--              re_formula = NA, resp = "EstimateVCO2", nlpar = "RQ", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Male",  -->
+<!--                         POLYANDRY = "M",  -->
+<!--                         BODYWEIGHT = b2,  -->
+<!--                         EstimateVO2 = VO2_output[,2], -->
+<!--                         ACTIVITY = a2),  -->
+<!--              re_formula = NA, resp = "EstimateVCO2", nlpar = "RQ", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Female",  -->
+<!--                         POLYANDRY = "P",  -->
+<!--                         BODYWEIGHT = b3, -->
+<!--                         EstimateVO2 = VO2_output[,3], -->
+<!--                         ACTIVITY = a3),  -->
+<!--              re_formula = NA, resp = "EstimateVCO2", nlpar = "RQ", summary = FALSE) %>%  -->
+<!--       get_diagonal(), -->
+<!--     brms_SEM %>%  -->
+<!--       fitted(data.frame(MALE = "Male",  -->
+<!--                         POLYANDRY = "P",  -->
+<!--                         BODYWEIGHT = b4,  -->
+<!--                         EstimateVO2 = VO2_output[,4], -->
+<!--                         ACTIVITY = a4),  -->
+<!--              re_formula = NA, resp = "EstimateVCO2", nlpar = "RQ", summary = FALSE) %>%  -->
+<!--       get_diagonal() -->
+<!--   ) -->
+<!--   colnames(RQ_output) <- columns -->
+<!--   list(VO2_output, RQ_output) -->
+<!-- } -->
+<!-- tidy_posterior <- function(posterior){ -->
+<!--   posterior %>% as.data.frame() %>% as_tibble() %>% -->
+<!--     gather() %>% -->
+<!--     mutate(split = strsplit(key, split = "~"), -->
+<!--            Sex = map_chr(split, ~ .x[1]), -->
+<!--            Selection = map_chr(split, ~ .x[2])) -->
+<!-- } -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- # Get the posterior estimate of body weight and activity, for the 4 sex-selection combinations -->
+<!-- bodyweight <- brms_SEM %>%  -->
+<!--   fitted(new, re_formula = NA, resp = "BODYWEIGHT", summary = FALSE) -->
+<!-- activity <- brms_SEM %>%  -->
+<!--   fitted(new, re_formula = NA, resp = "ACTIVITY", summary = FALSE) -->
+<!-- # Get the posterior estimate of VO2 and VCO2, either constraining body or activity to be zero, or using the matching posterior estimates for the 4 sex-selection combinations -->
+<!-- # This gives us the paths from SEX and SELECTION to VO2/VCO2, either going through the moderator -->
+<!-- # variable(s), or circumventing them -->
+<!-- direct_path <- get_post_response(body = F, act = F) -->
+<!-- direct_path_plus_bodyweight <- get_post_response(body = T, act = F) -->
+<!-- direct_path_plus_activity <- get_post_response(body = F, act = T) -->
+<!-- full_effect <- get_post_response(body = T, act = T) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- library(bayesplot) -->
+<!-- grid.arrange( -->
+<!--   direct_path[[1]] %>% mcmc_areas(), -->
+<!--   direct_path_plus_bodyweight[[1]] %>% mcmc_areas(), -->
+<!--   direct_path_plus_activity[[1]] %>% mcmc_areas(), -->
+<!--   full_effect[[1]] %>% mcmc_areas() -->
+<!-- ) -->
+<!-- direct_path[[1]] %>% tidy_posterior() %>% mutate(facet = "Direct effect") %>% -->
+<!--   bind_rows( -->
+<!--     full_effect[[1]] %>% tidy_posterior() %>%  -->
+<!--       mutate(facet = "Including mediator variables")) %>% -->
+<!--   ggplot(aes(Sex, value, fill = Selection)) + -->
+<!--   facet_wrap(~facet) +  -->
+<!--   geom_split_violin() -->
+<!--   stat_summary(fun.data = "median_hilow", position = position_dodge(0.5)) -->
+<!-- direct_path[[2]] %>% tidy_posterior() %>% mutate(facet = "Direct effect") %>% -->
+<!--   bind_rows( -->
+<!--     full_effect[[2]] %>% tidy_posterior() %>%  -->
+<!--       mutate(facet = "Including mediator variables")) %>% -->
+<!--   ggplot(aes(Sex, value, fill = Selection)) + -->
+<!--   facet_wrap(~facet) +  -->
+<!--   geom_split_violin() + -->
+<!--   stat_summary(fun.data = "median_hilow",  position = position_dodge(0.5)) -->
+<!-- ``` -->
+<!-- <!-- ## Bayesian path analysis -->
+<p>–&gt;</p>
+<!-- <!-- ### Calculate the posterior path coefficients -->
+<p>–&gt; <!-- <!-- Next, we use the data contained in the model to estimate the sign and magnitude of the paths that link selection treatment to VO2 and RQ, and add these paths together to get the total effect of selection on respiration (including via the mediator variables, activity level and body size). --> –&gt;</p>
+<!-- <!-- ```{r} -->
+<p>–&gt; <!-- <!-- library(bayestestR) --> –&gt;</p>
+<!-- <!-- my_summary <- function(posterior) { -->
+<p>–&gt; <!-- <!--   p <- (100 - as.numeric(p_direction(posterior))) / 100 --> –&gt; <!-- <!--   posterior_summary(posterior) %>%  --> –&gt; <!-- <!--     as.data.frame() %>%  --> –&gt; <!-- <!--     mutate(p = p) %>% --> –&gt; <!-- <!--     mutate(` ` = ifelse(p < 0.05, "*", ""), --> –&gt; <!-- <!--            ` ` = replace(` `, p > 0.05 & p < 0.1, "~"), --> –&gt; <!-- <!--            ` ` = replace(` `, p < 0.01, "**"), --> –&gt; <!-- <!--            ` ` = replace(` `, p < 0.001, "***")) --> –&gt; <!-- <!-- } --> –&gt;</p>
+<!-- <!-- get_paths <- function(model, resp){ # change brms_SEM to model -->
+<p>–&gt;</p>
+<!-- <!--   p_fixed <- p_direction(brms_SEM) %>% -->
+<p>–&gt; <!-- <!--     as.data.frame() %>% --> –&gt; <!-- <!--     mutate(p = (100 - pd) / 100) %>% select(-pd) %>% --> –&gt; <!-- <!--     mutate(Parameter = gsub("b_", "", Parameter), --> –&gt; <!-- <!--            Parameter = gsub("[.]", ":", Parameter)) --> –&gt;</p>
+<!-- <!--   fixed <- fixef(brms_SEM) %>% as.data.frame() %>%  -->
+<p>–&gt; <!-- <!--     rownames_to_column("x") %>% --> –&gt; <!-- <!--     left_join(p_fixed, by = c("x" = "Parameter")) --> –&gt;</p>
+<!-- <!--   if(resp == "RQ") resp <- "VCO2_RQ" -->
+<p>–&gt;</p>
+<!-- <!--   # Effect of selection on respiration (sex-specific) -->
+<p>–&gt; <!-- <!--   p5_female <- posterior_samples(brms_SEM)[, glue("b_{resp}_SELECTIONPoly")] --> –&gt;</p>
+<!-- <!--   p5_male <- posterior_samples(brms_SEM)[, glue("b_{resp}_SELECTIONPoly")] +  -->
+<p>–&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_{resp}_SELECTIONPoly:SEXM")] --> –&gt;</p>
+<!-- <!--   # Effect of activity on respiration (in monogamous males) -->
+<p>–&gt; <!-- <!--   new1_male <- posterior_samples(brms_SEM)[, glue("b_{resp}_ACTIVITY")] +  --> –&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_{resp}_SEXM:ACTIVITY")] --> –&gt;</p>
+<!-- <!--   # Effect of activity on respiration (in polyandrous females) -->
+<p>–&gt; <!-- <!--   p6_female <- posterior_samples(brms_SEM)[, glue("b_ACTIVITY_SELECTIONPoly")] *  --> –&gt; <!-- <!--                  posterior_samples(brms_SEM)[, glue("b_{resp}_ACTIVITY")] --> –&gt;</p>
+<!-- <!--   p6_male <- (posterior_samples(brms_SEM)[, glue("b_ACTIVITY_SELECTIONPoly")] +  -->
+<p>–&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_ACTIVITY_SELECTIONPoly:SEXM")]) *  --> –&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_{resp}_ACTIVITY")] --> –&gt;</p>
+<!-- <!--   p7_female <- posterior_samples(brms_SEM)[, glue("b_BODYMASS_SELECTIONPoly")] *  -->
+<p>–&gt; <!-- <!--                  posterior_samples(brms_SEM)[, glue("b_{resp}_BODYMASS")] --> –&gt;</p>
+<!-- <!--   p7_male <- (posterior_samples(brms_SEM)[, glue("b_BODYMASS_SELECTIONPoly")] + -->
+<p>–&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_BODYMASS_SELECTIONPoly:SEXM")]) * --> –&gt; <!-- <!--     posterior_samples(brms_SEM)[, glue("b_{resp}_BODYMASS")] --> –&gt;</p>
+<!-- <!--   list( -->
+<p>–&gt; <!-- <!--     fixed %>% filter(x == glue("{resp}_ACTIVITY")) %>% # not sex-specific in the model --> –&gt; <!-- <!--       mutate(path = glue("1. activity->{resp}"), sex = "female"), --> –&gt; <!-- <!--     fixed %>% filter(x == glue("{resp}_ACTIVITY")) %>%  --> –&gt; <!-- <!--       mutate(path = glue("1. activity->{resp}"), sex = "male"), --> –&gt;</p>
+<!-- <!--     fixed %>% filter(x == glue("{resp}_BODYMASS")) %>% # not sex-specific in the model -->
+<p>–&gt; <!-- <!--       mutate(path = glue("2. body mass->{resp}"), sex = "female"), --> –&gt; <!-- <!--     fixed %>% filter(x == glue("{resp}_BODYMASS")) %>% --> –&gt; <!-- <!--       mutate(path = glue("2. body mass->{resp}"), sex = "male"), --> –&gt;</p>
+<!-- <!--     fixed %>% filter(x == glue("ACTIVITY_SELECTIONPoly")) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = "3. selection->activity", sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(posterior_samples(brms_SEM)[, glue("b_ACTIVITY_SELECTIONPoly")] +  -->
+<p>–&gt; <!-- <!--                  posterior_samples(brms_SEM)[, glue("b_ACTIVITY_SELECTIONPoly:SEXM")]) %>% --> –&gt; <!-- <!--       mutate(path = "3. selection->activity", sex = "male"), --> –&gt;</p>
+<!-- <!--     fixed %>% filter(x == "BODYMASS_SELECTIONPoly") %>% -->
+<p>–&gt; <!-- <!--       mutate(path = "4. selection->body mass", sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(posterior_samples(brms_SEM)[, "b_BODYMASS_SELECTIONPoly"] +  -->
+<p>–&gt; <!-- <!--                  posterior_samples(brms_SEM)[, "b_BODYMASS_SELECTIONPoly:SEXM"]) %>% --> –&gt; <!-- <!--       mutate(path = "4. selection->body mass", sex = "male"), --> –&gt;</p>
+<!-- <!--     fixed %>% filter(x == glue("{resp}_SELECTIONPoly")) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("5. selection->{resp}"), sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(p5_male) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("5. selection->{resp}"), sex = "male"), --> –&gt;</p>
+<!-- <!--     my_summary(p6_female) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("6. selection->activity->{resp}"), sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(p6_male) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("6. selection->activity->{resp}"), sex = "male"), --> –&gt;</p>
+<!-- <!--     my_summary(p7_female) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("7. selection->body mass->{resp}"), sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(p7_male) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("7. selection->body mass->{resp}"), sex = "male"), --> –&gt;</p>
+<!-- <!--     my_summary(p5_female + p6_female + p7_female) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("Sum of paths 5-7"), sex = "female"), --> –&gt;</p>
+<!-- <!--     my_summary(p5_male + p6_male + p7_male) %>% -->
+<p>–&gt; <!-- <!--       mutate(path = glue("Sum of paths 5-7"), sex = "male") --> –&gt;</p>
+<!-- <!--   ) %>% map(~ .x %>% select(sex, path, Estimate, Est.Error, Q2.5, Q97.5, p)) %>%  -->
+<p>–&gt; <!-- <!--     do.call("rbind", .) %>%  --> –&gt; <!-- <!--     arrange(sex, path) %>% --> –&gt; <!-- <!--     mutate(path = gsub("VCO2i_RQ", "RQ", path), --> –&gt; <!-- <!--            path = gsub("VCO2ii_RQ", "RQ", path), --> –&gt; <!-- <!--            path = gsub("VCO2iii_RQ", "RQ", path), --> –&gt; <!-- <!--            sig = ifelse(p < 0.05, "*", " ")) --> –&gt; <!-- <!-- } --> –&gt;</p>
+<!-- <!-- tidy_paths <- function(paths){ -->
+<p>–&gt; <!-- <!--   paths %>% as_tibble() %>%  --> –&gt; <!-- <!--     mutate(Cycle = rep(c("I", "II", "III"), each = 16)) %>% --> –&gt; <!-- <!--     select(Cycle, everything()) %>% --> –&gt; <!-- <!--     mutate(p = format(round(p, 4), nsmall = 4), --> –&gt; <!-- <!--            sex = replace(sex, sex == "female", "Female"), --> –&gt; <!-- <!--            sex = replace(sex, sex == "male", "Male")) %>% --> –&gt; <!-- <!--     mutate_if(is.numeric, ~ format(round(.x, 2), nsmall = 2)) %>% --> –&gt; <!-- <!--     rename(Sex = sex, Path = path, Error = Est.Error) %>% --> –&gt; <!-- <!--     mutate(Estimate = paste(Estimate, " (", Q2.5, " to ", Q97.5, ")", sep = "")) %>% --> –&gt; <!-- <!--     select(-Q2.5, -Q97.5) --> –&gt; <!-- <!-- } --> –&gt;</p>
+<!-- <!-- if(!file.exists("data/paths_RQ.rds")){ -->
+<p>–&gt;</p>
+<!-- <!--   paths_VO2 <- rbind( -->
+<p>–&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "i", "VO2")), --> –&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "ii", "VO2")), --> –&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "iii", "VO2"))) %>% --> –&gt; <!-- <!--     tidy_paths() --> –&gt;</p>
+<!-- <!--   paths_RQ <- rbind( -->
+<p>–&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "i", "RQ")), --> –&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "ii", "RQ")), --> –&gt; <!-- <!--     data.frame(get_paths(brms_SEM, "iii", "RQ"))) %>% --> –&gt; <!-- <!--     tidy_paths() --> –&gt;</p>
+<!-- <!--   paths_VO2 %>% saveRDS("data/paths_VO2.rds") -->
+<p>–&gt; <!-- <!--   paths_RQ  %>% saveRDS("data/paths_RQ.rds") --> –&gt; <!-- <!-- } else { --> –&gt; <!-- <!--   paths_VO2 <- readRDS("data/paths_VO2.rds") --> –&gt; <!-- <!--   paths_RQ  <- readRDS("data/paths_RQ.rds") --> –&gt; <!-- <!-- } --> –&gt; <!-- <!-- ``` --> –&gt;</p>
+<!-- ### Tables of path coefficients for VO2 {.tabset} -->
+<!-- #### Females, cycle I -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "I") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Females, cycle II -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "II") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Females, cycle III -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "III") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle I -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "I") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle II -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "II") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle III -->
+<!-- ```{r} -->
+<!-- paths_VO2 %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "III") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- ### Tables of path coefficients for RQ {.tabset} -->
+<!-- #### Females, cycle I -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "I") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Females, cycle II -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "II") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Females, cycle III -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Female" & Cycle == "III") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle I -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "I") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle II -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "II") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<!-- #### Males, cycle III -->
+<!-- ```{r} -->
+<!-- paths_RQ %>%  -->
+<!--   filter(Sex == "Male" & Cycle == "III") %>%  -->
+<!--   kable() %>% kable_styling() -->
+<!-- ``` -->
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 3.5.1 (2018-07-02)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: macOS High Sierra 10.13.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] bayestestR_0.2.2     tidybayes_1.1.0.9000 kableExtra_1.1.0    
+ [4] glue_1.3.1.9000      RColorBrewer_1.1-2   brms_2.10.0         
+ [7] Rcpp_1.0.3           gridExtra_2.3        forcats_0.4.0       
+[10] stringr_1.4.0        dplyr_0.8.3          purrr_0.3.3         
+[13] readr_1.1.1          tidyr_1.0.0          tibble_2.1.3        
+[16] ggplot2_3.2.1        tidyverse_1.2.1     
+
+loaded via a namespace (and not attached):
+  [1] minqa_1.2.4               colorspace_1.3-2         
+  [3] ellipsis_0.3.0            ggridges_0.5.0           
+  [5] rsconnect_0.8.8           rprojroot_1.3-2          
+  [7] markdown_1.0              base64enc_0.1-3          
+  [9] fs_1.3.1                  rstudioapi_0.10          
+ [11] farver_2.0.1              rstan_2.19.2             
+ [13] svUnit_0.7-12             DT_0.4                   
+ [15] mvtnorm_1.0-11            lubridate_1.7.4          
+ [17] xml2_1.2.0                splines_3.5.1            
+ [19] bridgesampling_0.4-0      knitr_1.23               
+ [21] shinythemes_1.1.1         zeallot_0.1.0            
+ [23] bayesplot_1.6.0           jsonlite_1.6             
+ [25] nloptr_1.0.4              workflowr_1.4.0          
+ [27] broom_0.5.0               shiny_1.3.2              
+ [29] compiler_3.5.1            httr_1.4.0               
+ [31] backports_1.1.5           assertthat_0.2.1         
+ [33] Matrix_1.2-14             lazyeval_0.2.2           
+ [35] cli_1.1.0                 later_0.8.0              
+ [37] htmltools_0.3.6           prettyunits_1.0.2        
+ [39] tools_3.5.1               igraph_1.2.1             
+ [41] coda_0.19-3               gtable_0.3.0             
+ [43] reshape2_1.4.3            cellranger_1.1.0         
+ [45] vctrs_0.2.1               nlme_3.1-137             
+ [47] crosstalk_1.0.0           insight_0.3.0            
+ [49] xfun_0.8                  ps_1.3.0                 
+ [51] lme4_1.1-17               rvest_0.3.2              
+ [53] mime_0.7                  miniUI_0.1.1.1           
+ [55] lifecycle_0.1.0           gtools_3.8.1             
+ [57] MASS_7.3-50               zoo_1.8-3                
+ [59] scales_1.1.0              colourpicker_1.0         
+ [61] hms_0.4.2                 promises_1.0.1           
+ [63] Brobdingnag_1.2-5         parallel_3.5.1           
+ [65] inline_0.3.15             shinystan_2.5.0          
+ [67] yaml_2.2.0                loo_2.1.0                
+ [69] StanHeaders_2.19.0        stringi_1.4.5            
+ [71] highr_0.8                 dygraphs_1.1.1.6         
+ [73] pkgbuild_1.0.2            rlang_0.4.2              
+ [75] pkgconfig_2.0.2           matrixStats_0.54.0       
+ [77] evaluate_0.14             lattice_0.20-35          
+ [79] labeling_0.3              rstantools_2.0.0         
+ [81] htmlwidgets_1.3           tidyselect_0.2.5         
+ [83] processx_3.2.1            plyr_1.8.5               
+ [85] magrittr_1.5              R6_2.4.1                 
+ [87] pillar_1.3.1.9000         haven_1.1.2              
+ [89] withr_2.1.2               xts_0.11-0               
+ [91] abind_1.4-5               modelr_0.1.2             
+ [93] crayon_1.3.4              arrayhelpers_1.0-20160527
+ [95] rmarkdown_1.13            grid_3.5.1               
+ [97] readxl_1.1.0              callr_2.0.4              
+ [99] git2r_0.23.0              threejs_0.3.1            
+[101] digest_0.6.23             webshot_0.5.1            
+[103] xtable_1.8-4              httpuv_1.5.1             
+[105] stats4_3.5.1              munsell_0.5.0            
+[107] viridisLite_0.3.0         shinyjs_1.0              </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+http://docs.mathjax.org/en/latest/configuration.html.  This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
