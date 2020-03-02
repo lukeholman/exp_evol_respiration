@@ -8,7 +8,8 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+The following website details the statistical analysis for the forthcoming paper "TITLE HERE" by Garlovsky et al.
 
+Click [here](statistics.html) for the analysis of the respirometry data.
 
-Go to the [statistics page](index.html)...
+More pages here...
