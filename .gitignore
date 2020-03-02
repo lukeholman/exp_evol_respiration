@@ -9,3 +9,9 @@ analysis/*png
 analysis/*html
 analysis/*_cache
 analysis/site_libs
+output/temp_files
+data/top_model_files.rds
+Supplementary tables and figures.docx
+manuscript.docx
+~$nuscript.docx
+output/brms_SEM.rds
