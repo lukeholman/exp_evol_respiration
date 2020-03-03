@@ -23,6 +23,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
@@ -253,6 +254,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -378,6 +382,14 @@ div.section {
 
 <div class="fluid-row" id="header">
 
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
 
 
 <h1 class="title toc-ignore">Statistical analysis</h1>
@@ -496,10 +508,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree0a357584eafe405ea523f32206de82e5ce5ad461targetblank0a35758a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/0a357584eafe405ea523f32206de82e5ce5ad461" target="_blank">0a35758</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebea659326d84e8a1e5797b5bab52bca74e7a6893targetblankbea6593a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bea659326d84e8a1e5797b5bab52bca74e7a6893" target="_blank">bea6593</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree0a357584eafe405ea523f32206de82e5ce5ad461targetblank0a35758a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebea659326d84e8a1e5797b5bab52bca74e7a6893targetblankbea6593a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -515,10 +527,6 @@ Ignored files:
     Ignored:    manuscript.docx
     Ignored:    output/temp_files/
     Ignored:    ~$nuscript.docx
-
-Unstaged changes:
-    Modified:   .Rprofile
-    Modified:   .gitignore
 
 </code></pre>
 <p>
@@ -557,6 +565,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/bea659326d84e8a1e5797b5bab52bca74e7a6893/analysis/statistics.Rmd" target="_blank">bea6593</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-03-03
+</td>
+<td>
+tweak stats
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/dbbbcb784ecb3180eed4df131c59c442f12415a3/docs/statistics.html" target="_blank">dbbbcb7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-03-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -808,48 +850,13 @@ all_formulas &lt;- map2(combos[,1],
 
 print(&quot;Inspect the first few formulas:&quot;)</code></pre>
 <pre><code>[1] &quot;Inspect the first few formulas:&quot;</code></pre>
-<pre class="r"><code>kable(head(unlist(all_formulas)))</code></pre>
-<table>
-<thead>
-<tr>
-<th style="text-align:left;">
-x
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)
-</td>
-</tr>
-</tbody>
-</table>
+<pre class="r"><code>head(unlist(all_formulas))</code></pre>
+<pre><code>[1] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                  
+[2] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                                  
+[3] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;
+[4] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;      
+[5] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                
+[6] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                      </code></pre>
 </div>
 <div id="run-all-the-brms-models-and-save-them-to-disk" class="section level3">
 <h3>Run all the <code>brms</code> models and save them to disk</h3>
@@ -4055,6 +4062,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {
