@@ -399,7 +399,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -408,7 +408,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -420,7 +420,7 @@ div.section {
 <strong>Last updated:</strong> 2020-03-03
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>respiration_exp_evolution/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -436,12 +436,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -508,10 +508,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebea659326d84e8a1e5797b5bab52bca74e7a6893targetblankbea6593a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bea659326d84e8a1e5797b5bab52bca74e7a6893" target="_blank">bea6593</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8fe4fc96e11a231b3b6e90c4cc5b50d8a790be26targetblank8fe4fc9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/8fe4fc96e11a231b3b6e90c4cc5b50d8a790be26" target="_blank">8fe4fc9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebea659326d84e8a1e5797b5bab52bca74e7a6893targetblankbea6593a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8fe4fc96e11a231b3b6e90c4cc5b50d8a790be26targetblank8fe4fc9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -527,6 +527,10 @@ Ignored files:
     Ignored:    manuscript.docx
     Ignored:    output/temp_files/
     Ignored:    ~$nuscript.docx
+
+Unstaged changes:
+    Modified:   README.md
+    Modified:   analysis/statistics.Rmd
 
 </code></pre>
 <p>
@@ -565,6 +569,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/8fe4fc96e11a231b3b6e90c4cc5b50d8a790be26/docs/statistics.html" target="_blank">8fe4fc9</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-03-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -689,6 +710,9 @@ library(glue)
 library(ggridges)
 library(future)
 library(future.apply)
+library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
+
+output_max_height() # a knitrhook option
 options(stringsAsFactors = FALSE)</code></pre>
 </div>
 <div id="load-respirometry-data" class="section level2">
@@ -849,14 +873,16 @@ all_formulas &lt;- map2(combos[,1],
                      write_formula)
 
 print(&quot;Inspect the first few formulas:&quot;)</code></pre>
-<pre><code>[1] &quot;Inspect the first few formulas:&quot;</code></pre>
+<pre>[1] "Inspect the first few formulas:"
+</pre>
 <pre class="r"><code>head(unlist(all_formulas))</code></pre>
-<pre><code>[1] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                  
-[2] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                                  
-[3] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;
-[4] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;      
-[5] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                
-[6] &quot;bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)&quot;                      </code></pre>
+<pre>[1] "bf(VO2 ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"                  
+[2] "bf(VO2 ~ CYCLE + SELECTION + SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"                                  
+[3] "bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"
+[4] "bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"      
+[5] "bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SELECTION + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"                
+[6] "bf(VO2 ~ CYCLE + SELECTION + SEX + CYCLE:SEX + (1 | LINE) + (1 | SAMPLE)) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ CYCLE + SELECTION + SEX + SELECTION:SEX + (1 | LINE) + (1 | SAMPLE), nl = TRUE) + set_rescor(FALSE)"                      
+</pre>
 </div>
 <div id="run-all-the-brms-models-and-save-them-to-disk" class="section level3">
 <h3>Run all the <code>brms</code> models and save them to disk</h3>
@@ -2300,7 +2326,7 @@ if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
 <h3>Inspect the model output</h3>
 <p>Here is the complete output of <code>summary()</code> called on the SEM. Note that the model has converged (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of the parameter estimates (“Estimate” column) are not directly comparable between the response variables.</p>
 <pre class="r"><code>summary(brms_SEM)</code></pre>
-<pre><code> Family: MV(gaussian, gaussian, gaussian, beta) 
+<pre style = "max-height:300px; overflow-y: auto;"> Family: MV(gaussian, gaussian, gaussian, beta) 
   Links: mu = identity; sigma = identity
          mu = identity; sigma = identity
          mu = identity; sigma = identity
@@ -2442,7 +2468,8 @@ phi_ACTIVITY     152.92     22.80   112.00   201.03 1.00    14884    15792
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
-scale reduction factor on split chains (at convergence, Rhat = 1).</code></pre>
+scale reduction factor on split chains (at convergence, Rhat = 1).
+</pre>
 </div>
 <div id="make-a-neat-table-of-the-fixed-effects" class="section level3">
 <h3>Make a neat table of the fixed effects</h3>
@@ -3948,7 +3975,7 @@ lukeholman
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.6.2 (2019-12-12)
+<pre>R version 3.6.2 (2019-12-12)
 Platform: x86_64-apple-darwin15.6.0 (64-bit)
 Running under: macOS High Sierra 10.13.6
 
@@ -3963,38 +3990,38 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] future.apply_1.4.0 future_1.16.0      ggridges_0.5.2     MuMIn_1.43.15     
- [5] bayestestR_0.5.1   tidybayes_2.0.1    kableExtra_1.1.0   glue_1.3.1        
- [9] RColorBrewer_1.1-2 brms_2.11.1        Rcpp_1.0.3         gridExtra_2.3     
-[13] forcats_0.4.0      stringr_1.4.0      dplyr_0.8.4        purrr_0.3.3       
-[17] readr_1.3.1        tidyr_1.0.2        tibble_2.1.3       ggplot2_3.2.1     
-[21] tidyverse_1.3.0    workflowr_1.6.0   
+ [1] knitrhooks_0.0.4   knitr_1.28         future.apply_1.4.0 future_1.16.0     
+ [5] ggridges_0.5.2     MuMIn_1.43.15      bayestestR_0.5.1   tidybayes_2.0.1   
+ [9] kableExtra_1.1.0   glue_1.3.1         RColorBrewer_1.1-2 brms_2.11.1       
+[13] Rcpp_1.0.3         gridExtra_2.3      forcats_0.4.0      stringr_1.4.0     
+[17] dplyr_0.8.4        purrr_0.3.3        readr_1.3.1        tidyr_1.0.2       
+[21] tibble_2.1.3       ggplot2_3.2.1      tidyverse_1.3.0   
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.1.5      plyr_1.8.5          
-  [4] igraph_1.2.4.2       lazyeval_0.2.2       splines_3.6.2       
-  [7] svUnit_0.7-12        crosstalk_1.0.0      listenv_0.8.0       
- [10] rstantools_2.0.0     inline_0.3.15        digest_0.6.23       
- [13] htmltools_0.4.0      rsconnect_0.8.16     fansi_0.4.1         
- [16] magrittr_1.5         globals_0.12.5       modelr_0.1.5        
- [19] matrixStats_0.55.0   xts_0.12-0           prettyunits_1.1.1   
- [22] colorspace_1.4-1     rvest_0.3.5          haven_2.2.0         
- [25] xfun_0.12            callr_3.4.1          crayon_1.3.4        
- [28] jsonlite_1.6.1       lme4_1.1-21          zoo_1.8-7           
- [31] gtable_0.3.0         webshot_0.5.2        pkgbuild_1.0.6      
- [34] rstan_2.19.2         abind_1.4-5          scales_1.1.0        
- [37] mvtnorm_1.0-12       DBI_1.1.0            miniUI_0.1.1.1      
- [40] viridisLite_0.3.0    xtable_1.8-4         stats4_3.6.2        
- [43] StanHeaders_2.21.0-1 DT_0.12              htmlwidgets_1.5.1   
- [46] httr_1.4.1           threejs_0.3.3        DiagrammeR_1.0.5    
- [49] arrayhelpers_1.1-0   ellipsis_0.3.0       pkgconfig_2.0.3     
- [52] loo_2.2.0            farver_2.0.3         dbplyr_1.4.2        
- [55] tidyselect_1.0.0     labeling_0.3         rlang_0.4.4         
- [58] reshape2_1.4.3       later_1.0.0          munsell_0.5.0       
- [61] cellranger_1.1.0     tools_3.6.2          visNetwork_2.0.9    
- [64] cli_2.0.1            generics_0.0.2       broom_0.5.4         
- [67] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
- [70] processx_3.4.2       knitr_1.28           fs_1.3.1            
+  [1] readxl_1.3.1         backports_1.1.5      workflowr_1.6.0     
+  [4] plyr_1.8.5           igraph_1.2.4.2       lazyeval_0.2.2      
+  [7] splines_3.6.2        svUnit_0.7-12        crosstalk_1.0.0     
+ [10] listenv_0.8.0        rstantools_2.0.0     inline_0.3.15       
+ [13] digest_0.6.23        htmltools_0.4.0      rsconnect_0.8.16    
+ [16] fansi_0.4.1          magrittr_1.5         globals_0.12.5      
+ [19] modelr_0.1.5         matrixStats_0.55.0   xts_0.12-0          
+ [22] prettyunits_1.1.1    colorspace_1.4-1     rvest_0.3.5         
+ [25] haven_2.2.0          xfun_0.12            callr_3.4.1         
+ [28] crayon_1.3.4         jsonlite_1.6.1       lme4_1.1-21         
+ [31] zoo_1.8-7            gtable_0.3.0         webshot_0.5.2       
+ [34] pkgbuild_1.0.6       rstan_2.19.2         abind_1.4-5         
+ [37] scales_1.1.0         mvtnorm_1.0-12       DBI_1.1.0           
+ [40] miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4        
+ [43] stats4_3.6.2         StanHeaders_2.21.0-1 DT_0.12             
+ [46] htmlwidgets_1.5.1    httr_1.4.1           threejs_0.3.3       
+ [49] DiagrammeR_1.0.5     arrayhelpers_1.1-0   ellipsis_0.3.0      
+ [52] pkgconfig_2.0.3      loo_2.2.0            farver_2.0.3        
+ [55] dbplyr_1.4.2         tidyselect_1.0.0     labeling_0.3        
+ [58] rlang_0.4.4          reshape2_1.4.3       later_1.0.0         
+ [61] munsell_0.5.0        cellranger_1.1.0     tools_3.6.2         
+ [64] visNetwork_2.0.9     cli_2.0.1            generics_0.0.2      
+ [67] broom_0.5.4          evaluate_0.14        fastmap_1.0.1       
+ [70] yaml_2.2.1           processx_3.4.2       fs_1.3.1            
  [73] nlme_3.1-144         whisker_0.4          mime_0.9            
  [76] xml2_1.2.2           compiler_3.6.2       bayesplot_1.7.1     
  [79] shinythemes_1.1.2    rstudioapi_0.11      reprex_0.3.0        
@@ -4004,13 +4031,14 @@ loaded via a namespace (and not attached):
  [91] vctrs_0.2.2          pillar_1.4.3         lifecycle_0.1.0     
  [94] bridgesampling_0.8-1 insight_0.8.1        httpuv_1.5.2        
  [97] R6_2.4.1             promises_1.1.0       codetools_0.2-16    
-[100] boot_1.3-24          colourpicker_1.0     MASS_7.3-51.5       
+[100] boot_1.3-24          MASS_7.3-51.5        colourpicker_1.0    
 [103] gtools_3.8.1         assertthat_0.2.1     rprojroot_1.3-2     
 [106] withr_2.1.2          shinystan_2.5.0      parallel_3.6.2      
 [109] hms_0.5.3            grid_3.6.2           minqa_1.2.4         
 [112] coda_0.19-3          rmarkdown_2.1        git2r_0.26.1        
 [115] shiny_1.4.0          lubridate_1.7.4      base64enc_0.1-3     
-[118] dygraphs_1.1.1.6    </code></pre>
+[118] dygraphs_1.1.1.6    
+</pre>
 </div>
 </div>
 </div>

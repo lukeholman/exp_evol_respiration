@@ -26,6 +26,9 @@ library(glue)
 library(ggridges)
 library(future)
 library(future.apply)
+library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+
+output_max_height() # a knitrhook option
 options(stringsAsFactors = FALSE)
 ```
 
@@ -638,7 +641,7 @@ if(!file.exists("output/brms_SEM.rds")){
 
 ### Inspect the model output
 Here is the complete output of `summary()` called on the SEM. Note that the model has converged (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of the parameter estimates ("Estimate" column) are not directly comparable between the response variables.
-```{r}
+```{r output_max_height = "300px"}
 summary(brms_SEM)
 ```
 

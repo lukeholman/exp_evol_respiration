@@ -1,5 +1,3 @@
 # respiration_exp_evolution
 
-A [workflowr][] project.
-
-[workflowr]: https://github.com/jdblischak/workflowr
+Click [here](https://lukeholman.github.io/exp_evol_respiration/) to view the html report for this project (created using the [workflowr](https://github.com/jdblischak/workflowr) package).
