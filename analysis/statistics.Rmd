@@ -1,6 +1,8 @@
 ---
 title: "Statistical analysis"
-output: workflowr::wflow_html
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
 editor_options:
   chunk_output_type: console
 ---
@@ -153,7 +155,7 @@ all_formulas <- map2(combos[,1],
                      write_formula)
 
 print("Inspect the first few formulas:")
-kable(head(unlist(all_formulas)))
+head(unlist(all_formulas))
 ```
 
 ### Run all the `brms` models and save them to disk
