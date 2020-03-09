@@ -417,7 +417,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-03-03
+<strong>Last updated:</strong> 2020-03-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -508,10 +508,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedf06126eba0c46825d4cc8806ba93e96da18d3e7targetblankdf06126a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/df06126eba0c46825d4cc8806ba93e96da18d3e7" target="_blank">df06126</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree12a1f4f090d76502ce5a94aaa8ce2145f9e2a193targetblank12a1f4fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/12a1f4f090d76502ce5a94aaa8ce2145f9e2a193" target="_blank">12a1f4f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedf06126eba0c46825d4cc8806ba93e96da18d3e7targetblankdf06126a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree12a1f4f090d76502ce5a94aaa8ce2145f9e2a193targetblank12a1f4fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -519,14 +519,30 @@ Great! You are using Git for version control. Tracking code development and conn
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .Rapp.history
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
     Ignored:    Supplementary tables and figures.docx
+    Ignored:    analysis/.DS_Store
     Ignored:    data/.DS_Store
     Ignored:    data/top_model_files.rds
     Ignored:    manuscript.docx
+    Ignored:    output/.DS_Store
     Ignored:    output/temp_files/
     Ignored:    ~$nuscript.docx
+
+Untracked files:
+    Untracked:  online_supp/
+    Untracked:  output/flow_diagram.pdf
+    Untracked:  output/mediation_figure_RQ.pdf
+    Untracked:  output/mediation_figure_VO2.pdf
+    Untracked:  output/pairs_plot.pdf
+    Untracked:  output/posterior_means_plot.pdf
+    Untracked:  ~$pplementary tables and figures.docx
+
+Unstaged changes:
+    Deleted:    output/Figure 2.pdf
+    Modified:   output/brms_SEM.rds
 
 </code></pre>
 <p>
@@ -565,6 +581,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/12a1f4f090d76502ce5a94aaa8ce2145f9e2a193/analysis/statistics.Rmd" target="_blank">12a1f4f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-03-09
+</td>
+<td>
+another commit
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/0ae00205218606917b1be79848ea801f61643080/docs/statistics.html" target="_blank">0ae0020</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-03-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -729,6 +779,7 @@ Almost reaedy
 <h2>Load R packages</h2>
 <pre class="r"><code>library(tidyverse)
 library(gridExtra)
+library(grid)
 library(brms)
 library(RColorBrewer)
 library(glue)
@@ -740,10 +791,15 @@ library(glue)
 library(ggridges)
 library(future)
 library(future.apply)
+library(GGally)
+
 library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
 
 output_max_height() # a knitrhook option
-options(stringsAsFactors = FALSE)</code></pre>
+options(stringsAsFactors = FALSE)
+
+# Define function for the inverse logit
+inv_logit &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
 </div>
 <div id="load-respirometry-data" class="section level2">
 <h2>Load respirometry data</h2>
@@ -766,26 +822,55 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 # edge definitions with the node IDs
 &quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Other factors\n(e.g. physiology)&quot;, &quot;Body mass&quot; , &quot;Activity&quot;} -&gt; {&quot;Metabolic\nrate&quot;, &quot;Metabolic\nsubstrate&quot;} 
 
-{&quot;Metabolic\nrate&quot;} -&gt; &quot;Oxygen\nconsumption&quot;
+{&quot;Metabolic\nrate&quot;} -&gt; {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;}
+{&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 {&quot;Metabolic\nsubstrate&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 }&#39;)</code></pre>
 <p><div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> \"Oxygen\nconsumption\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script> <br></br> <strong>Figure 1:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised a priori between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
+<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script> <br></br> <strong>Figure 1:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised a priori between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
 </div>
 <div id="inspecting-the-raw-data" class="section level2">
 <h2>Inspecting the raw data</h2>
-<div id="selection-treatment-has-affected-activity-and-body-size" class="section level3">
-<h3>Selection treatment has affected activity and body size</h3>
-<p>There is a strong effect of selection treatment on activity in both sexes, and an effect of selection on female body size.</p>
-<pre class="r"><code>respiration %&gt;%
-  filter(CYCLE == &quot;I&quot;) %&gt;%
-  mutate(`Body weight` = scale(BODY_WEIGHT),
-         `Activity level` = scale(ACTIVITY)) %&gt;%
-  gather(trait, value, `Body weight`, `Activity level`) %&gt;%
-  ggplot(aes(SEX, value, colour = SELECTION)) + 
-  stat_summary(position = position_dodge(0.4), size = 0.3) + 
-  facet_wrap(~ trait) + 
-  scale_color_brewer(palette = &quot;Set1&quot;, direction = -1)</code></pre>
+<p>Create a “pairs plot” of the raw data.</p>
+<pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
+  ggally_densityDiag(data, mapping, ...) + scale_fill_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1) + 
+  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_points &lt;- function(data, mapping, ...) {
+  ggally_points(data, mapping, ...) + scale_colour_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1) + 
+  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_facetdensity &lt;- function(data, mapping, ...) {
+  ggally_facetdensity(data, mapping, ...) + scale_colour_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1)
+}
+
+modified_box_no_facet &lt;- function(data, mapping, ...) {
+  ggally_box_no_facet(data, mapping, ...) + scale_fill_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1)
+}
+
+pairs_plot &lt;- respiration %&gt;% 
+  select(SEX, SELECTION, CYCLE, VO2, VCO2, RQ, ACTIVITY, BODY_WEIGHT) %&gt;%
+  mutate(VO2 = VO2 * 1000, 
+         VCO2 = VCO2 * 1000, 
+         BODY_WEIGHT = BODY_WEIGHT * 1000, 
+         ACTIVITY = ACTIVITY * 100) %&gt;%
+  mutate(SEX = factor(ifelse(SEX == &quot;M&quot;, &quot;Male&quot;, &quot;Female&quot;), c(&quot;Male&quot;, &quot;Female&quot;))) %&gt;%
+  rename(Sex = SEX, Treatment = SELECTION, Cycle = CYCLE, 
+         Activity = ACTIVITY, `Body mass` = BODY_WEIGHT) %&gt;%
+  ggpairs(aes(colour = Treatment),
+          diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
+                      discrete = wrap(&quot;blank&quot;)),
+          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5), 
+                       discrete = wrap(&quot;blank&quot;),
+                       combo = wrap(modified_box_no_facet, alpha = 0.7)),
+          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5),
+                       discrete = wrap(&quot;blank&quot;),
+                       combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
+
+pairs_plot %&gt;% ggsave(filename = &quot;output/pairs_plot.pdf&quot;, height = 10, width = 10)
+pairs_plot</code></pre>
 <p><img src="figure/statistics.Rmd/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
@@ -835,19 +920,20 @@ lukeholman
 </table>
 </div>
 </div>
-</div>
+<p><strong>Figure 2:</strong> Boxplots, scatterplots, and density plots illustrating the variance and covariance among the explanatory variables (Treatment, Sex, and Cycle) and the five response variables. The data are coloured by treatment (red for polyandry, blue for monogamy). The plot shows the raw data in their original units, namely the number of mm of O2 consumed or CO2 produced, the % time spent active, and the mass of the fly in milligrams (RQ is a ratio and thus has no units). Note that RQ has as expected range of 0.7-1.0 because of the chemistry of respiration, but values outside this range often occur due to measurement error for O2 and/or CO2.</p>
 </div>
 <div id="fit-the-first-brms-models-ignoring-the-moderator-variables" class="section level2">
 <h2>Fit the first <code>brms</code> models, ignoring the moderator variables</h2>
 <div id="scale-the-input-data" class="section level3">
 <h3>Scale the input data</h3>
-<p>Here, we scale and centre the body mass (across all samples), and multiply VO2 and VCO2 by 1000 so that their units (and resulting regression coefficients) are close to those assumed by the <code>brms</code> default priors.</p>
-<p>We did not scale and centre VO2 and VCO2, because we will soon relate them to each other via the respiratory quotient, RQ, so it makes sense to leave them in their original units rather than converting their units to standard deviations. We also did not scale and centre activity level, because this variable is naturally bounded by zero and one, and so one can model it on its original scale using the <a href="https://en.wikipedia.org/wiki/Beta_distribution">beta distribution</a>.</p>
+<p>Here, we scale and centre the body mass and activity (across all samples), and multiply VO2 and VCO2 by 1000 so that their units (and resulting regression coefficients) are close to those assumed by the <code>brms</code> default priors.</p>
+<p>We did not scale and centre VO2 and VCO2, because we will soon relate them to each other via the respiratory quotient, RQ, so it makes sense to leave them in their original units rather than converting their units to standard deviations.</p>
 <p>Note that body mass and activity are not actually used until the following section (i.e. <em>Fit the <code>brms</code> structural equation model (SEM)</em>).</p>
 <pre class="r"><code>scaled_data &lt;- respiration %&gt;%
   mutate(VO2 = VO2 * 1000, 
          VCO2 = VCO2 * 1000,
-         BODY_WEIGHT = as.numeric(scale(BODY_WEIGHT))) %&gt;% 
+         BODY_WEIGHT = as.numeric(scale(BODY_WEIGHT)),
+         ACTIVITY = as.numeric(scale(ACTIVITY))) %&gt;% 
   rename(BODYMASS = BODY_WEIGHT)</code></pre>
 </div>
 <div id="write-out-the-full-models-formulae" class="section level3">
@@ -917,10 +1003,7 @@ print(&quot;Inspect the first few formulas:&quot;)</code></pre>
 <div id="run-all-the-brms-models-and-save-them-to-disk" class="section level3">
 <h3>Run all the <code>brms</code> models and save them to disk</h3>
 <p>Here, we run all 361 of the models whose formulae are given in the vector <code>all_formulas</code>, and save the results of each model to an external hard drive (this uses about 55GB). Note that the prior for each model is the same, except that one does not need to specify a prior on the fixed effects in models that do not contain any fixed effects, which is why the <code>if()</code> statements are needed.</p>
-<pre class="r"><code># Define function for the inverse logit
-inv_logit &lt;- function(x) 1 / (1 + exp(-x))
-
-# Function to run a model using formula number &quot;i&quot; in &quot;formula_list&quot; on dataframe &quot;my_data&quot;
+<pre class="r"><code># Function to run a model using formula number &quot;i&quot; in &quot;formula_list&quot; on dataframe &quot;my_data&quot;
 run_model &lt;- function(i, formula_list, my_data){
   
   save_location &lt;- &quot;/Volumes/LACIE_SHARE/brms_respiration&quot;
@@ -1031,7 +1114,7 @@ future_lapply(1:length(all_formulas),
   names(resp_model_weights) &lt;- out_files[as.numeric(str_extract(names(resp_model_weights), &quot;[:digit:]+&quot;))]
   names(resp_model_weights) &lt;- all_formulas[as.numeric(str_extract(names(resp_model_weights), &quot;[:digit:]+&quot;))]
   
-  model_selection_table &lt;- enframe(resp_model_weights, name = &quot;Model&quot;, value = &quot;LOO model weight&quot;) %&gt;%
+  ction_table &lt;- enframe(resp_model_weights, name = &quot;Model&quot;, value = &quot;LOO model weight&quot;) %&gt;%
     arrange(-`LOO model weight`) %&gt;%
     mutate(Model = str_remove_all(Model, &quot; \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\)\\) \\+ bf\\(&quot;),
            Model = str_remove_all(Model, &quot;bf\\(&quot;),
@@ -1053,8 +1136,14 @@ future_lapply(1:length(all_formulas),
 <div id="model-selection-table" class="section level4">
 <h4>Model selection table</h4>
 <p>This table shows the top ten models from the set of 361 that was compared. The models were compared using leave-one-out cross validation (LOO), which is similar to more familiar metrics like AIC, but is regarded as the current best method for comparing the fit of a set of Bayesian models (see the documentation in <code>brms</code> and <code>loo</code> packages).</p>
-<pre class="r"><code>model_selection_table %&gt;%
-  kable() %&gt;% kable_styling()</code></pre>
+<pre class="r"><code>library(formattable)
+
+model_selection_table %&gt;%
+  mutate_if(is.character, ~ str_replace_all(.x, &quot;CYCLE&quot;, &quot;Cycle&quot;)) %&gt;%
+  mutate_if(is.character, ~ str_replace_all(.x, &quot;SELECTION&quot;, &quot;Selection&quot;)) %&gt;%
+  mutate_if(is.character, ~ str_replace_all(.x, &quot;SEX&quot;, &quot;Sex&quot;)) %&gt;%
+  mutate(`LOO model weight` = color_bar(&quot;lightgreen&quot;)(`LOO model weight`)) %&gt;%
+  kable(escape = F, full.width = FALSE) %&gt;% kable_styling()</code></pre>
 <table class="table" style="margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -1064,7 +1153,7 @@ Model of VO2
 <th style="text-align:left;">
 Model of RQ
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 LOO model weight
 </th>
 </tr>
@@ -1072,112 +1161,112 @@ LOO model weight
 <tbody>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SEX + CYCLE:SEX
+~ Cycle + Sex + Cycle:Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE
+~ Cycle
 </td>
-<td style="text-align:right;">
-0.381
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 100.00%">0.381</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SELECTION + SEX + CYCLE:SEX
+~ Cycle + Selection + Sex + Cycle:Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
-<td style="text-align:right;">
-0.209
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 54.86%">0.209</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SELECTION + SEX + SELECTION:SEX
+~ Cycle + Selection + Sex + Selection:Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
-<td style="text-align:right;">
-0.189
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 49.61%">0.189</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE
+~ Cycle
 </td>
-<td style="text-align:right;">
-0.099
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 25.98%">0.099</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
-<td style="text-align:right;">
-0.063
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 16.54%">0.063</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
 <td style="text-align:left;">
-~ SEX
+~ Sex
 </td>
-<td style="text-align:right;">
-0.034
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 8.92%">0.034</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SELECTION + SEX
+~ Cycle + Selection + Sex
 </td>
 <td style="text-align:left;">
-~ CYCLE + SEX
+~ Cycle + Sex
 </td>
-<td style="text-align:right;">
-0.008
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 2.10%">0.008</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SELECTION + SEX + CYCLE:SELECTION
+~ Cycle + Selection + Sex + Cycle:Selection
 </td>
 <td style="text-align:left;">
 ~ 1
 </td>
-<td style="text-align:right;">
-0.008
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 2.10%">0.008</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SELECTION + SEX + CYCLE:SELECTION
+~ Cycle + Selection + Sex + Cycle:Selection
 </td>
 <td style="text-align:left;">
-~ CYCLE
+~ Cycle
 </td>
-<td style="text-align:right;">
-0.005
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 1.31%">0.005</span>
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-~ CYCLE + SEX + CYCLE:SEX
+~ Cycle + Sex + Cycle:Sex
 </td>
 <td style="text-align:left;">
-~ SEX
+~ Sex
 </td>
-<td style="text-align:right;">
-0.005
+<td style="text-align:left;">
+<span style="display: inline-block; direction: rtl; border-radius: 4px; padding-right: 2px; background-color: lightgreen; width: 1.31%">0.005</span>
 </td>
 </tr>
 </tbody>
@@ -1207,8 +1296,8 @@ make_model_summary_table &lt;- function(posterior_samples){
     summarise_all(~ list(posterior_summary(.x)))  %&gt;% gather() %&gt;% 
     mutate(Estimate = map_dbl(value, ~ .x[1]),
            Error = map_dbl(value, ~ .x[2]),
-           Lower_95_CI = map_dbl(value, ~ .x[3]),
-           Upper_95_CI = map_dbl(value, ~ .x[4])) %&gt;% 
+           Q2.5 = map_dbl(value, ~ .x[3]),
+           Q97.5 = map_dbl(value, ~ .x[4])) %&gt;% 
     select(-value) %&gt;%
     left_join(pvalues, by = &quot;key&quot;) %&gt;%
     mutate_if(is.numeric, ~ round(.x, 3)) %&gt;%
@@ -1227,8 +1316,25 @@ make_model_summary_table &lt;- function(posterior_samples){
 <div id="results-from-model-averaging" class="section level4">
 <h4>Results from model averaging</h4>
 <pre class="r"><code>model_averaging_results &lt;- avg %&gt;%
-  select(-starts_with(&quot;r_&quot;), -starts_with(&quot;z_&quot;), -starts_with(&quot;lp&quot;)) %&gt;% 
-  make_model_summary_table()
+  select(-starts_with(&quot;r_&quot;), -starts_with(&quot;z_&quot;), -starts_with(&quot;lp&quot;), -starts_with(&quot;sd_&quot;)) %&gt;% 
+  make_model_summary_table() %&gt;%
+  mutate(key = str_remove_all(key, &quot;b_&quot;),
+         split = strsplit(key, split = &quot;_&quot;),
+         resp = map_chr(split, ~ .x[1]),
+         Parameter = map_chr(split, ~ tail(.x, 1)),
+         resp = replace(resp, resp == &quot;VCO2&quot;, &quot;RQ&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEIII&quot;, &quot;Cycle (III)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEII&quot;, &quot;Cycle (II)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;SEXM&quot;, &quot;Sex (M)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEIII:SEXM&quot;, &quot;Cycle (III) x Sex (M)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEII:SEXM&quot;, &quot;Cycle (II) x Sex (M)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;SELECTIONPoly:SEXM&quot;, &quot;Treatment (P) x Sex (M)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;SELECTIONPoly&quot;, &quot;Treatment (P)&quot;)) %&gt;%
+  select(resp, Parameter, everything()) %&gt;% select(-split, -key) %&gt;%
+  arrange(desc(resp))
+
+saveRDS(model_averaging_results, &quot;online_supp/model_averaging_results.rds&quot;)
+
 
 model_averaging_results %&gt;%
   kable() %&gt;%
@@ -1237,7 +1343,10 @@ model_averaging_results %&gt;%
 <thead>
 <tr>
 <th style="text-align:left;">
-key
+resp
+</th>
+<th style="text-align:left;">
+Parameter
 </th>
 <th style="text-align:right;">
 Estimate
@@ -1246,10 +1355,10 @@ Estimate
 Error
 </th>
 <th style="text-align:right;">
-Lower_95_CI
+Q2.5
 </th>
 <th style="text-align:right;">
-Upper_95_CI
+Q97.5
 </th>
 <th style="text-align:left;">
 p
@@ -1261,19 +1370,22 @@ p
 <tbody>
 <tr>
 <td style="text-align:left;">
-b_VO2_Intercept
+VO2
+</td>
+<td style="text-align:left;">
+Intercept
 </td>
 <td style="text-align:right;">
-7.547
+7.627
 </td>
 <td style="text-align:right;">
-0.646
+0.632
 </td>
 <td style="text-align:right;">
-6.275
+6.382
 </td>
 <td style="text-align:right;">
-8.836
+8.910
 </td>
 <td style="text-align:left;">
 0
@@ -1284,42 +1396,22 @@ b_VO2_Intercept
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_CYCLEII
-</td>
-<td style="text-align:right;">
--0.892
-</td>
-<td style="text-align:right;">
-0.271
-</td>
-<td style="text-align:right;">
--1.419
-</td>
-<td style="text-align:right;">
--0.344
+VO2
 </td>
 <td style="text-align:left;">
-0.002
-</td>
-<td style="text-align:left;">
-**
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_VO2_CYCLEIII
+Cycle (II)
 </td>
 <td style="text-align:right;">
--1.893
+-0.903
 </td>
 <td style="text-align:right;">
-0.298
+0.235
 </td>
 <td style="text-align:right;">
--2.423
+-1.359
 </td>
 <td style="text-align:right;">
--1.238
+-0.443
 </td>
 <td style="text-align:left;">
 0
@@ -1330,22 +1422,51 @@ b_VO2_CYCLEIII
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_SELECTIONPoly
-</td>
-<td style="text-align:right;">
-1.167
-</td>
-<td style="text-align:right;">
-0.851
-</td>
-<td style="text-align:right;">
--0.586
-</td>
-<td style="text-align:right;">
-2.764
+VO2
 </td>
 <td style="text-align:left;">
-0.082
+Cycle (III)
+</td>
+<td style="text-align:right;">
+-1.984
+</td>
+<td style="text-align:right;">
+0.234
+</td>
+<td style="text-align:right;">
+-2.444
+</td>
+<td style="text-align:right;">
+-1.525
+</td>
+<td style="text-align:left;">
+0
+</td>
+<td style="text-align:left;">
+***
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+Treatment (P)
+</td>
+<td style="text-align:right;">
+1.079
+</td>
+<td style="text-align:right;">
+0.857
+</td>
+<td style="text-align:right;">
+-0.653
+</td>
+<td style="text-align:right;">
+2.714
+</td>
+<td style="text-align:left;">
+0.096
 </td>
 <td style="text-align:left;">
 ~
@@ -1353,64 +1474,123 @@ b_VO2_SELECTIONPoly
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_SEXM
-</td>
-<td style="text-align:right;">
--1.326
-</td>
-<td style="text-align:right;">
-0.630
-</td>
-<td style="text-align:right;">
--2.538
-</td>
-<td style="text-align:right;">
--0.093
+VO2
 </td>
 <td style="text-align:left;">
-0.017
+Sex (M)
+</td>
+<td style="text-align:right;">
+-1.485
+</td>
+<td style="text-align:right;">
+0.560
+</td>
+<td style="text-align:right;">
+-2.591
+</td>
+<td style="text-align:right;">
+-0.416
 </td>
 <td style="text-align:left;">
-*
+0.004
+</td>
+<td style="text-align:left;">
+**
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_SELECTIONPoly:SEXM
-</td>
-<td style="text-align:right;">
-0.760
-</td>
-<td style="text-align:right;">
-0.814
-</td>
-<td style="text-align:right;">
--0.176
-</td>
-<td style="text-align:right;">
-2.471
+VO2
 </td>
 <td style="text-align:left;">
-0.38
+Treatment (P) x Sex (M)
+</td>
+<td style="text-align:right;">
+0.950
+</td>
+<td style="text-align:right;">
+0.806
+</td>
+<td style="text-align:right;">
+-0.259
+</td>
+<td style="text-align:right;">
+2.541
+</td>
+<td style="text-align:left;">
+0.226
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_Intercept
+VO2
+</td>
+<td style="text-align:left;">
+Cycle (II) x Sex (M)
 </td>
 <td style="text-align:right;">
-0.298
+0.000
 </td>
 <td style="text-align:right;">
-0.300
+0.000
 </td>
 <td style="text-align:right;">
--0.288
+0.000
 </td>
 <td style="text-align:right;">
-0.906
+0.000
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+VO2
+</td>
+<td style="text-align:left;">
+Cycle (III) x Sex (M)
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+RQ
+</td>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:right;">
+0.303
+</td>
+<td style="text-align:right;">
+0.301
+</td>
+<td style="text-align:right;">
+-0.278
+</td>
+<td style="text-align:right;">
+0.915
 </td>
 <td style="text-align:left;">
 0.136
@@ -1420,194 +1600,75 @@ b_VCO2_RQ_Intercept
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_CYCLEII
-</td>
-<td style="text-align:right;">
-0.066
-</td>
-<td style="text-align:right;">
-0.227
-</td>
-<td style="text-align:right;">
--0.380
-</td>
-<td style="text-align:right;">
-0.515
+RQ
 </td>
 <td style="text-align:left;">
-0.387
+Cycle (II)
+</td>
+<td style="text-align:right;">
+0.065
+</td>
+<td style="text-align:right;">
+0.230
+</td>
+<td style="text-align:right;">
+-0.383
+</td>
+<td style="text-align:right;">
+0.521
+</td>
+<td style="text-align:left;">
+0.39
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_CYCLEIII
+RQ
+</td>
+<td style="text-align:left;">
+Cycle (III)
 </td>
 <td style="text-align:right;">
-0.005
+0.002
 </td>
 <td style="text-align:right;">
 0.247
 </td>
 <td style="text-align:right;">
--0.479
+-0.482
 </td>
 <td style="text-align:right;">
-0.490
-</td>
-<td style="text-align:left;">
 0.494
 </td>
 <td style="text-align:left;">
+0.498
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_SEXM
+RQ
+</td>
+<td style="text-align:left;">
+Sex (M)
 </td>
 <td style="text-align:right;">
-0.161
+0.160
 </td>
 <td style="text-align:right;">
-0.279
+0.278
 </td>
 <td style="text-align:right;">
--0.389
+-0.388
 </td>
 <td style="text-align:right;">
-0.703
+0.706
 </td>
 <td style="text-align:left;">
 0.275
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_VO2_CYCLEII:SEXM
-</td>
-<td style="text-align:right;">
--0.021
-</td>
-<td style="text-align:right;">
-0.269
-</td>
-<td style="text-align:right;">
--0.737
-</td>
-<td style="text-align:right;">
-0.595
-</td>
-<td style="text-align:left;">
-0.812
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-b_VO2_CYCLEIII:SEXM
-</td>
-<td style="text-align:right;">
--0.178
-</td>
-<td style="text-align:right;">
-0.367
-</td>
-<td style="text-align:right;">
--1.192
-</td>
-<td style="text-align:right;">
-0.149
-</td>
-<td style="text-align:left;">
-0.704
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_LINE__VO2_Intercept
-</td>
-<td style="text-align:right;">
-0.850
-</td>
-<td style="text-align:right;">
-0.492
-</td>
-<td style="text-align:right;">
-0.112
-</td>
-<td style="text-align:right;">
-2.064
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_SAMPLE__VO2_Intercept
-</td>
-<td style="text-align:right;">
-1.202
-</td>
-<td style="text-align:right;">
-0.191
-</td>
-<td style="text-align:right;">
-0.859
-</td>
-<td style="text-align:right;">
-1.608
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_LINE__VCO2_RQ_Intercept
-</td>
-<td style="text-align:right;">
-0.475
-</td>
-<td style="text-align:right;">
-0.336
-</td>
-<td style="text-align:right;">
-0.031
-</td>
-<td style="text-align:right;">
-1.275
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_SAMPLE__VCO2_RQ_Intercept
-</td>
-<td style="text-align:right;">
-0.613
-</td>
-<td style="text-align:right;">
-0.209
-</td>
-<td style="text-align:right;">
-0.202
-</td>
-<td style="text-align:right;">
-1.040
-</td>
-<td style="text-align:left;">
 </td>
 <td style="text-align:left;">
 </td>
@@ -1618,8 +1679,21 @@ sd_SAMPLE__VCO2_RQ_Intercept
 <div id="results-from-the-individual-top-model-containing-selection" class="section level4">
 <h4>Results from the individual top model containing selection</h4>
 <pre class="r"><code>top_model_with_selection &lt;- posterior_samples(readRDS(top_model_files[2])) %&gt;%
-  select(-starts_with(&quot;r_&quot;), -starts_with(&quot;z_&quot;), -starts_with(&quot;lp&quot;), -starts_with(&quot;Intercept_&quot;)) %&gt;% 
-  make_model_summary_table()
+  select(-starts_with(&quot;r_&quot;), -starts_with(&quot;z_&quot;), -starts_with(&quot;lp&quot;), 
+         -starts_with(&quot;Intercept_&quot;), -starts_with(&quot;sd_&quot;), -starts_with(&quot;sigma_&quot;)) %&gt;% 
+  make_model_summary_table() %&gt;%
+  mutate(key = str_remove_all(key, &quot;b_&quot;),
+         split = strsplit(key, split = &quot;_&quot;),
+         resp = map_chr(split, ~ .x[1]),
+         Parameter = map_chr(split, ~ tail(.x, 1)),
+         resp = replace(resp, resp == &quot;VCO2&quot;, &quot;RQ&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;SELECTIONPoly&quot;, &quot;Treatment (P)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEIII&quot;, &quot;Cycle (III)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;CYCLEII&quot;, &quot;Cycle (II)&quot;),
+         Parameter = replace(Parameter, Parameter == &quot;SEXM&quot;, &quot;Sex (M)&quot;)) %&gt;%
+  select(resp, Parameter, everything()) %&gt;% select(-split, -key)
+  
+saveRDS(top_model_with_selection, &quot;online_supp/top_model_with_selection.rds&quot;)
 
 top_model_with_selection %&gt;%
   kable() %&gt;%
@@ -1628,7 +1702,10 @@ top_model_with_selection %&gt;%
 <thead>
 <tr>
 <th style="text-align:left;">
-key
+resp
+</th>
+<th style="text-align:left;">
+Parameter
 </th>
 <th style="text-align:right;">
 Estimate
@@ -1637,10 +1714,10 @@ Estimate
 Error
 </th>
 <th style="text-align:right;">
-Lower_95_CI
+Q2.5
 </th>
 <th style="text-align:right;">
-Upper_95_CI
+Q97.5
 </th>
 <th style="text-align:left;">
 p
@@ -1652,7 +1729,10 @@ p
 <tbody>
 <tr>
 <td style="text-align:left;">
-b_VO2_Intercept
+VO2
+</td>
+<td style="text-align:left;">
+Intercept
 </td>
 <td style="text-align:right;">
 7.405
@@ -1675,7 +1755,10 @@ b_VO2_Intercept
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_CYCLEII
+VO2
+</td>
+<td style="text-align:left;">
+Cycle (II)
 </td>
 <td style="text-align:right;">
 -0.901
@@ -1698,7 +1781,10 @@ b_VO2_CYCLEII
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_CYCLEIII
+VO2
+</td>
+<td style="text-align:left;">
+Cycle (III)
 </td>
 <td style="text-align:right;">
 -1.983
@@ -1721,7 +1807,10 @@ b_VO2_CYCLEIII
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_SELECTIONPoly
+VO2
+</td>
+<td style="text-align:left;">
+Treatment (P)
 </td>
 <td style="text-align:right;">
 1.521
@@ -1744,7 +1833,10 @@ b_VO2_SELECTIONPoly
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VO2_SEXM
+VO2
+</td>
+<td style="text-align:left;">
+Sex (M)
 </td>
 <td style="text-align:right;">
 -1.017
@@ -1767,7 +1859,10 @@ b_VO2_SEXM
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_Intercept
+RQ
+</td>
+<td style="text-align:left;">
+Intercept
 </td>
 <td style="text-align:right;">
 0.305
@@ -1789,7 +1884,10 @@ b_VCO2_RQ_Intercept
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_CYCLEII
+RQ
+</td>
+<td style="text-align:left;">
+Cycle (II)
 </td>
 <td style="text-align:right;">
 0.064
@@ -1811,7 +1909,10 @@ b_VCO2_RQ_CYCLEII
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_CYCLEIII
+RQ
+</td>
+<td style="text-align:left;">
+Cycle (III)
 </td>
 <td style="text-align:right;">
 0.000
@@ -1833,7 +1934,10 @@ b_VCO2_RQ_CYCLEIII
 </tr>
 <tr>
 <td style="text-align:left;">
-b_VCO2_RQ_SEXM
+RQ
+</td>
+<td style="text-align:left;">
+Sex (M)
 </td>
 <td style="text-align:right;">
 0.157
@@ -1853,132 +1957,6 @@ b_VCO2_RQ_SEXM
 <td style="text-align:left;">
 </td>
 </tr>
-<tr>
-<td style="text-align:left;">
-sd_LINE__VO2_Intercept
-</td>
-<td style="text-align:right;">
-0.832
-</td>
-<td style="text-align:right;">
-0.508
-</td>
-<td style="text-align:right;">
-0.092
-</td>
-<td style="text-align:right;">
-2.054
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_SAMPLE__VO2_Intercept
-</td>
-<td style="text-align:right;">
-1.227
-</td>
-<td style="text-align:right;">
-0.189
-</td>
-<td style="text-align:right;">
-0.888
-</td>
-<td style="text-align:right;">
-1.630
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_LINE__VCO2_RQ_Intercept
-</td>
-<td style="text-align:right;">
-0.480
-</td>
-<td style="text-align:right;">
-0.341
-</td>
-<td style="text-align:right;">
-0.029
-</td>
-<td style="text-align:right;">
-1.313
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sd_SAMPLE__VCO2_RQ_Intercept
-</td>
-<td style="text-align:right;">
-0.618
-</td>
-<td style="text-align:right;">
-0.212
-</td>
-<td style="text-align:right;">
-0.201
-</td>
-<td style="text-align:right;">
-1.054
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sigma_VO2
-</td>
-<td style="text-align:right;">
-1.150
-</td>
-<td style="text-align:right;">
-0.086
-</td>
-<td style="text-align:right;">
-0.997
-</td>
-<td style="text-align:right;">
-1.333
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-sigma_VCO2
-</td>
-<td style="text-align:right;">
-0.537
-</td>
-<td style="text-align:right;">
-0.040
-</td>
-<td style="text-align:right;">
-0.466
-</td>
-<td style="text-align:right;">
-0.624
-</td>
-<td style="text-align:left;">
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
 </tbody>
 </table>
 </div>
@@ -1989,13 +1967,15 @@ sigma_VCO2
 <div id="model-averaged-estimates" class="section level4">
 <h4>Model averaged estimates</h4>
 <pre class="r"><code>name_converter &lt;- tibble(
-  new_name = c(&quot;O2: Effect of being male&quot;, &quot;O2: Effect of P treatment&quot;, &quot;O2: Effect of Cycle II&quot;, &quot;O2: Effect of Cycle III&quot;,
+  new_name = c(&quot;O2: Male sex&quot;, &quot;O2: P treatment&quot;, &quot;O2: Cycle II&quot;, &quot;O2: Cycle III&quot;,
                &quot;O2: Male x Cycle II interaction&quot;, &quot;O2: Male x Cycle III interaction&quot;,
-               &quot;RQ: Effect of being male&quot;, &quot;RQ: Effect of Cycle II&quot;, &quot;RQ: Effect of Cycle III&quot;),
+               &quot;RQ: Male sex&quot;, &quot;RQ: Cycle II&quot;, &quot;RQ: Cycle III&quot;),
   old_name = c(&quot;VO2_SEXM&quot;, &quot;VO2_SELECTIONPoly&quot;, &quot;VO2_CYCLEII&quot;, &quot;VO2_CYCLEIII&quot;,
                &quot;VO2_CYCLEII:SEXM&quot;, &quot;VO2_CYCLEIII:SEXM&quot;,
                &quot;VCO2_RQ_SEXM&quot;, &quot;VCO2_RQ_CYCLEII&quot;, &quot;VCO2_RQ_CYCLEIII&quot;)
 ) %&gt;% mutate(new_name = factor(new_name, rev(new_name)))
+
+overall_SD_VO2 &lt;- scaled_data$VO2 %&gt;% sd()
 
 plotter &lt;- function(posterior_samples){
   
@@ -2005,21 +1985,20 @@ plotter &lt;- function(posterior_samples){
     gather() %&gt;% 
     mutate(key = str_remove_all(key, &quot;b_&quot;)) %&gt;%
     left_join(name_converter, by = c(&quot;key&quot; = &quot;old_name&quot;)) %&gt;%
-    filter(value &lt; 4.2) %&gt;%
     mutate(variable = ifelse(grepl(&quot;O2&quot;, new_name), &quot;O2&quot;, &quot;RQ&quot;)) %&gt;%
     filter(variable == &quot;O2&quot;) %&gt;%
     mutate(new_name = factor(str_remove(as.character(new_name), &quot;O2: &quot;),
                              rev(unique(str_remove(as.character(new_name), &quot;O2: &quot;))))) %&gt;%
-    filter(value &gt; -3.2) %&gt;%
-    ggplot(aes(value, new_name, fill = stat(x))) + 
+    mutate(value = value / overall_SD_VO2) %&gt;%
+    ggplot(aes(value, new_name, fill = new_name)) + 
     geom_vline(xintercept = 0, linetype = 2) + 
-    geom_density_ridges_gradient() +
-    scale_fill_viridis_c(option = &quot;C&quot;) +
-    ylab(&quot;Parameter&quot;) +
-    xlab(bquote(&#39;Posterior effect size estimate (&#39;*mm^3~O[2]*&#39;)&#39;)) + 
+    geom_density_ridges(alpha = 0.7) +
+    scale_fill_brewer(palette = &quot;Spectral&quot;) +
+    ylab(&quot;Model parameter&quot;) +
+    xlab(&quot;Effect on O2 consumption (SD)&quot;) + 
     theme_ridges() +
-    theme(legend.position = &quot;none&quot;)
-  
+    theme(legend.position = &quot;none&quot;) +
+    coord_cartesian(xlim = c(-1.4, 1.7))
 }
 
 plotter(avg)</code></pre>
@@ -2180,90 +2159,12 @@ lukeholman
 </table>
 </div>
 </div>
-<!-- Old code chunk for simple brms: -->
-<!-- ```{r eval = FALSE} -->
-<!-- brms_formula <-  -->
-<!--   bf(VO2 ~ SELECTION * SEX * CYCLE +  -->
-<!--        (1 | LINE) + (1 | SAMPLE)) + -->
-<!--   bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),  -->
-<!--      RQ ~ SELECTION * SEX * CYCLE +  -->
-<!--        (1 | LINE) + (1 | SAMPLE), -->
-<!--      nl = TRUE) + -->
-<!--   set_rescor(FALSE) -->
-<!-- brms_simple <- brm( -->
-<!--   brms_formula,   -->
-<!--   data = scaled_data, -->
-<!--   iter = 10000, chains = 4, cores = 1, -->
-<!--   prior = c(prior(normal(0, 3), class = "b", resp = "VO2"), -->
-<!--             prior(normal(0, 3), class = "b", resp = "VCO2", nlpar = "RQ")), -->
-<!--   control = list(max_treedepth = 20, adapt_delta = 0.99) -->
-<!-- ) -->
-<!-- pvalues <- as.data.frame(p_direction(brms_simple)) %>%  -->
-<!--   mutate(Parameter = str_remove_all(Parameter, "b_"), -->
-<!--          Parameter = str_replace_all(Parameter, "[.]", ":"), -->
-<!--          p = 1- pd)  %>% select(Parameter, p) %>% distinct() -->
-<!-- fixef(brms_simple) %>%  -->
-<!--   as.data.frame() %>% -->
-<!--   rownames_to_column("Parameter") %>% -->
-<!--   left_join(pvalues, by = "Parameter") %>% -->
-<!--   mutate(` ` = ifelse(p < 0.05, "\\*", ""), -->
-<!--          ` ` = replace(` `, p > 0.05 & p < 0.1, "~"), -->
-<!--          ` ` = replace(` `, p < 0.01, "**"),  -->
-<!--          ` ` = replace(` `, p < 0.001, "***")) %>% -->
-<!--   mutate(Response = map_chr(strsplit(Parameter, split = "_"), ~ .x[1]), -->
-<!--          Response = str_replace_all(Response, "BODYMASS", "Body mass"), -->
-<!--          Response = str_replace_all(Response, "ACTIVITY", "Activity"), -->
-<!--          Response = str_replace_all(Response, "VCO2", "RQ"), -->
-<!--          Parameter = str_replace_all(Parameter, "BODYMASS", "Body mass"), -->
-<!--          Parameter = str_replace_all(Parameter, "ACTIVITY", "Activity"), -->
-<!--          Parameter = str_remove_all(Parameter, ".+_"), -->
-<!--          Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Polyandry"), -->
-<!--          Parameter = str_replace_all(Parameter, "CYCLEIII", "Cycle III"), -->
-<!--          Parameter = str_replace_all(Parameter, "CYCLEII", "Cycle II"), -->
-<!--          Parameter = str_replace_all(Parameter, "SEXM", "Male"), -->
-<!--          Parameter = str_replace_all(Parameter, ":", " x ")) %>% -->
-<!--   select(Response, Parameter, everything()) %>% -->
-<!--   mutate(Response = factor(Response,  -->
-<!--                            c("VO2", "RQ"))) %>% -->
-<!--   arrange(Response) %>% select(-Response) %>% -->
-<!--   kable(digits = 3) %>% kable_styling() %>% -->
-<!--   group_rows("VO2", 1, 12) %>% -->
-<!--   group_rows("Respiratory quotient (RQ)", 13, 24) -->
-<!-- mean_VO2 <- mean(scaled_data$VO2) -->
-<!-- new <- scaled_data %>% select(SELECTION, SEX, CYCLE) %>%  -->
-<!--   distinct() %>%  -->
-<!--   mutate(VO2 = mean_VO2) %>%  -->
-<!--   mutate(key = paste("V", 1:n(), sep = "")) -->
-<!-- preds_VO2 <- fitted(brms_simple, newdata = new, re_formula = NA, resp = "VO2", summary = FALSE) %>%  -->
-<!--   as.data.frame() %>% -->
-<!--   gather() %>% left_join(new, by = "key") %>% select(-key) %>% mutate(resp = "VO2") %>% -->
-<!--   mutate(SEX = ifelse(SEX =="M", "Male", "Female")) -->
-<!-- preds_RQ <- fitted(brms_simple, newdata = new, re_formula = NA, resp = "VCO2", nlpar = "RQ", summary = FALSE) %>%  -->
-<!--   as.data.frame() %>% -->
-<!--   gather() %>% left_join(new, by = "key") %>% select(-key) %>% -->
-<!--                  mutate(value = 0.7 + 0.3 * inv_logit(value), -->
-<!--                         resp = "RQ") %>% -->
-<!--   mutate(SEX = ifelse(SEX =="M", "Male", "Female")) -->
-<!-- grid.arrange( -->
-<!--   preds_VO2 %>% -->
-<!--     ggplot(aes(CYCLE, value, fill = SELECTION)) +  -->
-<!--     geom_eye(position = position_dodge(0.8), alpha = 0.6) + -->
-<!--     scale_fill_brewer(palette = "Set1", direction = -1, name = "") + -->
-<!--     facet_wrap( ~ SEX, scales = "free_y") +  -->
-<!--     coord_cartesian(ylim = c(1, 11)) + ylab("O2 consumed"), -->
-<!--   preds_RQ %>% -->
-<!--     ggplot(aes(CYCLE, value, fill = SELECTION)) +  -->
-<!--     geom_eye(position = position_dodge(0.8), alpha = 0.6) + -->
-<!--     scale_fill_brewer(palette = "Set1", direction = -1, name = "") + -->
-<!--     facet_wrap( ~ SEX, scales = "free_y") + ylab("RQ") -->
-<!-- ) -->
-<!-- ``` -->
 </div>
 </div>
 <div id="fit-the-brms-structural-equation-model-sem" class="section level2">
 <h2>Fit the <code>brms</code> structural equation model (SEM)</h2>
-<p>This next section fits a more complex version of previous multivariate model, which additionally includes the “mediator variables” (for definition, see e.g. <a href="https://en.wikipedia.org/wiki/Mediation_(statistics)">Wikipedia</a>) body mass and activity. The mediator variables potentially vary between sexes and selection treatments (and cycle, in the case of activity, but not body size), but they also potentially affect the main response variables VO2 and RQ. Therefore, body mass and activity potentially “mediate” the effect of treatment, sex, and cycle on respiration. Using a structural equation model, one can partition an effect (e.g. the effect of treatment on respiration) into the share that is due to mediation vs other processes. For a good introduction to causal inference using Bayesian statistics, see <a href="https://www.youtube.com/watch?v=0Jc6Kgw5qc0&amp;list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&amp;index=7">this video lecture</a> and others in that series.</p>
-<p>Because this extra-complex model takes a while to compute, it is prohibitive to run many models and select among them. We therefore forego a model selection step here, and simply fit the full model and analyse it.</p>
+<p>This next section fits a more complex version of previous multivariate model, which additionally includes the “mediator variables” (for definition, see e.g. <a href="https://en.wikipedia.org/wiki/Mediation_(statistics)">Wikipedia</a>) body mass and activity. The mediator variables potentially vary between sexes and selection treatments (and cycle, in the case of activity, but not body size), but they also potentially affect the main response variables, VO2 and RQ. Therefore, body mass and activity potentially “mediate” the effect of treatment, sex, and cycle on respiration. Using a structural equation model, one can partition an effect (e.g. the effect of treatment on respiration) into the share that is due to mediation vs other processes. For a good introduction to causal inference using Bayesian statistics, see <a href="https://www.youtube.com/watch?v=0Jc6Kgw5qc0&amp;list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&amp;index=7">this video lecture</a> and others in that series.</p>
+<p>To limit the complexity of this already complex analysis, we forego a model selection step and simply fit the full model and analyse it.</p>
 <div id="formulae-in-the-structural-equation-model" class="section level3">
 <h3>Formulae in the structural equation model</h3>
 <p>The SEM contains two additional formulae than the previous model, as well as additional predictor variables.</p>
@@ -2308,7 +2209,7 @@ lukeholman
 # on body size without having three redundant measures of body size (one per cycle). 
 # See ?brmsformula, section beginning &quot;For multivariate models, subset may be used...&quot;
 scaled_data &lt;- scaled_data %&gt;%
-      mutate(body_subset = CYCLE == &quot;I&quot;)
+  mutate(body_subset = CYCLE == &quot;I&quot;)    
 
 if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
   
@@ -2332,8 +2233,8 @@ if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
     bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
          (1 | LINE)) +
     
-    bf(ACTIVITY ~ SELECTION * SEX + CYCLE +   # activity sub-model
-         (1 | LINE) + (1 | SAMPLE), family = &quot;beta&quot;) +
+    bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
+         (1 | LINE) + (1 | SAMPLE)) +   # , family = &quot;beta&quot;
     
     set_rescor(FALSE)
   
@@ -2342,8 +2243,8 @@ if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
     brms_formula,  
     data = scaled_data,
     iter = 10000, chains = 4, cores = 1,
-    prior = prior(normal(0, 3), class = &quot;b&quot;),
-    control = list(max_treedepth = 20, adapt_delta = 0.99)
+    prior = prior(normal(0, 1), class = &quot;b&quot;),
+    control = list(max_treedepth = 20, adapt_delta = 0.999)
   )
   
   saveRDS(brms_SEM, file = &quot;output/brms_SEM.rds&quot;)
@@ -2356,16 +2257,16 @@ if(!file.exists(&quot;output/brms_SEM.rds&quot;)){
 <h3>Inspect the model output</h3>
 <p>Here is the complete output of <code>summary()</code> called on the SEM. Note that the model has converged (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of the parameter estimates (“Estimate” column) are not directly comparable between the response variables.</p>
 <pre class="r"><code>summary(brms_SEM)</code></pre>
-<pre style = "max-height:300px; overflow-y: auto;"> Family: MV(gaussian, gaussian, gaussian, beta) 
+<pre style = "max-height:300px; overflow-y: auto;"> Family: MV(gaussian, gaussian, gaussian, gaussian) 
   Links: mu = identity; sigma = identity
          mu = identity; sigma = identity
          mu = identity; sigma = identity
-         mu = logit; phi = identity 
+         mu = identity; sigma = identity 
 Formula: VO2 ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + SELECTION:BODYMASS + SELECTION:ACTIVITY + SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE) 
          VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)) 
          RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + SELECTION:BODYMASS + SELECTION:ACTIVITY + SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)
          BODYMASS | subset(body_subset) ~ SELECTION * SEX + (1 | LINE) 
-         ACTIVITY ~ SELECTION * SEX + CYCLE + (1 | LINE) + (1 | SAMPLE) 
+         ACTIVITY ~ SELECTION * SEX * CYCLE + (1 | LINE) + (1 | SAMPLE) 
    Data: scaled_data (Number of observations: 144) 
 Samples: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
          total post-warmup samples = 20000
@@ -2373,128 +2274,140 @@ Samples: 4 chains, each with iter = 10000; warmup = 5000; thin = 1;
 Group-Level Effects: 
 ~LINE (Number of levels: 8) 
                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-sd(VO2_Intercept)          0.90      0.55     0.09     2.23 1.00     4466
-sd(VCO2_RQ_Intercept)      0.77      0.51     0.08     2.04 1.00     6701
-sd(BODYMASS_Intercept)     0.61      0.30     0.21     1.38 1.00     4871
-sd(ACTIVITY_Intercept)     0.16      0.13     0.01     0.49 1.00     4563
+sd(VO2_Intercept)          0.57      0.38     0.04     1.50 1.00     2996
+sd(VCO2_RQ_Intercept)      0.68      0.41     0.08     1.67 1.00     5162
+sd(BODYMASS_Intercept)     0.60      0.29     0.20     1.31 1.00     4976
+sd(ACTIVITY_Intercept)     0.25      0.20     0.01     0.74 1.00     2952
                        Tail_ESS
-sd(VO2_Intercept)          5551
-sd(VCO2_RQ_Intercept)      7995
-sd(BODYMASS_Intercept)     7433
-sd(ACTIVITY_Intercept)     9274
+sd(VO2_Intercept)          6093
+sd(VCO2_RQ_Intercept)      4724
+sd(BODYMASS_Intercept)     5656
+sd(ACTIVITY_Intercept)     6416
 
 ~SAMPLE (Number of levels: 48) 
                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-sd(VO2_Intercept)          1.14      0.19     0.80     1.55 1.00     6664
-sd(VCO2_RQ_Intercept)      0.70      0.24     0.24     1.20 1.00     5664
-sd(ACTIVITY_Intercept)     0.48      0.08     0.35     0.64 1.00     7218
+sd(VO2_Intercept)          1.00      0.17     0.70     1.36 1.00     6308
+sd(VCO2_RQ_Intercept)      0.58      0.24     0.11     1.07 1.00     3809
+sd(ACTIVITY_Intercept)     0.62      0.09     0.47     0.81 1.00     6888
                        Tail_ESS
-sd(VO2_Intercept)         11337
-sd(VCO2_RQ_Intercept)      7303
-sd(ACTIVITY_Intercept)    12750
+sd(VO2_Intercept)          9778
+sd(VCO2_RQ_Intercept)      4141
+sd(ACTIVITY_Intercept)    12158
 
 Population-Level Effects: 
-                                    Estimate Est.Error l-95% CI u-95% CI Rhat
-VO2_Intercept                           7.58      0.71     6.21     8.99 1.00
-BODYMASS_Intercept                      0.34      0.38    -0.40     1.09 1.00
-ACTIVITY_Intercept                     -4.24      0.21    -4.65    -3.84 1.00
-VO2_SELECTIONPoly                       0.30      0.98    -1.66     2.19 1.00
-VO2_SEXM                               -1.13      0.82    -2.75     0.49 1.00
-VO2_CYCLEII                            -1.29      0.43    -2.13    -0.46 1.00
-VO2_CYCLEIII                           -1.79      0.43    -2.64    -0.95 1.00
-VO2_BODYMASS                            0.12      0.67    -1.18     1.44 1.00
-VO2_ACTIVITY                            5.32      2.87    -0.24    10.90 1.00
-VO2_SELECTIONPoly:SEXM                  1.02      1.14    -1.20     3.24 1.00
-VO2_SELECTIONPoly:CYCLEII               0.76      0.59    -0.40     1.92 1.00
-VO2_SELECTIONPoly:CYCLEIII              0.05      0.60    -1.13     1.23 1.00
-VO2_SEXM:CYCLEII                        0.14      0.60    -1.04     1.31 1.00
-VO2_SEXM:CYCLEIII                      -0.87      0.60    -2.06     0.29 1.00
-VO2_SELECTIONPoly:BODYMASS              0.07      0.72    -1.35     1.47 1.00
-VO2_SELECTIONPoly:ACTIVITY              3.67      2.91    -2.05     9.38 1.00
-VO2_SEXM:BODYMASS                       0.26      0.58    -0.88     1.39 1.00
-VO2_SEXM:ACTIVITY                       2.49      2.96    -3.33     8.27 1.00
-VO2_SELECTIONPoly:SEXM:CYCLEII         -0.32      0.83    -1.94     1.32 1.00
-VO2_SELECTIONPoly:SEXM:CYCLEIII         0.84      0.83    -0.80     2.45 1.00
-VCO2_RQ_Intercept                       0.07      0.58    -1.08     1.25 1.00
-VCO2_RQ_SELECTIONPoly                   0.02      0.82    -1.61     1.67 1.00
-VCO2_RQ_SEXM                            0.40      0.76    -1.05     1.94 1.00
-VCO2_RQ_CYCLEII                         0.54      0.51    -0.42     1.57 1.00
-VCO2_RQ_CYCLEIII                       -0.36      0.49    -1.36     0.57 1.00
-VCO2_RQ_BODYMASS                        0.34      0.56    -0.77     1.47 1.00
-VCO2_RQ_ACTIVITY                       -1.16      2.83    -6.65     4.36 1.00
-VCO2_RQ_SELECTIONPoly:SEXM              0.19      0.95    -1.71     2.01 1.00
-VCO2_RQ_SELECTIONPoly:CYCLEII          -0.00      0.62    -1.24     1.21 1.00
-VCO2_RQ_SELECTIONPoly:CYCLEIII          1.01      0.65    -0.23     2.31 1.00
-VCO2_RQ_SEXM:CYCLEII                   -0.63      0.77    -2.15     0.88 1.00
-VCO2_RQ_SEXM:CYCLEIII                   0.67      0.91    -1.05     2.57 1.00
-VCO2_RQ_SELECTIONPoly:BODYMASS         -0.15      0.58    -1.29     1.01 1.00
-VCO2_RQ_SELECTIONPoly:ACTIVITY         -1.49      2.85    -7.08     4.08 1.00
-VCO2_RQ_SEXM:BODYMASS                  -0.68      0.46    -1.61     0.23 1.00
-VCO2_RQ_SEXM:ACTIVITY                   0.42      2.96    -5.29     6.31 1.00
-VCO2_RQ_SELECTIONPoly:SEXM:CYCLEII     -0.62      0.94    -2.47     1.21 1.00
-VCO2_RQ_SELECTIONPoly:SEXM:CYCLEIII    -1.86      1.07    -4.03     0.18 1.00
-BODYMASS_SELECTIONPoly                  0.58      0.54    -0.50     1.65 1.00
-BODYMASS_SEXM                          -1.05      0.27    -1.57    -0.51 1.00
-BODYMASS_SELECTIONPoly:SEXM            -0.46      0.38    -1.21     0.29 1.00
-ACTIVITY_SELECTIONPoly                  0.98      0.27     0.45     1.52 1.00
-ACTIVITY_SEXM                           0.19      0.24    -0.29     0.65 1.00
-ACTIVITY_CYCLEII                        0.10      0.09    -0.08     0.28 1.00
-ACTIVITY_CYCLEIII                       0.03      0.09    -0.15     0.21 1.00
-ACTIVITY_SELECTIONPoly:SEXM             0.11      0.32    -0.51     0.75 1.00
-                                    Bulk_ESS Tail_ESS
-VO2_Intercept                          13377    13435
-BODYMASS_Intercept                     15324    12785
-ACTIVITY_Intercept                     16101    14384
-VO2_SELECTIONPoly                      13590    13924
-VO2_SEXM                               12521    14156
-VO2_CYCLEII                            17061    16623
-VO2_CYCLEIII                           17491    15535
-VO2_BODYMASS                           10385    14446
-VO2_ACTIVITY                           45569    13932
-VO2_SELECTIONPoly:SEXM                 10433    14075
-VO2_SELECTIONPoly:CYCLEII              17927    16124
-VO2_SELECTIONPoly:CYCLEIII             17986    16271
-VO2_SEXM:CYCLEII                       17440    16103
-VO2_SEXM:CYCLEIII                      17299    14267
-VO2_SELECTIONPoly:BODYMASS              7988    13391
-VO2_SELECTIONPoly:ACTIVITY             44939    13722
-VO2_SEXM:BODYMASS                      16894    15547
-VO2_SEXM:ACTIVITY                      44474    14896
-VO2_SELECTIONPoly:SEXM:CYCLEII         18242    16391
-VO2_SELECTIONPoly:SEXM:CYCLEIII        17884    16508
-VCO2_RQ_Intercept                      13834    12824
-VCO2_RQ_SELECTIONPoly                  14243    13052
-VCO2_RQ_SEXM                           14429    14529
-VCO2_RQ_CYCLEII                        18937    15284
-VCO2_RQ_CYCLEIII                       21696    16521
-VCO2_RQ_BODYMASS                       14917    14348
-VCO2_RQ_ACTIVITY                       38027    14765
-VCO2_RQ_SELECTIONPoly:SEXM             13085    14382
-VCO2_RQ_SELECTIONPoly:CYCLEII          19232    15344
-VCO2_RQ_SELECTIONPoly:CYCLEIII         21539    16077
-VCO2_RQ_SEXM:CYCLEII                   18440    16064
-VCO2_RQ_SEXM:CYCLEIII                  19896    13667
-VCO2_RQ_SELECTIONPoly:BODYMASS         14203    13794
-VCO2_RQ_SELECTIONPoly:ACTIVITY         38483    14961
-VCO2_RQ_SEXM:BODYMASS                  21813    16141
-VCO2_RQ_SEXM:ACTIVITY                  52827    14484
-VCO2_RQ_SELECTIONPoly:SEXM:CYCLEII     18974    16162
-VCO2_RQ_SELECTIONPoly:SEXM:CYCLEIII    19162    14252
-BODYMASS_SELECTIONPoly                 15655    12051
-BODYMASS_SEXM                          28186    15322
-BODYMASS_SELECTIONPoly:SEXM            28218    15742
-ACTIVITY_SELECTIONPoly                 13180    13382
-ACTIVITY_SEXM                          14091    14960
-ACTIVITY_CYCLEII                       34231    16178
-ACTIVITY_CYCLEIII                      34350    16691
-ACTIVITY_SELECTIONPoly:SEXM            11630    12999
+                                     Estimate Est.Error l-95% CI u-95% CI Rhat
+VO2_Intercept                            7.85      0.50     6.86     8.83 1.00
+BODYMASS_Intercept                       0.39      0.35    -0.29     1.11 1.00
+ACTIVITY_Intercept                      -0.77      0.26    -1.27    -0.25 1.00
+VO2_SELECTIONPoly                        0.11      0.58    -1.04     1.25 1.00
+VO2_SEXM                                -0.67      0.54    -1.71     0.39 1.00
+VO2_CYCLEII                             -1.06      0.33    -1.71    -0.40 1.00
+VO2_CYCLEIII                            -1.66      0.33    -2.30    -1.01 1.00
+VO2_BODYMASS                             0.29      0.45    -0.58     1.17 1.00
+VO2_ACTIVITY                             0.55      0.29    -0.03     1.12 1.00
+VO2_SELECTIONPoly:SEXM                   0.05      0.66    -1.26     1.37 1.00
+VO2_SELECTIONPoly:CYCLEII                0.30      0.44    -0.59     1.16 1.00
+VO2_SELECTIONPoly:CYCLEIII              -0.16      0.44    -1.03     0.70 1.00
+VO2_SEXM:CYCLEII                         0.17      0.44    -0.70     1.02 1.00
+VO2_SEXM:CYCLEIII                       -0.50      0.45    -1.37     0.38 1.00
+VO2_SELECTIONPoly:BODYMASS              -0.20      0.46    -1.10     0.70 1.00
+VO2_SELECTIONPoly:ACTIVITY               0.47      0.33    -0.17     1.12 1.00
+VO2_SEXM:BODYMASS                        0.35      0.44    -0.53     1.22 1.00
+VO2_SEXM:ACTIVITY                        0.52      0.32    -0.11     1.13 1.00
+VO2_SELECTIONPoly:SEXM:CYCLEII          -0.32      0.57    -1.44     0.82 1.00
+VO2_SELECTIONPoly:SEXM:CYCLEIII          0.40      0.58    -0.73     1.53 1.00
+VCO2_RQ_Intercept                        0.04      0.44    -0.82     0.93 1.00
+VCO2_RQ_SELECTIONPoly                    0.20      0.57    -0.93     1.30 1.00
+VCO2_RQ_SEXM                             0.37      0.50    -0.62     1.35 1.00
+VCO2_RQ_CYCLEII                          0.48      0.39    -0.29     1.24 1.00
+VCO2_RQ_CYCLEIII                        -0.09      0.38    -0.84     0.66 1.00
+VCO2_RQ_BODYMASS                         0.16      0.42    -0.67     0.98 1.00
+VCO2_RQ_ACTIVITY                        -0.09      0.33    -0.74     0.56 1.00
+VCO2_RQ_SELECTIONPoly:SEXM               0.00      0.65    -1.28     1.27 1.00
+VCO2_RQ_SELECTIONPoly:CYCLEII            0.03      0.47    -0.88     0.95 1.00
+VCO2_RQ_SELECTIONPoly:CYCLEIII           0.55      0.49    -0.41     1.50 1.00
+VCO2_RQ_SEXM:CYCLEII                    -0.49      0.55    -1.56     0.58 1.00
+VCO2_RQ_SEXM:CYCLEIII                    0.13      0.59    -1.02     1.29 1.00
+VCO2_RQ_SELECTIONPoly:BODYMASS           0.05      0.43    -0.81     0.89 1.00
+VCO2_RQ_SELECTIONPoly:ACTIVITY          -0.31      0.36    -1.02     0.40 1.00
+VCO2_RQ_SEXM:BODYMASS                   -0.54      0.39    -1.31     0.22 1.00
+VCO2_RQ_SEXM:ACTIVITY                    0.29      0.35    -0.41     0.98 1.00
+VCO2_RQ_SELECTIONPoly:SEXM:CYCLEII      -0.57      0.63    -1.81     0.66 1.00
+VCO2_RQ_SELECTIONPoly:SEXM:CYCLEIII     -0.93      0.67    -2.24     0.40 1.00
+BODYMASS_SELECTIONPoly                   0.47      0.46    -0.48     1.34 1.00
+BODYMASS_SEXM                           -1.02      0.25    -1.51    -0.53 1.00
+BODYMASS_SELECTIONPoly:SEXM             -0.45      0.34    -1.13     0.23 1.00
+ACTIVITY_SELECTIONPoly                   1.03      0.35     0.31     1.70 1.00
+ACTIVITY_SEXM                            0.47      0.29    -0.10     1.04 1.00
+ACTIVITY_CYCLEII                         0.19      0.18    -0.17     0.55 1.00
+ACTIVITY_CYCLEIII                        0.24      0.19    -0.13     0.60 1.00
+ACTIVITY_SELECTIONPoly:SEXM             -0.08      0.39    -0.83     0.70 1.00
+ACTIVITY_SELECTIONPoly:CYCLEII           0.10      0.25    -0.39     0.61 1.00
+ACTIVITY_SELECTIONPoly:CYCLEIII         -0.01      0.26    -0.51     0.50 1.00
+ACTIVITY_SEXM:CYCLEII                   -0.48      0.26    -0.98     0.02 1.00
+ACTIVITY_SEXM:CYCLEIII                  -0.68      0.26    -1.17    -0.17 1.00
+ACTIVITY_SELECTIONPoly:SEXM:CYCLEII      0.33      0.35    -0.37     1.00 1.00
+ACTIVITY_SELECTIONPoly:SEXM:CYCLEIII     0.52      0.35    -0.18     1.20 1.00
+                                     Bulk_ESS Tail_ESS
+VO2_Intercept                           10017    11961
+BODYMASS_Intercept                       8668    11025
+ACTIVITY_Intercept                       7381    10683
+VO2_SELECTIONPoly                       11951    13506
+VO2_SEXM                                 9755    13672
+VO2_CYCLEII                             13271    14215
+VO2_CYCLEIII                            12567    14531
+VO2_BODYMASS                             8315    11740
+VO2_ACTIVITY                            12461    14075
+VO2_SELECTIONPoly:SEXM                  10868    12935
+VO2_SELECTIONPoly:CYCLEII               14353    14194
+VO2_SELECTIONPoly:CYCLEIII              14080    15221
+VO2_SEXM:CYCLEII                        12992    14956
+VO2_SEXM:CYCLEIII                       13057    14806
+VO2_SELECTIONPoly:BODYMASS               7620    11330
+VO2_SELECTIONPoly:ACTIVITY              12841    13599
+VO2_SEXM:BODYMASS                       10256    13027
+VO2_SEXM:ACTIVITY                       13974    14209
+VO2_SELECTIONPoly:SEXM:CYCLEII          14905    15352
+VO2_SELECTIONPoly:SEXM:CYCLEIII         15153    15508
+VCO2_RQ_Intercept                        9661    11473
+VCO2_RQ_SELECTIONPoly                   10802    13396
+VCO2_RQ_SEXM                            12761    14250
+VCO2_RQ_CYCLEII                         14820    15530
+VCO2_RQ_CYCLEIII                        15026    15036
+VCO2_RQ_BODYMASS                         9453    11753
+VCO2_RQ_ACTIVITY                        10401    12519
+VCO2_RQ_SELECTIONPoly:SEXM              13221    14611
+VCO2_RQ_SELECTIONPoly:CYCLEII           15028    14487
+VCO2_RQ_SELECTIONPoly:CYCLEIII          15753    14396
+VCO2_RQ_SEXM:CYCLEII                    13824    15479
+VCO2_RQ_SEXM:CYCLEIII                   14868    14176
+VCO2_RQ_SELECTIONPoly:BODYMASS          10220    12735
+VCO2_RQ_SELECTIONPoly:ACTIVITY          11919    13545
+VCO2_RQ_SEXM:BODYMASS                   13513    14513
+VCO2_RQ_SEXM:ACTIVITY                   13616    14878
+VCO2_RQ_SELECTIONPoly:SEXM:CYCLEII      15304    15955
+VCO2_RQ_SELECTIONPoly:SEXM:CYCLEIII     15931    14954
+BODYMASS_SELECTIONPoly                  10060    12034
+BODYMASS_SEXM                           17175    14837
+BODYMASS_SELECTIONPoly:SEXM             16168    13544
+ACTIVITY_SELECTIONPoly                   7020     9479
+ACTIVITY_SEXM                            6526     9168
+ACTIVITY_CYCLEII                        10207    13963
+ACTIVITY_CYCLEIII                       10262    13911
+ACTIVITY_SELECTIONPoly:SEXM              6485     9983
+ACTIVITY_SELECTIONPoly:CYCLEII           9995    13051
+ACTIVITY_SELECTIONPoly:CYCLEIII          9699    13209
+ACTIVITY_SEXM:CYCLEII                   10368    13619
+ACTIVITY_SEXM:CYCLEIII                  10046    13188
+ACTIVITY_SELECTIONPoly:SEXM:CYCLEII      9814    12798
+ACTIVITY_SELECTIONPoly:SEXM:CYCLEIII     9715    13771
 
 Family Specific Parameters: 
                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma_VO2          1.11      0.09     0.95     1.29 1.00    14308    14743
-sigma_VCO2         0.53      0.04     0.46     0.61 1.00    11252    13418
-sigma_BODYMASS     0.66      0.08     0.53     0.85 1.00    18936    13303
-phi_ACTIVITY     152.92     22.80   112.00   201.03 1.00    14884    15792
+sigma_VO2          1.03      0.08     0.89     1.20 1.00    11031    12923
+sigma_VCO2         0.53      0.04     0.46     0.62 1.00     9205    12925
+sigma_BODYMASS     0.66      0.08     0.53     0.83 1.00    14642    11872
+sigma_ACTIVITY     0.50      0.04     0.43     0.58 1.00    12572    14516
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -2511,7 +2424,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
   select(Parameter, p) %&gt;% distinct()
 
 
-fixef(brms_SEM) %&gt;% 
+SEM_fixed_effects &lt;- fixef(brms_SEM) %&gt;% 
   as.data.frame() %&gt;%
   rownames_to_column(&quot;Parameter&quot;) %&gt;%
   left_join(pvalues, by = &quot;Parameter&quot;) %&gt;%
@@ -2534,13 +2447,19 @@ fixef(brms_SEM) %&gt;%
   select(Response, Parameter, everything()) %&gt;%
   mutate(Response = factor(Response, 
                            c(&quot;Activity&quot;, &quot;Body mass&quot;, &quot;VO2&quot;, &quot;RQ&quot;))) %&gt;%
-  arrange(Response) %&gt;% select(-Response) %&gt;%
-  kable(digits = 3) %&gt;% kable_styling() %&gt;%
-  group_rows(&quot;Activity level&quot;, 1, 6) %&gt;%
-  group_rows(&quot;Body mass&quot;, 7, 10) %&gt;%
-  group_rows(&quot;VO2&quot;, 11, 28) %&gt;%
-  group_rows(&quot;Respiratory quotient (RQ)&quot;, 29, 46)</code></pre>
-<table class="table" style="margin-left: auto; margin-right: auto;">
+  arrange(Response) %&gt;% 
+  select(-Response) 
+
+saveRDS(SEM_fixed_effects, &quot;online_supp/SEM_fixed_effects.rds&quot;)
+
+SEM_fixed_effects %&gt;%
+  kable(digits = 3) %&gt;% 
+  kable_styling(full_width = FALSE) %&gt;%
+  group_rows(&quot;Activity level&quot;, 1, 12) %&gt;%
+  group_rows(&quot;Body mass&quot;, 13, 16) %&gt;%
+  group_rows(&quot;VO2&quot;, 17, 34) %&gt;%
+  group_rows(&quot;Respiratory quotient (RQ)&quot;, 35, 52)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -2566,7 +2485,7 @@ p
 </tr>
 </thead>
 <tbody>
-<tr grouplength="6">
+<tr grouplength="12">
 <td colspan="7" style="border-bottom: 1px solid;">
 <strong>Activity level</strong>
 </td>
@@ -2576,22 +2495,22 @@ p
 Intercept
 </td>
 <td style="text-align:right;">
--4.240
+-0.769
 </td>
 <td style="text-align:right;">
-0.207
+0.259
 </td>
 <td style="text-align:right;">
--4.650
+-1.268
 </td>
 <td style="text-align:right;">
--3.838
+-0.252
 </td>
 <td style="text-align:right;">
-0.000
+0.004
 </td>
 <td style="text-align:left;">
-***
+**
 </td>
 </tr>
 <tr>
@@ -2599,19 +2518,19 @@ Intercept
 Polyandry
 </td>
 <td style="text-align:right;">
-0.984
+1.030
 </td>
 <td style="text-align:right;">
-0.274
+0.352
 </td>
 <td style="text-align:right;">
-0.447
+0.311
 </td>
 <td style="text-align:right;">
-1.521
+1.699
 </td>
 <td style="text-align:right;">
-0.001
+0.005
 </td>
 <td style="text-align:left;">
 **
@@ -2622,21 +2541,22 @@ Polyandry
 Male
 </td>
 <td style="text-align:right;">
-0.186
+0.468
 </td>
 <td style="text-align:right;">
-0.241
+0.288
 </td>
 <td style="text-align:right;">
--0.290
+-0.098
 </td>
 <td style="text-align:right;">
-0.647
+1.039
 </td>
 <td style="text-align:right;">
-0.217
+0.053
 </td>
 <td style="text-align:left;">
+~
 </td>
 </tr>
 <tr>
@@ -2644,19 +2564,19 @@ Male
 Cycle II
 </td>
 <td style="text-align:right;">
-0.101
+0.193
 </td>
 <td style="text-align:right;">
-0.090
+0.185
 </td>
 <td style="text-align:right;">
--0.076
+-0.167
 </td>
 <td style="text-align:right;">
-0.276
+0.553
 </td>
 <td style="text-align:right;">
-0.127
+0.147
 </td>
 <td style="text-align:left;">
 </td>
@@ -2666,19 +2586,19 @@ Cycle II
 Cycle III
 </td>
 <td style="text-align:right;">
-0.034
+0.241
 </td>
 <td style="text-align:right;">
-0.091
+0.187
 </td>
 <td style="text-align:right;">
--0.145
+-0.132
 </td>
 <td style="text-align:right;">
-0.214
+0.600
 </td>
 <td style="text-align:right;">
-0.349
+0.100
 </td>
 <td style="text-align:left;">
 </td>
@@ -2688,21 +2608,156 @@ Cycle III
 Polyandry x Male
 </td>
 <td style="text-align:right;">
-0.113
+-0.078
 </td>
 <td style="text-align:right;">
-0.322
+0.389
 </td>
 <td style="text-align:right;">
--0.515
+-0.832
 </td>
 <td style="text-align:right;">
-0.751
+0.696
 </td>
 <td style="text-align:right;">
-0.362
+0.418
 </td>
 <td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle II
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:right;">
+0.254
+</td>
+<td style="text-align:right;">
+-0.389
+</td>
+<td style="text-align:right;">
+0.607
+</td>
+<td style="text-align:right;">
+0.347
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Cycle III
+</td>
+<td style="text-align:right;">
+-0.012
+</td>
+<td style="text-align:right;">
+0.256
+</td>
+<td style="text-align:right;">
+-0.508
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+0.477
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle II
+</td>
+<td style="text-align:right;">
+-0.479
+</td>
+<td style="text-align:right;">
+0.256
+</td>
+<td style="text-align:right;">
+-0.975
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+0.030
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Male x Cycle III
+</td>
+<td style="text-align:right;">
+-0.680
+</td>
+<td style="text-align:right;">
+0.256
+</td>
+<td style="text-align:right;">
+-1.175
+</td>
+<td style="text-align:right;">
+-0.173
+</td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:left;">
+**
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle II
+</td>
+<td style="text-align:right;">
+0.328
+</td>
+<td style="text-align:right;">
+0.349
+</td>
+<td style="text-align:right;">
+-0.374
+</td>
+<td style="text-align:right;">
+1.004
+</td>
+<td style="text-align:right;">
+0.172
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Polyandry x Male x Cycle III
+</td>
+<td style="text-align:right;">
+0.521
+</td>
+<td style="text-align:right;">
+0.352
+</td>
+<td style="text-align:right;">
+-0.182
+</td>
+<td style="text-align:right;">
+1.203
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:left;">
+~
 </td>
 </tr>
 <tr grouplength="4">
@@ -2715,19 +2770,19 @@ Polyandry x Male
 Intercept
 </td>
 <td style="text-align:right;">
-0.345
+0.386
 </td>
 <td style="text-align:right;">
-0.379
+0.352
 </td>
 <td style="text-align:right;">
--0.404
+-0.293
 </td>
 <td style="text-align:right;">
-1.092
+1.113
 </td>
 <td style="text-align:right;">
-0.155
+0.120
 </td>
 <td style="text-align:left;">
 </td>
@@ -2737,19 +2792,19 @@ Intercept
 Polyandry
 </td>
 <td style="text-align:right;">
-0.583
+0.472
 </td>
 <td style="text-align:right;">
-0.542
+0.456
 </td>
 <td style="text-align:right;">
--0.502
+-0.478
 </td>
 <td style="text-align:right;">
-1.650
+1.336
 </td>
 <td style="text-align:right;">
-0.119
+0.138
 </td>
 <td style="text-align:left;">
 </td>
@@ -2759,16 +2814,16 @@ Polyandry
 Male
 </td>
 <td style="text-align:right;">
--1.046
+-1.017
 </td>
 <td style="text-align:right;">
-0.270
+0.251
 </td>
 <td style="text-align:right;">
--1.571
+-1.509
 </td>
 <td style="text-align:right;">
--0.514
+-0.526
 </td>
 <td style="text-align:right;">
 0.000
@@ -2782,21 +2837,22 @@ Male
 Polyandry x Male
 </td>
 <td style="text-align:right;">
--0.462
+-0.449
 </td>
 <td style="text-align:right;">
-0.382
+0.344
 </td>
 <td style="text-align:right;">
--1.215
+-1.132
 </td>
 <td style="text-align:right;">
-0.291
+0.228
 </td>
 <td style="text-align:right;">
-0.110
+0.095
 </td>
 <td style="text-align:left;">
+~
 </td>
 </tr>
 <tr grouplength="18">
@@ -2809,16 +2865,16 @@ Polyandry x Male
 Intercept
 </td>
 <td style="text-align:right;">
-7.582
+7.849
 </td>
 <td style="text-align:right;">
-0.707
+0.502
 </td>
 <td style="text-align:right;">
-6.212
+6.858
 </td>
 <td style="text-align:right;">
-8.985
+8.831
 </td>
 <td style="text-align:right;">
 0.000
@@ -2832,19 +2888,19 @@ Intercept
 Polyandry
 </td>
 <td style="text-align:right;">
-0.295
+0.111
 </td>
 <td style="text-align:right;">
-0.979
+0.583
 </td>
 <td style="text-align:right;">
--1.661
+-1.036
 </td>
 <td style="text-align:right;">
-2.186
+1.248
 </td>
 <td style="text-align:right;">
-0.367
+0.420
 </td>
 <td style="text-align:left;">
 </td>
@@ -2854,22 +2910,21 @@ Polyandry
 Male
 </td>
 <td style="text-align:right;">
--1.135
+-0.670
 </td>
 <td style="text-align:right;">
-0.815
+0.536
 </td>
 <td style="text-align:right;">
--2.754
+-1.714
 </td>
 <td style="text-align:right;">
-0.488
+0.386
 </td>
 <td style="text-align:right;">
-0.082
+0.108
 </td>
 <td style="text-align:left;">
-~
 </td>
 </tr>
 <tr>
@@ -2877,22 +2932,22 @@ Male
 Cycle II
 </td>
 <td style="text-align:right;">
--1.290
+-1.060
 </td>
 <td style="text-align:right;">
-0.428
+0.332
 </td>
 <td style="text-align:right;">
--2.130
+-1.709
 </td>
 <td style="text-align:right;">
--0.459
+-0.400
 </td>
 <td style="text-align:right;">
 0.001
 </td>
 <td style="text-align:left;">
-**
+***
 </td>
 </tr>
 <tr>
@@ -2900,16 +2955,16 @@ Cycle II
 Cycle III
 </td>
 <td style="text-align:right;">
--1.788
+-1.663
 </td>
 <td style="text-align:right;">
-0.429
+0.330
 </td>
 <td style="text-align:right;">
--2.637
+-2.304
 </td>
 <td style="text-align:right;">
--0.945
+-1.010
 </td>
 <td style="text-align:right;">
 0.000
@@ -2923,19 +2978,19 @@ Cycle III
 Body mass
 </td>
 <td style="text-align:right;">
-0.116
+0.290
 </td>
 <td style="text-align:right;">
-0.669
+0.446
 </td>
 <td style="text-align:right;">
--1.184
+-0.582
 </td>
 <td style="text-align:right;">
-1.435
+1.169
 </td>
 <td style="text-align:right;">
-0.433
+0.259
 </td>
 <td style="text-align:left;">
 </td>
@@ -2945,19 +3000,19 @@ Body mass
 Activity
 </td>
 <td style="text-align:right;">
-5.318
+0.548
 </td>
 <td style="text-align:right;">
-2.867
+0.293
 </td>
 <td style="text-align:right;">
--0.235
+-0.029
 </td>
 <td style="text-align:right;">
-10.904
+1.122
 </td>
 <td style="text-align:right;">
-0.031
+0.032
 </td>
 <td style="text-align:left;">
 *
@@ -2968,19 +3023,19 @@ Activity
 Polyandry x Male
 </td>
 <td style="text-align:right;">
-1.024
+0.055
 </td>
 <td style="text-align:right;">
-1.135
+0.664
 </td>
 <td style="text-align:right;">
--1.200
+-1.256
 </td>
 <td style="text-align:right;">
-3.236
+1.369
 </td>
 <td style="text-align:right;">
-0.182
+0.471
 </td>
 <td style="text-align:left;">
 </td>
@@ -2990,22 +3045,21 @@ Polyandry x Male
 Polyandry x Cycle II
 </td>
 <td style="text-align:right;">
-0.763
+0.300
 </td>
 <td style="text-align:right;">
-0.592
+0.444
 </td>
 <td style="text-align:right;">
--0.397
+-0.591
 </td>
 <td style="text-align:right;">
-1.923
+1.163
 </td>
 <td style="text-align:right;">
-0.098
+0.245
 </td>
 <td style="text-align:left;">
-~
 </td>
 </tr>
 <tr>
@@ -3013,19 +3067,19 @@ Polyandry x Cycle II
 Polyandry x Cycle III
 </td>
 <td style="text-align:right;">
-0.053
+-0.164
 </td>
 <td style="text-align:right;">
-0.596
+0.437
 </td>
 <td style="text-align:right;">
--1.133
+-1.026
 </td>
 <td style="text-align:right;">
-1.227
+0.696
 </td>
 <td style="text-align:right;">
-0.464
+0.353
 </td>
 <td style="text-align:left;">
 </td>
@@ -3035,19 +3089,19 @@ Polyandry x Cycle III
 Male x Cycle II
 </td>
 <td style="text-align:right;">
-0.143
+0.169
 </td>
 <td style="text-align:right;">
-0.599
+0.441
 </td>
 <td style="text-align:right;">
--1.042
+-0.701
 </td>
 <td style="text-align:right;">
-1.308
+1.023
 </td>
 <td style="text-align:right;">
-0.403
+0.349
 </td>
 <td style="text-align:left;">
 </td>
@@ -3057,22 +3111,21 @@ Male x Cycle II
 Male x Cycle III
 </td>
 <td style="text-align:right;">
--0.870
+-0.500
 </td>
 <td style="text-align:right;">
-0.596
+0.450
 </td>
 <td style="text-align:right;">
--2.058
+-1.373
 </td>
 <td style="text-align:right;">
-0.288
+0.376
 </td>
 <td style="text-align:right;">
-0.070
+0.132
 </td>
 <td style="text-align:left;">
-~
 </td>
 </tr>
 <tr>
@@ -3080,19 +3133,19 @@ Male x Cycle III
 Polyandry x Body mass
 </td>
 <td style="text-align:right;">
-0.073
+-0.201
 </td>
 <td style="text-align:right;">
-0.721
+0.461
 </td>
 <td style="text-align:right;">
--1.353
+-1.097
 </td>
 <td style="text-align:right;">
-1.473
+0.704
 </td>
 <td style="text-align:right;">
-0.457
+0.333
 </td>
 <td style="text-align:left;">
 </td>
@@ -3102,21 +3155,22 @@ Polyandry x Body mass
 Polyandry x Activity
 </td>
 <td style="text-align:right;">
-3.669
+0.474
 </td>
 <td style="text-align:right;">
-2.907
+0.326
 </td>
 <td style="text-align:right;">
--2.052
+-0.168
 </td>
 <td style="text-align:right;">
-9.380
+1.118
 </td>
 <td style="text-align:right;">
-0.105
+0.072
 </td>
 <td style="text-align:left;">
+~
 </td>
 </tr>
 <tr>
@@ -3124,19 +3178,19 @@ Polyandry x Activity
 Male x Body mass
 </td>
 <td style="text-align:right;">
-0.256
+0.345
 </td>
 <td style="text-align:right;">
-0.576
+0.445
 </td>
 <td style="text-align:right;">
--0.875
+-0.528
 </td>
 <td style="text-align:right;">
-1.392
+1.222
 </td>
 <td style="text-align:right;">
-0.331
+0.218
 </td>
 <td style="text-align:left;">
 </td>
@@ -3146,21 +3200,22 @@ Male x Body mass
 Male x Activity
 </td>
 <td style="text-align:right;">
-2.494
+0.516
 </td>
 <td style="text-align:right;">
-2.956
+0.319
 </td>
 <td style="text-align:right;">
--3.327
+-0.108
 </td>
 <td style="text-align:right;">
-8.273
+1.133
 </td>
 <td style="text-align:right;">
-0.200
+0.052
 </td>
 <td style="text-align:left;">
+~
 </td>
 </tr>
 <tr>
@@ -3168,19 +3223,19 @@ Male x Activity
 Polyandry x Male x Cycle II
 </td>
 <td style="text-align:right;">
--0.323
+-0.321
 </td>
 <td style="text-align:right;">
-0.826
+0.572
 </td>
 <td style="text-align:right;">
--1.945
+-1.437
 </td>
 <td style="text-align:right;">
-1.318
+0.815
 </td>
 <td style="text-align:right;">
-0.347
+0.285
 </td>
 <td style="text-align:left;">
 </td>
@@ -3190,19 +3245,19 @@ Polyandry x Male x Cycle II
 Polyandry x Male x Cycle III
 </td>
 <td style="text-align:right;">
-0.836
+0.397
 </td>
 <td style="text-align:right;">
-0.825
+0.577
 </td>
 <td style="text-align:right;">
--0.796
+-0.733
 </td>
 <td style="text-align:right;">
-2.447
+1.527
 </td>
 <td style="text-align:right;">
-0.155
+0.247
 </td>
 <td style="text-align:left;">
 </td>
@@ -3217,19 +3272,19 @@ Polyandry x Male x Cycle III
 Intercept
 </td>
 <td style="text-align:right;">
-0.069
+0.039
 </td>
 <td style="text-align:right;">
-0.581
+0.444
 </td>
 <td style="text-align:right;">
--1.075
+-0.825
 </td>
 <td style="text-align:right;">
-1.252
+0.934
 </td>
 <td style="text-align:right;">
-0.452
+0.465
 </td>
 <td style="text-align:left;">
 </td>
@@ -3239,19 +3294,19 @@ Intercept
 Polyandry
 </td>
 <td style="text-align:right;">
-0.023
+0.198
 </td>
 <td style="text-align:right;">
-0.817
+0.567
 </td>
 <td style="text-align:right;">
--1.607
+-0.927
 </td>
 <td style="text-align:right;">
-1.674
+1.301
 </td>
 <td style="text-align:right;">
-0.489
+0.358
 </td>
 <td style="text-align:left;">
 </td>
@@ -3261,19 +3316,19 @@ Polyandry
 Male
 </td>
 <td style="text-align:right;">
-0.399
+0.365
 </td>
 <td style="text-align:right;">
-0.759
+0.501
 </td>
 <td style="text-align:right;">
--1.054
+-0.616
 </td>
 <td style="text-align:right;">
-1.937
+1.353
 </td>
 <td style="text-align:right;">
-0.300
+0.234
 </td>
 <td style="text-align:left;">
 </td>
@@ -3283,19 +3338,19 @@ Male
 Cycle II
 </td>
 <td style="text-align:right;">
-0.538
+0.476
 </td>
 <td style="text-align:right;">
-0.506
+0.387
 </td>
 <td style="text-align:right;">
--0.415
+-0.286
 </td>
 <td style="text-align:right;">
-1.571
+1.237
 </td>
 <td style="text-align:right;">
-0.140
+0.106
 </td>
 <td style="text-align:left;">
 </td>
@@ -3305,19 +3360,19 @@ Cycle II
 Cycle III
 </td>
 <td style="text-align:right;">
--0.363
+-0.093
 </td>
 <td style="text-align:right;">
-0.488
+0.383
 </td>
 <td style="text-align:right;">
--1.361
+-0.840
 </td>
 <td style="text-align:right;">
-0.568
+0.658
 </td>
 <td style="text-align:right;">
-0.226
+0.405
 </td>
 <td style="text-align:left;">
 </td>
@@ -3327,19 +3382,19 @@ Cycle III
 Body mass
 </td>
 <td style="text-align:right;">
-0.345
+0.156
 </td>
 <td style="text-align:right;">
-0.563
+0.420
 </td>
 <td style="text-align:right;">
--0.766
+-0.675
 </td>
 <td style="text-align:right;">
-1.467
+0.981
 </td>
 <td style="text-align:right;">
-0.264
+0.352
 </td>
 <td style="text-align:left;">
 </td>
@@ -3349,19 +3404,19 @@ Body mass
 Activity
 </td>
 <td style="text-align:right;">
--1.162
+-0.088
 </td>
 <td style="text-align:right;">
-2.833
+0.328
 </td>
 <td style="text-align:right;">
--6.651
+-0.737
 </td>
 <td style="text-align:right;">
-4.364
+0.564
 </td>
 <td style="text-align:right;">
-0.340
+0.391
 </td>
 <td style="text-align:left;">
 </td>
@@ -3371,19 +3426,19 @@ Activity
 Polyandry x Male
 </td>
 <td style="text-align:right;">
-0.194
+0.001
 </td>
 <td style="text-align:right;">
-0.948
+0.649
 </td>
 <td style="text-align:right;">
--1.706
+-1.280
 </td>
 <td style="text-align:right;">
-2.011
+1.268
 </td>
 <td style="text-align:right;">
-0.408
+0.499
 </td>
 <td style="text-align:left;">
 </td>
@@ -3393,19 +3448,19 @@ Polyandry x Male
 Polyandry x Cycle II
 </td>
 <td style="text-align:right;">
--0.002
+0.025
 </td>
 <td style="text-align:right;">
-0.622
+0.466
 </td>
 <td style="text-align:right;">
--1.235
+-0.879
 </td>
 <td style="text-align:right;">
-1.209
+0.947
 </td>
 <td style="text-align:right;">
-0.497
+0.479
 </td>
 <td style="text-align:left;">
 </td>
@@ -3415,22 +3470,21 @@ Polyandry x Cycle II
 Polyandry x Cycle III
 </td>
 <td style="text-align:right;">
-1.015
+0.551
 </td>
 <td style="text-align:right;">
-0.647
+0.488
 </td>
 <td style="text-align:right;">
--0.225
+-0.415
 </td>
 <td style="text-align:right;">
-2.305
+1.497
 </td>
 <td style="text-align:right;">
-0.055
+0.127
 </td>
 <td style="text-align:left;">
-~
 </td>
 </tr>
 <tr>
@@ -3438,19 +3492,19 @@ Polyandry x Cycle III
 Male x Cycle II
 </td>
 <td style="text-align:right;">
--0.632
+-0.490
 </td>
 <td style="text-align:right;">
-0.770
+0.547
 </td>
 <td style="text-align:right;">
--2.149
+-1.563
 </td>
 <td style="text-align:right;">
-0.878
+0.576
 </td>
 <td style="text-align:right;">
-0.204
+0.184
 </td>
 <td style="text-align:left;">
 </td>
@@ -3460,19 +3514,19 @@ Male x Cycle II
 Male x Cycle III
 </td>
 <td style="text-align:right;">
-0.671
+0.134
 </td>
 <td style="text-align:right;">
-0.907
+0.587
 </td>
 <td style="text-align:right;">
--1.048
+-1.019
 </td>
 <td style="text-align:right;">
-2.566
+1.286
 </td>
 <td style="text-align:right;">
-0.221
+0.407
 </td>
 <td style="text-align:left;">
 </td>
@@ -3482,19 +3536,19 @@ Male x Cycle III
 Polyandry x Body mass
 </td>
 <td style="text-align:right;">
--0.148
+0.047
 </td>
 <td style="text-align:right;">
-0.579
+0.429
 </td>
 <td style="text-align:right;">
--1.287
+-0.805
 </td>
 <td style="text-align:right;">
-1.007
+0.887
 </td>
 <td style="text-align:right;">
-0.394
+0.457
 </td>
 <td style="text-align:left;">
 </td>
@@ -3504,19 +3558,19 @@ Polyandry x Body mass
 Polyandry x Activity
 </td>
 <td style="text-align:right;">
--1.492
+-0.308
 </td>
 <td style="text-align:right;">
-2.851
+0.360
 </td>
 <td style="text-align:right;">
--7.080
+-1.018
 </td>
 <td style="text-align:right;">
-4.078
+0.400
 </td>
 <td style="text-align:right;">
-0.297
+0.194
 </td>
 <td style="text-align:left;">
 </td>
@@ -3526,19 +3580,19 @@ Polyandry x Activity
 Male x Body mass
 </td>
 <td style="text-align:right;">
--0.675
+-0.537
 </td>
 <td style="text-align:right;">
-0.465
+0.388
 </td>
 <td style="text-align:right;">
--1.610
+-1.305
 </td>
 <td style="text-align:right;">
-0.235
+0.223
 </td>
 <td style="text-align:right;">
-0.068
+0.083
 </td>
 <td style="text-align:left;">
 ~
@@ -3549,19 +3603,19 @@ Male x Body mass
 Male x Activity
 </td>
 <td style="text-align:right;">
-0.423
+0.293
 </td>
 <td style="text-align:right;">
-2.957
+0.354
 </td>
 <td style="text-align:right;">
--5.292
+-0.409
 </td>
 <td style="text-align:right;">
-6.307
+0.979
 </td>
 <td style="text-align:right;">
-0.446
+0.204
 </td>
 <td style="text-align:left;">
 </td>
@@ -3571,19 +3625,19 @@ Male x Activity
 Polyandry x Male x Cycle II
 </td>
 <td style="text-align:right;">
--0.619
+-0.569
 </td>
 <td style="text-align:right;">
-0.940
+0.630
 </td>
 <td style="text-align:right;">
--2.471
+-1.806
 </td>
 <td style="text-align:right;">
-1.213
+0.662
 </td>
 <td style="text-align:right;">
-0.254
+0.186
 </td>
 <td style="text-align:left;">
 </td>
@@ -3593,22 +3647,22 @@ Polyandry x Male x Cycle II
 Polyandry x Male x Cycle III
 </td>
 <td style="text-align:right;">
--1.857
+-0.926
 </td>
 <td style="text-align:right;">
-1.074
+0.670
 </td>
 <td style="text-align:right;">
--4.026
+-2.245
 </td>
 <td style="text-align:right;">
-0.180
+0.396
 </td>
 <td style="text-align:right;">
-0.038
+0.085
 </td>
 <td style="text-align:left;">
-*
+~
 </td>
 </tr>
 </tbody>
@@ -3661,294 +3715,209 @@ lukeholman
 <h3>Extract the posterior estimates of the means</h3>
 <p>These are used for plotting the range of means that is supported by the data, given our priors. The posterior estimates show the mean of each group, accounting for all the random effects (i.e. the design of the experiment), the covariance structure of the response variables, etc.</p>
 <p>We will also use these posteriors for hypothesis testing, e.g. to see if the mean body size of the polyandry flies differs from that of monogamy flies, by subtracting one posterior from the other to get the posterior estimate of the <em>difference</em> in means. If most (e.g. &gt;95%) of this posterior difference lies on one side of zero, the two means may be considered ‘significantly different’ as conventionally defined. The magnitude of the difference in means is also an intuitive measure of effect size, and the posterior gives a sense of how precisely we have estimated effect size.</p>
-<!-- ```{r posterior_predictions} -->
-<!-- new <- scaled_data %>% -->
-<!--   select(SELECTION, SEX, CYCLE) %>% -->
-<!--   distinct() %>% -->
-<!--   mutate(body_subset = TRUE) -->
-<!-- # Get the posterior estimate of body weight and activity,  -->
-<!-- # for the 4 combinations of sex and monogamy/polandry treatment -->
-<!-- bodymass <- brms_SEM %>%  -->
-<!--   fitted(new, re_formula = NA,  -->
-<!--          resp = "BODYMASS", summary = FALSE) -->
-<!-- activity <- brms_SEM %>%  -->
-<!--   fitted(new, re_formula = NA,  -->
-<!--          resp = "ACTIVITY", summary = FALSE) -->
-<!-- new <- left_join( -->
-<!--   data.frame(new, t(bodymass)) %>%  -->
-<!--     gather(draw, BODYMASS, starts_with("X")) %>% as_tibble(), -->
-<!--   data.frame(new, t(activity)) %>%  -->
-<!--     gather(draw, ACTIVITY, starts_with("X")) %>% as_tibble(),  -->
-<!--   by = c("SELECTION", "SEX", "CYCLE", "body_subset", "draw")) %>% -->
-<!--   mutate(draw = as.numeric(str_remove_all(draw, "X"))) -->
-<!-- new <- bind_rows( -->
-<!--   new %>% mutate(mediators_blocked = "Activity", -->
-<!--                  ACTIVITY = 0), -->
-<!--   new %>% mutate(mediators_blocked = "Body mass", -->
-<!--                  BODYMASS = 0) %>% -->
-<!--     mutate(VO2 = as.numeric(NA),  -->
-<!--            RQ = as.numeric(NA)) -->
-<!-- ) %>% arrange(draw) -->
-<!-- #  -->
-<!-- # library(future) -->
-<!-- # library(future.apply) -->
-<!-- # plan("multiprocess") -->
-<!-- # 1:5000 -->
-<!-- # 5001:10000 -->
-<!-- # 10001:15000 -->
-<!-- # 15001:20000 -->
-<!-- lapply(1:max(new$draw), function(i){ -->
-<!--   print(i) -->
-<!--   focal <- new[new$draw == i, ] -->
-<!--   focal_draw <- focal$draw[1] -->
-<!--   focal$VO2 <- fitted(brms_SEM, re_formula = NA, resp = "VO2",  -->
-<!--                        newdata = focal, subset = focal_draw)[,1] -->
-<!--   focal$RQ <- fitted(brms_SEM, re_formula = NA, resp = "VCO2", nlpar = "RQ",  -->
-<!--                       newdata = focal, subset = focal_draw)[,1] -->
-<!--   focal %>% saveRDS(glue("output/temp_files/preds_{i}.rds")) -->
-<!--   rm(focal) -->
-<!-- }) -->
-<!-- posterior_predictions <- list.files("output/temp_files", full.names = TRUE) %>% map_df(readRDS) -->
-<!-- #   DO THIS AFTER -->
-<!-- #   (new[1:12, ]) %>% mutate(mediators_blocked = "Both", -->
-<!-- #                            BODYMASS = 0, -->
-<!-- #                            ACTIVITY = 0) -->
-<!-- posterior_predictions <- posterior_predictions %>% mutate(RQ = 0.7 + 0.3 * inv_logit(RQ)) -->
-<!-- # FINISH THIS - OLD VERSION BELOW -->
-<!-- #  -->
-<!-- # posterior_predictions <- new %>% -->
-<!-- #   mutate(chunk = rep(1:(nrow(new) / 1000), each = 1000)) %>% # 720 chunks -->
-<!-- #   split(.$chunk) %>% -->
-<!-- #   map_df(~ { -->
-<!-- #     focal_dat <- .x -->
-<!-- #     print(focal_dat$chunk[1]) -->
-<!-- #     data.frame(.x, fit = fitted(brms_SEM, re_formula = NA, resp = "VO2", newdata = focal_dat)) -->
-<!-- #   }) %>% select(-chunk) %>% -->
-<!-- #   rename(VO2 = fit.Estimate) %>%  -->
-<!-- #   select(-starts_with("fit")) %>%  -->
-<!-- #   as_tibble() -->
-<!-- if(!file.exists("data/posterior_predictions.rds")){ -->
-<!--   # Calculate the posterior VO2 and RQ for the levels of 'new', either by assuming bodysize and acitivity are at their global means, or by using the means we have estimated for each combination of selection, sex, and cycle -->
-<!--   get_post_response <- function(body, act){ -->
-<!--     n_combos <- nrow(new) -->
-<!--     if(!body) bodyweight <- matrix(0, ncol = n_combos, nrow = 1) -->
-<!--     if(!act)  activity <- matrix(0, ncol = n_combos, nrow = 1) -->
-<!--     get_diagonal <- function(mat){ -->
-<!--       if(ncol(mat) == nrow(mat)) return(diag(mat)) -->
-<!--       mat -->
-<!--     } -->
-<!--     VO2_posterior <- map( -->
-<!--       1:n_combos,  -->
-<!--       ~ brms_SEM %>%  -->
-<!--         fitted(data.frame( -->
-<!--           SELECTION = new$SELECTION[.x], -->
-<!--           SEX = new$SEX[.x], -->
-<!--           CYCLE = new$CYCLE[.x], -->
-<!--           BODYMASS = bodymass[, .x],  -->
-<!--           ACTIVITY = activity[, .x]),  -->
-<!--           re_formula = NA, resp = "VO2",  -->
-<!--           summary = FALSE) %>% -->
-<!--         get_diagonal()) %>% -->
-<!--       do.call("cbind", .) -->
-<!--     RQ_posterior <- map( -->
-<!--       1:n_combos,  -->
-<!--       ~ brms_SEM %>%  -->
-<!--         fitted(data.frame( -->
-<!--           SELECTION = new$SELECTION[.x], -->
-<!--           SEX = new$SEX[.x], -->
-<!--           BODYMASS = bodymass[, .x],  -->
-<!--           ACTIVITY = activity[, .x], -->
-<!--           CYCLE = new$CYCLE[.x], -->
-<!--           VO2 = VO2_posterior[, .x]),  -->
-<!--           re_formula = NA, resp = "VCO2",  -->
-<!--           nlpar = "RQ", summary = FALSE) %>% -->
-<!--         get_diagonal()) %>% -->
-<!--       do.call("cbind", .) -->
-<!--     n_draws <- nrow(VO2_posterior) -->
-<!--     posterior <- tibble( -->
-<!--       value = c(VO2_posterior), -->
-<!--       resp = "VO2", -->
-<!--       selection = rep(new$SELECTION, each = n_draws), -->
-<!--       sex = rep(new$SEX, each = n_draws), -->
-<!--       cycle = rep(new$CYCLE, each = n_draws) -->
-<!--     ) %>% bind_rows( -->
-<!--       tibble( -->
-<!--         value = c(RQ_posterior), -->
-<!--         resp = "RQ", -->
-<!--         selection = rep(new$SELECTION, each = n_draws), -->
-<!--         sex = rep(new$SEX, each = n_draws), -->
-<!--         cycle = rep(new$CYCLE, each = n_draws) -->
-<!--       ) -->
-<!--     ) %>% mutate( -->
-<!--       value = ifelse(resp == "RQ",  -->
-<!--                      0.7 + 0.3 * inv_logit(value),  -->
-<!--                      value)) -->
-<!--   } -->
-<!--   posterior_predictions <- list( -->
-<!--     direct_path = get_post_response(body = F, act = F), -->
-<!--     direct_path_plus_bodyweight = get_post_response(body = T, act = F), -->
-<!--     direct_path_plus_activity = get_post_response(body = F, act = T), -->
-<!--     all_paths = get_post_response(body = T, act = T)) -->
-<!--   posterior_predictions <- lapply( -->
-<!--     names(posterior_predictions), function(i) { -->
-<!--       posterior_predictions[[i]] %>% mutate(path = i) -->
-<!--     }) %>% bind_rows() %>% -->
-<!--     mutate(path = factor(path, unique(path))) -->
-<!--   posterior_predictions <- posterior_predictions %>% -->
-<!--     mutate(sex = ifelse(sex == "M", "Male", "Female"), -->
-<!--            sex = factor(sex, c("Male", "Female")), -->
-<!--            path = replace(as.character(path),  -->
-<!--                           path == "direct_path",  -->
-<!--                           "1. Direct effect"), -->
-<!--            path = replace(path,  -->
-<!--                           path == "direct_path_plus_bodyweight",  -->
-<!--                           "2. Direct + body mass"), -->
-<!--            path = replace(path,  -->
-<!--                           path == "direct_path_plus_activity",  -->
-<!--                           "3. Direct + activity level"), -->
-<!--            path = replace(path,  -->
-<!--                           path == "all_paths",  -->
-<!--                           "4. Direct + both mediators"))  -->
-<!--   posterior_predictions %>%  -->
-<!--     saveRDS("data/posterior_predictions.rds") -->
-<!-- } else { -->
-<!--   posterior_predictions <-  -->
-<!--     readRDS("data/posterior_predictions.rds") -->
-<!-- } -->
-<!-- ``` -->
-<!-- ## Effect of selection treatment on mediator variables -->
-<!-- Here, we see that triads of flies from the M and P selection treatments differ strongly in activity levels, and (for females) in body mass. Thus, in subsequent analyses, we attempt to partition out the effect of selection on respiration that is due to the difference in body size, activity, or other unmeasured mediator variables (e.g. physiological differences). -->
-<!-- ```{r} -->
-<!-- parse_mediators <- function(x){ -->
-<!--   var <- x -->
-<!--   x <- get(x) -->
-<!--   colnames(x) <- apply(new[1:12, ], 1, paste0, collapse="~") -->
-<!--   gather(as_tibble(x)) %>% -->
-<!--     mutate(draw = rep(1:(n()/4), 4), -->
-<!--            split = strsplit(key, split = "~"), -->
-<!--            selection = map_chr(split, ~.x[1]), -->
-<!--            sex = map_chr(split, ~.x[2])) %>% -->
-<!--     select(draw, sex, selection, value) %>% -->
-<!--     mutate(mediator = var) -->
-<!-- } -->
-<!-- mediators <- parse_mediators("bodymass") %>% -->
-<!--   bind_rows(parse_mediators("activity")) %>% -->
-<!--   mutate(mediator = factor(mediator, unique(mediator))) %>% -->
-<!--   mutate( -->
-<!--     mediator = replace(as.character(mediator),  -->
-<!--                        mediator == "bodymass",  -->
-<!--                        "A. Body mass"), -->
-<!--     mediator = gsub("activity",  -->
-<!--                     "B. Activity",  -->
-<!--                     mediator), -->
-<!--     Sex = relevel(factor(ifelse(sex == "F",  -->
-<!--                                 "Female",  -->
-<!--                                 "Male")), ref = "Male"), -->
-<!--     selection = ifelse(selection == "Mono",  -->
-<!--                        "Monogamy",  -->
-<!--                        "Polyandry")) -->
-<!-- pd <- position_dodge(0.9) -->
-<!-- mediator_plot <- function(dat){ -->
-<!--   dat  %>% -->
-<!--     ggplot(aes(Sex, value, fill = selection)) + -->
-<!--     scale_fill_brewer(palette = "Set1", direction = -1, name = "") + -->
-<!--     geom_hline(yintercept = 0, linetype = 2) + -->
-<!--     stat_eye (alpha = 0.6, position = pd) +  -->
-<!--     facet_wrap(~ mediator) + -->
-<!--     #coord_cartesian(ylim = c(-2, 2)) + -->
-<!--     theme_bw() +  -->
-<!--     theme(legend.position = "top", -->
-<!--           strip.background = element_blank(), -->
-<!--           strip.text = element_text(hjust = 0), -->
-<!--           panel.grid.major.y = element_blank()) +  -->
-<!--     ylab(NULL) + xlab(NULL)  -->
-<!-- } -->
-<!-- grid.arrange( -->
-<!--   mediators  %>% -->
-<!--     filter(mediator == "A. Body mass") %>% -->
-<!--     mediator_plot() + coord_cartesian(ylim = c(-2.4, 2.8)), -->
-<!--   mediators  %>% -->
-<!--     filter(mediator == "B. Activity") %>% -->
-<!--     mediator_plot() + coord_cartesian(ylim = c(0, 0.1)),  -->
-<!--   ncol = 2, left = "Mean trait value (posterior estimate)", bottom = "Sex") -->
-<!-- ``` -->
-<!-- **Figure 2:** Polyandry females were larger than monogamy females, and polyandry flies of both sexes were more active than monogamy flies. The y-axis shows the posterior estimate of the mean trait value (scaled to have mean zero, SD = 1). The coloured areas show the posterior distribution, the black circles show the median, the thick bars show the 95% credible intervals on the median, and the thin bars show the 95% quantiles of the posterior.  -->
-<!-- ```{r echo=F} -->
-<!-- mediator_plot <- grid.arrange( -->
-<!--   mediators  %>% -->
-<!--     filter(mediator == "A. Body mass") %>% -->
-<!--     mediator_plot() + coord_cartesian(ylim = c(-2.4, 2.8)), -->
-<!--   mediators  %>% -->
-<!--     filter(mediator == "B. Activity") %>% -->
-<!--     mediator_plot() + coord_cartesian(ylim = c(0, 0.1)),  -->
-<!--   ncol = 2, left = "Mean trait value (posterior estimate)", bottom = "Sex") -->
-<!-- ggsave(mediator_plot, filename = "output/Figure 2.pdf", width = 7, height = 4) -->
-<!-- ``` -->
-<!-- ## Effect of selection treatment on respiration -->
-<!-- ### Plot the posterior means for VO2 -->
-<!-- The plot show the model's best estimates of the mean, with the shading showing the posterior distribution of these guesses. The four rows show the effect of: -->
-<!-- - selection on VO2, independently of both mediator variables -->
-<!-- - selection on VO2, independently of activity level but incorporating the mediating effect of body mass -->
-<!-- - selection on VO2, independently of body weight but incorporating the mediating effect of activity level -->
-<!-- - selection on VO2, including the effects of both mediator variables -->
-<!-- ```{r} -->
-<!-- # new one: -->
-<!-- posterior_predictions %>%  -->
-<!--  # filter(!is.na(VO2) & VO2 != 0) %>% -->
-<!--   group_by(mediators_blocked) %>% -->
-<!--   mutate(VO2 = as.numeric(scale(VO2))) %>% -->
-<!--   ggplot(aes(x = CYCLE, y = RQ, fill = SELECTION)) + -->
-<!--   scale_fill_brewer(palette = "Set1", direction = -1, name = NULL) + -->
-<!--   geom_eye (alpha=0.6, .width = c(0.88), position = pd) + -->
-<!-- #  geom_point (alpha=0.6, .width = c(0.88), position = pd) + -->
-<!--  # coord_cartesian(ylim = c(-3.5, 2.8)) + -->
-<!--   facet_grid(mediators_blocked~SEX) +  -->
-<!--   theme_bw() +  -->
-<!--   theme(legend.position = "top", -->
-<!--         panel.grid.major.x = element_blank()) +    -->
-<!--   xlab("Cycle") +  -->
-<!--   ylab("Oxygen consumption (Posterior estimate of mean VO2)")  -->
-<!-- ``` -->
-<!-- ```{r fig.height=11, fig.width=9} -->
-<!-- posterior_predictions %>%  -->
-<!--   filter(resp == "VO2") %>% -->
-<!--   filter(grepl("2.", path) | grepl("4.", path)) %>% -->
-<!--   mutate(path = replace(path, grepl("4.", path), "Effect of treatment")) -->
-<!--   ggplot(aes(x = cycle, y = scale(value), fill = selection)) + -->
-<!--   scale_fill_brewer(palette = "Set1", direction = -1, name = NULL) + -->
-<!--   geom_eye (alpha=0.6, .width = c(0.88), position = pd) + -->
-<!--   coord_cartesian(ylim = c(-3.5, 2.8)) + -->
-<!--   facet_grid(path~sex) +  -->
-<!--   theme_bw() +  -->
-<!--   theme(legend.position = "top", -->
-<!--         panel.grid.major.x = element_blank()) +    -->
-<!--   xlab("Cycle") +  -->
-<!--   ylab("Oxygen consumption (Posterior estimate of mean VO2)")  -->
-<!-- ``` -->
-<!-- ### Plot the posterior means for RQ -->
-<!-- ```{r fig.height=11, fig.width=9} -->
-<!-- posterior_predictions %>% -->
-<!--   filter(resp == "RQ") %>% -->
-<!--   ggplot(aes(x = cycle, y = value, fill = selection)) + -->
-<!--   scale_fill_brewer(palette = "Set1", direction = -1) + -->
-<!--   geom_eye (alpha=0.6, .width = c(0.88), position = pd) + -->
-<!--   facet_grid(path~sex) +  -->
-<!--   theme_bw() +  -->
-<!--   theme(legend.position = "top", -->
-<!--         panel.grid.major.x = element_blank()) +    -->
-<!--   xlab("Cycle") +  -->
-<!--   ylab("RQ (Posterior estimate of group means)") -->
-<!-- ``` -->
+<pre class="r"><code>new &lt;- scaled_data %&gt;%
+  select(SELECTION, SEX, CYCLE) %&gt;%
+  distinct() %&gt;%
+  mutate(body_subset = TRUE)
+
+# Get the posterior estimate of body weight and activity,
+# for the 4 combinations of sex and monogamy/polandry treatment
+bodymass &lt;- brms_SEM %&gt;%
+  fitted(newdata = new, re_formula = NA,
+         resp = &quot;BODYMASS&quot;, summary = FALSE)
+activity &lt;- brms_SEM %&gt;%
+  fitted(newdata = new, re_formula = NA,
+         resp = &quot;ACTIVITY&quot;, summary = FALSE)
+
+new &lt;- left_join(
+  data.frame(new, t(bodymass)) %&gt;%
+    gather(draw, BODYMASS, starts_with(&quot;X&quot;)) %&gt;% as_tibble(),
+  data.frame(new, t(activity)) %&gt;%
+    gather(draw, ACTIVITY, starts_with(&quot;X&quot;)) %&gt;% as_tibble(),
+  by = c(&quot;SELECTION&quot;, &quot;SEX&quot;, &quot;CYCLE&quot;, &quot;body_subset&quot;, &quot;draw&quot;)) %&gt;%
+  mutate(draw = as.numeric(str_remove_all(draw, &quot;X&quot;)))
+
+new &lt;- bind_rows(
+  new %&gt;% mutate(mediators_blocked = &quot;Neither&quot;),
+  new %&gt;% mutate(mediators_blocked = &quot;Activity&quot;,
+                 ACTIVITY = mean(scaled_data$ACTIVITY)),
+  new %&gt;% mutate(mediators_blocked = &quot;Body mass&quot;,
+                 BODYMASS = mean(scaled_data$BODYMASS))
+  ) %&gt;%
+  mutate(VO2 = as.numeric(NA),
+         RQ = as.numeric(NA)) %&gt;% arrange(draw)
+
+
+if(length(list.files(&quot;output/temp_files&quot;, full.names = TRUE)) &lt; 20000){
+  lapply(1:max(new$draw), function(i){
+    print(i)
+    focal &lt;- new[new$draw == i, ]
+    focal_draw &lt;- focal$draw[1]
+    focal$VO2 &lt;- fitted(brms_SEM, re_formula = NA, resp = &quot;VO2&quot;,
+                        newdata = focal, subset = focal_draw)[,1]
+    focal$RQ &lt;- fitted(brms_SEM, re_formula = NA, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;,
+                       newdata = focal, subset = focal_draw)[,1]
+    focal %&gt;% saveRDS(glue(&quot;output/temp_files/preds_{i}.rds&quot;))
+    rm(focal)
+  })
+}
+
+posterior_predictions &lt;- list.files(&quot;output/temp_files&quot;, full.names = TRUE) %&gt;% map_df(readRDS)
+new_both_blocked &lt;-  (new[1:12, ]) %&gt;% mutate(mediators_blocked = &quot;Both&quot;,
+                           BODYMASS = 0,
+                           ACTIVITY = 0) %&gt;%
+  mutate(key = paste(&quot;V&quot;, 1:n(), sep = &quot;&quot;)) %&gt;% select(-RQ, -draw)
+
+posterior_predictions &lt;- posterior_predictions %&gt;%
+  bind_rows(
+    left_join(
+      fitted(brms_SEM, re_formula = NA, resp = &quot;VO2&quot;,
+             newdata = new_both_blocked, summary = FALSE) %&gt;%
+        as.data.frame() %&gt;% mutate(draw = 1:n()) %&gt;% gather(key, VO2_pred, -draw) %&gt;% 
+        left_join(new_both_blocked, by = &quot;key&quot;),
+      fitted(brms_SEM, re_formula = NA, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;,
+             newdata = new_both_blocked, summary = FALSE) %&gt;%
+        as.data.frame() %&gt;% mutate(draw = 1:n()) %&gt;% gather(key, RQ, -draw) %&gt;% 
+        left_join(new_both_blocked, by = &quot;key&quot;), 
+      by = c(&quot;draw&quot;, &quot;key&quot;, &quot;SELECTION&quot;, &quot;SEX&quot;, &quot;CYCLE&quot;, 
+             &quot;body_subset&quot;, &quot;BODYMASS&quot;, &quot;ACTIVITY&quot;, &quot;mediators_blocked&quot;, &quot;VO2&quot;)
+    ) %&gt;% as_tibble() %&gt;% 
+      select(-VO2) %&gt;% rename(VO2 = VO2_pred) %&gt;%
+      select(!! names(posterior_predictions))
+  ) %&gt;% mutate(RQ = 0.7 + 0.3 * inv_logit(RQ))</code></pre>
+</div>
+</div>
+<div id="effect-of-selection-treatment-on-mediator-variables" class="section level2">
+<h2>Effect of selection treatment on mediator variables</h2>
+<p>Here, we see that triads of flies from the M and P selection treatments differ strongly in activity levels, and (for females) in body mass. Thus, in subsequent analyses, we attempt to partition out the effect of selection on respiration that is due to the difference in body size, activity, or other unmeasured mediator variables (e.g. physiological differences).</p>
+<pre class="r"><code>parse_mediators &lt;- function(x){
+  var &lt;- x
+  x &lt;- get(x)
+  ndraws &lt;- nrow(x)
+  colnames(x) &lt;- apply(new[1:12, ], 1, paste0, collapse=&quot;~&quot;)
+  gather(as_tibble(x)) %&gt;%
+    mutate(draw = rep(1:ndraws, 12),
+           split = strsplit(key, split = &quot;~&quot;),
+           SELECTION = map_chr(split, ~.x[1]),
+           CYCLE = map_chr(split, ~.x[3]),
+           SEX = map_chr(split, ~.x[2])) %&gt;%
+    select(draw, SEX, SELECTION, CYCLE, value) %&gt;%
+    mutate(mediator = var)
+}
+
+parsed_bodymass &lt;- parse_mediators(&quot;bodymass&quot;) %&gt;%
+  filter(CYCLE == &quot;I&quot;)
+
+parsed_activity &lt;- parse_mediators(&quot;activity&quot;)
+
+pd &lt;- position_dodge(0.4)
+overall_SD_VO2 &lt;- scaled_data$VO2 %&gt;% sd()
+overall_mean_VO2 &lt;- scaled_data$VO2 %&gt;% mean()
+overall_SD_RQ &lt;- scaled_data$RQ %&gt;% sd()
+overall_mean_RQ &lt;- scaled_data$RQ %&gt;% mean()
+
+
+
+posterior_means_plot &lt;- posterior_predictions %&gt;%
+  select(draw, SELECTION, SEX, CYCLE, VO2, RQ) %&gt;%
+  mutate(VO2 = (VO2 - overall_mean_VO2) / overall_SD_VO2,
+         RQ = (RQ - overall_mean_RQ) / overall_SD_RQ) %&gt;%
+  left_join((parsed_activity) %&gt;% select(-mediator) %&gt;% rename(Activity = value), 
+            by = c(&quot;draw&quot;, &quot;SELECTION&quot;, &quot;SEX&quot;, &quot;CYCLE&quot;)) %&gt;%
+  left_join((parsed_bodymass) %&gt;% select(-mediator, -CYCLE) %&gt;% 
+              rename(`Body mass` = value), 
+            by = c(&quot;draw&quot;, &quot;SELECTION&quot;, &quot;SEX&quot;)) %&gt;%
+  filter(!is.na(Activity)) %&gt;%
+  gather(resp, value, VO2, RQ, Activity, `Body mass`) %&gt;%
+  filter(!(resp == &quot;Body mass&quot; &amp; CYCLE %in% c(&quot;II&quot;, &quot;III&quot;))) %&gt;%
+  mutate(CYCLE = replace(CYCLE, resp == &quot;Body mass&quot;, &quot;All&quot;)) %&gt;%
+  mutate(SEX = factor(ifelse(SEX == &quot;M&quot;, &quot;Males&quot;, &quot;Females&quot;), c(&quot;Males&quot;, &quot;Females&quot;))) %&gt;%
+  mutate(resp = replace(resp, resp == &quot;VO2&quot;, &quot;O2&quot;)) %&gt;%
+  mutate(resp = factor(resp, c(&quot;O2&quot;, &quot;RQ&quot;, &quot;Activity&quot;, &quot;Body mass&quot;))) %&gt;%
+  mutate(SELECTION = ifelse(SELECTION == &quot;Mono&quot;, &quot;Monogamy&quot;, &quot;Polyandry&quot;)) %&gt;%
+  ggplot(aes(CYCLE, value, colour = SELECTION)) + 
+  geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(position = pd, fill = NA, .width = c(0.5, 0.95), alpha = 0.7) + 
+  scale_colour_brewer(palette = &quot;Set1&quot;, direction = -1, name = &quot;&quot;) +
+  theme_bw() + 
+  theme(legend.position = &quot;top&quot;, panel.grid.major.x = element_blank()) + 
+  facet_grid(SEX ~ resp, scales = &quot;free&quot;) +
+  xlab(&quot;Cycle&quot;) + 
+  ylab(&quot;Posterior estimate of the mean&quot;)
+
+posterior_means_plot %&gt;% ggsave(filename = &quot;output/posterior_means_plot.pdf&quot;, width = 6, height = 4.1)
+posterior_means_plot</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><strong>Figure 3:</strong> LEGEND HERE</p>
+</div>
+<div id="effect-of-selection-treatment-on-respiration" class="section level2">
+<h2>Effect of selection treatment on respiration</h2>
+<div id="plot-the-effect-size-for-mp-treatment-on-o2-consumption" class="section level3">
+<h3>Plot the effect size for M/P treatment on O2 consumption</h3>
+<p>The plot show the model’s best estimates of the effect size of the M/P treatment on VO2, defined as the posterior estimate of difference in mean O2 consumption, divided by the standard deviation in O2 consumption (i.e. Cohen’s <span class="math inline">\(d\)</span>). Positive effect size indicates higher O2 consumption in the polyandry treatment compared to the monogamy treatment.</p>
+<p>Effect size was calculated while statistically controlling for one, both, or neither of the two mediator variables (termed “blocking” the mediator variables). Note that the effect size is smaller when activity is controlled for, while controlling for body size had no effect on effect size. Additionally, controlling for activity caused the effect size of the M/P treatment to become statistically indistinguishable from zero. The results therefore indicate that activity mediates most, perhaps all, of the effect of treatment on O2 consumption.</p>
+<pre class="r"><code>mediation_figure_VO2 &lt;- posterior_predictions %&gt;%
+  mutate(mediators_blocked = replace(mediators_blocked, mediators_blocked == &quot;Body mass&quot;, &quot;Body\nmass&quot;)) %&gt;%
+  mutate(mediators_blocked = factor(mediators_blocked, c(&quot;Neither&quot;, &quot;Body\nmass&quot;, &quot;Activity&quot;, &quot;Both&quot;))) %&gt;%
+  mutate(SEX = factor(ifelse(SEX==&quot;M&quot;, &quot;Males&quot;, &quot;Females&quot;), c(&quot;Males&quot;, &quot;Females&quot;))) %&gt;%
+  mutate(CYCLE = paste(&quot;Cycle&quot;, CYCLE)) %&gt;%
+  group_by(draw, SEX, CYCLE, mediators_blocked) %&gt;%
+  summarise(VO2_effect = (VO2[SELECTION == &quot;Poly&quot;] - VO2[SELECTION == &quot;Mono&quot;]) / overall_SD_VO2) %&gt;%
+  ungroup() %&gt;% 
+  ggplot(aes(x = mediators_blocked, 
+             y = VO2_effect)) + 
+  geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(point_size = 4) + 
+  facet_grid(SEX ~ CYCLE) +
+ # coord_cartesian(ylim = c(-1.2, 2.4)) +
+  ylab(&quot;Effect size of polyandry treatment\non O2 consumption (Cohen&#39;s d)&quot;) + 
+  xlab(&quot;Mediator variables that were controlled for&quot;)  +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+mediation_figure_VO2 %&gt;% ggsave(filename = &quot;output/mediation_figure_VO2.pdf&quot;, height=4.7, width=8)
+
+mediation_figure_VO2</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><strong>Figure S2</strong>: LEGEND HERE</p>
+</div>
+<div id="plot-the-effect-size-for-mp-treatment-on-rq" class="section level3">
+<h3>Plot the effect size for M/P treatment on RQ</h3>
+<p>Equivalent plot, for RQ. Positive effect size indicates higher RQ (i.e. more carbohydrate metabolism and/or less lipid metabolism) in the polyandry treatment compared to the monogamy treatment.</p>
+<p>Note that there is little evidence for an effect of treatment on RQ, except perhaps in Cycle III in females. However, we were not able to measure the effect of treatment on RQ with sufficient precision to rule out the existence of a large effect.</p>
+<pre class="r"><code>mediation_figure_RQ &lt;- posterior_predictions %&gt;%
+  mutate(mediators_blocked = factor(mediators_blocked, c(&quot;Neither&quot;, &quot;Body mass&quot;, &quot;Activity&quot;, &quot;Both&quot;))) %&gt;%
+  mutate(SEX = factor(ifelse(SEX==&quot;M&quot;, &quot;Males&quot;, &quot;Females&quot;), c(&quot;Males&quot;, &quot;Females&quot;))) %&gt;%
+  mutate(CYCLE = paste(&quot;Cycle&quot;, CYCLE)) %&gt;%
+  group_by(draw, SEX, CYCLE, mediators_blocked) %&gt;%
+  summarise(RQ_effect = (RQ[SELECTION == &quot;Poly&quot;] - RQ[SELECTION == &quot;Mono&quot;]) / overall_SD_RQ) %&gt;%
+  ungroup() %&gt;% 
+  ggplot(aes(x = mediators_blocked, 
+             y = RQ_effect)) + 
+  geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(point_size = 4) + 
+  facet_grid(SEX ~ CYCLE) +
+  ylab(&quot;Effect size of polyandry treatment\non RQ (Cohen&#39;s d)&quot;) + 
+  xlab(&quot;Mediator variables that were controlled for&quot;)  +
+  theme_bw() +
+  theme(legend.position = &quot;none&quot;)
+
+mediation_figure_RQ %&gt;% ggsave(filename = &quot;output/mediation_figure_RQ.pdf&quot;, height=4.7, width=8)
+
+mediation_figure_RQ</code></pre>
+<p><img src="figure/statistics.Rmd/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><strong>Figure S3</strong>: LEGEND HERE</p>
 <!-- ## Table of posterior means {.tabset} -->
 <!-- These tables show the mean values of VO2 and RQ in each treatment/cycle/sex combination. -->
 <!-- ```{r} -->
 <!-- tableS1_S2 <- posterior_predictions %>% -->
-<!--   group_by(resp, path, cycle, sex, selection) %>% -->
+<!--   gather(resp, value, VO2, RQ) %>% -->
+<!--   group_by(resp, mediators_blocked, CYCLE, SEX, SELECTION) %>% -->
 <!--   summarise(x = list(posterior_summary(value))) %>% -->
 <!--   mutate(Estimate = map_dbl(x, ~ .x[1]), -->
 <!--          Error = map_dbl(x, ~ .x[2]), -->
 <!--          Lower95CI = map_dbl(x, ~ .x[3]), -->
-<!--          Upper95CI = map_dbl(x, ~ .x[4])) %>%  -->
+<!--          Upper95CI = map_dbl(x, ~ .x[4])) %>% -->
 <!--   select(-x) %>% ungroup() -->
 <!-- tableS1 <- tableS1_S2 %>% -->
 <!--   filter(resp == "VO2") %>% -->
@@ -3970,32 +3939,133 @@ lukeholman
 <!-- ## Tables of posterior differences between selection treatments -->
 <!-- The table tests for differences between the M and P treatments in VO2 and RQ. It was calculated as the difference in mean VO2 or RQ between M and P, either alone, or including one or both of the two mediator variables (body size and activity level). The comparison was made separately in each sex/cycle combination. The biggest effect is on males in cycle III: the M males are less active, and therefore they respire less -- there was no evidence for a treatment effect unless the effect of selection on activity level was considered. There were no treatment effects on RQ. -->
 <!-- ```{r make_posterior_diff_table} -->
-<!-- my_summary <- function(posterior) {  -->
-<!--   p <- (100 - as.numeric(p_direction(posterior))) / 100  -->
-<!--   posterior_summary(posterior) %>%   -->
-<!--     as.data.frame() %>%  -->
+<!-- my_summary <- function(posterior) { -->
+<!--   p <- (100 - as.numeric(p_direction(posterior))) / 100 -->
+<!--   posterior_summary(posterior) %>% -->
+<!--     as.data.frame() %>% -->
 <!--     mutate(p = p) %>% -->
 <!--     mutate(` ` = ifelse(p < 0.05, "\\*", ""), -->
 <!--            ` ` = replace(` `, p > 0.05 & p < 0.1, "~"), -->
-<!--            ` ` = replace(` `, p < 0.01, "**"),  -->
-<!--            ` ` = replace(` `, p < 0.001, "***"))  -->
-<!-- }  -->
+<!--            ` ` = replace(` `, p < 0.01, "**"), -->
+<!--            ` ` = replace(` `, p < 0.001, "***")) -->
+<!-- } -->
 <!-- make_posterior_diff_table <- function(posterior_predictions){ -->
 <!--   posterior_differences <- posterior_predictions %>% -->
 <!--     group_by(resp, path, sex, cycle) %>% -->
 <!--     summarise(x = list(my_summary( -->
-<!--       value[selection=="Mono"] -  -->
-<!--         value[selection=="Poly"])))  -->
+<!--       value[selection=="Mono"] - -->
+<!--         value[selection=="Poly"]))) -->
 <!--   bind_cols( -->
-<!--     posterior_differences[,-5],  -->
+<!--     posterior_differences[,-5], -->
 <!--     do.call("rbind", posterior_differences %>% pull(5)))  %>% -->
-<!--     arrange(desc(resp))  -->
+<!--     arrange(desc(resp)) -->
 <!-- } -->
-<!-- posterior_differences <- posterior_predictions %>%  -->
+<!-- posterior_differences <- posterior_predictions %>% -->
 <!--   make_posterior_diff_table() -->
-<!-- posterior_differences %>%  -->
-<!--   kable(digits=3) %>%  -->
+<!-- posterior_differences %>% -->
+<!--   kable(digits=3) %>% -->
 <!--   kable_styling() -->
+<!-- ``` -->
+<!-- # FINISH THIS - OLD VERSION BELOW -->
+<!-- # posterior_predictions <- new %>% -->
+<!-- #   mutate(chunk = rep(1:(nrow(new) / 1000), each = 1000)) %>% # 720 chunks -->
+<!-- #   split(.$chunk) %>% -->
+<!-- #   map_df(~ { -->
+<!-- #     focal_dat <- .x -->
+<!-- #     print(focal_dat$chunk[1]) -->
+<!-- #     data.frame(.x, fit = fitted(brms_SEM, re_formula = NA, resp = "VO2", newdata = focal_dat)) -->
+<!-- #   }) %>% select(-chunk) %>% -->
+<!-- #   rename(VO2 = fit.Estimate) %>% -->
+<!-- #   select(-starts_with("fit")) %>% -->
+<!-- #   as_tibble() -->
+<!-- if(!file.exists("data/posterior_predictions.rds")){ -->
+<!--   # Calculate the posterior VO2 and RQ for the levels of 'new', either by assuming bodysize and acitivity are at their global means, or by using the means we have estimated for each combination of selection, sex, and cycle -->
+<!--   get_post_response <- function(body, act){ -->
+<!--     n_combos <- nrow(new) -->
+<!--     if(!body) bodyweight <- matrix(0, ncol = n_combos, nrow = 1) -->
+<!--     if(!act)  activity <- matrix(0, ncol = n_combos, nrow = 1) -->
+<!--     get_diagonal <- function(mat){ -->
+<!--       if(ncol(mat) == nrow(mat)) return(diag(mat)) -->
+<!--       mat -->
+<!--     } -->
+<!--     VO2_posterior <- map( -->
+<!--       1:n_combos, -->
+<!--       ~ brms_SEM %>% -->
+<!--         fitted(data.frame( -->
+<!--           SELECTION = new$SELECTION[.x], -->
+<!--           SEX = new$SEX[.x], -->
+<!--           CYCLE = new$CYCLE[.x], -->
+<!--           BODYMASS = bodymass[, .x], -->
+<!--           ACTIVITY = activity[, .x]), -->
+<!--           re_formula = NA, resp = "VO2", -->
+<!--           summary = FALSE) %>% -->
+<!--         get_diagonal()) %>% -->
+<!--       do.call("cbind", .) -->
+<!--     RQ_posterior <- map( -->
+<!--       1:n_combos, -->
+<!--       ~ brms_SEM %>% -->
+<!--         fitted(data.frame( -->
+<!--           SELECTION = new$SELECTION[.x], -->
+<!--           SEX = new$SEX[.x], -->
+<!--           BODYMASS = bodymass[, .x], -->
+<!--           ACTIVITY = activity[, .x], -->
+<!--           CYCLE = new$CYCLE[.x], -->
+<!--           VO2 = VO2_posterior[, .x]), -->
+<!--           re_formula = NA, resp = "VCO2", -->
+<!--           nlpar = "RQ", summary = FALSE) %>% -->
+<!--         get_diagonal()) %>% -->
+<!--       do.call("cbind", .) -->
+<!--     n_draws <- nrow(VO2_posterior) -->
+<!--     posterior <- tibble( -->
+<!--       value = c(VO2_posterior), -->
+<!--       resp = "VO2", -->
+<!--       selection = rep(new$SELECTION, each = n_draws), -->
+<!--       sex = rep(new$SEX, each = n_draws), -->
+<!--       cycle = rep(new$CYCLE, each = n_draws) -->
+<!--     ) %>% bind_rows( -->
+<!--       tibble( -->
+<!--         value = c(RQ_posterior), -->
+<!--         resp = "RQ", -->
+<!--         selection = rep(new$SELECTION, each = n_draws), -->
+<!--         sex = rep(new$SEX, each = n_draws), -->
+<!--         cycle = rep(new$CYCLE, each = n_draws) -->
+<!--       ) -->
+<!--     ) %>% mutate( -->
+<!--       value = ifelse(resp == "RQ", -->
+<!--                      0.7 + 0.3 * inv_logit(value), -->
+<!--                      value)) -->
+<!--   } -->
+<!--   posterior_predictions <- list( -->
+<!--     direct_path = get_post_response(body = F, act = F), -->
+<!--     direct_path_plus_bodyweight = get_post_response(body = T, act = F), -->
+<!--     direct_path_plus_activity = get_post_response(body = F, act = T), -->
+<!--     all_paths = get_post_response(body = T, act = T)) -->
+<!--   posterior_predictions <- lapply( -->
+<!--     names(posterior_predictions), function(i) { -->
+<!--       posterior_predictions[[i]] %>% mutate(path = i) -->
+<!--     }) %>% bind_rows() %>% -->
+<!--     mutate(path = factor(path, unique(path))) -->
+<!--   posterior_predictions <- posterior_predictions %>% -->
+<!--     mutate(sex = ifelse(sex == "M", "Male", "Female"), -->
+<!--            sex = factor(sex, c("Male", "Female")), -->
+<!--            path = replace(as.character(path), -->
+<!--                           path == "direct_path", -->
+<!--                           "1. Direct effect"), -->
+<!--            path = replace(path, -->
+<!--                           path == "direct_path_plus_bodyweight", -->
+<!--                           "2. Direct + body mass"), -->
+<!--            path = replace(path, -->
+<!--                           path == "direct_path_plus_activity", -->
+<!--                           "3. Direct + activity level"), -->
+<!--            path = replace(path, -->
+<!--                           path == "all_paths", -->
+<!--                           "4. Direct + both mediators")) -->
+<!--   posterior_predictions %>% -->
+<!--     saveRDS("data/posterior_predictions.rds") -->
+<!-- } else { -->
+<!--   posterior_predictions <- -->
+<!--     readRDS("data/posterior_predictions.rds") -->
+<!-- } -->
 <!-- ``` -->
 <br>
 <p>
@@ -4017,34 +4087,38 @@ locale:
 [1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
 
 attached base packages:
-[1] stats     graphics  grDevices utils     datasets  methods   base     
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
 
 other attached packages:
- [1] knitrhooks_0.0.4   knitr_1.28         future.apply_1.4.0 future_1.16.0     
- [5] ggridges_0.5.2     MuMIn_1.43.15      bayestestR_0.5.1   tidybayes_2.0.1   
- [9] kableExtra_1.1.0   glue_1.3.1         RColorBrewer_1.1-2 brms_2.11.1       
-[13] Rcpp_1.0.3         gridExtra_2.3      forcats_0.4.0      stringr_1.4.0     
-[17] dplyr_0.8.4        purrr_0.3.3        readr_1.3.1        tidyr_1.0.2       
-[21] tibble_2.1.3       ggplot2_3.2.1      tidyverse_1.3.0    workflowr_1.6.0   
+ [1] formattable_0.2.0.1 knitrhooks_0.0.4    knitr_1.28         
+ [4] GGally_1.4.0        future.apply_1.4.0  future_1.16.0      
+ [7] ggridges_0.5.2      MuMIn_1.43.15       bayestestR_0.5.1   
+[10] tidybayes_2.0.1     kableExtra_1.1.0    glue_1.3.1         
+[13] RColorBrewer_1.1-2  brms_2.12.0         Rcpp_1.0.3         
+[16] gridExtra_2.3       forcats_0.4.0       stringr_1.4.0      
+[19] dplyr_0.8.4         purrr_0.3.3         readr_1.3.1        
+[22] tidyr_1.0.2         tibble_2.1.3        ggplot2_3.3.0      
+[25] tidyverse_1.3.0     workflowr_1.6.0    
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.5      plyr_1.8.5          
-  [4] igraph_1.2.4.2       lazyeval_0.2.2       splines_3.6.2       
-  [7] svUnit_0.7-12        crosstalk_1.0.0      listenv_0.8.0       
- [10] rstantools_2.0.0     inline_0.3.15        digest_0.6.23       
- [13] htmltools_0.4.0      rsconnect_0.8.16     fansi_0.4.1         
- [16] magrittr_1.5         globals_0.12.5       modelr_0.1.5        
- [19] matrixStats_0.55.0   xts_0.12-0           prettyunits_1.1.1   
- [22] colorspace_1.4-1     rvest_0.3.5          haven_2.2.0         
- [25] xfun_0.12            callr_3.4.1          crayon_1.3.4        
- [28] jsonlite_1.6.1       lme4_1.1-21          zoo_1.8-7           
- [31] gtable_0.3.0         webshot_0.5.2        pkgbuild_1.0.6      
- [34] rstan_2.19.2         abind_1.4-5          scales_1.1.0        
- [37] mvtnorm_1.0-12       DBI_1.1.0            miniUI_0.1.1.1      
- [40] viridisLite_0.3.0    xtable_1.8-4         stats4_3.6.2        
- [43] StanHeaders_2.21.0-1 DT_0.12              htmlwidgets_1.5.1   
- [46] httr_1.4.1           threejs_0.3.3        DiagrammeR_1.0.5    
- [49] arrayhelpers_1.1-0   ellipsis_0.3.0       pkgconfig_2.0.3     
+  [4] igraph_1.2.4.2       splines_3.6.2        svUnit_0.7-12       
+  [7] crosstalk_1.0.0      listenv_0.8.0        rstantools_2.0.0    
+ [10] inline_0.3.15        digest_0.6.23        htmltools_0.4.0     
+ [13] rsconnect_0.8.16     fansi_0.4.1          magrittr_1.5        
+ [16] globals_0.12.5       modelr_0.1.5         matrixStats_0.55.0  
+ [19] xts_0.12-0           prettyunits_1.1.1    colorspace_1.4-1    
+ [22] rvest_0.3.5          haven_2.2.0          xfun_0.12           
+ [25] callr_3.4.1          crayon_1.3.4         jsonlite_1.6.1      
+ [28] lme4_1.1-21          zoo_1.8-7            gtable_0.3.0        
+ [31] webshot_0.5.2        pkgbuild_1.0.6       rstan_2.19.2        
+ [34] abind_1.4-5          scales_1.1.0         mvtnorm_1.0-12      
+ [37] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0   
+ [40] xtable_1.8-4         stats4_3.6.2         StanHeaders_2.21.0-1
+ [43] DT_0.12              htmlwidgets_1.5.1    httr_1.4.1          
+ [46] threejs_0.3.3        DiagrammeR_1.0.5     arrayhelpers_1.1-0  
+ [49] ellipsis_0.3.0       pkgconfig_2.0.3      reshape_0.8.8       
  [52] loo_2.2.0            farver_2.0.3         dbplyr_1.4.2        
  [55] tidyselect_1.0.0     labeling_0.3         rlang_0.4.4         
  [58] reshape2_1.4.3       later_1.0.0          munsell_0.5.0       
@@ -4064,9 +4138,9 @@ loaded via a namespace (and not attached):
 [100] MASS_7.3-51.5        colourpicker_1.0     gtools_3.8.1        
 [103] assertthat_0.2.1     rprojroot_1.3-2      withr_2.1.2         
 [106] shinystan_2.5.0      parallel_3.6.2       hms_0.5.3           
-[109] grid_3.6.2           minqa_1.2.4          coda_0.19-3         
-[112] rmarkdown_2.1        git2r_0.26.1         shiny_1.4.0         
-[115] lubridate_1.7.4      base64enc_0.1-3      dygraphs_1.1.1.6    
+[109] minqa_1.2.4          coda_0.19-3          rmarkdown_2.1       
+[112] git2r_0.26.1         shiny_1.4.0          lubridate_1.7.4     
+[115] base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
 </div>
