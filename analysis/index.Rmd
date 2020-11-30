@@ -14,7 +14,7 @@ The following website details the statistical analysis for the forthcoming paper
 
 ### [2. Desiccation and starvation resistance](resistance.html)
 
-### [3. Respirometry](experimental_evolution.html)
+### [3. Respirometry](respirometry.html)
 
 ### [4. Metabolites](metabolites.html)
 
