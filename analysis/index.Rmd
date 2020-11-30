@@ -10,11 +10,11 @@ editor_options:
 
 The following website details the statistical analysis for the forthcoming paper "TITLE HERE" by Garlovsky et al.
 
-### [1. Analysis of **juvenile development time**](juvenile_development.html)
+### [1. Juvenile development time](juvenile_development.html)
 
-### [2. Analysis of **desiccation and starvation resistance**](resistance.html)
+### [2. Desiccation and starvation resistance](resistance.html)
 
-### [3. Analysis of **experimental evolution of metabolism**](experimental_evolution.html)
+### [3. Respirometry](experimental_evolution.html)
 
-### [4. Analysis of **experimental evolution of metabolites**](metabolites.html)
+### [4. Metabolites](metabolites.html)
 
