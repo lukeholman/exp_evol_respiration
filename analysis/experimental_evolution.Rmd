@@ -117,7 +117,7 @@ pairs_plot %>% ggsave(filename = "output/pairs_plot.pdf", height = 10, width = 1
 pairs_plot
 ```
 
-**Figure 2:** Boxplots, scatterplots, and density plots illustrating the variance and covariance among the explanatory variables (Treatment, Sex, and Cycle) and the five response variables. The data are coloured by treatment (red for polyandry, blue for monogamy). The plot shows the raw data in their original units, namely the number of mm of O2 consumed or CO2 produced, the % time spent active, and the mass of the fly in milligrams (RQ is a ratio and thus has no units). Note that RQ has as expected range of 0.7-1.0 because of the chemistry of respiration, but values outside this range often occur due to measurement error for O2 and/or CO2. 
+**Figure 2:** Boxplots, scatterplots, and density plots illustrating the variance and covariance among the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O_2 consumed or CO_2 produced, the % time spent active, and the mass of the fly in milligrams; the resporatory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but values outside this range can occur when there is sampling/measurement error for O_2 and/or CO_2. 
 
 ## Fit the first `brms` models, ignoring the moderator variables
 
@@ -319,7 +319,7 @@ if(!file.exists("data/model_selection_table.rds")){
   names(resp_model_weights) <- out_files[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))]
   names(resp_model_weights) <- all_formulas[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))]
   
-  ction_table <- enframe(resp_model_weights, name = "Model", value = "LOO model weight") %>%
+  model_selection_table <- enframe(resp_model_weights, name = "Model", value = "LOO model weight") %>%
     arrange(-`LOO model weight`) %>%
     mutate(Model = str_remove_all(Model, " \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\)\\) \\+ bf\\("),
            Model = str_remove_all(Model, "bf\\("),

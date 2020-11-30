@@ -10,6 +10,11 @@ editor_options:
 
 The following website details the statistical analysis for the forthcoming paper "TITLE HERE" by Garlovsky et al.
 
-Click [here](statistics.html) for the analysis of the respirometry data.
+### [1. Analysis of **Juvenile Development time**](juvenile_development.html)
 
-More pages here...
+### [2. Analysis of **desiccation and starvation resistance**](resistance.html)
+
+### [3. Analysis of **experimental evolution of metabolism**](experimental_evolution.html)
+
+### [4. Analysis of **experimental evolution of metabolites**](metabolites.html)
+
