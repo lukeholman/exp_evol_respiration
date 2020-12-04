@@ -31,9 +31,6 @@ output_max_height() # a knitrhook option
 options(stringsAsFactors = FALSE)
 ```
 
-Here we investigated whether there was an effect of treatment of survival time under starvation or desiccation. Single sex triads of flies were housed in vials containing ... Vials were monitored every hour/two hours until all flies had died thus all events were observed... Probably some correct terminology here.
-
-
 
 ## Load data
 ```{r}
