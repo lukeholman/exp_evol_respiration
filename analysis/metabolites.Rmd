@@ -1,15 +1,492 @@
 ---
-title: "metabolites"
-author: "lukeholman"
-date: "2020-11-30"
-output: workflowr::wflow_html
+title: "Metabolic rates"
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
 editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+## Load packages
 
 ```{r}
+library(tidyverse)
+library(GGally)
+library(gridExtra)
+library(ggridges)
+
+library(nlme)
+library(brms)
+library(tidybayes)
+
+library(kableExtra)
+library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+
+output_max_height() # a knitrhook option
+
+options(stringsAsFactors = FALSE)
+```
+
+## Load metabolite composition data
+
+This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the weights of five metabolites which together equal the dry weight. These are:
+
+- `Lipid_conc` (i.e. the weight of the hexane fraction, divided by the full dry weight), 
+- `Carbohydrate_conc` (i.e. the weight of the aqueous fraction, divided by the full dry weight), 
+- `Protein_conc` (i.e. $\mu$g of protein per milligram as measured by the bicinchoninic acid protein assay),
+- `Glycogen_conc` (), and 
+- `Chitin_conc` ()
+
+We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Larger flies will have more lipids, carbs, etc., and this may vary by sex and treatment both directly and indirectly.
+
+
+```{r}
+metabolites <- read_csv('data/3.metabolite_data.csv') %>%
+  mutate(sex = ifelse(sex == "m", "Male", "Female"),
+         treatment = ifelse(treatment == "M", "Monogamy", "Polyandry")) %>%
+  # set "sum" coding for contrasts for "line", since there is no meaningful "control line"
+  mutate(line = C(factor(line), "contr.sum")) %>%  
+  # log transform glycogen since it shows a long tail (others are reasonably normal-looking)
+  mutate(Glycogen_ug_mg = log(Glycogen_ug_mg)) %>%
+  # There was a technical error with the flies collected on day 1, so they are excluded from the whole paper. All measurements are of 3d-old flies
+  filter(time == '2') 
+
+scaled_metabolites <- metabolites %>% 
+  # Find proportional metabolites as a proportion of total dry weight
+  mutate(
+    Dry_weight = dwt_mg,
+    Lipid_conc = Hex_frac / Dry_weight,
+    Carbohydrate_conc = Aq_frac / Dry_weight,
+    Protein_conc = Protein_ug_mg,
+    Glycogen_conc = Glycogen_ug_mg,
+    Chitin_conc = Chitin_mg_mg
+  ) %>% 
+  select(sex, treatment, line, Dry_weight, ends_with("conc")) %>%
+  mutate_at(vars(ends_with("conc")), ~ as.numeric(scale(.x))) %>%
+  mutate(sextreat = paste(sex, treatment),
+         sextreat = replace(sextreat, sextreat == "Male Monogamy", "M males"),
+         sextreat = replace(sextreat, sextreat == "Male Polyandry", "P males"),
+         sextreat = replace(sextreat, sextreat == "Female Monogamy", "M females"),
+         sextreat = replace(sextreat, sextreat == "Female Polyandry", "P females"),
+         sextreat = factor(sextreat, c("M males", "P males", "M females", "P females")))
+```
+
+```{r}
+cols <- c("M females" = "pink", 
+          "P females" = "red", 
+          "M males" = "skyblue", 
+          "P males" = "blue")
+
+modified_densityDiag <- function(data, mapping, ...) {
+  ggally_densityDiag(data, mapping, ...) + scale_fill_manual(values = cols) + 
+  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_points <- function(data, mapping, ...) {
+  ggally_points(data, mapping, ...) + scale_colour_manual(values = cols) + 
+  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_facetdensity <- function(data, mapping, ...) {
+  ggally_facetdensity(data, mapping, ...) + scale_colour_manual(values = cols)
+}
+
+modified_box_no_facet <- function(data, mapping, ...) {
+  ggally_box_no_facet(data, mapping, ...) + scale_fill_manual(values = cols)
+}
+
+pairs_plot <- scaled_metabolites %>% 
+  select(-line) %>%
+  arrange(sex, treatment) %>%
+  ggpairs(aes(colour = sextreat),
+          diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
+                      discrete = wrap("blank")),
+          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5), 
+                       discrete = wrap("blank"),
+                       combo = wrap(modified_box_no_facet, alpha = 0.7)),
+          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5),
+                       discrete = wrap("blank"),
+                       combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
+pairs_plot
+```
+
+
+## DAG
+```{r}
+DiagrammeR::grViz('digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+"Metabolite\ncomposition" [shape = oval, fillcolor = Beige]
+
+# edge definitions with the node IDs
+"Mating system\ntreatment (M vs P)" -> {"Body mass"}
+"Mating system\ntreatment (M vs P)" -> {"Metabolite\ncomposition"} 
+
+"Sex\n(Female vs Male)" -> {"Body mass"} -> {"Metabolite\ncomposition"}
+"Sex\n(Female vs Male)" -> {"Metabolite\ncomposition"}
+
+{"Metabolite\ncomposition"} -> "Lipids"
+{"Metabolite\ncomposition"} -> "Carbohydrates"
+{"Metabolite\ncomposition"} -> "Glycogencogen"
+{"Metabolite\ncomposition"} -> "Protein"
+{"Metabolite\ncomposition"} -> "Chitin"
+}')
+```
+
+## Inspecting the raw data
+
+```{r, fig.height=4}
+levels <- c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein", "Dryweight")
+
+grid.arrange(
+  scaled_metabolites %>% 
+    rename_all(~ str_remove_all(.x, "_conc")) %>%
+    mutate(sex = factor(sex, c("Male", "Female"))) %>%
+    reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
+    mutate(variable = factor(variable, levels)) %>%
+    ggplot(aes(x = sex, y = value,  fill  = sextreat)) +
+    geom_hline(yintercept = 0, linetype = 2) + 
+    geom_boxplot() + 
+    facet_grid( ~ variable) +
+    theme_bw() +
+    xlab("Sex") + ylab("Concentration") +
+    theme(legend.position = 'top') + 
+    scale_fill_manual(values = cols, name = ""),
+  
+  scaled_metabolites %>% 
+    rename_all(~ str_remove_all(.x, "_conc")) %>%
+    reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
+    mutate(variable = factor(variable, levels)) %>%
+    ggplot(aes(x = Dry_weight, y = value, colour = sextreat, fill = sextreat)) +
+    geom_smooth(method = 'lm', se = TRUE, aes(colour = NULL, fill = NULL), colour = "grey20", size = .4) +
+    geom_point(pch = 21, colour = "grey20") +
+    facet_grid( ~ variable) +
+    theme_bw() +
+    xlab("Dry weight (mg)") + ylab("Concentration") +
+    theme(legend.position = 'none') + 
+    scale_colour_manual(values = cols, name = "") + 
+    scale_fill_manual(values = cols, name = ""),
+  heights = c(0.55, 0.45)
+)
+```
+
+
+# Fit `brms` structural equation model
+
+
+Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.   
+
+
+### Define Priors
+Set Normal priors on all fixed effect parameters, mean = 0, sd = 2. As well as fitting our expectations about the true values of these parameters, setting somewhat informative priors constrains the effects sizes and helps the model to converge. We leave other priors at their defaults. 
+
+```{r}
+prior1 <- c(set_prior("normal(0, 2)", class = "b", resp = 'Lipid'),
+            set_prior("normal(0, 2)", class = "b", resp = 'Carbohydrate'),
+            set_prior("normal(0, 2)", class = "b", resp = 'Protein'),
+            set_prior("normal(0, 2)", class = "b", resp = 'Glycogen'),
+            set_prior("normal(0, 2)", class = "b", resp = 'Chitin'),
+            set_prior("normal(0, 2)", class = "b", resp = 'Dryweight'))
+```
+
+### Running the model
+```{r}
+# Formula for the SEM:
+brms_formula <- 
+  
+  # Models of the 5 metabolites
+  bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
+       sex*treatment*line + Dryweight) +
+  
+  # dry weight sub-model
+   bf(Dryweight ~ sex*treatment*line) +
+  
+  # Allow for (and estimate) covariance between the residuals of the difference response variables
+  set_rescor(TRUE)
+
+if(!file.exists("output/brms_metabolite_SEM.rds")){
+  brms_metabolite_SEM <- brm(
+    brms_formula,
+    data = scaled_metabolites %>% # brms does not like underscores in variable names
+      rename(Dryweight = Dry_weight) %>%
+      rename_all(~ gsub("_conc", "", .x)),
+    iter = 5000, chains = 4, cores = 1,
+    prior = prior1,
+    control = list(max_treedepth = 20,
+                   adapt_delta = 0.9)
+  )
+  
+  saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM.rds")
+} else {
+  brms_metabolite_SEM <- readRDS('output/brms_metabolite_SEM.rds')
+}
+```
+
+```{r, fig.height=2, fig.width=9, message=F, warning=F}
+grid.arrange(
+  pp_check(brms_metabolite_SEM, resp = "Dryweight") + 
+    ggtitle("Dry weight") + theme(legend.position = "none"),
+  pp_check(brms_metabolite_SEM, resp = "Lipid") + 
+    ggtitle("Lipid") + theme(legend.position = "none"),
+  pp_check(brms_metabolite_SEM, resp = "Carbohydrate") + 
+    ggtitle("Carbohydrate") + theme(legend.position = "none"),
+  pp_check(brms_metabolite_SEM, resp = "Protein") + 
+    ggtitle("Protein") + theme(legend.position = "none"),
+  pp_check(brms_metabolite_SEM, resp = "Glycogen") + 
+    ggtitle("Glycogen") + theme(legend.position = "none"),
+  pp_check(brms_metabolite_SEM, resp = "Chitin") + 
+    ggtitle("Chitin") + theme(legend.position = "none"),
+  nrow = 1
+)
+```
+
+
+## Table of model parameter estimates {.tabset}
+
+### Formatted table
+
+This tables shows the parameter estimates for the fixed effects associated with treatment, sex, their interaction, and dry weight (where relevant) for each response variable. The `p` column shows 1 - minus the "probability of direction", i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable `line`, as well as the estiamtes of residual (co)variance. Click the next tab to see a complete summary of the model and its output.
+
+```{r}
+vars <- c("Lipid", "Carbohydrate", "Glycogen", "Protein", "Chitin")
+tests <- c('_Dryweight', '_sexMale',
+           '_sexMale:treatmentPolyandry',
+           '_treatmentPolyandry')
+
+hypSEM <- data.frame(expand_grid(vars, tests) %>% 
+                       mutate(est = NA,
+                              err = NA,
+                              lwr = NA,
+                              upr = NA) %>% 
+                       # bind body weight on the end
+                       rbind(data.frame(
+                         vars = rep('Dryweight', 3),
+                         tests = c('_sexMale', 
+                                   '_treatmentPolyandry', 
+                                   '_sexMale:treatmentPolyandry'),
+                         est = NA,
+                         err = NA,
+                         lwr = NA,
+                         upr = NA)))
+
+for(i in 1:nrow(hypSEM)) {
+  
+  result = hypothesis(brms_metabolite_SEM, 
+                      paste0(hypSEM[i, 1], hypSEM[i, 2], ' = 0'))$hypothesis
+
+  hypSEM[i, 3] = round(result$Estimate, 3)
+  hypSEM[i, 4] = round(result$Est.Error, 3)
+  hypSEM[i, 5] = round(result$CI.Lower, 3)
+  hypSEM[i, 6] = round(result$CI.Upper, 3)
+
+}
+
+pvals <- bayestestR::p_direction(brms_metabolite_SEM) %>% 
+  as.data.frame() %>%
+  mutate(vars = map_chr(str_split(Parameter, "_"), ~ .x[2]),
+         tests = map_chr(str_split(Parameter, "_"), ~ .x[3]),
+         tests = str_c("_", str_remove_all(tests, "[.]")),
+         tests = replace(tests, tests == "_sexMaletreatmentPolyandry", "_sexMale:treatmentPolyandry")) %>%
+  filter(!str_detect(tests, "line")) %>%
+  mutate(p_val = 1 - pd, star = ifelse(p_val < 0.05, "*", "")) %>%
+  select(vars, tests, p_val, star)
+
+
+hypSEM <- hypSEM %>% left_join(pvals, by = c("vars", "tests"))
+
+hypSEM  %>% 
+  mutate(Parameter = c(rep(c('Dry weight', 'Male', 
+                             'Male x Polyandry', 
+                             'Polyandry'), 5), 
+                       'Male', 'Polyandry', 'Male x Polyandry'))  %>% 
+  mutate(Parameter = factor(Parameter, c("Dry weight", "Male", "Polyandry", "Male x Polyandry")),
+         vars = factor(vars, c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein", "Dryweight"))) %>%
+  arrange(vars, Parameter) %>%
+  select(Parameter, Estimate = est, `Est. error` = err, 
+         `CI lower` = lwr, `CI upper` = upr, `p` = p_val, star) %>% 
+  rename(` ` = star) %>%
+  kable() %>% 
+  kable_styling(full_width = FALSE) %>%
+  group_rows("Carbohydrates", 1, 4) %>%
+  group_rows("Chitin", 5, 8) %>%
+  group_rows("Glycogen", 9, 12) %>%
+  group_rows("Lipids", 13, 16) %>% 
+  group_rows("Protein", 17, 20) %>% 
+  group_rows("Dry weight", 21, 23)
+```
+
+### Complete output from `summary.brmsfit()`
+
+```{r}
+brms_metabolite_SEM
+```
+
+
+<!-- Plot posteriors for response variables and body size separately. -->
+<!-- ```{r, fig.height=3, fig.width=10} -->
+<!-- # get posterior predictions -->
+<!-- post_dat <- posterior_samples(brms_metabolite_SEM) %>%  -->
+<!--   as_tibble() %>% -->
+<!--   select(contains("b_"), -contains("Intercept")) %>%  -->
+<!--   mutate(draw = 1:n()) %>%  -->
+<!--   pivot_longer(-draw) %>%  -->
+<!--   mutate(key = str_remove_all(name, "b_"), -->
+<!--          var = gsub("_.*", "", x = key), -->
+<!--          eff = gsub(".*_", "", x = key)) %>% -->
+<!--   select(-name, -key) %>%  -->
+<!--   filter(!grepl("line", eff)) %>%  -->
+<!--   arrange(var, eff) -->
+
+<!-- grid.arrange( -->
+<!--   post_dat %>% -->
+<!--     filter(var != 'Dryweight') %>%  -->
+<!--     ggplot(aes(value, eff, fill = eff)) +  -->
+<!--     geom_vline(xintercept = 0, linetype = 2) +  -->
+<!--     stat_halfeyeh(alpha = .8) + -->
+<!--     scale_fill_brewer(palette = "Spectral") + -->
+<!--     ylab("Model parameter") + -->
+<!--     xlab("Effect on Metabolite abundance (SDs)") +  -->
+<!--     facet_wrap(~ var, ncol = 2) + -->
+<!--     theme_ridges() + -->
+<!--     theme(legend.position = "none") , -->
+
+<!--   post_dat %>% -->
+<!--     filter(var == 'Dryweight') %>%  -->
+<!--     ggplot(aes(value, eff, fill = eff)) +  -->
+<!--     geom_vline(xintercept = 0, linetype = 2) +  -->
+<!--     stat_halfeyeh(alpha = .8) + -->
+<!--     scale_fill_brewer(palette = "Spectral") + -->
+<!--     ylab(NULL) + -->
+<!--     xlab("Effect on body weight (SDs)") +  -->
+<!--     theme_ridges() + -->
+<!--     theme(legend.position = "none") -->
+<!--   heights = c(0.8,0.2) -->
+<!-- ) -->
+<!-- ``` -->
+
+## Posterior effect size of treatment on metabolite abundance, for each sex {.tabset}
+
+Here, we use the model to predict the... NEED TO DO THIS FOR DIFFERENT BODY SIZES TOO...
+
+Text here...
+
+### Figure
+```{r, fig.height=4}
+new <- expand_grid(sex = c("Male", "Female"),
+                   treatment = c("Monogamy", "Polyandry"),
+                   Dryweight = 0, line = NA) %>%
+  mutate(type = 1:n())
+
+levels <- c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein", "Dryweight")
+
+# Predict data from the SEM of metabolites...
+# Because we use sum contrasts for "line" and line=NA in the new data, 
+# this predicts at the global means across the 4 lines (see ?posterior_epred)
+fitted_values <- posterior_epred(brms_metabolite_SEM, newdata = new, summary = FALSE) %>% 
+  reshape2::melt() %>% rename(draw = Var1, type = Var2, variable = Var3) %>% 
+  as_tibble() %>%
+  left_join(new, by = "type") %>%
+  select(draw, variable, value, sex, treatment) %>%
+  mutate(variable = factor(variable, levels))
+
+
+treat_diff <- fitted_values %>%
+  spread(treatment, value) %>%
+  mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
+
+
+summary_dat1 <- treat_diff %>%
+  filter(variable != 'Dryweight') %>%
+  rename(x = `Difference in means (Poly - Mono)`) %>%
+  group_by(variable, sex)  %>%
+  summarise(`Difference in means (Poly - Mono)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "*", ""),
+            .groups = "drop")
+
+sampled_draws <- sample(unique(fitted_values$draw), 100)
+
+treat_diff %>%
+  filter(variable != 'Dryweight') %>% 
+  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  geom_line(data = treat_diff %>%
+              filter(draw %in% sampled_draws) %>%
+              filter(variable != 'Dryweight'), 
+            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
+  geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
+  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  facet_wrap( ~ variable,  nrow = 1) +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  coord_cartesian(ylim = c(-1.8, 1.8)) + 
+  ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
+```
+
+### Table
+```{r}
+summary_dat1 %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
+```
+
+
+## Posterior difference in treatment effect size between sexes {.tabset}
+
+This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment $\times$ sex interaction, i.e. the treatment effects did not differ detectably between sexes. However, the effect of the Polyandry treatment on glycogen concentration appears to be marginally more positive in males than females (probability of direction = 92.5%, similar to a one-sided p-value of 0.075).
+
+### Figure
+```{r}
+treatsex_interaction_data <- treat_diff %>%
+  select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %>%
+  arrange(draw, variable, sex) %>%
+  group_by(draw, variable) %>%
+  summarise(`Difference in effect size between sexes` = d[2] - d[1],
+            .groups = "drop") # males - females
+
+
+treatsex_interaction_data %>%
+  filter(variable != 'Dryweight') %>% 
+  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat((x) < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeyeh() +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank()) +
+  ylab("Posterior density")
+  
+```
+
+### Table
+```{r}
+treatsex_interaction_data %>%
+  filter(variable != 'Dryweight') %>%
+  rename(x = `Difference in effect size between sexes`) %>%
+  group_by(variable)  %>%
+  summarise(`Difference in effect size between sexes` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "*", ""),
+            .groups = "drop") %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
 
 ```
 
