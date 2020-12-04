@@ -2,14 +2,206 @@
 title: "resistance"
 author: "lukeholman"
 date: "2020-11-30"
-output: workflowr::wflow_html
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
 editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+## Load packages
 
 ```{r}
+library(tidyverse)
 
+library(coxme)
+library(lme4)
+library(brms)
+library(tidybayes)
+
+library(kableExtra)
+library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+
+output_max_height() # a knitrhook option
+
+options(stringsAsFactors = FALSE)
+```
+
+
+## Load data
+```{r}
+# load desiccation resistance data
+DesRes <- read.csv("data/3.DesRes.csv") %>% 
+  # add event (all flies died)
+  mutate(EVENT = 1,
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+
+# calculate survival times
+# paste time and date
+DesRes$d <- paste(DesRes$Death_date, DesRes$Death_time, sep = ' ')
+
+# experiment start time
+start_timeDes <- "04/02/2017 12:00"
+
+DesRes$survival.time <- as.numeric(strptime(DesRes$d, format = "%d/%m/%Y %H") - strptime(start_timeDes, format = "%d/%m/%Y %H"))
+
+des.surv <- Surv(DesRes$survival.time, DesRes$EVENT)
+
+
+# load starvation resistance data
+StaRes <- read.csv("data/3.StarvRes.csv") %>% 
+  # add event (all flies died)
+  mutate(EVENT = 1,
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+
+# calculate survival times
+# paste time and date
+StaRes$d <- paste(StaRes$Death_date, StaRes$Death_time, sep = ' ')
+
+# experiment start time
+start_timeSta <- "04/02/2017 12:00"
+
+StaRes$survival.time <- as.numeric(strptime(StaRes$d, format = "%d/%m/%Y %H") - strptime(start_timeSta, format = "%d/%m/%Y %H"))
+
+sta.surv <- Surv(StaRes$survival.time, StaRes$EVENT)
+
+```
+
+## Inspecting the raw data
+
+```{r, fig.height=4}
+bind_rows(
+  DesRes %>% 
+  select(Treatment, Sex, survival.time) %>% mutate(var = 'Desiccation'),
+  StaRes %>% 
+  select(Treatment, Sex, survival.time) %>% mutate(var = 'Starvation')
+) %>% 
+  ggplot(aes(x = survival.time, y = Sex, fill = Treatment)) +
+  geom_boxplot() +
+  scale_fill_brewer(palette = 'Set1', direction = -1, name = "") +
+  labs(x = 'Survival time (hours)') +
+  facet_wrap(~var, ncol = 2) +
+  theme_bw() +
+  theme(legend.position = 'top') +
+  NULL
+```
+**Figure 1:** Survival time in hours for flies in each treatment split by sex. 
+
+
+## Fit the model for desiccation/starvation resistance
+
+Plot the survival curves and median survival times
+```{r, warning = FALSE, echo=FALSE, fig.show="hold", out.width="50%"}
+survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
+                      conf.int = TRUE,
+                      risk.table = FALSE,
+                      linetype = "Sex",
+                      palette = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"),
+                      xlab = "Time (hours)",
+                      legend.title = "",
+                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      break.time.by = 12,
+                      ggtheme = theme_bw()) 
+
+survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
+                      conf.int = TRUE,
+                      risk.table = FALSE,
+                      linetype = "Sex",
+                      palette = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"),
+                      xlab = "Time (hours)",
+                      legend.title = "",
+                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      break.time.by = 12,
+                      ggtheme = theme_bw()) 
+```
+
+```{r}
+# median eclosion times
+survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes)
+
+survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes)
+```
+
+
+Next we need to check that the 'proportional hazards' assumption is not violated before fitting the full model. 
+```{r, warning = FALSE, echo=FALSE, fig.show="hold", out.width="50%"}
+# assess proportional hazards assumption
+par(mar = c(2, 2, 2, 2))
+plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes), 
+     lty = 1:2, 
+     col = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"), 
+     fun = "cloglog")
+plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes), 
+     lty = 1:2, 
+     col = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"), 
+     fun = "cloglog")
+```
+
+For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution and a frailty term to account for replicates within each treatment. We can define the degrees of freedom explicitly
+
+
+## Fit the Accelerated failure time models
+
+```{r}
+weibull.des <- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
+                       data = DesRes, dist = "weibull")
+
+
+weibull.sta <- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
+                       data = StaRes, dist = "weibull")
+
+
+bind_rows(anova(weibull.des), anova(weibull.sta)) %>% 
+  cbind(Parameter = c('Null', 'Treatment', 'Sex', '`frailty(LINE)`', 'Treatment x Sex')) %>% 
+  mutate(across(1:5, round, 3)) %>% 
+  select(Parameter, Df, `Resid. Df`, Deviance, `Pr(>Chi)`) %>% 
+  filter(Parameter!='`frailty(LINE)`') %>% 
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE) %>%
+  group_rows("Desiccation", 1, 4) %>%
+  group_rows("Starvation", 5, 8)
+```
+
+We see equivocal support for a treatment effect for desiccation resistance and no effect for starvation resistance. For both assays there is support for a sex effect and a treatment x sex interaction. 
+
+## Calculate hazard ratios 
+We can use the following equation to translate the AFT coeffiecnts ($\beta$) to a hazard ratio ($\alpha$):
+$$
+\beta = -\alpha * p
+$$
+where $p$ is the shape (a.k.a. scale) parameter. We can also calculate standard errors... Hazard ratios give the probability of the event occuring compared to 'control' in our case compared to Monogamy females. Hazard ratios > 1 indicate increased hazard (i.e. increased probability of event compared to control), hazard ratio < 1 indicate decreased hazard. 
+
+```{r}
+# function to get hazard ratios and standard errors
+hazR <- function(mod) {
+  
+  a = c(coefficients(summary(mod)))
+  coef = (a * -1 * 1/mod$scale)
+  HazardRatio = exp(coef)
+  
+  b = summary(mod)$table[, 2]
+  se = (b * -1 * 1/mod$scale)
+  HR.se = exp(se)
+  
+  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
+  
+}
+```
+
+For both desiccation and starvation resistance Polyandrous females live longer than Monogamy females (although not significantly so). Males die sooner than females, and Polyandry males die sooner than Monogamy males.  
+```{r}
+bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as.tibble() %>% 
+  cbind(Parameter = c('Treatment', 'Sex', 'Treatment x Sex')) %>% 
+  select(Parameter, `Hazard ratio` = HazardRatio, `Std. Err.` = HR.se) %>% 
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE) %>%
+  group_rows("Desiccation", 1, 3) %>%
+  group_rows("Starvation", 4, 6)
 ```
 

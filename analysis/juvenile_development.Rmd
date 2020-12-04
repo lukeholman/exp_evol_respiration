@@ -2,14 +2,242 @@
 title: "juvenile_development"
 author: "lukeholman"
 date: "2020-11-30"
-output: workflowr::wflow_html
+output: 
+  workflowr::wflow_html:
+    code_folding: hide 
 editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+## Load packages
 
 ```{r}
+library(tidyverse)
+library(ggridges)
+
+library(coxme)
+library(lme4)
+library(nlme)
+library(brms)
+library(tidybayes)
+
+library(kableExtra)
+library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+
+output_max_height() # a knitrhook option
+
+options(stringsAsFactors = FALSE)
+```
+
+## Load data
+```{r, results='hide'}
+# load eclosion data
+eclosion.dat <- read.csv("data/1.eclosion_times.csv")
+
+# remove vials seeded with more than 100 larvae
+unique(eclosion.dat[which(eclosion.dat$eclosing < 0), "ID"]) # 4 vials overseeded
+
+eclosion.dat.trim <- eclosion.dat %>% 
+  filter(ID %in% eclosion.dat[which(eclosion.dat$eclosing < 0), "ID"] == FALSE)
+
+# expand data frame so each row is a single fly
+ecl.dat <- reshape::untable(eclosion.dat.trim[ ,c(1:7, 9, 10)], 
+                           num = eclosion.dat.trim[, 8])
+
+# load wing length data
+wing_length <- read.csv("data/1.wing_length.csv") %>% 
+  # scale wing vein length to make effect size comparisons with other data sets?
+  mutate(Length = as.numeric(scale(Length)))
+
+# add replicate
+wing_length$LINE <- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 2))
 
 ```
 
+
+## Inspecting the raw data
+
+```{r, fig.height=4}
+eplot <- ecl.dat %>% 
+  filter(EVENT == 1) %>% 
+  ggplot(aes(x = DAY, y = SEX, fill = TRT)) +
+  geom_boxplot() +
+  scale_fill_brewer(palette = 'Set1', direction = -1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'non') +
+  NULL
+
+lplot <- wing_length %>% 
+  ggplot(aes(x = Sex, y = Length)) +
+  geom_violin(aes(colour = Treatment)) + 
+  geom_boxplot(aes(fill = Treatment), width = .1, position = position_dodge(width = .9)) +
+  scale_colour_brewer(palette = 'Set1', direction = -1, name = "") +
+  scale_fill_brewer(palette = 'Set1', direction = -1, name = "") +
+  theme_bw() +
+  theme() +
+  NULL
+
+gridExtra::grid.arrange(eplot, lplot, ncol = 2)
+```
+**Figure 1:** Time to eclosion in days for flies in each treatment split by sex. Wing vein IV length has been scaled (subtracted the mean and divided by the standard deviation). We see one Monogamy male with an unusually small value for wing length - possible error in data entry or measurement error?
+
+
+# Fit the model for eclosion time in `coxme`
+
+We will model time to eclosion (in days) using survival analysis. We measured the time in days from 1st instar until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` x 6 `VIAL` x 3 `SEED`). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies successfully emerged during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. Cencsored flies were assigned sex based on the observed sex ratio of eclosees. We calculated the number of flies of each sex that emerged from each vial, and assigned the remaining censored individuals (of unknown sex) sex based on the proportion of individuals of each sex that did emerge, so that overall an equal sex ratio of females:males was assigned to each vial. 
+
+First we plot Kaplan-Meier survival curves and the median time to eclosion without considering our full experimental design. 
+
+```{r, fig.width=5}
+survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
+                      conf.int = TRUE,
+                      risk.table = FALSE,
+                      linetype = "SEX",
+                      palette = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"),
+                      fun = "event",
+                      xlim = c(12, 21),
+                      xlab = "Days",
+                      ylab = "Cumulative proportion eclosed",
+                      legend = c(0.2, 0.7),
+                      legend.title = "",
+                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      break.time.by = 2,
+                      ggtheme = theme_bw())
+```
+
+```{r}
+# median eclosion times
+survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat)
+```
+
+
+Next we need to check that the 'proportional hazards' assumption is not violated before fitting the full model. 
+```{r, fig.width=5}
+# assess proportional hazards assumption
+par(mar = c(2, 2, 2, 2))
+plot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat), 
+     lty = 1:2, 
+     col = c("#377EB8", "#377EB8", "#E41A1C", "#E41A1C"), 
+     fun = "cloglog")
+```
+Here we plot the 'cloglog' of the observed hazards where crossing lines indicate hazards are not proportional. Looks good so we continue to fit the model. 
+
+
+## Fitting the `coxme` model
+
+We fit a mixed effects Cox Proportional hazards model using the `coxme` package, with time (days) to event (eclosion) as the response and `TRT` (Monogamy or Polyandry), `SEX` (female or male) and their interaction as predictors. We also need to account for the experimental design by including the random effects of `LINE`, `SEED` day and vial `ID`. We calculated p-values using likelihood ratio tests comparing the full model to a model where the fixed effect of interest was removed.
+
+```{r}
+# coxmod <- coxme(Surv(DAY, EVENT) ~ TRT * SEX + (1|LINE) + (1|SEED) + (1|ID), 
+#                 data = ecl.dat)
+
+# load in the model instead of running
+coxmod <- readRDS('output/coxmod.rds')
+
+# null models to generate P-values using likelihood ratio tests
+# coxmod_dropTRT <- coxme(Surv(DAY, EVENT) ~ 1 + SEX + (1|LINE) + (1|SEED) + (1|ID), data = ecl.dat)
+# coxmod_dropSEX <- coxme(Surv(DAY, EVENT) ~ TRT + 1 + (1|LINE) + (1|SEED) + (1|ID), data = ecl.dat)
+# coxmod_dropINT <- coxme(Surv(DAY, EVENT) ~ TRT + SEX + (1|LINE) + (1|SEED) + (1|ID), data = ecl.dat)
+
+coxmod_dropTRT <- readRDS('output/coxmod_dropTRT.rds')
+coxmod_dropSEX <- readRDS('output/coxmod_dropSEX.rds')
+coxmod_dropINT <- readRDS('output/coxmod_dropINT.rds')
+
+# make a table of the results
+bind_rows(
+broom::tidy(anova(coxmod, coxmod_dropTRT)),
+broom::tidy(anova(coxmod, coxmod_dropSEX)),
+broom::tidy(anova(coxmod, coxmod_dropINT))) %>% 
+  cbind(Parameter = rep(c('Treatment', 'Sex', 'Treatment x Sex'), each = 2)) %>% 
+  mutate(across(1:4, round, 3)) %>% 
+  na.omit() %>% as.tibble %>% 
+  relocate(Parameter, logLik, statistic, df, p.value) %>% 
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE)
+```
+
+We see there is an effect of treatment and sex but not their interaction. We can calculate estimates and confidence intervals for the hazard ratio by taking the exponent of the coeffients ± 1.96 * sqrt(vcov(???)). Polyandrous flies have a reduced hazard compared to Monogamy flies, i.e. take longer to eclose (hazard ratio = `r round(exp(fixef(coxmod)[1]), 3)`, CI = `r round(exp(fixef(coxmod)[1] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[1, 1]), 3)`). Males have a reduced hazard compared to females (hazard ratio = `r round(exp(fixef(coxmod)[2]), 3)`, CI = `r round(exp(fixef(coxmod)[2] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[2, 2]), 3)`).
+
+
+## Fit a model for wing length
+
+We measured the length of wing vein IV for a subset of flies as a correlate of body size, which may influence development time. 
+
+```{r, fig.height=4, fig.width=6}
+# wing_brms <- brm(Length ~ Treatment * Sex + (1|LINE) + (1|Seed),
+#                  data = wing_length,
+#   iter = 5000, chains = 4, cores = 4,
+#   prior = c(set_prior("normal(0,1)", class = "b"),
+#             set_prior("cauchy(0,1)", class = "sd")),
+#   control = list(max_treedepth = 20,
+#                  adapt_delta = 0.999)
+#   )
+#saveRDS(wing_brms, file = 'output/wing_brms.rds')
+
+wing_brms <- readRDS('output/wing_brms.rds')
+
+pp_check(wing_brms)
+```
+
+
+Plot posteriors.
+```{r, fig.height=4, fig.width=6}
+# get posterior predictions
+post_dat <- posterior_samples(wing_brms) %>% 
+  as_tibble() %>%
+  select(contains("b_"), -contains("Intercept")) %>% 
+  mutate(draw = 1:n()) %>% 
+  pivot_longer(-draw) %>% 
+  mutate(key = str_remove_all(name, "b_"))
+
+post_dat %>%
+  ggplot(aes(value, key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = "Spectral") +
+  ylab("Model parameter") +
+  xlab("Effect on Wing length") + 
+  theme_ridges() +
+  theme(legend.position = "none") +
+  NULL
+```
+
+## Summary of the results of the full model
+```{r}
+data.frame(Parameter = rownames(fixef(wing_brms)),
+           fixef(wing_brms)) %>% 
+  mutate(star = if_else(sign(Q2.5) == sign(Q97.5), '*', '')) %>% 
+  mutate(Parameter = c('Intercept', 'Polandry', 'Male', 'Polandry x Male')) %>%
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE)
+```
+
+## Extract posterior estimates and plot
+```{r, fig.height=4, fig.width=3.5}
+fitbrms <- wing_length %>%
+  modelr::data_grid(Treatment, Sex, LINE, Seed) %>%
+  add_fitted_draws(wing_brms) %>%
+  sample_frac(size = .5)
+
+fitbrms %>%
+  mutate(Treatment = ifelse(Treatment == "M", "Monogamy", "Polyandry"),
+         Sex = ifelse(Sex == "F", "Female", "Male")) %>%
+  ggplot(aes(x = Sex, y = .value, colour = Treatment)) + 
+  geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(position = position_dodge(0.4), 
+                     fill = NA, .width = c(0.5, 0.95), alpha = 0.7) +
+  scale_colour_brewer(palette = 'Set1', direction = -1, name = "") +
+  labs(y = 'Wing vein IV') +
+  theme_bw() +
+  theme(legend.position = 'top',
+        axis.title.x = element_blank()) +
+  NULL
+```
+
+Males are smaller than females and there is no effect of selection treatment on wing length.
