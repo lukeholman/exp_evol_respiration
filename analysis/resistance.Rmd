@@ -20,7 +20,6 @@ library(tidyverse)
 
 library(coxme)
 library(lme4)
-library(nlme)
 library(brms)
 library(tidybayes)
 
@@ -90,6 +89,7 @@ bind_rows(
   labs(x = 'Survival time (hours)') +
   facet_wrap(~var, ncol = 2) +
   theme_bw() +
+  theme(legend.position = 'top') +
   NULL
 ```
 **Figure 1:** Survival time in hours for flies in each treatment split by sex. 
@@ -177,8 +177,7 @@ We can use the following equation to translate the AFT coeffiecnts ($\beta$) to 
 $$
 \beta = -\alpha * p
 $$
-where $p$ is the shape (a.k.a. scale) parameter. We can also calculate standard errors...
-
+where $p$ is the shape (a.k.a. scale) parameter. We can also calculate standard errors... Hazard ratios give the probability of the event occuring compared to 'control' in our case compared to Monogamy females. Hazard ratios > 1 indicate increased hazard (i.e. increased probability of event compared to control), hazard ratio < 1 indicate decreased hazard. 
 
 ```{r}
 # function to get hazard ratios and standard errors
@@ -192,13 +191,20 @@ hazR <- function(mod) {
   se = (b * -1 * 1/mod$scale)
   HR.se = exp(se)
   
-  print(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ])
+  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
   
 }
 ```
 
+For both desiccation and starvation resistance Polyandrous females live longer than Monogamy females (although not significantly so). Males die sooner than females, and Polyandry males die sooner than Monogamy males.  
 ```{r}
-hazR(weibull.des)
-hazR(weibull.sta)
+bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as.tibble() %>% 
+  cbind(Parameter = c('Treatment', 'Sex', 'Treatment x Sex')) %>% 
+  select(Parameter, `Hazard ratio` = HazardRatio, `Std. Err.` = HR.se) %>% 
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE) %>%
+  group_rows("Desiccation", 1, 3) %>%
+  group_rows("Starvation", 4, 6)
 ```
 
