@@ -431,7 +431,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-03
+<strong>Last updated:</strong> 2020-12-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec8feb2d375c449e40555f76ffe6d557a6424980btargetblankc8feb2da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c8feb2d375c449e40555f76ffe6d557a6424980b" target="_blank">c8feb2d</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree81e095f79f00bbdf59b5b061cbfe4dc15b0997a8targetblank81e095fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/81e095f79f00bbdf59b5b061cbfe4dc15b0997a8" target="_blank">81e095f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec8feb2d375c449e40555f76ffe6d557a6424980btargetblankc8feb2da" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree81e095f79f00bbdf59b5b061cbfe4dc15b0997a8targetblank81e095fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c8feb2d375c449e40555f76ffe6d557a6424980b" target="_blank">c8feb2d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/81e095f79f00bbdf59b5b061cbfe4dc15b0997a8" target="_blank">81e095f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -543,15 +543,9 @@ Ignored files:
     Ignored:    output/.DS_Store
 
 Untracked files:
-    Untracked:  data/1.eclosion_times.csv
-    Untracked:  data/1.wing_length.csv
-    Untracked:  data/3.DesRes.csv
-    Untracked:  data/3.StarvRes.csv
-    Untracked:  output/coxmod.rds
-    Untracked:  output/coxmod_dropINT.rds
-    Untracked:  output/coxmod_dropSEX.rds
-    Untracked:  output/coxmod_dropTRT.rds
-    Untracked:  output/wing_brms.rds
+    Untracked:  output/cox_brms.rds
+    Untracked:  output/des_brm.rds
+    Untracked:  output/sta_brm.rds
 
 Unstaged changes:
     Modified:   analysis/juvenile_development.Rmd
@@ -594,6 +588,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/df61ddee93bc42f59613ae416f7a00684388bf71/docs/juvenile_development.html" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+<td>
+MDG commit
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/0714753f14aaca135e32ad4f585928f0f4fb0f55/analysis/juvenile_development.Rmd" target="_blank">0714753</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+<td>
+workflowr::wflow_git_commit(all = T)
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -661,7 +689,12 @@ wing_length$LINE &lt;- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 
 </div>
 <div id="inspecting-the-raw-data" class="section level2">
 <h2>Inspecting the raw data</h2>
-<pre class="r"><code>eplot &lt;- ecl.dat %&gt;% 
+<pre class="r"><code>cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
+          &quot;P females&quot; = &quot;red&quot;, 
+          &quot;M males&quot; = &quot;skyblue&quot;, 
+          &quot;P males&quot; = &quot;blue&quot;)
+
+eplot &lt;- ecl.dat %&gt;% 
   filter(EVENT == 1) %&gt;% 
   ggplot(aes(x = DAY, y = SEX, fill = TRT)) +
   geom_boxplot() +
@@ -681,7 +714,45 @@ lplot &lt;- wing_length %&gt;%
   NULL
 
 gridExtra::grid.arrange(eplot, lplot, ncol = 2)</code></pre>
-<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /> <strong>Figure 1:</strong> Time to eclosion in days for flies in each treatment split by sex. Wing vein IV length has been scaled (subtracted the mean and divided by the standard deviation). We see one Monogamy male with an unusually small value for wing length - possible error in data entry or measurement error?</p>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-3-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><strong>Figure 1:</strong> Time to eclosion in days for flies in each treatment split by sex. Wing vein IV length has been scaled (subtracted the mean and divided by the standard deviation). We see one Monogamy male with an unusually small value for wing length - possible error in data entry or measurement error?</p>
 </div>
 <div id="fit-the-model-for-eclosion-time-in-coxme" class="section level1">
 <h1>Fit the model for eclosion time in <code>coxme</code></h1>
@@ -691,7 +762,7 @@ gridExtra::grid.arrange(eplot, lplot, ncol = 2)</code></pre>
                       conf.int = TRUE,
                       risk.table = FALSE,
                       linetype = &quot;SEX&quot;,
-                      palette = c(&quot;#377EB8&quot;, &quot;#377EB8&quot;, &quot;#E41A1C&quot;, &quot;#E41A1C&quot;),
+                      palette = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;),
                       fun = &quot;event&quot;,
                       xlim = c(12, 21),
                       xlab = &quot;Days&quot;,
@@ -702,6 +773,43 @@ gridExtra::grid.arrange(eplot, lplot, ncol = 2)</code></pre>
                       break.time.by = 2,
                       ggtheme = theme_bw())</code></pre>
 <p><img src="figure/juvenile_development.Rmd/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
+Past versions of unnamed-chunk-4-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-4-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-4-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code># median eclosion times
 survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat)</code></pre>
 <pre>Call: survfit(formula = Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat)
@@ -717,9 +825,47 @@ TRT=P, SEX=m 3432   2200     18      18      18
 par(mar = c(2, 2, 2, 2))
 plot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat), 
      lty = 1:2, 
-     col = c(&quot;#377EB8&quot;, &quot;#377EB8&quot;, &quot;#E41A1C&quot;, &quot;#E41A1C&quot;), 
+     col = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;), 
      fun = &quot;cloglog&quot;)</code></pre>
-<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /> Here we plot the ‘cloglog’ of the observed hazards where crossing lines indicate hazards are not proportional. Looks good so we continue to fit the model.</p>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-6-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here we plot the ‘cloglog’ of the observed hazards where crossing lines indicate hazards are not proportional. Looks good so we continue to fit the model.</p>
 <div id="fitting-the-coxme-model" class="section level2">
 <h2>Fitting the <code>coxme</code> model</h2>
 <p>We fit a mixed effects Cox Proportional hazards model using the <code>coxme</code> package, with time (days) to event (eclosion) as the response and <code>TRT</code> (Monogamy or Polyandry), <code>SEX</code> (female or male) and their interaction as predictors. We also need to account for the experimental design by including the random effects of <code>LINE</code>, <code>SEED</code> day and vial <code>ID</code>. We calculated p-values using likelihood ratio tests comparing the full model to a model where the fixed effect of interest was removed.</p>
@@ -745,7 +891,7 @@ broom::tidy(anova(coxmod, coxmod_dropSEX)),
 broom::tidy(anova(coxmod, coxmod_dropINT))) %&gt;% 
   cbind(Parameter = rep(c(&#39;Treatment&#39;, &#39;Sex&#39;, &#39;Treatment x Sex&#39;), each = 2)) %&gt;% 
   mutate(across(1:4, round, 3)) %&gt;% 
-  na.omit() %&gt;% as.tibble %&gt;% 
+  na.omit() %&gt;% as_tibble %&gt;% 
   relocate(Parameter, logLik, statistic, df, p.value) %&gt;% 
   kable() %&gt;% 
   kable_styling() %&gt;% 
@@ -826,23 +972,206 @@ Treatment x Sex
 </table>
 <p>We see there is an effect of treatment and sex but not their interaction. We can calculate estimates and confidence intervals for the hazard ratio by taking the exponent of the coeffients ± 1.96 * sqrt(vcov(???)). Polyandrous flies have a reduced hazard compared to Monogamy flies, i.e. take longer to eclose (hazard ratio = 0.377, CI = 0.227, 0.627). Males have a reduced hazard compared to females (hazard ratio = 0.823, CI = 0.782, 0.867).</p>
 </div>
+<div id="fit-the-model-in-brms" class="section level2">
+<h2>Fit the model in <code>brms</code></h2>
+<p>I found <a href="https://bookdown.org/content/4857/god-spiked-the-integers.html">this</a> link useful for fitting the model. Other useful links for understanding <a href="">survival analyis</a> and <a href="">hazard ratios</a>.</p>
+<pre class="r"><code>if(!file.exists(&quot;output/cox_brms.rds&quot;)){
+  
+  cox_brm &lt;- brm(DAY | cens(1 - EVENT) ~ TRT * SEX + (1|LINE) + (1|SEED) + (1|ID),
+               iter = 5000, chains = 4, cores = 4,
+               control = list(max_treedepth = 20,
+                              adapt_delta = 0.999),
+               data = ecl.dat, family = cox())
+  
+  saveRDS(cox_brm, &quot;output/cox_brms.rds&quot;)
+} else {
+  cox_brm &lt;- readRDS(&#39;output/cox_brms.rds&#39;)
+}
+
+summary(cox_brm)</code></pre>
+<pre> Family: cox 
+  Links: mu = log 
+Formula: DAY | cens(1 - EVENT) ~ TRT * SEX + (1 | LINE) + (1 | SEED) + (1 | ID) 
+   Data: ecl.dat (Number of observations: 14000) 
+Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup samples = 10000
+
+Group-Level Effects: 
+~ID (Number of levels: 140) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.44      0.03     0.38     0.50 1.00     1751     3037
+
+~LINE (Number of levels: 8) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.47      0.19     0.24     0.97 1.00     2189     3550
+
+~SEED (Number of levels: 3) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.51      0.61     0.08     2.25 1.00     1961     2566
+
+Population-Level Effects: 
+          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept     0.89      0.49     0.00     1.98 1.00     2196     2184
+TRTP         -0.89      0.36    -1.64    -0.16 1.00     2504     3307
+SEXm         -0.18      0.03    -0.23    -0.12 1.00     7347     6755
+TRTP:SEXm     0.01      0.04    -0.07     0.09 1.00     7296     7851
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).
+</pre>
+<pre class="r"><code>#plot(cox_brm)
+
+fixef(cox_brm) %&gt;% 
+  data.frame() %&gt;% 
+  rownames_to_column()</code></pre>
+<pre>    rowname    Estimate  Est.Error         Q2.5       Q97.5
+1 Intercept  0.89079409 0.48628078  0.002552341  1.97757695
+2      TRTP -0.89343428 0.36356847 -1.642442082 -0.16449779
+3      SEXm -0.17509600 0.02648799 -0.227042323 -0.12284121
+4 TRTP:SEXm  0.01036484 0.03979431 -0.067288251  0.08883947
+</pre>
+</div>
+<div id="posterior-means-of-lambdas" class="section level2">
+<h2>Posterior means of <span class="math inline">\(\lambda\)</span>’s</h2>
+<pre class="r"><code>1 / exp(fixef(cox_brm)[, -2])</code></pre>
+<pre>           Estimate      Q2.5     Q97.5
+Intercept 0.4103298 0.9974509 0.1384042
+TRTP      2.4435070 5.1677742 1.1788010
+SEXm      1.1913606 1.2548830 1.1307049
+TRTP:SEXm 0.9896887 1.0696037 0.9149924
+</pre>
+<pre class="r"><code># wrangle
+f &lt;-
+  fixef(cox_brm) %&gt;% 
+  data.frame() %&gt;% 
+  rownames_to_column() %&gt;% 
+  mutate(param = str_remove(rowname, &quot;m|P&quot;)) %&gt;% 
+  tidyr::expand(nesting(Estimate, Q2.5, Q97.5, param),
+         days = 0:24) %&gt;% 
+  mutate(m  = 1 - pexp(days, rate = 1 / exp(Estimate)),
+         ll = 1 - pexp(days, rate = 1 / exp(Q2.5)),
+         ul = 1 - pexp(days, rate = 1 / exp(Q97.5)))
+  
+# plot!
+f %&gt;% 
+  ggplot(aes(x = days)) +
+#  geom_hline(yintercept = .5, linetype = 3, aes(color = param)) +
+  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param),
+              alpha = 1/2) +
+ # geom_line(aes(y = m, aes(color = cols))) +
+  # scale_fill_manual(values = wes_palette(&quot;Moonrise2&quot;)[c(4, 1)], breaks = NULL) +
+  # scale_color_manual(values = wes_palette(&quot;Moonrise2&quot;)[c(4, 1)], breaks = NULL) +
+  # scale_y_continuous(&quot;proportion remaining&quot;, , breaks = c(0, .5, 1), limits = c(0, 1)) +
+  xlab(&quot;days to adoption&quot;) +
+  NULL</code></pre>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-10-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<pre class="r"><code>f %&gt;% 
+  ggplot(aes(x = days, y = m, colour = param)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param), alpha = 1/2) +
+  scale_colour_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;)) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;)) +
+  theme_bw() +
+  theme() +
+  NULL</code></pre>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-10-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
 <div id="fit-a-model-for-wing-length" class="section level2">
 <h2>Fit a model for wing length</h2>
 <p>We measured the length of wing vein IV for a subset of flies as a correlate of body size, which may influence development time.</p>
-<pre class="r"><code># wing_brms &lt;- brm(Length ~ Treatment * Sex + (1|LINE) + (1|Seed),
-#                  data = wing_length,
-#   iter = 5000, chains = 4, cores = 4,
-#   prior = c(set_prior(&quot;normal(0,1)&quot;, class = &quot;b&quot;),
-#             set_prior(&quot;cauchy(0,1)&quot;, class = &quot;sd&quot;)),
-#   control = list(max_treedepth = 20,
-#                  adapt_delta = 0.999)
-#   )
-#saveRDS(wing_brms, file = &#39;output/wing_brms.rds&#39;)
-
-wing_brms &lt;- readRDS(&#39;output/wing_brms.rds&#39;)
+<pre class="r"><code>if(!file.exists(&quot;output/wing_brms.rds&quot;)){
+  
+  wing_brms &lt;- brm(Length ~ Treatment * Sex + (1|LINE) + (1|Seed),
+                 data = wing_length,
+  iter = 5000, chains = 4, cores = 4,
+  prior = c(set_prior(&quot;normal(0,1)&quot;, class = &quot;b&quot;),
+            set_prior(&quot;cauchy(0,1)&quot;, class = &quot;sd&quot;)),
+  control = list(max_treedepth = 20,
+                 adapt_delta = 0.999)
+  )
+  
+  saveRDS(wing_brms, &quot;output/wing_brms.rds&quot;)
+} else {
+  wing_brms &lt;- readRDS(&#39;output/wing_brms.rds&#39;)
+}
 
 pp_check(wing_brms)</code></pre>
-<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-11-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Plot posteriors.</p>
 <pre class="r"><code># get posterior predictions
 post_dat &lt;- posterior_samples(wing_brms) %&gt;% 
@@ -862,7 +1191,44 @@ post_dat %&gt;%
   theme_ridges() +
   theme(legend.position = &quot;none&quot;) +
   NULL</code></pre>
-<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-12-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/juvenile_development.Rmd/unnamed-chunk-12-1.png" target="_blank">df61dde</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="summary-of-the-results-of-the-full-model" class="section level2">
 <h2>Summary of the results of the full model</h2>
@@ -989,18 +1355,19 @@ Polandry x Male
 
 fitbrms %&gt;%
   mutate(Treatment = ifelse(Treatment == &quot;M&quot;, &quot;Monogamy&quot;, &quot;Polyandry&quot;),
-         Sex = ifelse(Sex == &quot;F&quot;, &quot;Female&quot;, &quot;Male&quot;)) %&gt;%
-  ggplot(aes(x = Sex, y = .value, colour = Treatment)) + 
+         Sex = ifelse(Sex == &quot;F&quot;, &quot;Female&quot;, &quot;Male&quot;),
+         var = paste(Treatment, Sex)) %&gt;%
+  ggplot(aes(x = Sex, y = .value, colour = var)) + 
   geom_hline(yintercept = 0, linetype = 2) + 
   stat_pointinterval(position = position_dodge(0.4), 
                      fill = NA, .width = c(0.5, 0.95), alpha = 0.7) +
-  scale_colour_brewer(palette = &#39;Set1&#39;, direction = -1, name = &quot;&quot;) +
+  scale_colour_manual(values = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), name = &quot;&quot;) +
   labs(y = &#39;Wing vein IV&#39;) +
   theme_bw() +
   theme(legend.position = &#39;top&#39;,
         axis.title.x = element_blank()) +
   NULL</code></pre>
-<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-11-1.png" width="336" style="display: block; margin: auto;" /></p>
+<p><img src="figure/juvenile_development.Rmd/unnamed-chunk-14-1.png" width="336" style="display: block; margin: auto;" /></p>
 <p>Males are smaller than females and there is no effect of selection treatment on wing length.</p>
 <br>
 <p>
