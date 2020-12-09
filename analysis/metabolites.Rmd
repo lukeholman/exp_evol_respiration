@@ -7,6 +7,11 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE)
+```
+
+
 ```{r include=FALSE}
 # This helps create the scrollable output chunk for the brms output
 options(width=160)
