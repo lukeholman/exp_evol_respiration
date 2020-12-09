@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree398d9635781bc3ab67916a59e71dfbeb4740863btargetblank398d963a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/398d9635781bc3ab67916a59e71dfbeb4740863b" target="_blank">398d963</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree720eb6d8efb9849bf9de9fcb1a62e3b331eb5d62targetblank720eb6da"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/720eb6d8efb9849bf9de9fcb1a62e3b331eb5d62" target="_blank">720eb6d</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree398d9635781bc3ab67916a59e71dfbeb4740863btargetblank398d963a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree720eb6d8efb9849bf9de9fcb1a62e3b331eb5d62targetblank720eb6da" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/398d9635781bc3ab67916a59e71dfbeb4740863b" target="_blank">398d963</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/720eb6d8efb9849bf9de9fcb1a62e3b331eb5d62" target="_blank">720eb6d</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -594,6 +594,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/720eb6d8efb9849bf9de9fcb1a62e3b331eb5d62/analysis/metabolites.Rmd" target="_blank">720eb6d</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-09
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/b731971b307f1821a4c2c1f8cea3c5cc7feb7385/docs/metabolites.html" target="_blank">b731971</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-09
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -877,7 +911,7 @@ grid.arrange(
     geom_point(pch = 21, colour = &quot;grey20&quot;) +
     facet_grid( ~ variable) +
     theme_bw() +
-    xlab(&quot;Dry weight (mg)&quot;) + ylab(&quot;Concentration&quot;) +
+    xlab(&quot;Dry weight&quot;) + ylab(&quot;Concentration&quot;) +
     theme(legend.position = &#39;none&#39;) + 
     scale_colour_manual(values = cols, name = &quot;&quot;) + 
     scale_fill_manual(values = cols, name = &quot;&quot;),
@@ -2007,7 +2041,7 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
 <h2>Posterior effect size of treatment on metabolite abundance, for each sex</h2>
 <p>Here, we use the model to predict the mean concentration of each metabolite (in standard units) in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
 <p>Because the model contains dry weight as a mediator variable, we created these predictions two different ways, and display the answer for both using tabs in the following figures/tables. Firstly, we predicted the means <em>controlling for differences in dry weight between sexes and treatments</em>; this was done by deriving the predictions dry weight set to its global mean, for both sexes and treatments. Secondly, we derived predictions without controlling for dry weight. This was done by deriving the predictions with dry weight set to its average value for the appropriate treatment-sex combination.</p>
-<p>By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry mass are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs P treatment affected metabolite composition, via mechanisms other than by altering body mass.</p>
+<p>By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry weight are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs P treatments caused metabolite composition to evolve, through mechanisms other than the evolution of dry weight.</p>
 <div id="figure" class="section level3 tabset">
 <h3>Figure</h3>
 <div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments" class="section level4">
