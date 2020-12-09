@@ -431,7 +431,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-03
+<strong>Last updated:</strong> 2020-12-04
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -522,16 +522,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree287d75b8ee653173820e6877f591dbdb99c100d8targetblank287d75ba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/287d75b8ee653173820e6877f591dbdb99c100d8" target="_blank">287d75b</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree81e095f79f00bbdf59b5b061cbfe4dc15b0997a8targetblank81e095fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/81e095f79f00bbdf59b5b061cbfe4dc15b0997a8" target="_blank">81e095f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree287d75b8ee653173820e6877f591dbdb99c100d8targetblank287d75ba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree81e095f79f00bbdf59b5b061cbfe4dc15b0997a8targetblank81e095fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/287d75b8ee653173820e6877f591dbdb99c100d8" target="_blank">287d75b</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/81e095f79f00bbdf59b5b061cbfe4dc15b0997a8" target="_blank">81e095f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -540,9 +540,15 @@ Note that you need to be careful to ensure that all relevant files for the analy
 Ignored files:
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    output/.DS_Store
 
+Untracked files:
+    Untracked:  output/des_brm.rds
+    Untracked:  output/sta_brm.rds
+
 Unstaged changes:
+    Modified:   analysis/juvenile_development.Rmd
     Modified:   analysis/resistance.Rmd
 
 </code></pre>
@@ -582,6 +588,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/8e1e5c12ccf7bf558ef22ed6ab2c36a481a8fdad/analysis/resistance.Rmd" target="_blank">8e1e5c1</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+<td>
+MDG commit again
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/8e1e5c12ccf7bf558ef22ed6ab2c36a481a8fdad/docs/resistance.html" target="_blank">8e1e5c1</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-03
+</td>
+<td>
+MDG commit again
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -716,6 +756,7 @@ library(coxme)
 library(lme4)
 library(brms)
 library(tidybayes)
+library(ggridges)
 
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
@@ -1318,6 +1359,211 @@ Treatment x Sex
 </tr>
 </tbody>
 </table>
+</div>
+<div id="fit-the-brms-survival-analysis-models-for-desiccation-and-starvation" class="section level2">
+<h2>Fit the <code>brms</code> survival analysis models for desiccation and starvation</h2>
+<pre class="r"><code>if(!file.exists(&quot;output/des_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
+  
+  des_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+               iter = 5000, chains = 4, cores = 4,
+               control = list(max_treedepth = 20,
+                              adapt_delta = 0.999),
+               data = DesRes, family = weibull())
+  
+  saveRDS(des_brm, &quot;output/des_brm.rds&quot;)
+} else {
+  des_brm &lt;- readRDS(&#39;output/des_brm.rds&#39;)
+}
+
+
+if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
+  
+  sta_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+               iter = 5000, chains = 4, cores = 4,
+               control = list(max_treedepth = 20,
+                              adapt_delta = 0.999),
+               data = StaRes, family = weibull())
+  
+  saveRDS(sta_brm, &quot;output/sta_brm.rds&quot;)
+} else {
+  sta_brm &lt;- readRDS(&#39;output/sta_brm.rds&#39;)
+}
+
+
+# function to get hazard ratios and standard errors - needs adapting 
+hazR &lt;- function(mod) {
+  
+  a = c(fixef(mod)[, 1])
+  coef = (a * -1 * 1/summary(mod)$spec_pars[1])
+  HazardRatio = exp(coef)
+  
+  b = c(fixef(mod)[, 2])
+  se = (b * -1 * 1/summary(mod)$spec_pars[1])
+  HR.se = exp(se)
+  
+  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
+  
+}</code></pre>
+<p>Plot posteriors.</p>
+<pre class="r"><code># get posterior predictions
+post_des &lt;- posterior_samples(des_brm) %&gt;% 
+  as_tibble() %&gt;%
+  select(contains(&quot;b_&quot;), -contains(&quot;Intercept&quot;)) %&gt;% 
+  mutate(draw = 1:n()) %&gt;% 
+  pivot_longer(-draw) %&gt;% 
+  mutate(key = str_remove_all(name, &quot;b_&quot;))
+
+post_des %&gt;%
+  ggplot(aes(value, key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = &quot;Spectral&quot;) +
+  ylab(&quot;Model parameter&quot;) +
+  xlab(&quot;Hazard ratio???&quot;) + 
+  theme_ridges() +
+  theme(legend.position = &quot;none&quot;) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" /></p>
+</div>
+<div id="summary-of-the-results-of-the-full-model" class="section level2">
+<h2>Summary of the results of the full model</h2>
+<pre class="r"><code>data.frame(Parameter = rownames(fixef(des_brm)),
+           fixef(des_brm)) %&gt;% 
+  mutate(star = if_else(sign(Q2.5) == sign(Q97.5), &#39;*&#39;, &#39;&#39;)) %&gt;% 
+  mutate(Parameter = c(&#39;Intercept&#39;, &#39;Polandry&#39;, &#39;Male&#39;, &#39;Polandry x Male&#39;)) %&gt;%
+  kable() %&gt;% 
+  kable_styling() %&gt;% 
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table table" style="margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Parameter
+</th>
+<th style="text-align:right;">
+Estimate
+</th>
+<th style="text-align:right;">
+Est.Error
+</th>
+<th style="text-align:right;">
+Q2.5
+</th>
+<th style="text-align:right;">
+Q97.5
+</th>
+<th style="text-align:left;">
+star
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Intercept
+</td>
+<td style="text-align:right;">
+3.6699192
+</td>
+<td style="text-align:right;">
+0.0756023
+</td>
+<td style="text-align:right;">
+3.5145302
+</td>
+<td style="text-align:right;">
+3.8194620
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Polandry
+</td>
+<td style="text-align:right;">
+0.0543559
+</td>
+<td style="text-align:right;">
+0.1069846
+</td>
+<td style="text-align:right;">
+-0.1511693
+</td>
+<td style="text-align:right;">
+0.2775755
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+-0.1826103
+</td>
+<td style="text-align:right;">
+0.0251103
+</td>
+<td style="text-align:right;">
+-0.2322193
+</td>
+<td style="text-align:right;">
+-0.1336138
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Polandry x Male
+</td>
+<td style="text-align:right;">
+-0.1044253
+</td>
+<td style="text-align:right;">
+0.0358179
+</td>
+<td style="text-align:right;">
+-0.1734033
+</td>
+<td style="text-align:right;">
+-0.0343265
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="extract-posterior-estimates-and-plot" class="section level2">
+<h2>Extract posterior estimates and plot</h2>
+<pre class="r"><code>fitDes &lt;- DesRes %&gt;%
+  modelr::data_grid(Treatment, Sex, LINE) %&gt;%
+  add_fitted_draws(des_brm) %&gt;%
+  sample_frac(size = .5)
+
+fitDes %&gt;%
+  mutate(Treatment = ifelse(Treatment == &quot;M&quot;, &quot;Monogamy&quot;, &quot;Polyandry&quot;),
+         Sex = ifelse(Sex == &quot;f&quot;, &quot;Female&quot;, &quot;Male&quot;)) %&gt;%
+  ggplot(aes(x = Sex, y = .value, colour = Treatment)) + 
+  #geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(position = position_dodge(0.4), 
+                     fill = NA, .width = c(0.5, 0.95), alpha = 0.7) +
+  scale_colour_brewer(palette = &#39;Set1&#39;, direction = -1, name = &quot;&quot;) +
+  labs(y = &#39;Wing vein IV&#39;) +
+  theme_bw() +
+  theme(legend.position = &#39;top&#39;,
+        axis.title.x = element_blank()) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-13-1.png" width="336" style="display: block; margin: auto;" /></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1341,11 +1587,12 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.3.1 tidybayes_2.3.1 
- [5] brms_2.14.4      Rcpp_1.0.5       lme4_1.1-23      Matrix_1.2-18   
- [9] coxme_2.2-16     bdsmatrix_1.3-4  survival_3.2-7   forcats_0.5.0   
-[13] stringr_1.4.0    dplyr_1.0.2      purrr_0.3.4      readr_1.4.0     
-[17] tidyr_1.1.2      tibble_3.0.4     ggplot2_3.3.2    tidyverse_1.3.0 
+ [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.3.1 ggridges_0.5.2  
+ [5] tidybayes_2.3.1  brms_2.14.4      Rcpp_1.0.5       lme4_1.1-23     
+ [9] Matrix_1.2-18    coxme_2.2-16     bdsmatrix_1.3-4  survival_3.2-7  
+[13] forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2      purrr_0.3.4     
+[17] readr_1.4.0      tidyr_1.1.2      tibble_3.0.4     ggplot2_3.3.2   
+[21] tidyverse_1.3.0 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.10     workflowr_1.6.2     
@@ -1372,28 +1619,28 @@ loaded via a namespace (and not attached):
  [64] labeling_0.3         tidyselect_1.1.0     rlang_0.4.8         
  [67] reshape2_1.4.4       later_1.1.0.1        munsell_0.5.0       
  [70] cellranger_1.1.0     tools_4.0.3          cli_2.1.0           
- [73] generics_0.0.2       broom_0.7.1          ggridges_0.5.2      
- [76] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
- [79] processx_3.4.4       fs_1.5.0             zip_2.1.1           
- [82] survMisc_0.5.5       nlme_3.1-149         whisker_0.4         
- [85] mime_0.9             projpred_2.0.2       xml2_1.3.2          
- [88] compiler_4.0.3       bayesplot_1.7.2      shinythemes_1.1.2   
- [91] rstudioapi_0.11      gamm4_0.2-6          curl_4.3            
- [94] ggsignif_0.6.0       reprex_0.3.0         statmod_1.4.34      
- [97] stringi_1.5.3        highr_0.8            ps_1.4.0            
-[100] Brobdingnag_1.2-6    lattice_0.20-41      nloptr_1.2.2.2      
-[103] markdown_1.1         KMsurv_0.1-5         shinyjs_2.0.0       
-[106] vctrs_0.3.4          pillar_1.4.6         lifecycle_0.2.0     
-[109] bridgesampling_1.0-0 data.table_1.13.0    httpuv_1.5.4        
-[112] R6_2.4.1             promises_1.1.1       rio_0.5.16          
-[115] gridExtra_2.3        codetools_0.2-16     boot_1.3-25         
-[118] colourpicker_1.1.0   MASS_7.3-53          gtools_3.8.2        
-[121] assertthat_0.2.1     rprojroot_1.3-2      withr_2.3.0         
-[124] shinystan_2.5.0      mgcv_1.8-33          parallel_4.0.3      
-[127] hms_0.5.3            grid_4.0.3           coda_0.19-4         
-[130] minqa_1.2.4          rmarkdown_2.4        carData_3.0-4       
-[133] ggpubr_0.4.0         git2r_0.27.1         shiny_1.5.0         
-[136] lubridate_1.7.9      base64enc_0.1-3      dygraphs_1.1.1.6    
+ [73] generics_0.0.2       broom_0.7.1          evaluate_0.14       
+ [76] fastmap_1.0.1        yaml_2.2.1           processx_3.4.4      
+ [79] fs_1.5.0             zip_2.1.1            survMisc_0.5.5      
+ [82] nlme_3.1-149         whisker_0.4          mime_0.9            
+ [85] projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
+ [88] bayesplot_1.7.2      shinythemes_1.1.2    rstudioapi_0.11     
+ [91] gamm4_0.2-6          curl_4.3             ggsignif_0.6.0      
+ [94] reprex_0.3.0         statmod_1.4.34       stringi_1.5.3       
+ [97] highr_0.8            ps_1.4.0             Brobdingnag_1.2-6   
+[100] lattice_0.20-41      nloptr_1.2.2.2       markdown_1.1        
+[103] KMsurv_0.1-5         shinyjs_2.0.0        vctrs_0.3.4         
+[106] pillar_1.4.6         lifecycle_0.2.0      bridgesampling_1.0-0
+[109] data.table_1.13.0    httpuv_1.5.4         R6_2.4.1            
+[112] promises_1.1.1       rio_0.5.16           gridExtra_2.3       
+[115] codetools_0.2-16     boot_1.3-25          colourpicker_1.1.0  
+[118] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1    
+[121] rprojroot_1.3-2      withr_2.3.0          shinystan_2.5.0     
+[124] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
+[127] grid_4.0.3           coda_0.19-4          minqa_1.2.4         
+[130] rmarkdown_2.4        carData_3.0-4        ggpubr_0.4.0        
+[133] git2r_0.27.1         shiny_1.5.0          lubridate_1.7.9     
+[136] base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
 </div>

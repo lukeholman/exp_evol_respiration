@@ -22,6 +22,7 @@ library(coxme)
 library(lme4)
 library(brms)
 library(tidybayes)
+library(ggridges)
 
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
@@ -195,7 +196,7 @@ hazR <- function(mod) {
 
 For both desiccation and starvation resistance Polyandrous females live longer than Monogamy females (although not significantly so). Males die sooner than females, and Polyandry males die sooner than Monogamy males.  
 ```{r}
-bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as.tibble() %>% 
+bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as_tibble() %>% 
   cbind(Parameter = c('Treatment', 'Sex', 'Treatment x Sex')) %>% 
   select(Parameter, `Hazard ratio` = HazardRatio, `Std. Err.` = HR.se) %>% 
   kable() %>% 
@@ -203,5 +204,109 @@ bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as.tibble() %>%
   kable_styling(full_width = FALSE) %>%
   group_rows("Desiccation", 1, 3) %>%
   group_rows("Starvation", 4, 6)
+```
+
+## Fit the `brms` survival analysis models for desiccation and starvation
+
+```{r}
+
+if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, else load it
+  
+  des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+               iter = 5000, chains = 4, cores = 4,
+               control = list(max_treedepth = 20,
+                              adapt_delta = 0.999),
+               data = DesRes, family = weibull())
+  
+  saveRDS(des_brm, "output/des_brm.rds")
+} else {
+  des_brm <- readRDS('output/des_brm.rds')
+}
+
+
+if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, else load it
+  
+  sta_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+               iter = 5000, chains = 4, cores = 4,
+               control = list(max_treedepth = 20,
+                              adapt_delta = 0.999),
+               data = StaRes, family = weibull())
+  
+  saveRDS(sta_brm, "output/sta_brm.rds")
+} else {
+  sta_brm <- readRDS('output/sta_brm.rds')
+}
+
+
+# function to get hazard ratios and standard errors - needs adapting 
+hazR <- function(mod) {
+  
+  a = c(fixef(mod)[, 1])
+  coef = (a * -1 * 1/summary(mod)$spec_pars[1])
+  HazardRatio = exp(coef)
+  
+  b = c(fixef(mod)[, 2])
+  se = (b * -1 * 1/summary(mod)$spec_pars[1])
+  HR.se = exp(se)
+  
+  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
+  
+}
+
+```
+
+Plot posteriors.
+```{r, fig.height=4, fig.width=6}
+# get posterior predictions
+post_des <- posterior_samples(des_brm) %>% 
+  as_tibble() %>%
+  select(contains("b_"), -contains("Intercept")) %>% 
+  mutate(draw = 1:n()) %>% 
+  pivot_longer(-draw) %>% 
+  mutate(key = str_remove_all(name, "b_"))
+
+post_des %>%
+  ggplot(aes(value, key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = "Spectral") +
+  ylab("Model parameter") +
+  xlab("Hazard ratio???") + 
+  theme_ridges() +
+  theme(legend.position = "none") +
+  NULL
+```
+
+## Summary of the results of the full model
+```{r}
+data.frame(Parameter = rownames(fixef(des_brm)),
+           fixef(des_brm)) %>% 
+  mutate(star = if_else(sign(Q2.5) == sign(Q97.5), '*', '')) %>% 
+  mutate(Parameter = c('Intercept', 'Polandry', 'Male', 'Polandry x Male')) %>%
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE)
+```
+
+## Extract posterior estimates and plot
+```{r, fig.height=4, fig.width=3.5}
+fitDes <- DesRes %>%
+  modelr::data_grid(Treatment, Sex, LINE) %>%
+  add_fitted_draws(des_brm) %>%
+  sample_frac(size = .5)
+
+fitDes %>%
+  mutate(Treatment = ifelse(Treatment == "M", "Monogamy", "Polyandry"),
+         Sex = ifelse(Sex == "f", "Female", "Male")) %>%
+  ggplot(aes(x = Sex, y = .value, colour = Treatment)) + 
+  #geom_hline(yintercept = 0, linetype = 2) + 
+  stat_pointinterval(position = position_dodge(0.4), 
+                     fill = NA, .width = c(0.5, 0.95), alpha = 0.7) +
+  scale_colour_brewer(palette = 'Set1', direction = -1, name = "") +
+  labs(y = 'Wing vein IV') +
+  theme_bw() +
+  theme(legend.position = 'top',
+        axis.title.x = element_blank()) +
+  NULL
 ```
 
