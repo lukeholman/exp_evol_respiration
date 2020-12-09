@@ -13,7 +13,7 @@
 
 <title>Metabolic rates</title>
 
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -29,6 +29,23 @@
 <link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
 <script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+<link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/dt-ext-scroller-1.10.20/css/scroller.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-scroller-1.10.20/js/dataTables.scroller.min.js"></script>
+<script src="site_libs/pdfmake-1.10.20/pdfmake.js"></script>
+<script src="site_libs/pdfmake-1.10.20/vfs_fonts.js"></script>
+<link href="site_libs/dt-ext-buttons-1.10.20/css/buttons.dataTables.min.css" rel="stylesheet" />
+<script src="site_libs/dt-ext-buttons-1.10.20/js/dataTables.buttons.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.flash.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.html5.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.colVis.min.js"></script>
+<script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
+<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
@@ -429,7 +446,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-04
+<strong>Last updated:</strong> 2020-12-09
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -520,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed441b69aad98ed57bbbddc2bf3a648c6dfc3d6a4targetblankd441b69a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d441b69aad98ed57bbbddc2bf3a648c6dfc3d6a4" target="_blank">d441b69</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree2642c27eb37c6c424b9ea434bc787ef848f131b0targetblank2642c27a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/2642c27eb37c6c424b9ea434bc787ef848f131b0" target="_blank">2642c27</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed441b69aad98ed57bbbddc2bf3a648c6dfc3d6a4targetblankd441b69a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree2642c27eb37c6c424b9ea434bc787ef848f131b0targetblank2642c27a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d441b69aad98ed57bbbddc2bf3a648c6dfc3d6a4" target="_blank">d441b69</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/2642c27eb37c6c424b9ea434bc787ef848f131b0" target="_blank">2642c27</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -582,6 +599,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2642c27eb37c6c424b9ea434bc787ef848f131b0/analysis/metabolites.Rmd" target="_blank">2642c27</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-09
+</td>
+<td>
+More work
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/4f5ee28172fa0ff4cfbd9b341b0a84b05725d85f/docs/metabolites.html" target="_blank">4f5ee28</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-04
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -642,19 +693,53 @@ Tweaks Nov 2020
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
-<pre class="r"><code>library(tidyverse)
-library(GGally)
-library(gridExtra)
-library(ggridges)
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>✓ ggplot2 3.3.2     ✓ purrr   0.3.4
+✓ tibble  3.0.1     ✓ dplyr   1.0.0
+✓ tidyr   1.1.0     ✓ stringr 1.4.0
+✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
+<pre><code>── Conflicts ───────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+x dplyr::filter() masks stats::filter()
+x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(GGally)</code></pre>
+<pre><code>Registered S3 method overwritten by &#39;GGally&#39;:
+  method from   
+  +.gg   ggplot2</code></pre>
+<pre class="r"><code>library(gridExtra)</code></pre>
+<pre><code>
+Attaching package: &#39;gridExtra&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
 
-library(nlme)
-library(brms)
-library(tidybayes)
+    combine</code></pre>
+<pre class="r"><code>library(ggridges)
+library(brms)</code></pre>
+<pre><code>Loading required package: Rcpp</code></pre>
+<pre><code>Loading &#39;brms&#39; package (version 2.14.4). Useful instructions
+can be found by typing help(&#39;brms&#39;). A more detailed introduction
+to the package is available through vignette(&#39;brms_overview&#39;).</code></pre>
+<pre><code>
+Attaching package: &#39;brms&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:stats&#39;:
 
-library(kableExtra)
-library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
+    ar</code></pre>
+<pre class="r"><code>library(tidybayes)</code></pre>
+<pre><code>
+Attaching package: &#39;tidybayes&#39;</code></pre>
+<pre><code>The following objects are masked from &#39;package:ggridges&#39;:
 
-output_max_height() # a knitrhook option
+    scale_point_color_continuous, scale_point_color_discrete, scale_point_colour_continuous, scale_point_colour_discrete,
+    scale_point_fill_continuous, scale_point_fill_discrete, scale_point_size_continuous</code></pre>
+<pre class="r"><code>library(DT)
+library(kableExtra)</code></pre>
+<pre><code>
+Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>The following object is masked from &#39;package:dplyr&#39;:
+
+    group_rows</code></pre>
+<pre class="r"><code>library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)</code></pre>
+<pre><code>Loading required package: knitr</code></pre>
+<pre class="r"><code>output_max_height() # a knitrhook option
 
 options(stringsAsFactors = FALSE)</code></pre>
 </div>
@@ -665,21 +750,40 @@ options(stringsAsFactors = FALSE)</code></pre>
 <li><code>Lipid_conc</code> (i.e. the weight of the hexane fraction, divided by the full dry weight),</li>
 <li><code>Carbohydrate_conc</code> (i.e. the weight of the aqueous fraction, divided by the full dry weight),</li>
 <li><code>Protein_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of protein per milligram as measured by the bicinchoninic acid protein assay),</li>
-<li><code>Glycogen_conc</code> (), and</li>
-<li><code>Chitin_conc</code> ()</li>
+<li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
+<li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
 <p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Larger flies will have more lipids, carbs, etc., and this may vary by sex and treatment both directly and indirectly.</p>
 <pre class="r"><code>metabolites &lt;- read_csv(&#39;data/3.metabolite_data.csv&#39;) %&gt;%
   mutate(sex = ifelse(sex == &quot;m&quot;, &quot;Male&quot;, &quot;Female&quot;),
+         line = paste(treatment, line, sep = &quot;&quot;),
          treatment = ifelse(treatment == &quot;M&quot;, &quot;Monogamy&quot;, &quot;Polyandry&quot;)) %&gt;%
-  # set &quot;sum&quot; coding for contrasts for &quot;line&quot;, since there is no meaningful &quot;control line&quot;
-  mutate(line = C(factor(line), &quot;contr.sum&quot;)) %&gt;%  
   # log transform glycogen since it shows a long tail (others are reasonably normal-looking)
   mutate(Glycogen_ug_mg = log(Glycogen_ug_mg)) %&gt;%
-  # There was a technical error with the flies collected on day 1, so they are excluded from the whole paper. All measurements are of 3d-old flies
-  filter(time == &#39;2&#39;) 
-
-scaled_metabolites &lt;- metabolites %&gt;% 
+  # There was a technical error with flies collected on day 1, 
+  # so they are excluded from the whole paper. All the measurements analysed are of 3d-old flies
+  filter(time == &#39;2&#39;) %&gt;%
+  select(-time)</code></pre>
+<pre><code>Parsed with column specification:
+cols(
+  sex = col_character(),
+  treatment = col_character(),
+  line = col_double(),
+  time = col_double(),
+  fwt_mg = col_double(),
+  dwt_mg = col_double(),
+  Hex_frac = col_double(),
+  p_hex_frac = col_double(),
+  Aq_frac = col_double(),
+  p_Aq_frac = col_double(),
+  Protein = col_double(),
+  Protein_ug_mg = col_double(),
+  Glycogen = col_double(),
+  Glycogen_ug_mg = col_double(),
+  Chitin = col_double(),
+  Chitin_mg_mg = col_double()
+)</code></pre>
+<pre class="r"><code>scaled_metabolites &lt;- metabolites %&gt;% 
   # Find proportional metabolites as a proportion of total dry weight
   mutate(
     Dry_weight = dwt_mg,
@@ -687,84 +791,59 @@ scaled_metabolites &lt;- metabolites %&gt;%
     Carbohydrate_conc = Aq_frac / Dry_weight,
     Protein_conc = Protein_ug_mg,
     Glycogen_conc = Glycogen_ug_mg,
-    Chitin_conc = Chitin_mg_mg
-  ) %&gt;% 
+    Chitin_conc = Chitin_mg_mg) %&gt;% 
   select(sex, treatment, line, Dry_weight, ends_with(&quot;conc&quot;)) %&gt;%
   mutate_at(vars(ends_with(&quot;conc&quot;)), ~ as.numeric(scale(.x))) %&gt;%
+  mutate(Dry_weight = as.numeric(scale(Dry_weight))) %&gt;%
   mutate(sextreat = paste(sex, treatment),
          sextreat = replace(sextreat, sextreat == &quot;Male Monogamy&quot;, &quot;M males&quot;),
          sextreat = replace(sextreat, sextreat == &quot;Male Polyandry&quot;, &quot;P males&quot;),
          sextreat = replace(sextreat, sextreat == &quot;Female Monogamy&quot;, &quot;M females&quot;),
          sextreat = replace(sextreat, sextreat == &quot;Female Polyandry&quot;, &quot;P females&quot;),
          sextreat = factor(sextreat, c(&quot;M males&quot;, &quot;P males&quot;, &quot;M females&quot;, &quot;P females&quot;)))</code></pre>
-<pre class="r"><code>cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
+</div>
+<div id="inspect-the-raw-data" class="section level2">
+<h2>Inspect the raw data</h2>
+<div id="raw-numbers" class="section level3">
+<h3>Raw numbers</h3>
+<p>All variables are shown in standard units (i.e. mean = 0, SD = 1).</p>
+<pre class="r"><code>my_data_table &lt;- function(df){
+  datatable(
+    df, rownames=FALSE,
+    autoHideNavigation = TRUE,
+    extensions = c(&quot;Scroller&quot;,  &quot;Buttons&quot;),
+    options = list(
+      dom = &#39;Bfrtip&#39;,
+      deferRender=TRUE,
+      scrollX=TRUE, scrollY=400,
+      scrollCollapse=TRUE,
+      buttons = 
+        list(&#39;csv&#39;, list(
+          extend = &#39;pdf&#39;,
+          pageSize = &#39;A4&#39;,
+          orientation = &#39;landscape&#39;,
+          filename = &#39;Apis_methylation&#39;)),
+      pageLength = 50
+    )
+  )
+}
+
+scaled_metabolites %&gt;%
+  select(-sextreat) %&gt;%
+  mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %&gt;%
+  my_data_table()</code></pre>
+<div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Apis_methylation"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="simple-plots" class="section level3">
+<h3>Simple plots</h3>
+<p>The following plot shows how each metabolite varies between sexes and treatments, and how the consecration of each metabolite co-varies with dry weight across individuals.</p>
+<pre class="r"><code>levels &lt;- c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dryweight&quot;)
+
+cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
           &quot;P females&quot; = &quot;red&quot;, 
           &quot;M males&quot; = &quot;skyblue&quot;, 
           &quot;P males&quot; = &quot;blue&quot;)
-
-modified_densityDiag &lt;- function(data, mapping, ...) {
-  ggally_densityDiag(data, mapping, ...) + scale_fill_manual(values = cols) + 
-  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
-}
-
-modified_points &lt;- function(data, mapping, ...) {
-  ggally_points(data, mapping, ...) + scale_colour_manual(values = cols) + 
-  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
-}
-
-modified_facetdensity &lt;- function(data, mapping, ...) {
-  ggally_facetdensity(data, mapping, ...) + scale_colour_manual(values = cols)
-}
-
-modified_box_no_facet &lt;- function(data, mapping, ...) {
-  ggally_box_no_facet(data, mapping, ...) + scale_fill_manual(values = cols)
-}
-
-pairs_plot &lt;- scaled_metabolites %&gt;% 
-  select(-line) %&gt;%
-  arrange(sex, treatment) %&gt;%
-  ggpairs(aes(colour = sextreat),
-          diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
-                      discrete = wrap(&quot;blank&quot;)),
-          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5), 
-                       discrete = wrap(&quot;blank&quot;),
-                       combo = wrap(modified_box_no_facet, alpha = 0.7)),
-          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5),
-                       discrete = wrap(&quot;blank&quot;),
-                       combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
-pairs_plot</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="dag" class="section level2">
-<h2>DAG</h2>
-<pre class="r"><code>DiagrammeR::grViz(&#39;digraph {
-
-graph [layout = dot, rankdir = LR]
-
-# define the global styles of the nodes. We can override these in box if we wish
-node [shape = rectangle, style = filled, fillcolor = Linen]
-
-&quot;Metabolite\ncomposition&quot; [shape = oval, fillcolor = Beige]
-
-# edge definitions with the node IDs
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Body mass&quot;}
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;} 
-
-&quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Body mass&quot;} -&gt; {&quot;Metabolite\ncomposition&quot;}
-&quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;}
-
-{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Lipids&quot;
-{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Carbohydrates&quot;
-{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Glycogencogen&quot;
-{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Protein&quot;
-{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Chitin&quot;
-}&#39;)</code></pre>
-<div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Body mass\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Body mass\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Glycogencogen\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-</div>
-<div id="inspecting-the-raw-data" class="section level2">
-<h2>Inspecting the raw data</h2>
-<pre class="r"><code>levels &lt;- c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dryweight&quot;)
 
 grid.arrange(
   scaled_metabolites %&gt;% 
@@ -796,37 +875,180 @@ grid.arrange(
     scale_fill_manual(values = cols, name = &quot;&quot;),
   heights = c(0.55, 0.45)
 )</code></pre>
+<pre><code>`geom_smooth()` using formula &#39;y ~ x&#39;</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/4f5ee28172fa0ff4cfbd9b341b0a84b05725d85f/docs/figure/metabolites.Rmd/unnamed-chunk-5-1.png" target="_blank">4f5ee28</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="plot-of-correlations-between-variables" class="section level2">
+<h2>Plot of correlations between variables</h2>
+<p>Some of the metabolites, especially lipid concentration, are correlated with dry weight. There is also a large difference in dry weight between sexes (and treatments, to a less extent), and sex and treatment effects are evident for some of the metabolites in the raw data. Some of the metabolites are weakly correlated with other metabolites, e.g. lipid and glycogen concentration.</p>
+<pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
+  ggally_densityDiag(data, mapping, colour = &quot;grey10&quot;, ...) + 
+    scale_fill_manual(values = cols) + 
+  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_points &lt;- function(data, mapping, ...) {
+  ggally_points(data, mapping, pch = 21, colour = &quot;grey10&quot;, ...) +
+    scale_fill_manual(values = cols) + 
+    scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+}
+
+modified_facetdensity &lt;- function(data, mapping, ...) {
+  ggally_facetdensity(data, mapping, ...) + 
+    scale_colour_manual(values = cols)
+}
+
+modified_box_no_facet &lt;- function(data, mapping, ...) {
+  ggally_box_no_facet(data, mapping, colour = &quot;grey10&quot;, ...) +
+    scale_fill_manual(values = cols)
+}
+
+pairs_plot &lt;- scaled_metabolites %&gt;% 
+  arrange(sex, treatment) %&gt;%
+  select(-line, -sex, -treatment) %&gt;%
+  rename(`Sex and treatment` = sextreat) %&gt;%
+  rename_all(~ str_replace_all(.x, &quot;_&quot;, &quot; &quot;)) %&gt;%
+  ggpairs(aes(colour = `Sex and treatment`, fill = `Sex and treatment`),
+          diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
+                      discrete = wrap(&quot;blank&quot;)),
+          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1), 
+                       discrete = wrap(&quot;blank&quot;),
+                       combo = wrap(modified_box_no_facet, alpha = 0.7)),
+          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1),
+                       discrete = wrap(&quot;blank&quot;),
+                       combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
+pairs_plot</code></pre>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="directed-acyclic-graph-dag" class="section level2">
+<h2>Directed acyclic graph (DAG)</h2>
+<p>This directed acyclic graph (DAG) illustrates the causal pathways that we observed between the experimental or measured variables (square boxes) and latent variables (ovals). We hypothesise that sex and mating system potentially influence dry weight as well as the metabolite composition (which we assessed by estimating the concentrations of carbohydrates, chitin, glycogen, lipids and protein). Additionally, dry weight is likely correlated with the metabolome, and so dry weight acts as a ‘mediator variable’ between the metabolome, and sex and treatment. The structural equation model below is built with this DAG in mind.</p>
+<pre class="r"><code>DiagrammeR::grViz(&#39;digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+&quot;Metabolite\ncomposition&quot; [shape = oval, fillcolor = Beige]
+
+# edge definitions with the node IDs
+&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Dry weight&quot;}
+&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;} 
+
+&quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Dry weight&quot;} -&gt; {&quot;Metabolite\ncomposition&quot;}
+&quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;}
+
+{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Carbohydrates&quot;
+{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Chitin&quot;
+{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Glycogen&quot;
+{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Lipids&quot;
+{&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Protein&quot;
+}&#39;)</code></pre>
+<div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="fit-brms-structural-equation-model" class="section level1">
 <h1>Fit <code>brms</code> structural equation model</h1>
 <p>Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.</p>
 <div id="define-priors" class="section level3">
 <h3>Define Priors</h3>
-<p>Set Normal priors on all fixed effect parameters, mean = 0, sd = 2. As well as fitting our expectations about the true values of these parameters, setting somewhat informative priors constrains the effects sizes and helps the model to converge. We leave other priors at their defaults.</p>
-<pre class="r"><code>prior1 &lt;- c(set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Lipid&#39;),
-            set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Carbohydrate&#39;),
-            set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Protein&#39;),
-            set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Glycogen&#39;),
-            set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Chitin&#39;),
-            set_prior(&quot;normal(0, 2)&quot;, class = &quot;b&quot;, resp = &#39;Dryweight&#39;))</code></pre>
+<p>We use set <code>Normal</code> priors on all fixed effect parameters, mean = 0, sd = 1, which ‘regularises’ the estimates towards zero – this is conservative (because it makes large posterior effect sizes more improbable), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for <code>line</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>.</p>
+<pre class="r"><code>prior1 &lt;- c(set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Lipid&#39;),
+            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Carbohydrate&#39;),
+            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Protein&#39;),
+            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Glycogen&#39;),
+            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Chitin&#39;),
+            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;Dryweight&#39;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Lipid&#39;, group = &quot;line&quot;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Carbohydrate&#39;, group = &quot;line&quot;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Protein&#39;, group = &quot;line&quot;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Glycogen&#39;, group = &quot;line&quot;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Chitin&#39;, group = &quot;line&quot;),
+            set_prior(&quot;cauchy(0,0.01)&quot;, class = &quot;sd&quot;, resp = &#39;Dryweight&#39;, group = &quot;line&quot;))
+
+prior1</code></pre>
+<pre>          prior class coef group         resp dpar nlpar bound source
+   normal(0, 1)     b                   Lipid                    user
+   normal(0, 1)     b            Carbohydrate                    user
+   normal(0, 1)     b                 Protein                    user
+   normal(0, 1)     b                Glycogen                    user
+   normal(0, 1)     b                  Chitin                    user
+   normal(0, 1)     b               Dryweight                    user
+ cauchy(0,0.01)    sd       line        Lipid                    user
+ cauchy(0,0.01)    sd       line Carbohydrate                    user
+ cauchy(0,0.01)    sd       line      Protein                    user
+ cauchy(0,0.01)    sd       line     Glycogen                    user
+ cauchy(0,0.01)    sd       line       Chitin                    user
+ cauchy(0,0.01)    sd       line    Dryweight                    user
+</pre>
 </div>
-<div id="running-the-model" class="section level3">
-<h3>Running the model</h3>
-<pre class="r"><code># Formula for the SEM:
-brms_formula &lt;- 
+<div id="define-the-six-sub-models" class="section level3">
+<h3>Define the six sub-models</h3>
+<p>The fixed effects formula is <code>sex * treatment + Dryweight</code> (or <code>sex * treatment</code> in the case of the model of dry weight). The random effects part of the formula indicates that the 8 independent selection lines may differ in their means, and that the treatment effect may vary in sign/magnitude between lines. The notation <code>| p |</code> means that the model estimates the correlations in line effects (both slopes and intercepts) between the 6 response variables. Finally, the notation <code>set_rescor(TRUE)</code> means that the model should estimate the residual correlations between the response variables.</p>
+<pre class="r"><code>brms_formula &lt;- 
   
-  # Models of the 5 metabolites
+  # Sub-models of the 5 metabolites
   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
-       sex*treatment*line + Dryweight) +
+       sex*treatment + Dryweight + (treatment | p | line)) +
   
   # dry weight sub-model
-   bf(Dryweight ~ sex*treatment*line) +
+   bf(Dryweight ~ sex*treatment + (treatment | p | line)) +
   
   # Allow for (and estimate) covariance between the residuals of the difference response variables
   set_rescor(TRUE)
 
-if(!file.exists(&quot;output/brms_metabolite_SEM.rds&quot;)){
+brms_formula</code></pre>
+<pre>Lipid ~ sex * treatment + Dryweight + (treatment | p | line) 
+Carbohydrate ~ sex * treatment + Dryweight + (treatment | p | line) 
+Protein ~ sex * treatment + Dryweight + (treatment | p | line) 
+Glycogen ~ sex * treatment + Dryweight + (treatment | p | line) 
+Chitin ~ sex * treatment + Dryweight + (treatment | p | line) 
+Dryweight ~ sex * treatment + (treatment | p | line) 
+</pre>
+</div>
+<div id="running-the-model" class="section level3">
+<h3>Running the model</h3>
+<p>The model is run over 4 chains with 5000 iterations each (with the first 2500 discarded as burn-in), for a total of 2500*4 = 10,000 posterior samples.</p>
+<pre class="r"><code>if(!file.exists(&quot;output/brms_metabolite_SEM.rds&quot;)){
   brms_metabolite_SEM &lt;- brm(
     brms_formula,
     data = scaled_metabolites %&gt;% # brms does not like underscores in variable names
@@ -835,13 +1057,17 @@ if(!file.exists(&quot;output/brms_metabolite_SEM.rds&quot;)){
     iter = 5000, chains = 4, cores = 1,
     prior = prior1,
     control = list(max_treedepth = 20,
-                   adapt_delta = 0.9)
+                   adapt_delta = 0.99)
   )
   
   saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM.rds&quot;)
 } else {
   brms_metabolite_SEM &lt;- readRDS(&#39;output/brms_metabolite_SEM.rds&#39;)
 }</code></pre>
+</div>
+<div id="posterior-predictive-check-of-model-fit" class="section level3">
+<h3>Posterior predictive check of model fit</h3>
+<p>The plot below shows that the fitted model is able to produce posterior predictions that have a similar distribution to the original data, for each of the response variables, which is a necessary condition for the model to be used for statistical inference.</p>
 <pre class="r"><code>grid.arrange(
   pp_check(brms_metabolite_SEM, resp = &quot;Dryweight&quot;) + 
     ggtitle(&quot;Dry weight&quot;) + theme(legend.position = &quot;none&quot;),
@@ -857,13 +1083,50 @@ if(!file.exists(&quot;output/brms_metabolite_SEM.rds&quot;)){
     ggtitle(&quot;Chitin&quot;) + theme(legend.position = &quot;none&quot;),
   nrow = 1
 )</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-8-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-11-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-11-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/4f5ee28172fa0ff4cfbd9b341b0a84b05725d85f/docs/figure/metabolites.Rmd/unnamed-chunk-11-1.png" target="_blank">4f5ee28</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-04
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
 <h2>Table of model parameter estimates</h2>
 <div id="formatted-table" class="section level3">
 <h3>Formatted table</h3>
-<p>This tables shows the parameter estimates for the fixed effects associated with treatment, sex, their interaction, and dry weight (where relevant) for each response variable. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estiamtes of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
+<p>This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
 <pre class="r"><code>vars &lt;- c(&quot;Lipid&quot;, &quot;Carbohydrate&quot;, &quot;Glycogen&quot;, &quot;Protein&quot;, &quot;Chitin&quot;)
 tests &lt;- c(&#39;_Dryweight&#39;, &#39;_sexMale&#39;,
            &#39;_sexMale:treatmentPolyandry&#39;,
@@ -911,11 +1174,11 @@ pvals &lt;- bayestestR::p_direction(brms_metabolite_SEM) %&gt;%
 hypSEM &lt;- hypSEM %&gt;% left_join(pvals, by = c(&quot;vars&quot;, &quot;tests&quot;))
 
 hypSEM  %&gt;% 
-  mutate(Parameter = c(rep(c(&#39;Dry weight&#39;, &#39;Male&#39;, 
-                             &#39;Male x Polyandry&#39;, 
-                             &#39;Polyandry&#39;), 5), 
-                       &#39;Male&#39;, &#39;Polyandry&#39;, &#39;Male x Polyandry&#39;))  %&gt;% 
-  mutate(Parameter = factor(Parameter, c(&quot;Dry weight&quot;, &quot;Male&quot;, &quot;Polyandry&quot;, &quot;Male x Polyandry&quot;)),
+  mutate(Parameter = c(rep(c(&#39;Dry weight&#39;, &#39;Sex (M)&#39;, 
+                             &#39;Sex (M) x Treatment (P)&#39;, 
+                             &#39;Treatment (P)&#39;), 5), 
+                       &#39;Sex (M)&#39;, &#39;Treatment (P)&#39;, &#39;Sex (M) x Treatment (P)&#39;))  %&gt;% 
+  mutate(Parameter = factor(Parameter, c(&quot;Dry weight&quot;, &quot;Sex (M)&quot;, &quot;Treatment (P)&quot;, &quot;Sex (M) x Treatment (P)&quot;)),
          vars = factor(vars, c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dryweight&quot;))) %&gt;%
   arrange(vars, Parameter) %&gt;%
   select(Parameter, Estimate = est, `Est. error` = err, 
@@ -965,85 +1228,85 @@ p
 Dry weight
 </td>
 <td style="text-align:right;">
-0.228
+0.159
 </td>
 <td style="text-align:right;">
-1.857
+0.485
 </td>
 <td style="text-align:right;">
--3.397
+-0.781
 </td>
 <td style="text-align:right;">
-3.837
+1.115
 </td>
 <td style="text-align:right;">
-0.4494
+0.3740
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
--0.085
+0.128
 </td>
 <td style="text-align:right;">
-0.537
+0.789
 </td>
 <td style="text-align:right;">
--1.133
+-1.416
 </td>
 <td style="text-align:right;">
-0.967
+1.671
 </td>
 <td style="text-align:right;">
-0.4395
+0.4367
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
--0.277
+-0.314
 </td>
 <td style="text-align:right;">
-0.355
+0.449
 </td>
 <td style="text-align:right;">
--0.960
+-1.183
 </td>
 <td style="text-align:right;">
-0.444
+0.555
 </td>
 <td style="text-align:right;">
-0.2097
+0.2371
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
--0.524
+-0.472
 </td>
 <td style="text-align:right;">
-0.462
+0.509
 </td>
 <td style="text-align:right;">
--1.436
+-1.461
 </td>
 <td style="text-align:right;">
-0.392
+0.536
 </td>
 <td style="text-align:right;">
-0.1265
+0.1705
 </td>
 <td style="text-align:left;">
 </td>
@@ -1058,86 +1321,85 @@ Male x Polyandry
 Dry weight
 </td>
 <td style="text-align:right;">
--0.276
+-0.471
 </td>
 <td style="text-align:right;">
-1.841
+0.465
 </td>
 <td style="text-align:right;">
--3.884
+-1.387
 </td>
 <td style="text-align:right;">
-3.305
+0.423
 </td>
 <td style="text-align:right;">
-0.4385
+0.1566
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
-1.291
+0.552
 </td>
 <td style="text-align:right;">
-0.499
+0.763
 </td>
 <td style="text-align:right;">
-0.301
+-0.966
 </td>
 <td style="text-align:right;">
-2.268
+2.026
 </td>
 <td style="text-align:right;">
-0.0055
-</td>
-<td style="text-align:left;">
-<ul>
-<li></td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
-</td>
-<td style="text-align:right;">
--0.258
-</td>
-<td style="text-align:right;">
-0.295
-</td>
-<td style="text-align:right;">
--0.837
-</td>
-<td style="text-align:right;">
-0.326
-</td>
-<td style="text-align:right;">
-0.1880
+0.2335
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
--0.357
+-0.064
 </td>
 <td style="text-align:right;">
-0.378
+0.399
 </td>
 <td style="text-align:right;">
--1.112
+-0.822
 </td>
 <td style="text-align:right;">
-0.379
+0.745
 </td>
 <td style="text-align:right;">
-0.1651
+0.4348
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Sex (M) x Treatment (P)
+</td>
+<td style="text-align:right;">
+-0.448
+</td>
+<td style="text-align:right;">
+0.451
+</td>
+<td style="text-align:right;">
+-1.347
+</td>
+<td style="text-align:right;">
+0.432
+</td>
+<td style="text-align:right;">
+0.1577
 </td>
 <td style="text-align:left;">
 </td>
@@ -1152,86 +1414,85 @@ Male x Polyandry
 Dry weight
 </td>
 <td style="text-align:right;">
-0.387
+0.335
 </td>
 <td style="text-align:right;">
-1.839
+0.468
 </td>
 <td style="text-align:right;">
--3.185
+-0.571
 </td>
 <td style="text-align:right;">
-4.006
+1.243
 </td>
 <td style="text-align:right;">
-0.4188
+0.2383
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
--0.968
+-0.430
 </td>
 <td style="text-align:right;">
-0.522
+0.770
 </td>
 <td style="text-align:right;">
--2.008
+-1.906
 </td>
 <td style="text-align:right;">
-0.053
+1.104
 </td>
 <td style="text-align:right;">
-0.0304
-</td>
-<td style="text-align:left;">
-<ul>
-<li></td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
-</td>
-<td style="text-align:right;">
-0.275
-</td>
-<td style="text-align:right;">
-0.344
-</td>
-<td style="text-align:right;">
--0.386
-</td>
-<td style="text-align:right;">
-0.969
-</td>
-<td style="text-align:right;">
-0.2091
+0.2852
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
-0.637
+0.175
 </td>
 <td style="text-align:right;">
-0.447
+0.412
 </td>
 <td style="text-align:right;">
--0.242
+-0.625
 </td>
 <td style="text-align:right;">
-1.502
+0.976
 </td>
 <td style="text-align:right;">
-0.0746
+0.3353
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Sex (M) x Treatment (P)
+</td>
+<td style="text-align:right;">
+0.604
+</td>
+<td style="text-align:right;">
+0.484
+</td>
+<td style="text-align:right;">
+-0.367
+</td>
+<td style="text-align:right;">
+1.552
+</td>
+<td style="text-align:right;">
+0.1054
 </td>
 <td style="text-align:left;">
 </td>
@@ -1246,86 +1507,85 @@ Male x Polyandry
 Dry weight
 </td>
 <td style="text-align:right;">
-0.997
+0.610
 </td>
 <td style="text-align:right;">
-1.832
+0.446
 </td>
 <td style="text-align:right;">
--2.583
+-0.256
 </td>
 <td style="text-align:right;">
-4.573
+1.488
 </td>
 <td style="text-align:right;">
-0.2927
+0.0868
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
--0.780
+-0.025
 </td>
 <td style="text-align:right;">
-0.493
+0.728
 </td>
 <td style="text-align:right;">
--1.756
+-1.455
 </td>
 <td style="text-align:right;">
-0.176
+1.375
 </td>
 <td style="text-align:right;">
-0.0549
+0.4873
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
-0.741
+0.437
 </td>
 <td style="text-align:right;">
-0.286
+0.382
 </td>
 <td style="text-align:right;">
-0.182
+-0.314
 </td>
 <td style="text-align:right;">
-1.306
+1.189
 </td>
 <td style="text-align:right;">
-0.0055
+0.1215
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
--0.241
+-0.034
 </td>
 <td style="text-align:right;">
-0.364
+0.419
 </td>
 <td style="text-align:right;">
--0.959
+-0.875
 </td>
 <td style="text-align:right;">
-0.478
+0.777
 </td>
 <td style="text-align:right;">
-0.2529
+0.4677
 </td>
 <td style="text-align:left;">
 </td>
@@ -1340,85 +1600,85 @@ Male x Polyandry
 Dry weight
 </td>
 <td style="text-align:right;">
--0.291
+-0.222
 </td>
 <td style="text-align:right;">
-1.840
+0.470
 </td>
 <td style="text-align:right;">
--3.879
+-1.145
 </td>
 <td style="text-align:right;">
-3.284
+0.707
 </td>
 <td style="text-align:right;">
-0.4416
+0.3151
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
-0.074
+-0.128
 </td>
 <td style="text-align:right;">
-0.554
+0.776
 </td>
 <td style="text-align:right;">
--1.009
+-1.617
 </td>
 <td style="text-align:right;">
-1.175
+1.417
 </td>
 <td style="text-align:right;">
-0.4487
+0.4367
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
--0.605
+-0.378
 </td>
 <td style="text-align:right;">
-0.398
+0.441
 </td>
 <td style="text-align:right;">
--1.392
+-1.232
 </td>
 <td style="text-align:right;">
-0.169
+0.484
 </td>
 <td style="text-align:right;">
-0.0634
+0.1913
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
-0.838
+0.586
 </td>
 <td style="text-align:right;">
-0.529
+0.517
 </td>
 <td style="text-align:right;">
--0.212
+-0.434
 </td>
 <td style="text-align:right;">
-1.878
+1.584
 </td>
 <td style="text-align:right;">
-0.0550
+0.1258
 </td>
 <td style="text-align:left;">
 </td>
@@ -1430,19 +1690,19 @@ Male x Polyandry
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+Sex (M)
 </td>
 <td style="text-align:right;">
--0.232
+-1.591
 </td>
 <td style="text-align:right;">
-0.017
+0.141
 </td>
 <td style="text-align:right;">
--0.265
+-1.864
 </td>
 <td style="text-align:right;">
--0.199
+-1.312
 </td>
 <td style="text-align:right;">
 0.0000
@@ -1453,22 +1713,22 @@ Male
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry
+Treatment (P)
 </td>
 <td style="text-align:right;">
-0.081
+0.546
 </td>
 <td style="text-align:right;">
-0.017
+0.157
 </td>
 <td style="text-align:right;">
-0.049
+0.233
 </td>
 <td style="text-align:right;">
-0.115
+0.848
 </td>
 <td style="text-align:right;">
-0.0001
+0.0012
 </td>
 <td style="text-align:left;">
 <ul>
@@ -1476,22 +1736,22 @@ Polyandry
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male x Polyandry
+Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
--0.059
+-0.395
 </td>
 <td style="text-align:right;">
-0.024
+0.195
 </td>
 <td style="text-align:right;">
--0.105
+-0.779
 </td>
 <td style="text-align:right;">
--0.013
+-0.012
 </td>
 <td style="text-align:right;">
-0.0076
+0.0223
 </td>
 <td style="text-align:left;">
 <ul>
@@ -1501,13 +1761,17 @@ Male x Polyandry
 </table></li>
 </ul></li>
 </ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
 </ul>
 </div>
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
+<ul>
+<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(Lipid_Intercept)</code>) and slopes (e.g. <code>sd(Dryweight_treatmentPolyandry)</code>), as well as the correlations between these effects (e.g. <code>cor(Lipid_Intercept,Protein_Intercept)</code> is the correlation in line effects on lipids and proteins)</li>
+<li>‘Population-Level Effects:’ (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies) and the effects of treatment, sex, dry weight, and the treatment <span class="math inline">\(\times\)</span> sex interaction, for each response variable.</li>
+<li>‘Family Specific Parameters’: This is the parameter sigma for the residual variance for each response variable</li>
+<li>‘Residual Correlations:’ This give the correlations between the residuals for each pairs of response variables.</li>
+</ul>
+<p>Note that the model has converged (Rhat = 1) and the posterior is adequately samples (high ESS values).</p>
 <pre class="r"><code>brms_metabolite_SEM</code></pre>
 <pre> Family: MV(gaussian, gaussian, gaussian, gaussian, gaussian, gaussian) 
   Links: mu = identity; sigma = identity
@@ -1516,340 +1780,238 @@ Male x Polyandry
          mu = identity; sigma = identity
          mu = identity; sigma = identity
          mu = identity; sigma = identity 
-Formula: Lipid ~ sex * treatment * line + Dryweight 
-         Carbohydrate ~ sex * treatment * line + Dryweight 
-         Protein ~ sex * treatment * line + Dryweight 
-         Glycogen ~ sex * treatment * line + Dryweight 
-         Chitin ~ sex * treatment * line + Dryweight 
-         Dryweight ~ sex * treatment * line 
+Formula: Lipid ~ sex * treatment + Dryweight + (treatment | p | line) 
+         Carbohydrate ~ sex * treatment + Dryweight + (treatment | p | line) 
+         Protein ~ sex * treatment + Dryweight + (treatment | p | line) 
+         Glycogen ~ sex * treatment + Dryweight + (treatment | p | line) 
+         Chitin ~ sex * treatment + Dryweight + (treatment | p | line) 
+         Dryweight ~ sex * treatment + (treatment | p | line) 
    Data: scaled_metabolites %>% rename(Dryweight = Dry_weig (Number of observations: 48) 
 Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
          total post-warmup samples = 10000
 
+Group-Level Effects: 
+~line (Number of levels: 8) 
+                                                                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Lipid_Intercept)                                                   0.09      0.15     0.00     0.51 1.00     2095     2341
+sd(Lipid_treatmentPolyandry)                                          0.03      0.07     0.00     0.22 1.00    13332     6125
+sd(Carbohydrate_Intercept)                                            0.07      0.14     0.00     0.52 1.00     3623     2636
+sd(Carbohydrate_treatmentPolyandry)                                   0.05      0.14     0.00     0.47 1.00     8612     4337
+sd(Protein_Intercept)                                                 0.06      0.13     0.00     0.47 1.00     5854     3298
+sd(Protein_treatmentPolyandry)                                        0.03      0.08     0.00     0.23 1.00    16484     6105
+sd(Glycogen_Intercept)                                                0.03      0.07     0.00     0.24 1.00    12198     5266
+sd(Glycogen_treatmentPolyandry)                                       0.03      0.06     0.00     0.15 1.00    18288     6178
+sd(Chitin_Intercept)                                                  0.07      0.13     0.00     0.47 1.00     3937     3874
+sd(Chitin_treatmentPolyandry)                                         0.04      0.11     0.00     0.35 1.00    10361     4796
+sd(Dryweight_Intercept)                                               0.05      0.07     0.00     0.25 1.00     3428     5432
+sd(Dryweight_treatmentPolyandry)                                      0.03      0.06     0.00     0.21 1.00     8815     5238
+cor(Lipid_Intercept,Lipid_treatmentPolyandry)                         0.00      0.28    -0.54     0.55 1.00    26792     7112
+cor(Lipid_Intercept,Carbohydrate_Intercept)                           0.01      0.28    -0.53     0.54 1.00    20852     7354
+cor(Lipid_treatmentPolyandry,Carbohydrate_Intercept)                 -0.00      0.28    -0.53     0.53 1.00    16765     6360
+cor(Lipid_Intercept,Carbohydrate_treatmentPolyandry)                  0.00      0.28    -0.53     0.54 1.00    25816     6812
+cor(Lipid_treatmentPolyandry,Carbohydrate_treatmentPolyandry)         0.01      0.28    -0.53     0.54 1.00    17444     7043
+cor(Carbohydrate_Intercept,Carbohydrate_treatmentPolyandry)          -0.00      0.28    -0.52     0.54 1.00    12013     6962
+cor(Lipid_Intercept,Protein_Intercept)                                0.00      0.28    -0.53     0.53 1.00    27063     7109
+cor(Lipid_treatmentPolyandry,Protein_Intercept)                       0.00      0.28    -0.52     0.52 1.00    15083     7506
+cor(Carbohydrate_Intercept,Protein_Intercept)                         0.01      0.28    -0.53     0.54 1.00    13647     7267
+cor(Carbohydrate_treatmentPolyandry,Protein_Intercept)               -0.00      0.28    -0.54     0.53 1.00    11023     7498
+cor(Lipid_Intercept,Protein_treatmentPolyandry)                       0.00      0.28    -0.54     0.53 1.00    29517     6597
+cor(Lipid_treatmentPolyandry,Protein_treatmentPolyandry)              0.00      0.28    -0.54     0.54 1.00    17380     6929
+cor(Carbohydrate_Intercept,Protein_treatmentPolyandry)               -0.00      0.28    -0.53     0.52 1.00    10970     6920
+cor(Carbohydrate_treatmentPolyandry,Protein_treatmentPolyandry)      -0.00      0.28    -0.54     0.54 1.00    10098     6571
+cor(Protein_Intercept,Protein_treatmentPolyandry)                     0.00      0.28    -0.53     0.55 1.00     9332     7782
+cor(Lipid_Intercept,Glycogen_Intercept)                               0.01      0.28    -0.52     0.54 1.00    27042     6990
+cor(Lipid_treatmentPolyandry,Glycogen_Intercept)                      0.00      0.28    -0.53     0.54 1.00    17579     7248
+cor(Carbohydrate_Intercept,Glycogen_Intercept)                       -0.00      0.28    -0.54     0.54 1.00    14215     6487
+cor(Carbohydrate_treatmentPolyandry,Glycogen_Intercept)              -0.00      0.28    -0.53     0.52 1.00    10812     7605
+cor(Protein_Intercept,Glycogen_Intercept)                             0.00      0.28    -0.53     0.53 1.00     8863     7173
+cor(Protein_treatmentPolyandry,Glycogen_Intercept)                   -0.00      0.27    -0.53     0.53 1.00     7004     7339
+cor(Lipid_Intercept,Glycogen_treatmentPolyandry)                     -0.00      0.27    -0.52     0.53 1.00    25535     7050
+cor(Lipid_treatmentPolyandry,Glycogen_treatmentPolyandry)            -0.00      0.28    -0.53     0.52 1.00    18911     6298
+cor(Carbohydrate_Intercept,Glycogen_treatmentPolyandry)              -0.00      0.27    -0.52     0.52 1.00    13791     6655
+cor(Carbohydrate_treatmentPolyandry,Glycogen_treatmentPolyandry)     -0.00      0.28    -0.54     0.52 1.00    10659     7370
+cor(Protein_Intercept,Glycogen_treatmentPolyandry)                   -0.01      0.28    -0.53     0.53 1.00     8603     7328
+cor(Protein_treatmentPolyandry,Glycogen_treatmentPolyandry)           0.00      0.28    -0.54     0.53 1.00     7730     7307
+cor(Glycogen_Intercept,Glycogen_treatmentPolyandry)                   0.00      0.28    -0.53     0.54 1.00     6596     7278
+cor(Lipid_Intercept,Chitin_Intercept)                                 0.00      0.28    -0.54     0.53 1.00    20916     6278
+cor(Lipid_treatmentPolyandry,Chitin_Intercept)                       -0.00      0.28    -0.53     0.53 1.00    15610     7353
+cor(Carbohydrate_Intercept,Chitin_Intercept)                         -0.00      0.28    -0.53     0.53 1.00    12856     7884
+cor(Carbohydrate_treatmentPolyandry,Chitin_Intercept)                -0.01      0.28    -0.55     0.53 1.00    10129     6817
+cor(Protein_Intercept,Chitin_Intercept)                               0.00      0.27    -0.51     0.52 1.00     8901     8412
+cor(Protein_treatmentPolyandry,Chitin_Intercept)                     -0.00      0.28    -0.54     0.53 1.00     7775     6917
+cor(Glycogen_Intercept,Chitin_Intercept)                              0.00      0.28    -0.54     0.54 1.00     6654     7446
+cor(Glycogen_treatmentPolyandry,Chitin_Intercept)                     0.00      0.28    -0.53     0.54 1.00     6415     7770
+cor(Lipid_Intercept,Chitin_treatmentPolyandry)                       -0.01      0.28    -0.53     0.52 1.00    23692     7056
+cor(Lipid_treatmentPolyandry,Chitin_treatmentPolyandry)              -0.00      0.28    -0.54     0.53 1.00    18295     6580
+cor(Carbohydrate_Intercept,Chitin_treatmentPolyandry)                -0.00      0.28    -0.54     0.53 1.00    14640     7469
+cor(Carbohydrate_treatmentPolyandry,Chitin_treatmentPolyandry)       -0.00      0.28    -0.53     0.55 1.00    10164     6719
+cor(Protein_Intercept,Chitin_treatmentPolyandry)                      0.00      0.28    -0.54     0.54 1.00     8566     7279
+cor(Protein_treatmentPolyandry,Chitin_treatmentPolyandry)             0.00      0.28    -0.52     0.53 1.00     7797     7033
+cor(Glycogen_Intercept,Chitin_treatmentPolyandry)                    -0.01      0.28    -0.53     0.53 1.00     7348     7423
+cor(Glycogen_treatmentPolyandry,Chitin_treatmentPolyandry)           -0.00      0.28    -0.54     0.53 1.00     5695     7100
+cor(Chitin_Intercept,Chitin_treatmentPolyandry)                      -0.01      0.28    -0.54     0.53 1.00     6015     7267
+cor(Lipid_Intercept,Dryweight_Intercept)                             -0.00      0.27    -0.52     0.52 1.00    20265     8172
+cor(Lipid_treatmentPolyandry,Dryweight_Intercept)                     0.00      0.28    -0.53     0.53 1.00    13293     7369
+cor(Carbohydrate_Intercept,Dryweight_Intercept)                       0.01      0.28    -0.53     0.53 1.00    13575     7373
+cor(Carbohydrate_treatmentPolyandry,Dryweight_Intercept)              0.01      0.28    -0.53     0.55 1.00    10101     7729
+cor(Protein_Intercept,Dryweight_Intercept)                            0.00      0.27    -0.52     0.52 1.00     9004     8106
+cor(Protein_treatmentPolyandry,Dryweight_Intercept)                  -0.00      0.28    -0.53     0.53 1.00     7796     7585
+cor(Glycogen_Intercept,Dryweight_Intercept)                          -0.00      0.28    -0.53     0.54 1.00     6844     8068
+cor(Glycogen_treatmentPolyandry,Dryweight_Intercept)                 -0.00      0.28    -0.53     0.52 1.00     6176     7400
+cor(Chitin_Intercept,Dryweight_Intercept)                            -0.01      0.28    -0.55     0.53 1.00     6064     8432
+cor(Chitin_treatmentPolyandry,Dryweight_Intercept)                   -0.00      0.28    -0.53     0.53 1.00     5531     7765
+cor(Lipid_Intercept,Dryweight_treatmentPolyandry)                     0.00      0.28    -0.53     0.54 1.00    24837     7010
+cor(Lipid_treatmentPolyandry,Dryweight_treatmentPolyandry)            0.00      0.28    -0.53     0.54 1.00    17859     6856
+cor(Carbohydrate_Intercept,Dryweight_treatmentPolyandry)              0.01      0.28    -0.53     0.54 1.00    12990     6799
+cor(Carbohydrate_treatmentPolyandry,Dryweight_treatmentPolyandry)     0.01      0.28    -0.55     0.55 1.00    12074     6870
+cor(Protein_Intercept,Dryweight_treatmentPolyandry)                  -0.00      0.28    -0.54     0.53 1.00     9697     7393
+cor(Protein_treatmentPolyandry,Dryweight_treatmentPolyandry)          0.00      0.28    -0.53     0.53 1.00     6890     6938
+cor(Glycogen_Intercept,Dryweight_treatmentPolyandry)                 -0.00      0.28    -0.53     0.53 1.00     6833     7580
+cor(Glycogen_treatmentPolyandry,Dryweight_treatmentPolyandry)        -0.00      0.28    -0.52     0.53 1.00     6143     7092
+cor(Chitin_Intercept,Dryweight_treatmentPolyandry)                   -0.00      0.28    -0.52     0.53 1.00     5544     7050
+cor(Chitin_treatmentPolyandry,Dryweight_treatmentPolyandry)          -0.01      0.27    -0.54     0.52 1.00     5326     7371
+cor(Dryweight_Intercept,Dryweight_treatmentPolyandry)                 0.01      0.27    -0.52     0.53 1.00     4403     5906
+
 Population-Level Effects: 
-                                              Estimate Est.Error l-95% CI
-Lipid_Intercept                                  -0.39      1.05    -2.43
-Carbohydrate_Intercept                            0.20      1.07    -1.86
-Protein_Intercept                                 0.19      1.07    -1.87
-Glycogen_Intercept                                0.01      1.05    -2.08
-Chitin_Intercept                                 -0.30      1.05    -2.34
-Dryweight_Intercept                               0.56      0.01     0.54
-Lipid_sexMale                                    -0.78      0.49    -1.76
-Lipid_treatmentPolyandry                          0.74      0.29     0.18
-Lipid_line1                                      -0.43      0.33    -1.08
-Lipid_line2                                       0.72      0.30     0.12
-Lipid_line3                                       0.11      0.29    -0.46
-Lipid_Dryweight                                   1.00      1.83    -2.58
-Lipid_sexMale:treatmentPolyandry                 -0.24      0.36    -0.96
-Lipid_sexMale:line1                               1.13      0.45     0.25
-Lipid_sexMale:line2                              -1.01      0.42    -1.81
-Lipid_sexMale:line3                               0.05      0.41    -0.79
-Lipid_treatmentPolyandry:line1                    0.67      0.41    -0.13
-Lipid_treatmentPolyandry:line2                   -1.60      0.44    -2.47
-Lipid_treatmentPolyandry:line3                    0.72      0.41    -0.10
-Lipid_sexMale:treatmentPolyandry:line1           -0.94      0.56    -2.02
-Lipid_sexMale:treatmentPolyandry:line2            1.83      0.58     0.67
-Lipid_sexMale:treatmentPolyandry:line3           -1.13      0.57    -2.23
-Carbohydrate_sexMale                             -0.09      0.54    -1.13
-Carbohydrate_treatmentPolyandry                  -0.28      0.35    -0.96
-Carbohydrate_line1                                0.04      0.39    -0.72
-Carbohydrate_line2                                0.72      0.38    -0.03
-Carbohydrate_line3                                0.11      0.37    -0.64
-Carbohydrate_Dryweight                            0.23      1.86    -3.40
-Carbohydrate_sexMale:treatmentPolyandry          -0.52      0.46    -1.44
-Carbohydrate_sexMale:line1                       -0.50      0.53    -1.55
-Carbohydrate_sexMale:line2                       -0.84      0.52    -1.86
-Carbohydrate_sexMale:line3                        0.08      0.52    -0.93
-Carbohydrate_treatmentPolyandry:line1            -0.15      0.52    -1.15
-Carbohydrate_treatmentPolyandry:line2            -1.02      0.54    -2.08
-Carbohydrate_treatmentPolyandry:line3            -0.39      0.51    -1.38
-Carbohydrate_sexMale:treatmentPolyandry:line1     0.15      0.70    -1.23
-Carbohydrate_sexMale:treatmentPolyandry:line2    -0.33      0.72    -1.77
-Carbohydrate_sexMale:treatmentPolyandry:line3     1.52      0.71     0.11
-Protein_sexMale                                   0.07      0.55    -1.01
-Protein_treatmentPolyandry                       -0.61      0.40    -1.39
-Protein_line1                                     0.07      0.44    -0.78
-Protein_line2                                     0.50      0.43    -0.34
-Protein_line3                                    -0.21      0.43    -1.05
-Protein_Dryweight                                -0.29      1.84    -3.88
-Protein_sexMale:treatmentPolyandry                0.84      0.53    -0.21
-Protein_sexMale:line1                            -0.35      0.59    -1.52
-Protein_sexMale:line2                             0.64      0.58    -0.53
-Protein_sexMale:line3                            -0.98      0.59    -2.11
-Protein_treatmentPolyandry:line1                 -0.30      0.58    -1.45
-Protein_treatmentPolyandry:line2                 -0.17      0.60    -1.37
-Protein_treatmentPolyandry:line3                  0.73      0.58    -0.39
-Protein_sexMale:treatmentPolyandry:line1          0.08      0.79    -1.45
-Protein_sexMale:treatmentPolyandry:line2         -1.05      0.79    -2.59
-Protein_sexMale:treatmentPolyandry:line3          1.04      0.80    -0.54
-Glycogen_sexMale                                 -0.97      0.52    -2.01
-Glycogen_treatmentPolyandry                       0.27      0.34    -0.39
-Glycogen_line1                                   -0.02      0.38    -0.79
-Glycogen_line2                                    0.06      0.36    -0.65
-Glycogen_line3                                    0.61      0.36    -0.11
-Glycogen_Dryweight                                0.39      1.84    -3.18
-Glycogen_sexMale:treatmentPolyandry               0.64      0.45    -0.24
-Glycogen_sexMale:line1                            0.04      0.52    -0.97
-Glycogen_sexMale:line2                            0.17      0.50    -0.82
-Glycogen_sexMale:line3                           -0.16      0.50    -1.16
-Glycogen_treatmentPolyandry:line1                -0.14      0.50    -1.11
-Glycogen_treatmentPolyandry:line2                -0.26      0.52    -1.30
-Glycogen_treatmentPolyandry:line3                -1.00      0.50    -1.96
-Glycogen_sexMale:treatmentPolyandry:line1         0.94      0.68    -0.38
-Glycogen_sexMale:treatmentPolyandry:line2         0.13      0.69    -1.23
-Glycogen_sexMale:treatmentPolyandry:line3         1.14      0.69    -0.21
-Chitin_sexMale                                    1.29      0.50     0.30
-Chitin_treatmentPolyandry                        -0.26      0.29    -0.84
-Chitin_line1                                      0.19      0.34    -0.48
-Chitin_line2                                     -0.22      0.31    -0.83
-Chitin_line3                                     -0.22      0.30    -0.81
-Chitin_Dryweight                                 -0.28      1.84    -3.88
-Chitin_sexMale:treatmentPolyandry                -0.36      0.38    -1.11
-Chitin_sexMale:line1                              0.48      0.45    -0.41
-Chitin_sexMale:line2                              0.68      0.43    -0.17
-Chitin_sexMale:line3                             -0.16      0.43    -1.00
-Chitin_treatmentPolyandry:line1                  -0.61      0.43    -1.45
-Chitin_treatmentPolyandry:line2                   0.71      0.45    -0.19
-Chitin_treatmentPolyandry:line3                   0.04      0.42    -0.80
-Chitin_sexMale:treatmentPolyandry:line1           0.35      0.58    -0.83
-Chitin_sexMale:treatmentPolyandry:line2          -0.18      0.60    -1.34
-Chitin_sexMale:treatmentPolyandry:line3          -1.03      0.59    -2.20
-Dryweight_sexMale                                -0.23      0.02    -0.26
-Dryweight_treatmentPolyandry                      0.08      0.02     0.05
-Dryweight_line1                                  -0.08      0.02    -0.13
-Dryweight_line2                                   0.05      0.02     0.01
-Dryweight_line3                                   0.02      0.02    -0.02
-Dryweight_sexMale:treatmentPolyandry             -0.06      0.02    -0.11
-Dryweight_sexMale:line1                           0.10      0.03     0.05
-Dryweight_sexMale:line2                          -0.05      0.03    -0.11
-Dryweight_sexMale:line3                          -0.04      0.03    -0.09
-Dryweight_treatmentPolyandry:line1                0.05      0.03    -0.01
-Dryweight_treatmentPolyandry:line2               -0.10      0.03    -0.16
-Dryweight_treatmentPolyandry:line3                0.02      0.03    -0.03
-Dryweight_sexMale:treatmentPolyandry:line1       -0.04      0.04    -0.12
-Dryweight_sexMale:treatmentPolyandry:line2        0.09      0.04     0.01
-Dryweight_sexMale:treatmentPolyandry:line3       -0.04      0.04    -0.11
-                                              u-95% CI Rhat Bulk_ESS Tail_ESS
-Lipid_Intercept                                   1.66 1.00     5551     7569
-Carbohydrate_Intercept                            2.31 1.00     7351     7899
-Protein_Intercept                                 2.27 1.00     9759     8118
-Glycogen_Intercept                                2.08 1.00     7214     7629
-Chitin_Intercept                                  1.76 1.00     6201     7685
-Dryweight_Intercept                               0.59 1.00    11265     8219
-Lipid_sexMale                                     0.18 1.00     6532     7398
-Lipid_treatmentPolyandry                          1.31 1.00     7245     7264
-Lipid_line1                                       0.21 1.00     5387     7115
-Lipid_line2                                       1.31 1.00     5658     6416
-Lipid_line3                                       0.70 1.00     6594     7292
-Lipid_Dryweight                                   4.57 1.00     5337     7107
-Lipid_sexMale:treatmentPolyandry                  0.48 1.00     8883     7368
-Lipid_sexMale:line1                               2.00 1.00     5645     7458
-Lipid_sexMale:line2                              -0.19 1.00     6022     6806
-Lipid_sexMale:line3                               0.86 1.00     6543     7299
-Lipid_treatmentPolyandry:line1                    1.48 1.00     6594     7054
-Lipid_treatmentPolyandry:line2                   -0.74 1.00     5455     6969
-Lipid_treatmentPolyandry:line3                    1.52 1.00     6785     8045
-Lipid_sexMale:treatmentPolyandry:line1            0.17 1.00     6910     7415
-Lipid_sexMale:treatmentPolyandry:line2            2.93 1.00     6035     7359
-Lipid_sexMale:treatmentPolyandry:line3           -0.01 1.00     6391     7264
-Carbohydrate_sexMale                              0.97 1.00     8672     7918
-Carbohydrate_treatmentPolyandry                   0.44 1.00     8986     8208
-Carbohydrate_line1                                0.80 1.00     6352     7094
-Carbohydrate_line2                                1.47 1.00     6475     7027
-Carbohydrate_line3                                0.83 1.00     6608     7158
-Carbohydrate_Dryweight                            3.84 1.00     6924     7193
-Carbohydrate_sexMale:treatmentPolyandry           0.39 1.00     9195     8198
-Carbohydrate_sexMale:line1                        0.55 1.00     6408     7770
-Carbohydrate_sexMale:line2                        0.17 1.00     6464     6647
-Carbohydrate_sexMale:line3                        1.12 1.00     6828     7354
-Carbohydrate_treatmentPolyandry:line1             0.85 1.00     7020     7773
-Carbohydrate_treatmentPolyandry:line2             0.06 1.00     6314     7447
-Carbohydrate_treatmentPolyandry:line3             0.61 1.00     6808     7753
-Carbohydrate_sexMale:treatmentPolyandry:line1     1.53 1.00     7296     7651
-Carbohydrate_sexMale:treatmentPolyandry:line2     1.07 1.00     6550     7213
-Carbohydrate_sexMale:treatmentPolyandry:line3     2.88 1.00     7062     8090
-Protein_sexMale                                   1.18 1.00    10143     7950
-Protein_treatmentPolyandry                        0.17 1.00     9880     7799
-Protein_line1                                     0.93 1.00     6938     7152
-Protein_line2                                     1.35 1.00     7763     7455
-Protein_line3                                     0.62 1.00     7871     7521
-Protein_Dryweight                                 3.28 1.00     9605     8248
-Protein_sexMale:treatmentPolyandry                1.88 1.00     9986     8005
-Protein_sexMale:line1                             0.82 1.00     6994     6894
-Protein_sexMale:line2                             1.76 1.00     7873     7792
-Protein_sexMale:line3                             0.20 1.00     7968     7765
-Protein_treatmentPolyandry:line1                  0.83 1.00     7854     7732
-Protein_treatmentPolyandry:line2                  1.00 1.00     7693     7641
-Protein_treatmentPolyandry:line3                  1.84 1.00     7964     7559
-Protein_sexMale:treatmentPolyandry:line1          1.59 1.00     8586     7540
-Protein_sexMale:treatmentPolyandry:line2          0.50 1.00     8232     7742
-Protein_sexMale:treatmentPolyandry:line3          2.62 1.00     8589     8176
-Glycogen_sexMale                                  0.05 1.00     8773     7568
-Glycogen_treatmentPolyandry                       0.97 1.00     8364     7116
-Glycogen_line1                                    0.73 1.00     6298     7153
-Glycogen_line2                                    0.78 1.00     6892     7693
-Glycogen_line3                                    1.32 1.00     6475     7544
-Glycogen_Dryweight                                4.01 1.00     6959     7392
-Glycogen_sexMale:treatmentPolyandry               1.50 1.00     9605     8578
-Glycogen_sexMale:line1                            1.07 1.00     6612     7953
-Glycogen_sexMale:line2                            1.13 1.00     6752     7640
-Glycogen_sexMale:line3                            0.84 1.00     7485     8166
-Glycogen_treatmentPolyandry:line1                 0.88 1.00     7077     7651
-Glycogen_treatmentPolyandry:line2                 0.76 1.00     6719     7792
-Glycogen_treatmentPolyandry:line3                -0.00 1.00     7061     7456
-Glycogen_sexMale:treatmentPolyandry:line1         2.27 1.00     8055     7837
-Glycogen_sexMale:treatmentPolyandry:line2         1.49 1.00     6930     8033
-Glycogen_sexMale:treatmentPolyandry:line3         2.49 1.00     8104     7647
-Chitin_sexMale                                    2.27 1.00     7388     7646
-Chitin_treatmentPolyandry                         0.33 1.00     7955     7902
-Chitin_line1                                      0.86 1.00     4969     7418
-Chitin_line2                                      0.42 1.00     5478     6553
-Chitin_line3                                      0.38 1.00     7039     7596
-Chitin_Dryweight                                  3.30 1.00     5894     7347
-Chitin_sexMale:treatmentPolyandry                 0.38 1.00     9669     7598
-Chitin_sexMale:line1                              1.38 1.00     5068     6947
-Chitin_sexMale:line2                              1.52 1.00     5514     7692
-Chitin_sexMale:line3                              0.69 1.00     7006     7681
-Chitin_treatmentPolyandry:line1                   0.25 1.00     6490     7390
-Chitin_treatmentPolyandry:line2                   1.58 1.00     5410     7563
-Chitin_treatmentPolyandry:line3                   0.86 1.00     6930     7244
-Chitin_sexMale:treatmentPolyandry:line1           1.47 1.00     6770     7632
-Chitin_sexMale:treatmentPolyandry:line2           0.99 1.00     5753     6256
-Chitin_sexMale:treatmentPolyandry:line3           0.13 1.00     7297     7761
-Dryweight_sexMale                                -0.20 1.00    11022     8161
-Dryweight_treatmentPolyandry                      0.12 1.00    10140     8280
-Dryweight_line1                                  -0.05 1.00     5592     6742
-Dryweight_line2                                   0.09 1.00     6334     7190
-Dryweight_line3                                   0.06 1.00     5839     6788
-Dryweight_sexMale:treatmentPolyandry             -0.01 1.00     8996     7885
-Dryweight_sexMale:line1                           0.16 1.00     6072     7282
-Dryweight_sexMale:line2                           0.01 1.00     5836     7023
-Dryweight_sexMale:line3                           0.02 1.00     5680     6662
-Dryweight_treatmentPolyandry:line1                0.11 1.00     5645     6996
-Dryweight_treatmentPolyandry:line2               -0.05 1.00     6067     7584
-Dryweight_treatmentPolyandry:line3                0.08 1.00     6124     7170
-Dryweight_sexMale:treatmentPolyandry:line1        0.03 1.00     6181     7101
-Dryweight_sexMale:treatmentPolyandry:line2        0.17 1.00     6135     7022
-Dryweight_sexMale:treatmentPolyandry:line3        0.04 1.00     5896     6520
+                                        Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Lipid_Intercept                            -0.20      0.35    -0.86     0.48 1.00     7669     7609
+Carbohydrate_Intercept                      0.21      0.39    -0.55     0.99 1.00     8009     8804
+Protein_Intercept                           0.11      0.39    -0.68     0.87 1.00    10507     8790
+Glycogen_Intercept                         -0.02      0.37    -0.78     0.69 1.00     9087     8075
+Chitin_Intercept                           -0.13      0.36    -0.83     0.60 1.00     7618     8104
+Dryweight_Intercept                         0.62      0.11     0.40     0.84 1.00    10491     8371
+Lipid_sexMale                              -0.03      0.73    -1.46     1.38 1.00     6329     7775
+Lipid_treatmentPolyandry                    0.44      0.38    -0.31     1.19 1.00     7294     7481
+Lipid_Dryweight                             0.61      0.45    -0.26     1.49 1.00     5591     7401
+Lipid_sexMale:treatmentPolyandry           -0.03      0.42    -0.88     0.78 1.00     9360     7929
+Carbohydrate_sexMale                        0.13      0.79    -1.42     1.67 1.00     6341     8036
+Carbohydrate_treatmentPolyandry            -0.31      0.45    -1.18     0.56 1.00     8096     7855
+Carbohydrate_Dryweight                      0.16      0.48    -0.78     1.12 1.00     5358     7022
+Carbohydrate_sexMale:treatmentPolyandry    -0.47      0.51    -1.46     0.54 1.00    10099     8210
+Protein_sexMale                            -0.13      0.78    -1.62     1.42 1.00     7981     8072
+Protein_treatmentPolyandry                 -0.38      0.44    -1.23     0.48 1.00     8943     8389
+Protein_Dryweight                          -0.22      0.47    -1.14     0.71 1.00     6639     7473
+Protein_sexMale:treatmentPolyandry          0.59      0.52    -0.43     1.58 1.00    10436     8306
+Glycogen_sexMale                           -0.43      0.77    -1.91     1.10 1.00     7808     7720
+Glycogen_treatmentPolyandry                 0.17      0.41    -0.62     0.98 1.00     9241     8627
+Glycogen_Dryweight                          0.33      0.47    -0.57     1.24 1.00     6423     7220
+Glycogen_sexMale:treatmentPolyandry         0.60      0.48    -0.37     1.55 1.00    11663     8133
+Chitin_sexMale                              0.55      0.76    -0.97     2.03 1.00     6451     7695
+Chitin_treatmentPolyandry                  -0.06      0.40    -0.82     0.74 1.00     7461     8412
+Chitin_Dryweight                           -0.47      0.47    -1.39     0.42 1.00     5563     7405
+Chitin_sexMale:treatmentPolyandry          -0.45      0.45    -1.35     0.43 1.00     9817     8535
+Dryweight_sexMale                          -1.59      0.14    -1.86    -1.31 1.00    11621     7897
+Dryweight_treatmentPolyandry                0.55      0.16     0.23     0.85 1.00     9733     8020
+Dryweight_sexMale:treatmentPolyandry       -0.40      0.19    -0.78    -0.01 1.00     9984     7861
 
 Family Specific Parameters: 
                    Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma_Lipid            0.62      0.08     0.48     0.81 1.00     8901     7960
-sigma_Carbohydrate     0.81      0.11     0.64     1.05 1.00     9453     8007
-sigma_Protein          0.94      0.13     0.73     1.23 1.00     9378     8359
-sigma_Glycogen         0.78      0.11     0.60     1.01 1.00     8671     7494
-sigma_Chitin           0.65      0.09     0.50     0.85 1.00     8997     7939
-sigma_Dryweight        0.04      0.01     0.03     0.05 1.00     7737     7539
+sigma_Lipid            0.75      0.09     0.59     0.95 1.00     8716     7203
+sigma_Carbohydrate     1.01      0.12     0.81     1.27 1.00     9670     8036
+sigma_Protein          1.03      0.12     0.82     1.30 1.00    12465     6467
+sigma_Glycogen         0.95      0.11     0.77     1.19 1.00    14771     7813
+sigma_Chitin           0.85      0.11     0.67     1.10 1.00     8525     8148
+sigma_Dryweight        0.36      0.04     0.29     0.46 1.00    11112     8214
 
 Residual Correlations: 
-                               Estimate Est.Error l-95% CI u-95% CI Rhat
-rescor(Lipid,Carbohydrate)        -0.44      0.14    -0.69    -0.14 1.00
-rescor(Lipid,Protein)              0.02      0.16    -0.30     0.33 1.00
-rescor(Carbohydrate,Protein)      -0.07      0.16    -0.38     0.26 1.00
-rescor(Lipid,Glycogen)             0.06      0.17    -0.27     0.37 1.00
-rescor(Carbohydrate,Glycogen)     -0.10      0.16    -0.40     0.23 1.00
-rescor(Protein,Glycogen)          -0.13      0.16    -0.44     0.20 1.00
-rescor(Lipid,Chitin)              -0.16      0.16    -0.47     0.17 1.00
-rescor(Carbohydrate,Chitin)       -0.13      0.16    -0.44     0.20 1.00
-rescor(Protein,Chitin)             0.21      0.16    -0.12     0.50 1.00
-rescor(Glycogen,Chitin)           -0.01      0.16    -0.32     0.31 1.00
-rescor(Lipid,Dryweight)            0.02      0.19    -0.36     0.39 1.00
-rescor(Carbohydrate,Dryweight)     0.09      0.18    -0.27     0.43 1.00
-rescor(Protein,Dryweight)         -0.06      0.17    -0.39     0.29 1.00
-rescor(Glycogen,Dryweight)         0.16      0.18    -0.20     0.50 1.00
-rescor(Chitin,Dryweight)           0.05      0.19    -0.32     0.41 1.00
-                               Bulk_ESS Tail_ESS
-rescor(Lipid,Carbohydrate)         8396     8362
-rescor(Lipid,Protein)              9839     8907
-rescor(Carbohydrate,Protein)       9856     8076
-rescor(Lipid,Glycogen)             9353     8153
-rescor(Carbohydrate,Glycogen)     10131     8136
-rescor(Protein,Glycogen)           8928     7780
-rescor(Lipid,Chitin)               9773     7628
-rescor(Carbohydrate,Chitin)       10661     8345
-rescor(Protein,Chitin)             8109     8028
-rescor(Glycogen,Chitin)            8418     7801
-rescor(Lipid,Dryweight)            5645     7685
-rescor(Carbohydrate,Dryweight)     7230     8198
-rescor(Protein,Dryweight)          7524     7753
-rescor(Glycogen,Dryweight)         6149     7587
-rescor(Chitin,Dryweight)           5949     7942
+                               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+rescor(Lipid,Carbohydrate)        -0.32      0.15    -0.59    -0.02 1.00     7428     8208
+rescor(Lipid,Protein)             -0.05      0.15    -0.35     0.25 1.00    15061     8297
+rescor(Carbohydrate,Protein)       0.04      0.15    -0.25     0.32 1.00    12117     8047
+rescor(Lipid,Glycogen)             0.03      0.15    -0.28     0.33 1.00     6829     7772
+rescor(Carbohydrate,Glycogen)      0.00      0.15    -0.29     0.28 1.00    13511     7694
+rescor(Protein,Glycogen)          -0.14      0.15    -0.42     0.15 1.00    13684     8006
+rescor(Lipid,Chitin)              -0.07      0.16    -0.37     0.24 1.00    10168     8151
+rescor(Carbohydrate,Chitin)       -0.42      0.13    -0.65    -0.14 1.00    10054     8030
+rescor(Protein,Chitin)             0.08      0.15    -0.23     0.37 1.00    11453     7923
+rescor(Glycogen,Chitin)           -0.02      0.15    -0.31     0.27 1.00     9727     7695
+rescor(Lipid,Dryweight)            0.12      0.23    -0.35     0.55 1.00     5503     7273
+rescor(Carbohydrate,Dryweight)    -0.02      0.22    -0.45     0.40 1.00     5119     7464
+rescor(Protein,Dryweight)         -0.03      0.21    -0.42     0.37 1.00     6002     7734
+rescor(Glycogen,Dryweight)         0.01      0.21    -0.41     0.42 1.00     5646     6996
+rescor(Chitin,Dryweight)           0.24      0.22    -0.21     0.63 1.00     4934     6998
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
 </pre>
-<!-- Plot posteriors for response variables and body size separately. -->
-<!-- ```{r, fig.height=3, fig.width=10} -->
-<!-- # get posterior predictions -->
-<!-- post_dat <- posterior_samples(brms_metabolite_SEM) %>%  -->
-<!--   as_tibble() %>% -->
-<!--   select(contains("b_"), -contains("Intercept")) %>%  -->
-<!--   mutate(draw = 1:n()) %>%  -->
-<!--   pivot_longer(-draw) %>%  -->
-<!--   mutate(key = str_remove_all(name, "b_"), -->
-<!--          var = gsub("_.*", "", x = key), -->
-<!--          eff = gsub(".*_", "", x = key)) %>% -->
-<!--   select(-name, -key) %>%  -->
-<!--   filter(!grepl("line", eff)) %>%  -->
-<!--   arrange(var, eff) -->
-<!-- grid.arrange( -->
-<!--   post_dat %>% -->
-<!--     filter(var != 'Dryweight') %>%  -->
-<!--     ggplot(aes(value, eff, fill = eff)) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2) +  -->
-<!--     stat_halfeyeh(alpha = .8) + -->
-<!--     scale_fill_brewer(palette = "Spectral") + -->
-<!--     ylab("Model parameter") + -->
-<!--     xlab("Effect on Metabolite abundance (SDs)") +  -->
-<!--     facet_wrap(~ var, ncol = 2) + -->
-<!--     theme_ridges() + -->
-<!--     theme(legend.position = "none") , -->
-<!--   post_dat %>% -->
-<!--     filter(var == 'Dryweight') %>%  -->
-<!--     ggplot(aes(value, eff, fill = eff)) +  -->
-<!--     geom_vline(xintercept = 0, linetype = 2) +  -->
-<!--     stat_halfeyeh(alpha = .8) + -->
-<!--     scale_fill_brewer(palette = "Spectral") + -->
-<!--     ylab(NULL) + -->
-<!--     xlab("Effect on body weight (SDs)") +  -->
-<!--     theme_ridges() + -->
-<!--     theme(legend.position = "none") -->
-<!--   heights = c(0.8,0.2) -->
-<!-- ) -->
-<!-- ``` -->
 </div>
 </div>
-<div id="posterior-effect-size-of-treatment-on-metabolite-abundance-for-each-sex" class="section level2 tabset">
+<div id="posterior-effect-size-of-treatment-on-metabolite-abundance-for-each-sex" class="section level2">
 <h2>Posterior effect size of treatment on metabolite abundance, for each sex</h2>
-<p>Here, we use the model to predict the… NEED TO DO THIS FOR DIFFERENT BODY SIZES TOO…</p>
-<p>Text here…</p>
-<div id="figure" class="section level3">
+<p>Here, we use the model to predict the mean concentration of each metabolite (in standard units) in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
+<p>Because the model contains dry weight as a mediator variable, we created these predictions two different ways, and display the answer for both using tabs in the following figures/tables. Firstly, we predicted the means <em>controlling for differences in dry weight between sexes and treatments</em>; this was done by deriving the predictions dry weight set to its global mean, for both sexes and treatments. Secondly, we derived predictions without controlling for dry weight. This was done by deriving the predictions with dry weight set to its average value for the appropriate treatment-sex combination.</p>
+<div id="figure" class="section level3 tabset">
 <h3>Figure</h3>
+<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments" class="section level4">
+<h4>Controlling for differences in dry weight between sexes and treatments</h4>
 <pre class="r"><code>new &lt;- expand_grid(sex = c(&quot;Male&quot;, &quot;Female&quot;),
                    treatment = c(&quot;Monogamy&quot;, &quot;Polyandry&quot;),
-                   Dryweight = 0, line = NA) %&gt;%
+                   Dryweight = NA, line = NA) %&gt;%
   mutate(type = 1:n())
 
 levels &lt;- c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dryweight&quot;)
 
+# Estimate mean dry weight for each of the 4 sex/treatment combinations
+evolved_mean_dryweights &lt;- data.frame(
+  new[,1:2], 
+  fitted(brms_metabolite_SEM, re_formula = NA,
+         newdata = new %&gt;% select(-Dryweight), 
+         summary = TRUE, resp = &quot;Dryweight&quot;)) %&gt;%
+  as_tibble()
+
+# Find the mean dry weight across all sexes/treatments
+grand_mean_dryweight &lt;- mean(evolved_mean_dryweights$Estimate)
+
+new_metabolites &lt;- bind_rows(
+  expand_grid(sex = c(&quot;Male&quot;, &quot;Female&quot;),
+                   treatment = c(&quot;Monogamy&quot;, &quot;Polyandry&quot;),
+                   Dryweight = grand_mean_dryweight, line = NA) %&gt;%
+  mutate(type = 1:4),
+  evolved_mean_dryweights %&gt;% select(sex, treatment, Dryweight = Estimate) %&gt;%
+    mutate(line = NA, type = 5:8)
+)
+
+
 # Predict data from the SEM of metabolites...
+
 # Because we use sum contrasts for &quot;line&quot; and line=NA in the new data, 
-# this predicts at the global means across the 4 lines (see ?posterior_epred)
-fitted_values &lt;- posterior_epred(brms_metabolite_SEM, newdata = new, summary = FALSE) %&gt;% 
+# this function predicts at the global means across the 4 lines (see ?posterior_epred)
+fitted_values &lt;- posterior_epred(
+  brms_metabolite_SEM, newdata = new_metabolites, re_formula = NA,
+  summary = FALSE, resp = c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;)) %&gt;% 
   reshape2::melt() %&gt;% rename(draw = Var1, type = Var2, variable = Var3) %&gt;% 
   as_tibble() %&gt;%
-  left_join(new, by = &quot;type&quot;) %&gt;%
-  select(draw, variable, value, sex, treatment) %&gt;%
+  left_join(new_metabolites, by = &quot;type&quot;) %&gt;%
+  select(draw, variable, value, sex, treatment, Dryweight) %&gt;%
   mutate(variable = factor(variable, levels))
 
 
-treat_diff &lt;- fitted_values %&gt;%
+treat_diff_standard_dryweight &lt;- fitted_values %&gt;%
+  filter(Dryweight == grand_mean_dryweight) %&gt;%
+  spread(treatment, value) %&gt;%
+  mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
+
+treat_diff_actual_dryweight &lt;- fitted_values %&gt;%
+  filter(Dryweight != grand_mean_dryweight) %&gt;% 
+  select(-Dryweight) %&gt;%
   spread(treatment, value) %&gt;%
   mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
 
 
-summary_dat1 &lt;- treat_diff %&gt;%
+
+summary_dat1 &lt;- treat_diff_standard_dryweight %&gt;%
+  filter(variable != &#39;Dryweight&#39;) %&gt;%
+  rename(x = `Difference in means (Poly - Mono)`) %&gt;%
+  group_by(variable, sex)  %&gt;%
+  summarise(`Difference in means (Poly - Mono)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;)
+
+summary_dat2 &lt;- treat_diff_actual_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in means (Poly - Mono)`) %&gt;%
   group_by(variable, sex)  %&gt;%
@@ -1862,12 +2024,12 @@ summary_dat1 &lt;- treat_diff %&gt;%
 
 sampled_draws &lt;- sample(unique(fitted_values$draw), 100)
 
-treat_diff %&gt;%
+treat_diff_standard_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
-  geom_line(data = treat_diff %&gt;%
+  geom_line(data = treat_diff_standard_dryweight %&gt;%
               filter(draw %in% sampled_draws) %&gt;%
               filter(variable != &#39;Dryweight&#39;), 
             alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
@@ -1879,12 +2041,38 @@ treat_diff %&gt;%
   theme(legend.position = &#39;none&#39;,
         strip.background = element_blank(),
         panel.grid.major.x = element_blank()) +
+  coord_cartesian(ylim = c(-2.2, 2.2)) + 
+  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments" class="section level4">
+<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>treat_diff_actual_dryweight %&gt;%
+  filter(variable != &#39;Dryweight&#39;) %&gt;% 
+  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  geom_line(data = treat_diff_actual_dryweight %&gt;%
+              filter(draw %in% sampled_draws) %&gt;%
+              filter(variable != &#39;Dryweight&#39;), 
+            alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
+  geom_point(data = summary_dat2, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
+  scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  facet_wrap( ~ variable,  nrow = 1) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = c(-1.8, 1.8)) + 
   ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="table" class="section level3">
+</div>
+<div id="table" class="section level3 tabset">
 <h3>Table</h3>
+<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-1" class="section level4">
+<h4>Controlling for differences in dry weight between sexes and treatments</h4>
 <pre class="r"><code>summary_dat1 %&gt;%
   kable(digits=3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
@@ -1922,16 +2110,16 @@ Carbohydrate
 Female
 </td>
 <td style="text-align:right;">
--0.275
+-0.314
 </td>
 <td style="text-align:right;">
--0.960
+-1.183
 </td>
 <td style="text-align:right;">
-0.444
+0.555
 </td>
 <td style="text-align:right;">
-0.210
+0.237
 </td>
 <td style="text-align:left;">
 </td>
@@ -1944,16 +2132,16 @@ Carbohydrate
 Male
 </td>
 <td style="text-align:right;">
--0.800
+-0.785
 </td>
 <td style="text-align:right;">
--1.439
+-1.556
 </td>
 <td style="text-align:right;">
--0.148
+0.004
 </td>
 <td style="text-align:right;">
-0.009
+0.025
 </td>
 <td style="text-align:left;">
 <ul>
@@ -1967,16 +2155,16 @@ Chitin
 Female
 </td>
 <td style="text-align:right;">
--0.262
+-0.068
 </td>
 <td style="text-align:right;">
--0.837
+-0.822
 </td>
 <td style="text-align:right;">
-0.326
+0.745
 </td>
 <td style="text-align:right;">
-0.188
+0.435
 </td>
 <td style="text-align:left;">
 </td>
@@ -1989,20 +2177,19 @@ Chitin
 Male
 </td>
 <td style="text-align:right;">
--0.614
+-0.509
 </td>
 <td style="text-align:right;">
--1.139
+-1.190
 </td>
 <td style="text-align:right;">
--0.091
+0.177
 </td>
 <td style="text-align:right;">
-0.010
+0.069
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2010,83 +2197,206 @@ Glycogen
 </td>
 <td style="text-align:left;">
 Female
+</td>
+<td style="text-align:right;">
+0.180
+</td>
+<td style="text-align:right;">
+-0.625
+</td>
+<td style="text-align:right;">
+0.976
+</td>
+<td style="text-align:right;">
+0.335
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.782
+</td>
+<td style="text-align:right;">
+0.051
+</td>
+<td style="text-align:right;">
+1.491
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+0.440
+</td>
+<td style="text-align:right;">
+-0.314
+</td>
+<td style="text-align:right;">
+1.189
+</td>
+<td style="text-align:right;">
+0.122
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.405
+</td>
+<td style="text-align:right;">
+-0.230
+</td>
+<td style="text-align:right;">
+1.031
+</td>
+<td style="text-align:right;">
+0.103
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.384
+</td>
+<td style="text-align:right;">
+-1.232
+</td>
+<td style="text-align:right;">
+0.484
+</td>
+<td style="text-align:right;">
+0.191
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.205
+</td>
+<td style="text-align:right;">
+-0.600
+</td>
+<td style="text-align:right;">
+0.997
+</td>
+<td style="text-align:right;">
+0.304
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul>
+</div>
+<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-1" class="section level4">
+<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>summary_dat2 %&gt;%
+  kable(digits=3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:right;">
+Difference in means (Poly - Mono)
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.225
+</td>
+<td style="text-align:right;">
+-0.956
+</td>
+<td style="text-align:right;">
+0.495
 </td>
 <td style="text-align:right;">
 0.267
 </td>
-<td style="text-align:right;">
--0.386
-</td>
-<td style="text-align:right;">
-0.969
-</td>
-<td style="text-align:right;">
-0.209
-</td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
-Glycogen
+Carbohydrate
 </td>
 <td style="text-align:left;">
 Male
 </td>
 <td style="text-align:right;">
-0.913
+-0.764
 </td>
 <td style="text-align:right;">
-0.281
+-1.526
 </td>
 <td style="text-align:right;">
-1.534
-</td>
-<td style="text-align:right;">
-0.003
-</td>
-<td style="text-align:left;">
-<ul>
-<li></td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
-0.739
-</td>
-<td style="text-align:right;">
-0.182
-</td>
-<td style="text-align:right;">
-1.306
-</td>
-<td style="text-align:right;">
-0.005
-</td>
-<td style="text-align:left;">
-<ul>
-<li></td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
-0.497
-</td>
-<td style="text-align:right;">
--0.007
-</td>
-<td style="text-align:right;">
-1.018
+0.018
 </td>
 <td style="text-align:right;">
 0.027
@@ -2097,22 +2407,157 @@ Male
 </tr>
 <tr>
 <td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+<td style="text-align:right;">
+-0.943
+</td>
+<td style="text-align:right;">
+0.305
+</td>
+<td style="text-align:right;">
+0.158
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+-0.580
+</td>
+<td style="text-align:right;">
+-1.264
+</td>
+<td style="text-align:right;">
+0.095
+</td>
+<td style="text-align:right;">
+0.044
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+0.356
+</td>
+<td style="text-align:right;">
+-0.307
+</td>
+<td style="text-align:right;">
+1.019
+</td>
+<td style="text-align:right;">
+0.146
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.831
+</td>
+<td style="text-align:right;">
+0.104
+</td>
+<td style="text-align:right;">
+1.533
+</td>
+<td style="text-align:right;">
+0.013
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+0.770
+</td>
+<td style="text-align:right;">
+0.162
+</td>
+<td style="text-align:right;">
+1.369
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:left;">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.500
+</td>
+<td style="text-align:right;">
+-0.130
+</td>
+<td style="text-align:right;">
+1.115
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
 Protein
 </td>
 <td style="text-align:left;">
 Female
 </td>
 <td style="text-align:right;">
--0.605
+-0.502
 </td>
 <td style="text-align:right;">
--1.392
+-1.229
 </td>
 <td style="text-align:right;">
-0.169
+0.234
 </td>
 <td style="text-align:right;">
-0.063
+0.092
 </td>
 <td style="text-align:left;">
 </td>
@@ -2125,16 +2570,16 @@ Protein
 Male
 </td>
 <td style="text-align:right;">
-0.230
+0.175
 </td>
 <td style="text-align:right;">
--0.529
+-0.623
 </td>
 <td style="text-align:right;">
-0.983
+0.964
 </td>
 <td style="text-align:right;">
-0.266
+0.332
 </td>
 <td style="text-align:left;">
 </td>
@@ -2144,16 +2589,18 @@ Male
 </ul></li>
 </ul></li>
 </ul></li>
-</ul></li>
 </ul>
 </div>
 </div>
-<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2 tabset">
+</div>
+<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
 <h2>Posterior difference in treatment effect size between sexes</h2>
 <p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the treatment effects did not differ detectably between sexes. However, the effect of the Polyandry treatment on glycogen concentration appears to be marginally more positive in males than females (probability of direction = 92.5%, similar to a one-sided p-value of 0.075).</p>
-<div id="figure-1" class="section level3">
+<div id="figure-1" class="section level3 tabset">
 <h3>Figure</h3>
-<pre class="r"><code>treatsex_interaction_data &lt;- treat_diff %&gt;%
+<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-2" class="section level4">
+<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>treatsex_interaction_data1 &lt;- treat_diff_standard_dryweight %&gt;%
   select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
   arrange(draw, variable, sex) %&gt;%
   group_by(draw, variable) %&gt;%
@@ -2161,9 +2608,9 @@ Male
             .groups = &quot;drop&quot;) # males - females
 
 
-treatsex_interaction_data %&gt;%
+treatsex_interaction_data1 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
-  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat((x) &lt; 0))) +
+  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat(x &lt; 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
   stat_halfeyeh() +
   facet_wrap( ~ variable) +
@@ -2172,11 +2619,37 @@ treatsex_interaction_data %&gt;%
   theme(legend.position = &#39;none&#39;,
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
-<div id="table-1" class="section level3">
+<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-2" class="section level4">
+<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>treatsex_interaction_data2 &lt;- treat_diff_actual_dryweight %&gt;%
+  select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
+  arrange(draw, variable, sex) %&gt;%
+  group_by(draw, variable) %&gt;%
+  summarise(`Difference in effect size between sexes` = d[2] - d[1],
+            .groups = &quot;drop&quot;) # males - females
+
+
+treatsex_interaction_data2 %&gt;%
+  filter(variable != &#39;Dryweight&#39;) %&gt;% 
+  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat(x &lt; 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeyeh() +
+  facet_wrap( ~ variable) +
+  scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        strip.background = element_blank()) +
+  ylab(&quot;Posterior density&quot;)</code></pre>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="table-1" class="section level3 tabset">
 <h3>Table</h3>
-<pre class="r"><code>treatsex_interaction_data %&gt;%
+<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-3" class="section level4">
+<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>treatsex_interaction_data1 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in effect size between sexes`) %&gt;%
   group_by(variable)  %&gt;%
@@ -2216,16 +2689,16 @@ p
 Carbohydrate
 </td>
 <td style="text-align:right;">
--0.523
+-0.470
 </td>
 <td style="text-align:right;">
--1.436
+-1.461
 </td>
 <td style="text-align:right;">
-0.392
+0.536
 </td>
 <td style="text-align:right;">
-0.126
+0.170
 </td>
 <td style="text-align:left;">
 </td>
@@ -2235,16 +2708,16 @@ Carbohydrate
 Chitin
 </td>
 <td style="text-align:right;">
--0.355
+-0.446
 </td>
 <td style="text-align:right;">
--1.112
+-1.347
 </td>
 <td style="text-align:right;">
-0.379
+0.432
 </td>
 <td style="text-align:right;">
-0.165
+0.158
 </td>
 <td style="text-align:left;">
 </td>
@@ -2254,16 +2727,16 @@ Chitin
 Glycogen
 </td>
 <td style="text-align:right;">
-0.639
+0.606
 </td>
 <td style="text-align:right;">
--0.242
+-0.367
 </td>
 <td style="text-align:right;">
-1.502
+1.552
 </td>
 <td style="text-align:right;">
-0.075
+0.105
 </td>
 <td style="text-align:left;">
 </td>
@@ -2273,16 +2746,16 @@ Glycogen
 Lipid
 </td>
 <td style="text-align:right;">
--0.240
+-0.031
 </td>
 <td style="text-align:right;">
--0.959
+-0.875
 </td>
 <td style="text-align:right;">
-0.478
+0.777
 </td>
 <td style="text-align:right;">
-0.253
+0.468
 </td>
 <td style="text-align:left;">
 </td>
@@ -2292,16 +2765,151 @@ Lipid
 Protein
 </td>
 <td style="text-align:right;">
-0.841
+0.584
 </td>
 <td style="text-align:right;">
--0.212
+-0.434
 </td>
 <td style="text-align:right;">
-1.878
+1.584
 </td>
 <td style="text-align:right;">
-0.055
+0.126
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-3" class="section level4">
+<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<pre class="r"><code>treatsex_interaction_data2 %&gt;%
+  filter(variable != &#39;Dryweight&#39;) %&gt;%
+  rename(x = `Difference in effect size between sexes`) %&gt;%
+  group_by(variable)  %&gt;%
+  summarise(`Difference in effect size between sexes` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;) %&gt;%
+  kable(digits=3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+Difference in effect size between sexes
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:right;">
+-0.539
+</td>
+<td style="text-align:right;">
+-1.454
+</td>
+<td style="text-align:right;">
+0.380
+</td>
+<td style="text-align:right;">
+0.124
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:right;">
+-0.265
+</td>
+<td style="text-align:right;">
+-1.074
+</td>
+<td style="text-align:right;">
+0.565
+</td>
+<td style="text-align:right;">
+0.257
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:right;">
+0.476
+</td>
+<td style="text-align:right;">
+-0.429
+</td>
+<td style="text-align:right;">
+1.350
+</td>
+<td style="text-align:right;">
+0.142
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:right;">
+-0.275
+</td>
+<td style="text-align:right;">
+-1.009
+</td>
+<td style="text-align:right;">
+0.467
+</td>
+<td style="text-align:right;">
+0.232
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:right;">
+0.679
+</td>
+<td style="text-align:right;">
+-0.276
+</td>
+<td style="text-align:right;">
+1.606
+</td>
+<td style="text-align:right;">
+0.081
 </td>
 <td style="text-align:left;">
 </td>
@@ -2331,58 +2939,32 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 tidybayes_2.0.3 
- [5] brms_2.14.4      Rcpp_1.0.4.6     nlme_3.1-149     ggridges_0.5.2  
- [9] gridExtra_2.3    GGally_1.5.0     forcats_0.5.0    stringr_1.4.0   
-[13] dplyr_1.0.0      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0     
-[17] tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  workflowr_1.6.2 
+ [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 DT_0.13          tidybayes_2.0.3  brms_2.14.4      Rcpp_1.0.4.6     ggridges_0.5.2   gridExtra_2.3   
+[10] GGally_1.5.0     forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2   
+[19] tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6          
-  [4] igraph_1.2.5         svUnit_1.0.3         splines_4.0.3       
-  [7] crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.1    
- [10] inline_0.3.15        digest_0.6.25        htmltools_0.5.0     
- [13] rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
- [16] modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0  
- [19] xts_0.12-0           sandwich_2.5-1       prettyunits_1.1.1   
- [22] colorspace_1.4-1     blob_1.2.1           rvest_0.3.5         
- [25] haven_2.3.1          xfun_0.19            callr_3.4.3         
- [28] crayon_1.3.4         jsonlite_1.7.0       lme4_1.1-23         
- [31] survival_3.2-7       zoo_1.8-8            glue_1.4.2          
- [34] gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2       
- [37] V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2        
- [40] abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
- [43] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0   
- [46] xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-3
- [49] DT_0.13              htmlwidgets_1.5.1    httr_1.4.1          
- [52] DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0  
- [55] RColorBrewer_1.1-2   ellipsis_0.3.1       farver_2.0.3        
- [58] pkgconfig_2.0.3      reshape_0.8.8        loo_2.3.1           
- [61] dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0    
- [64] rlang_0.4.6          reshape2_1.4.4       later_1.0.0         
- [67] visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0    
- [70] tools_4.0.3          cli_2.0.2            generics_0.0.2      
- [73] broom_0.5.6          evaluate_0.14        fastmap_1.0.1       
- [76] yaml_2.2.1           processx_3.4.2       fs_1.4.1            
- [79] whisker_0.4          mime_0.9             projpred_2.0.2      
- [82] xml2_1.3.2           compiler_4.0.3       bayesplot_1.7.2     
- [85] shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6         
- [88] curl_4.3             reprex_0.3.0         statmod_1.4.34      
- [91] stringi_1.5.3        highr_0.8            ps_1.3.3            
- [94] Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18       
- [97] nloptr_1.2.2.1       markdown_1.1         shinyjs_1.1         
-[100] vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0     
-[103] bridgesampling_1.0-0 estimability_1.3     insight_0.8.4       
-[106] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0      
-[109] codetools_0.2-16     boot_1.3-25          colourpicker_1.0    
-[112] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1    
-[115] rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0     
-[118] multcomp_1.4-13      bayestestR_0.6.0     mgcv_1.8-33         
-[121] parallel_4.0.3       hms_0.5.3            grid_4.0.3          
-[124] coda_0.19-3          minqa_1.2.4          rmarkdown_2.5       
-[127] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8     
-[130] base64enc_0.1-3      dygraphs_1.1.1.6    
+  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         svUnit_1.0.3         splines_4.0.3        crosstalk_1.1.0.1   
+  [8] TH.data_1.0-10       rstantools_2.1.1     inline_0.3.15        digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1         
+ [15] magrittr_2.0.1       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0   xts_0.12-0           sandwich_2.5-1       prettyunits_1.1.1   
+ [22] colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1          xfun_0.19            callr_3.4.3          crayon_1.3.4        
+ [29] jsonlite_1.7.0       lme4_1.1-23          survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0         emmeans_1.4.7       
+ [36] webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
+ [43] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-3 htmlwidgets_1.5.1   
+ [50] httr_1.4.1           DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0   RColorBrewer_1.1-2   ellipsis_0.3.1       farver_2.0.3        
+ [57] pkgconfig_2.0.3      reshape_0.8.8        loo_2.3.1            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6         
+ [64] reshape2_1.4.4       later_1.0.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
+ [71] generics_0.0.2       broom_0.5.6          evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       fs_1.4.1            
+ [78] nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3       bayesplot_1.7.2     
+ [85] shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6          curl_4.3             reprex_0.3.0         statmod_1.4.34       stringi_1.5.3       
+ [92] highr_0.8            ps_1.3.3             Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1       markdown_1.1        
+ [99] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     insight_0.8.4       
+[106] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       codetools_0.2-16     boot_1.3-25          colourpicker_1.0     MASS_7.3-53         
+[113] gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      bayestestR_0.6.0    
+[120] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5       
+[127] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
+</div>
 </div>
 </div>
 </div>
