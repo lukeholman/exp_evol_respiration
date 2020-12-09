@@ -211,7 +211,7 @@ pairs_plot
 
 ## Directed acyclic graph (DAG)
 
-This directed acyclic graph (DAG) illustrates the causal pathways that we observed between the experimental or measured variables (square boxes) and latent variables (ovals). We hypothesise that sex and mating system potentially influence dry weight as well as the metabolite composition (which we assessed by estimating the concentrations of carbohydrates, chitin, glycogen, lipids and protein). Additionally, dry weight is likely correlated with the metabolome, and so dry weight acts as a 'mediator variable' between the metabolome, and sex and treatment. The structural equation model below is built with this DAG in mind.
+This directed acyclic graph (DAG) illustrates the causal pathways that we observed between the experimental or measured variables (square boxes) and latent variables (ovals). We hypothesise that sex and mating system potentially influence dry weight as well as the metabolite composition (which we assessed by estimating the concentrations of carbohydrates, chitin, glycogen, lipids and protein). Additionally, dry weight is likely correlated with metabolite composition, and so dry weight acts as a 'mediator variable' between metabolite composition, and sex and treatment. The structural equation model below is built with this DAG in mind.
 
 ```{r}
 DiagrammeR::grViz('digraph {
@@ -428,6 +428,8 @@ brms_metabolite_SEM
 Here, we use the model to predict the mean concentration of each metabolite (in standard units) in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen's d), from the model shown above. 
 
 Because the model contains dry weight as a mediator variable, we created these predictions two different ways, and display the answer for both using tabs in the following figures/tables. Firstly, we predicted the means *controlling for differences in dry weight between sexes and treatments*; this was done by deriving the predictions dry weight set to its global mean, for both sexes and treatments. Secondly, we derived predictions without controlling for dry weight. This was done by deriving the predictions with dry weight set to its average value for the appropriate treatment-sex combination. 
+
+By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry mass are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs P treatment affected metabolite composition, via mechanisms other than by altering body mass. 
 
 
 ### Figure {.tabset}
