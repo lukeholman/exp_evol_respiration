@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree904af3130995534a975dd7458e249d4ddeab0a5etargetblank904af31a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/904af3130995534a975dd7458e249d4ddeab0a5e" target="_blank">904af31</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8464a7f9052d933f1a1d9362a0dcaadc251ac349targetblank8464a7fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/8464a7f9052d933f1a1d9362a0dcaadc251ac349" target="_blank">8464a7f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree904af3130995534a975dd7458e249d4ddeab0a5etargetblank904af31a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8464a7f9052d933f1a1d9362a0dcaadc251ac349targetblank8464a7fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/904af3130995534a975dd7458e249d4ddeab0a5e" target="_blank">904af31</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/8464a7f9052d933f1a1d9362a0dcaadc251ac349" target="_blank">8464a7f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,6 +556,7 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
+    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   output/brms_metabolite_SEM.rds
@@ -597,6 +598,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/8464a7f9052d933f1a1d9362a0dcaadc251ac349/analysis/metabolites.Rmd" target="_blank">8464a7f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/901053c2880468b92d7be83694783511aed2f6c5/docs/metabolites.html" target="_blank">901053c</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1353,9 +1388,9 @@ Dryweight ~ sex * treatment + (treatment | p | line)
     ggtitle(&quot;Glycogen&quot;) + theme(legend.position = &quot;none&quot;),
   pp_check(brms_metabolite_SEM, resp = &quot;Chitin&quot;) + 
     ggtitle(&quot;Chitin&quot;) + theme(legend.position = &quot;none&quot;),
-  nrow = 1
+  nrow = 2
 )</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-12-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
 Past versions of unnamed-chunk-12-1.png
@@ -1439,7 +1474,7 @@ pvals &lt;- bayestestR::p_direction(brms_metabolite_SEM) %&gt;%
          tests = str_c(&quot;_&quot;, str_remove_all(tests, &quot;[.]&quot;)),
          tests = replace(tests, tests == &quot;_sexMaletreatmentPolyandry&quot;, &quot;_sexMale:treatmentPolyandry&quot;)) %&gt;%
   filter(!str_detect(tests, &quot;line&quot;)) %&gt;%
-  mutate(p_val = 1 - pd, star = ifelse(p_val &lt; 0.05, &quot;*&quot;, &quot;&quot;)) %&gt;%
+  mutate(p_val = 1 - pd, star = ifelse(p_val &lt; 0.05, &quot;\\*&quot;, &quot;&quot;)) %&gt;%
   select(vars, tests, p_val, star)
 
 
@@ -1608,8 +1643,8 @@ Dry weight
 0.0324
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -1795,8 +1830,8 @@ Dry weight
 0.0180
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -1982,8 +2017,8 @@ Sex (M)
 0.0000
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -2005,8 +2040,8 @@ Treatment (P)
 0.0015
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -2028,16 +2063,11 @@ Sex (M) x Treatment (P)
 0.0354
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 </tbody>
-</table></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+</table>
 </div>
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
@@ -2288,7 +2318,7 @@ summary_dat1 &lt;- treat_diff_standard_dryweight %&gt;%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
             .groups = &quot;drop&quot;)
 
 summary_dat2 &lt;- treat_diff_actual_dryweight %&gt;%
@@ -2299,7 +2329,7 @@ summary_dat2 &lt;- treat_diff_actual_dryweight %&gt;%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
             .groups = &quot;drop&quot;)
 
 sampled_draws &lt;- sample(unique(fitted_values$draw), 100)
@@ -2510,8 +2540,8 @@ Male
 0.031
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2599,8 +2629,8 @@ Male
 0.031
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2691,9 +2721,7 @@ Male
 </td>
 </tr>
 </tbody>
-</table></li>
-</ul></li>
-</ul>
+</table>
 </div>
 <div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-1" class="section level4">
 <h4>Not controlling for differences in dry weight between sexes and treatments</h4>
@@ -2768,8 +2796,8 @@ Male
 0.034
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2813,8 +2841,8 @@ Male
 0.047
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2858,8 +2886,8 @@ Male
 0.022
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2881,8 +2909,8 @@ Female
 0.006
 </td>
 <td style="text-align:left;">
-<ul>
-<li></td>
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left;">
@@ -2951,11 +2979,7 @@ Male
 </td>
 </tr>
 </tbody>
-</table></li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+</table>
 </div>
 </div>
 </div>
@@ -3107,7 +3131,7 @@ lukeholman
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
             .groups = &quot;drop&quot;) %&gt;%
   kable(digits=3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
@@ -3242,7 +3266,7 @@ Protein
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p &lt; 0.05, &quot;*&quot;, &quot;&quot;),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
             .groups = &quot;drop&quot;) %&gt;%
   kable(digits=3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
