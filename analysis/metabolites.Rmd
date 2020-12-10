@@ -213,11 +213,16 @@ pairs_plot <- scaled_metabolites %>%
 pairs_plot
 ```
 
-### Mean dry mass
+### Mean dry weight
 
 ```{r}
 se <- function(x) sd(x) / sqrt(length(x))
-metabolites %>% group_by(sex, treatment) %>% summarise(mean_dwt = mean(dwt_mg), SE = se(dwt_mg), n = n())
+metabolites %>% 
+  group_by(sex, treatment) %>% 
+  summarise(mean_dwt = mean(dwt_mg), 
+            SE = se(dwt_mg), 
+            n = n()) %>% 
+  kable(digits = 3) %>% kable_styling(full_width = FALSE)
 ```
 
 
