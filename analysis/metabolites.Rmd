@@ -213,6 +213,15 @@ pairs_plot <- scaled_metabolites %>%
 pairs_plot
 ```
 
+### Mean dry mass
+
+```{r}
+se <- function(x) sd(x) / sqrt(length(x))
+metabolites %>% group_by(sex, treatment) %>% summarise(mean_dwt = mean(dwt_mg), SE = se(dwt_mg), n = n())
+```
+
+
+
 
 ## Directed acyclic graph (DAG)
 
@@ -255,18 +264,18 @@ Here we fit a model of the five metabolites, which includes dry body weight as a
 We use set `Normal` priors on all fixed effect parameters, mean = 0, sd = 1, which 'regularises' the estimates towards zero -- this is conservative (because it makes large posterior effect sizes more improbable), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for `line` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. 
 
 ```{r}
-prior1 <- c(set_prior("normal(0, 1)", class = "b", resp = 'Lipid'),
-            set_prior("normal(0, 1)", class = "b", resp = 'Carbohydrate'),
-            set_prior("normal(0, 1)", class = "b", resp = 'Protein'),
-            set_prior("normal(0, 1)", class = "b", resp = 'Glycogen'),
-            set_prior("normal(0, 1)", class = "b", resp = 'Chitin'),
+prior1 <- c(set_prior("normal(0, 0.5)", class = "b", resp = 'Lipid'),
+            set_prior("normal(0, 0.5)", class = "b", resp = 'Carbohydrate'),
+            set_prior("normal(0, 0.5)", class = "b", resp = 'Protein'),
+            set_prior("normal(0, 0.5)", class = "b", resp = 'Glycogen'),
+            set_prior("normal(0, 0.5)", class = "b", resp = 'Chitin'),
             set_prior("normal(0, 1)", class = "b", resp = 'Dryweight'),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Lipid', group = "line"),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Carbohydrate', group = "line"),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Protein', group = "line"),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Glycogen', group = "line"),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Chitin', group = "line"),
-            set_prior("cauchy(0,0.01)", class = "sd", resp = 'Dryweight', group = "line"))
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Lipid', group = "line"),
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Carbohydrate', group = "line"),
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Protein', group = "line"),
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Glycogen', group = "line"),
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Chitin', group = "line"),
+            set_prior("cauchy(0, 0.01)", class = "sd", resp = 'Dryweight', group = "line"))
 
 prior1
 ```
@@ -438,7 +447,7 @@ By clicking the tabs and comparing, one can see that the estimates of the treatm
 
 ### Figure {.tabset}
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between sexes and treatments
 ```{r, fig.height=4}
 new <- expand_grid(sex = c("Male", "Female"),
                    treatment = c("Monogamy", "Polyandry"),
@@ -455,14 +464,17 @@ evolved_mean_dryweights <- data.frame(
          summary = TRUE, resp = "Dryweight")) %>%
   as_tibble()
 
-# Find the mean dry weight across all sexes/treatments
-grand_mean_dryweight <- mean(evolved_mean_dryweights$Estimate)
+# Find the mean dry weight for males and females (across treatments)
+male_dryweight <- mean(evolved_mean_dryweights$Estimate[1:2])
+female_dryweight <- mean(evolved_mean_dryweights$Estimate[3:4])
 
 new_metabolites <- bind_rows(
   expand_grid(sex = c("Male", "Female"),
-                   treatment = c("Monogamy", "Polyandry"),
-                   Dryweight = grand_mean_dryweight, line = NA) %>%
-  mutate(type = 1:4),
+              treatment = c("Monogamy", "Polyandry"),
+              Dryweight = c(male_dryweight, female_dryweight), line = NA) %>%
+    filter(sex == "Male" & Dryweight == male_dryweight |
+             sex == "Female" & Dryweight == female_dryweight) %>%
+    mutate(type = 1:4),
   evolved_mean_dryweights %>% select(sex, treatment, Dryweight = Estimate) %>%
     mutate(line = NA, type = 5:8)
 )
@@ -483,12 +495,12 @@ fitted_values <- posterior_epred(
 
 
 treat_diff_standard_dryweight <- fitted_values %>%
-  filter(Dryweight == grand_mean_dryweight) %>%
+  filter(Dryweight %in% c(male_dryweight, female_dryweight)) %>%
   spread(treatment, value) %>%
   mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
 
 treat_diff_actual_dryweight <- fitted_values %>%
-  filter(Dryweight != grand_mean_dryweight) %>% 
+  filter(!(Dryweight %in% c(male_dryweight, female_dryweight))) %>% 
   select(-Dryweight) %>%
   spread(treatment, value) %>%
   mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
@@ -518,31 +530,8 @@ summary_dat2 <- treat_diff_actual_dryweight %>%
             .groups = "drop")
 
 sampled_draws <- sample(unique(fitted_values$draw), 100)
+ylims <- c(-2.3, 2.3)
 
-treat_diff_standard_dryweight %>%
-  filter(variable != 'Dryweight') %>% 
-  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  stat_halfeye() + 
-  geom_line(data = treat_diff_standard_dryweight %>%
-              filter(draw %in% sampled_draws) %>%
-              filter(variable != 'Dryweight'), 
-            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
-  geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
-  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  facet_wrap( ~ variable,  nrow = 1) +
-  theme_bw() +
-  theme(legend.position = 'none',
-        strip.background = element_blank(),
-        panel.grid.major.x = element_blank()) +
-  coord_cartesian(ylim = c(-2.2, 2.2)) + 
-  ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
-```
-
-#### Not controlling for differences in dry weight between sexes and treatments
-
-```{r, fig.height=4}
 treat_diff_actual_dryweight %>%
   filter(variable != 'Dryweight') %>% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
@@ -560,7 +549,31 @@ treat_diff_actual_dryweight %>%
   theme(legend.position = 'none',
         strip.background = element_blank(),
         panel.grid.major.x = element_blank()) +
-  coord_cartesian(ylim = c(-1.8, 1.8)) + 
+  coord_cartesian(ylim = ylims) + 
+  ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
+```
+
+#### Controlling for differences in dry weight between sexes and treatments
+
+```{r, fig.height=4}
+treat_diff_standard_dryweight %>%
+  filter(variable != 'Dryweight') %>% 
+  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  geom_line(data = treat_diff_standard_dryweight %>%
+              filter(draw %in% sampled_draws) %>%
+              filter(variable != 'Dryweight'), 
+            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
+  geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
+  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  facet_wrap( ~ variable,  nrow = 1) +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  coord_cartesian(ylim = ylims) + 
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
 ```
 
@@ -572,7 +585,7 @@ treat_diff_actual_dryweight %>%
 
 ```{r}
 summary_dat1 %>%
-  kable(digits=3) %>%
+  kable(digits = 3) %>%
   kable_styling(full_width = FALSE)
 ```
 
@@ -580,7 +593,7 @@ summary_dat1 %>%
 
 ```{r}
 summary_dat2 %>%
-  kable(digits=3) %>%
+  kable(digits = 3) %>%
   kable_styling(full_width = FALSE)
 ```
 
@@ -590,20 +603,20 @@ This section essentially examines the treatment $\times$ sex interaction term, b
 
 ### Figure {.tabset}
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between sexes and treatments
 
 ```{r, fig.height=4}
-treatsex_interaction_data1 <- treat_diff_standard_dryweight %>%
+treatsex_interaction_data1 <- treat_diff_actual_dryweight %>%
   select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %>%
   arrange(draw, variable, sex) %>%
   group_by(draw, variable) %>%
-  summarise(`Difference in effect size between sexes` = d[2] - d[1],
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
             .groups = "drop") # males - females
 
 
 treatsex_interaction_data1 %>%
   filter(variable != 'Dryweight') %>% 
-  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat(x < 0))) +
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
   stat_halfeyeh() +
   facet_wrap( ~ variable) +
@@ -614,20 +627,19 @@ treatsex_interaction_data1 %>%
   ylab("Posterior density")
 ```
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between sexes and treatments
 
 ```{r, fig.height=4}
-treatsex_interaction_data2 <- treat_diff_actual_dryweight %>%
+treatsex_interaction_data2 <- treat_diff_standard_dryweight %>%
   select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %>%
   arrange(draw, variable, sex) %>%
   group_by(draw, variable) %>%
-  summarise(`Difference in effect size between sexes` = d[2] - d[1],
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
             .groups = "drop") # males - females
-
 
 treatsex_interaction_data2 %>%
   filter(variable != 'Dryweight') %>% 
-  ggplot(aes(x = `Difference in effect size between sexes`, y = 1, fill = stat(x < 0))) +
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
   stat_halfeyeh() +
   facet_wrap( ~ variable) +
@@ -637,18 +649,22 @@ treatsex_interaction_data2 %>%
         strip.background = element_blank()) +
   ylab("Posterior density")
 ```
+
+
+
+
 
 
 ### Table {.tabset}
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between sexes and treatments
 
 ```{r}
 treatsex_interaction_data1 %>%
   filter(variable != 'Dryweight') %>%
-  rename(x = `Difference in effect size between sexes`) %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
   group_by(variable)  %>%
-  summarise(`Difference in effect size between sexes` = median(x),
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
@@ -659,14 +675,14 @@ treatsex_interaction_data1 %>%
 
 ```
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between sexes and treatments
 
 ```{r}
 treatsex_interaction_data2 %>%
   filter(variable != 'Dryweight') %>%
-  rename(x = `Difference in effect size between sexes`) %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
   group_by(variable)  %>%
-  summarise(`Difference in effect size between sexes` = median(x),
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
