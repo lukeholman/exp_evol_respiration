@@ -46,10 +46,10 @@
 <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
 <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
 <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree68780f64f852467e5bde3af835224064c35541aetargetblank68780f6a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/68780f64f852467e5bde3af835224064c35541ae" target="_blank">68780f6</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree904af3130995534a975dd7458e249d4ddeab0a5etargetblank904af31a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/904af3130995534a975dd7458e249d4ddeab0a5e" target="_blank">904af31</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree68780f64f852467e5bde3af835224064c35541aetargetblank68780f6a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree904af3130995534a975dd7458e249d4ddeab0a5etargetblank904af31a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/68780f64f852467e5bde3af835224064c35541ae" target="_blank">68780f6</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/904af3130995534a975dd7458e249d4ddeab0a5e" target="_blank">904af31</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,7 +556,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
-    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   output/brms_metabolite_SEM.rds
@@ -598,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/904af3130995534a975dd7458e249d4ddeab0a5e/analysis/metabolites.Rmd" target="_blank">904af31</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/metabolites.html" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1095,19 +1128,106 @@ lukeholman
 </table>
 </div>
 </div>
-<div id="mean-dry-mass" class="section level3">
-<h3>Mean dry mass</h3>
+<div id="mean-dry-weight" class="section level3">
+<h3>Mean dry weight</h3>
 <pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
-metabolites %&gt;% group_by(sex, treatment) %&gt;% summarise(mean_dwt = mean(dwt_mg), SE = se(dwt_mg), n = n())</code></pre>
-<pre># A tibble: 4 x 5
-# Groups:   sex [2]
-  sex    treatment mean_dwt      SE     n
-  <chr>  <chr>        <dbl>   <dbl> <int>
-1 Female Monogamy     0.562 0.0192     12
-2 Female Polyandry    0.644 0.0168     12
-3 Male   Monogamy     0.330 0.00894    12
-4 Male   Polyandry    0.353 0.00913    12
-</pre>
+metabolites %&gt;% 
+  group_by(sex, treatment) %&gt;% 
+  summarise(mean_dwt = mean(dwt_mg), 
+            SE = se(dwt_mg), 
+            n = n()) %&gt;% 
+  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+<th style="text-align:right;">
+mean_dwt
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+0.562
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.644
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+0.330
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.353
+</td>
+<td style="text-align:right;">
+0.009
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div id="directed-acyclic-graph-dag" class="section level2">
@@ -1236,6 +1356,43 @@ Dryweight ~ sex * treatment + (treatment | p | line)
   nrow = 1
 )</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-12-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-12-1">
+Past versions of unnamed-chunk-12-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-12-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
 <h2>Table of model parameter estimates</h2>
@@ -2192,6 +2349,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/43cc270470695d3d364de840c3d752ca0810a05d/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">43cc270</a>
 </td>
 <td>
@@ -2228,6 +2396,43 @@ lukeholman
   coord_cartesian(ylim = ylims) + 
   ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="table" class="section level3 tabset">
@@ -2805,6 +3010,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/43cc270470695d3d364de840c3d752ca0810a05d/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">43cc270</a>
 </td>
 <td>
@@ -2840,6 +3056,43 @@ treatsex_interaction_data2 %&gt;%
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
+Past versions of unnamed-chunk-20-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-20-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">f7c88a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 </div>
 <div id="table-1" class="section level3 tabset">
@@ -3149,17 +3402,17 @@ loaded via a namespace (and not attached):
  [36] webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
  [43] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-3 htmlwidgets_1.5.1   
  [50] httr_1.4.1           DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0   RColorBrewer_1.1-2   ellipsis_0.3.1       farver_2.0.3        
- [57] pkgconfig_2.0.3      reshape_0.8.8        loo_2.3.1            dbplyr_1.4.4         utf8_1.1.4           labeling_0.3         tidyselect_1.1.0    
- [64] rlang_0.4.6          reshape2_1.4.4       later_1.0.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3         
- [71] cli_2.0.2            generics_0.0.2       broom_0.5.6          evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2      
- [78] fs_1.4.1             nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
- [85] bayesplot_1.7.2      shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6          curl_4.3             reprex_0.3.0         statmod_1.4.34      
- [92] stringi_1.5.3        highr_0.8            ps_1.3.3             Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1      
- [99] markdown_1.1         shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3    
-[106] insight_0.8.4        httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       codetools_0.2-16     boot_1.3-25          colourpicker_1.0    
-[113] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13     
-[120] bayestestR_0.6.0     mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4         
-[127] rmarkdown_2.5        git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    
+ [57] pkgconfig_2.0.3      reshape_0.8.8        loo_2.3.1            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6         
+ [64] reshape2_1.4.4       later_1.0.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
+ [71] generics_0.0.2       broom_0.5.6          evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       fs_1.4.1            
+ [78] nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3       bayesplot_1.7.2     
+ [85] shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6          curl_4.3             reprex_0.3.0         statmod_1.4.34       stringi_1.5.3       
+ [92] highr_0.8            ps_1.3.3             Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1       markdown_1.1        
+ [99] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     insight_0.8.4       
+[106] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       codetools_0.2-16     boot_1.3-25          colourpicker_1.0     MASS_7.3-53         
+[113] gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      bayestestR_0.6.0    
+[120] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5       
+[127] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
 </div>
