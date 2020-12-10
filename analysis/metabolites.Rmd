@@ -603,9 +603,9 @@ summary_dat2 %>%
 ```
 
 
-## Posterior difference in treatment effect size between sexes 
+# Posterior difference in treatment effect size between sexes 
 
-This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment $\times$ sex interaction, i.e. the treatment effects did not differ detectably between sexes. However, the effect of the Polyandry treatment on glycogen concentration appears to be marginally more positive in males than females (probability of direction = 92.5%, similar to a one-sided p-value of 0.075).
+This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment $\times$ sex interaction, i.e. the treatment effects did not differ detectably between sexes.
 
 ### Figure {.tabset}
 
