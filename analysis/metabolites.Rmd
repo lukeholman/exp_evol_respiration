@@ -334,7 +334,7 @@ if(!file.exists("output/brms_metabolite_SEM.rds")){
 
 The plot below shows that the fitted model is able to produce posterior predictions that have a similar distribution to the original data, for each of the response variables, which is a necessary condition for the model to be used for statistical inference. 
 
-```{r, fig.height=2, fig.width=9, message=F, warning=F}
+```{r, fig.height=4, fig.width=5, message=F, warning=F}
 grid.arrange(
   pp_check(brms_metabolite_SEM, resp = "Dryweight") + 
     ggtitle("Dry weight") + theme(legend.position = "none"),
@@ -348,7 +348,7 @@ grid.arrange(
     ggtitle("Glycogen") + theme(legend.position = "none"),
   pp_check(brms_metabolite_SEM, resp = "Chitin") + 
     ggtitle("Chitin") + theme(legend.position = "none"),
-  nrow = 1
+  nrow = 2
 )
 ```
 
@@ -400,7 +400,7 @@ pvals <- bayestestR::p_direction(brms_metabolite_SEM) %>%
          tests = str_c("_", str_remove_all(tests, "[.]")),
          tests = replace(tests, tests == "_sexMaletreatmentPolyandry", "_sexMale:treatmentPolyandry")) %>%
   filter(!str_detect(tests, "line")) %>%
-  mutate(p_val = 1 - pd, star = ifelse(p_val < 0.05, "*", "")) %>%
+  mutate(p_val = 1 - pd, star = ifelse(p_val < 0.05, "\\*", "")) %>%
   select(vars, tests, p_val, star)
 
 
@@ -520,7 +520,7 @@ summary_dat1 <- treat_diff_standard_dryweight %>%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p < 0.05, "*", ""),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
             .groups = "drop")
 
 summary_dat2 <- treat_diff_actual_dryweight %>%
@@ -531,7 +531,7 @@ summary_dat2 <- treat_diff_actual_dryweight %>%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p < 0.05, "*", ""),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
             .groups = "drop")
 
 sampled_draws <- sample(unique(fitted_values$draw), 100)
@@ -601,6 +601,7 @@ summary_dat2 %>%
   kable(digits = 3) %>%
   kable_styling(full_width = FALSE)
 ```
+
 
 ## Posterior difference in treatment effect size between sexes 
 
@@ -673,7 +674,7 @@ treatsex_interaction_data1 %>%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p < 0.05, "*", ""),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
             .groups = "drop") %>%
   kable(digits=3) %>%
   kable_styling(full_width = FALSE)
@@ -691,7 +692,7 @@ treatsex_interaction_data2 %>%
             `Lower 95% CI` = quantile(x, probs = 0.025), 
             `Upper 95% CI` = quantile(x, probs = 0.975),
             p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p < 0.05, "*", ""),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
             .groups = "drop") %>%
   kable(digits=3) %>%
   kable_styling(full_width = FALSE)
