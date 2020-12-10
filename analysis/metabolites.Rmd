@@ -1,5 +1,5 @@
 ---
-title: "Metabolic rates"
+title: "Metabolite composition"
 output: 
   workflowr::wflow_html:
     code_folding: hide 
@@ -259,7 +259,7 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 
 
 
-# Fit `brms` structural equation model
+## Fit `brms` structural equation model
 
 
 Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.   
@@ -603,7 +603,7 @@ summary_dat2 %>%
 ```
 
 
-# Posterior difference in treatment effect size between sexes 
+## Posterior difference in treatment effect size between sexes 
 
 This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment $\times$ sex interaction, i.e. the treatment effects did not differ detectably between sexes.
 
