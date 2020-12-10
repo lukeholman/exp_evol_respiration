@@ -452,7 +452,7 @@ By clicking the tabs and comparing, one can see that the estimates of the treatm
 
 ### Figure {.tabset}
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between treatments
 ```{r, fig.height=4}
 new <- expand_grid(sex = c("Male", "Female"),
                    treatment = c("Monogamy", "Polyandry"),
@@ -535,7 +535,7 @@ summary_dat2 <- treat_diff_actual_dryweight %>%
             .groups = "drop")
 
 sampled_draws <- sample(unique(fitted_values$draw), 100)
-ylims <- c(-2.3, 2.3)
+ylims <- c(-1.8, 1.8)
 
 treat_diff_actual_dryweight %>%
   filter(variable != 'Dryweight') %>% 
@@ -558,7 +558,7 @@ treat_diff_actual_dryweight %>%
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
 ```
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between treatments
 
 ```{r, fig.height=4}
 treat_diff_standard_dryweight %>%
@@ -586,7 +586,7 @@ treat_diff_standard_dryweight %>%
 
 ### Table {.tabset}
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between treatments
 
 ```{r}
 summary_dat1 %>%
@@ -594,7 +594,7 @@ summary_dat1 %>%
   kable_styling(full_width = FALSE)
 ```
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between treatments
 
 ```{r}
 summary_dat2 %>%
@@ -609,7 +609,7 @@ This section essentially examines the treatment $\times$ sex interaction term, b
 
 ### Figure {.tabset}
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between treatments
 
 ```{r, fig.height=4}
 treatsex_interaction_data1 <- treat_diff_actual_dryweight %>%
@@ -633,7 +633,7 @@ treatsex_interaction_data1 %>%
   ylab("Posterior density")
 ```
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between treatments
 
 ```{r, fig.height=4}
 treatsex_interaction_data2 <- treat_diff_standard_dryweight %>%
@@ -663,7 +663,7 @@ treatsex_interaction_data2 %>%
 
 ### Table {.tabset}
 
-#### Not controlling for differences in dry weight between sexes and treatments
+#### Not controlling for differences in dry weight between treatments
 
 ```{r}
 treatsex_interaction_data1 %>%
@@ -681,7 +681,7 @@ treatsex_interaction_data1 %>%
 
 ```
 
-#### Controlling for differences in dry weight between sexes and treatments
+#### Controlling for differences in dry weight between treatments
 
 ```{r}
 treatsex_interaction_data2 %>%
