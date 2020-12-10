@@ -11,7 +11,7 @@
 
 
 
-<title>Metabolic rates</title>
+<title>Metabolite composition</title>
 
 <script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -421,7 +421,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Metabolic rates</h1>
+<h1 class="title toc-ignore">Metabolite composition</h1>
 
 </div>
 
@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree98c43b5d516e5b6481da9e937c37dde1966f5e36targetblank98c43b5a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/98c43b5d516e5b6481da9e937c37dde1966f5e36" target="_blank">98c43b5</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree184b0a4ac7ac27696808674903e4f43936dd3334targetblank184b0a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/184b0a4ac7ac27696808674903e4f43936dd3334" target="_blank">184b0a4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree98c43b5d516e5b6481da9e937c37dde1966f5e36targetblank98c43b5a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree184b0a4ac7ac27696808674903e4f43936dd3334targetblank184b0a4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/98c43b5d516e5b6481da9e937c37dde1966f5e36" target="_blank">98c43b5</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/184b0a4ac7ac27696808674903e4f43936dd3334" target="_blank">184b0a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -597,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/184b0a4ac7ac27696808674903e4f43936dd3334/analysis/metabolites.Rmd" target="_blank">184b0a4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/a361e420c9ff87857c4a21ff4a24312bb1825a02/docs/metabolites.html" target="_blank">a361e42</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1360,8 +1394,8 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 <div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="fit-brms-structural-equation-model" class="section level1">
-<h1>Fit <code>brms</code> structural equation model</h1>
+<div id="fit-brms-structural-equation-model" class="section level2">
+<h2>Fit <code>brms</code> structural equation model</h2>
 <p>Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.</p>
 <div id="define-priors" class="section level3">
 <h3>Define Priors</h3>
@@ -1504,6 +1538,7 @@ lukeholman
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 </div>
@@ -3083,9 +3118,8 @@ Male
 </div>
 </div>
 </div>
-</div>
-<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level1">
-<h1>Posterior difference in treatment effect size between sexes</h1>
+<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
+<h2>Posterior difference in treatment effect size between sexes</h2>
 <p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the treatment effects did not differ detectably between sexes.</p>
 <div id="figure-1" class="section level3 tabset">
 <h3>Figure</h3>
