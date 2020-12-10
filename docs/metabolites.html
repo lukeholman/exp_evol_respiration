@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8464a7f9052d933f1a1d9362a0dcaadc251ac349targetblank8464a7fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/8464a7f9052d933f1a1d9362a0dcaadc251ac349" target="_blank">8464a7f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree125d4a20b9cb4b72203d6a9426f05c28c628400atargetblank125d4a2a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/125d4a20b9cb4b72203d6a9426f05c28c628400a" target="_blank">125d4a2</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree8464a7f9052d933f1a1d9362a0dcaadc251ac349targetblank8464a7fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree125d4a20b9cb4b72203d6a9426f05c28c628400atargetblank125d4a2a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/8464a7f9052d933f1a1d9362a0dcaadc251ac349" target="_blank">8464a7f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/125d4a20b9cb4b72203d6a9426f05c28c628400a" target="_blank">125d4a2</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,7 +556,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
-    Ignored:    analysis/figure/
 
 Unstaged changes:
     Modified:   output/brms_metabolite_SEM.rds
@@ -598,6 +597,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/125d4a20b9cb4b72203d6a9426f05c28c628400a/analysis/metabolites.Rmd" target="_blank">125d4a2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/31ed22a0fddc910a5b2d35590773c8cd5bc5e6dd/docs/metabolites.html" target="_blank">31ed22a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1413,6 +1446,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/31ed22a0fddc910a5b2d35590773c8cd5bc5e6dd/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">31ed22a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-10
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">f7c88a2</a>
@@ -2250,8 +2294,8 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
 <p>By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry weight are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs P treatments caused metabolite composition to evolve, through mechanisms other than the evolution of dry weight.</p>
 <div id="figure" class="section level3 tabset">
 <h3>Figure</h3>
-<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments" class="section level4">
-<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<div id="not-controlling-for-differences-in-dry-weight-between-treatments" class="section level4">
+<h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>new &lt;- expand_grid(sex = c(&quot;Male&quot;, &quot;Female&quot;),
                    treatment = c(&quot;Monogamy&quot;, &quot;Polyandry&quot;),
                    Dryweight = NA, line = NA) %&gt;%
@@ -2333,7 +2377,7 @@ summary_dat2 &lt;- treat_diff_actual_dryweight %&gt;%
             .groups = &quot;drop&quot;)
 
 sampled_draws &lt;- sample(unique(fitted_values$draw), 100)
-ylims &lt;- c(-2.3, 2.3)
+ylims &lt;- c(-1.8, 1.8)
 
 treat_diff_actual_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
@@ -2404,8 +2448,8 @@ lukeholman
 </div>
 </div>
 </div>
-<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments" class="section level4">
-<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<div id="controlling-for-differences-in-dry-weight-between-treatments" class="section level4">
+<h4>Controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treat_diff_standard_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
@@ -2467,8 +2511,8 @@ lukeholman
 </div>
 <div id="table" class="section level3 tabset">
 <h3>Table</h3>
-<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-1" class="section level4">
-<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<div id="controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
+<h4>Controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>summary_dat1 %&gt;%
   kable(digits = 3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
@@ -2723,8 +2767,8 @@ Male
 </tbody>
 </table>
 </div>
-<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-1" class="section level4">
-<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<div id="not-controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
+<h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>summary_dat2 %&gt;%
   kable(digits = 3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
@@ -2988,8 +3032,8 @@ Male
 <p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the treatment effects did not differ detectably between sexes. However, the effect of the Polyandry treatment on glycogen concentration appears to be marginally more positive in males than females (probability of direction = 92.5%, similar to a one-sided p-value of 0.075).</p>
 <div id="figure-1" class="section level3 tabset">
 <h3>Figure</h3>
-<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-2" class="section level4">
-<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<div id="not-controlling-for-differences-in-dry-weight-between-treatments-2" class="section level4">
+<h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data1 &lt;- treat_diff_actual_dryweight %&gt;%
   select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
   arrange(draw, variable, sex) %&gt;%
@@ -3059,8 +3103,8 @@ lukeholman
 </div>
 </div>
 </div>
-<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-2" class="section level4">
-<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<div id="controlling-for-differences-in-dry-weight-between-treatments-2" class="section level4">
+<h4>Controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data2 &lt;- treat_diff_standard_dryweight %&gt;%
   select(draw, variable, sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
   arrange(draw, variable, sex) %&gt;%
@@ -3121,8 +3165,8 @@ lukeholman
 </div>
 <div id="table-1" class="section level3 tabset">
 <h3>Table</h3>
-<div id="not-controlling-for-differences-in-dry-weight-between-sexes-and-treatments-3" class="section level4">
-<h4>Not controlling for differences in dry weight between sexes and treatments</h4>
+<div id="not-controlling-for-differences-in-dry-weight-between-treatments-3" class="section level4">
+<h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data1 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
@@ -3256,8 +3300,8 @@ Protein
 </tbody>
 </table>
 </div>
-<div id="controlling-for-differences-in-dry-weight-between-sexes-and-treatments-3" class="section level4">
-<h4>Controlling for differences in dry weight between sexes and treatments</h4>
+<div id="controlling-for-differences-in-dry-weight-between-treatments-3" class="section level4">
+<h4>Controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data2 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
