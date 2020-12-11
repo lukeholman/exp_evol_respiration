@@ -518,9 +518,7 @@ treat_diff_actual_dryweight <- fitted_values %>%
   spread(treatment, value) %>%
   mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
 
-
-
-summary_dat1 <- treat_diff_standard_dryweight %>%
+summary_dat1 <- treat_diff_actual_dryweight %>%
   filter(variable != 'Dryweight') %>%
   rename(x = `Difference in means (Poly - Mono)`) %>%
   group_by(variable, sex)  %>%
@@ -531,7 +529,7 @@ summary_dat1 <- treat_diff_standard_dryweight %>%
             ` ` = ifelse(p < 0.05, "\\*", ""),
             .groups = "drop")
 
-summary_dat2 <- treat_diff_actual_dryweight %>%
+summary_dat2 <- treat_diff_standard_dryweight %>%
   filter(variable != 'Dryweight') %>%
   rename(x = `Difference in means (Poly - Mono)`) %>%
   group_by(variable, sex)  %>%
@@ -598,7 +596,7 @@ treat_diff_standard_dryweight %>%
 
 ### Table {.tabset}
 
-#### Controlling for differences in dry weight between treatments
+#### Not controlling for differences in dry weight between treatments
 
 ```{r}
 summary_dat1 %>%
@@ -606,7 +604,7 @@ summary_dat1 %>%
   kable_styling(full_width = FALSE)
 ```
 
-#### Not controlling for differences in dry weight between treatments
+#### Controlling for differences in dry weight between treatments
 
 ```{r}
 summary_dat2 %>%
