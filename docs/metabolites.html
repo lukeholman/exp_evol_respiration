@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree9588f442daa3d3e914087a461a55cc8e0e46ede1targetblank9588f44a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/9588f442daa3d3e914087a461a55cc8e0e46ede1" target="_blank">9588f44</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedcb0a6748adc8b00e669d4aa059d550efb08563etargetblankdcb0a67a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/dcb0a6748adc8b00e669d4aa059d550efb08563e" target="_blank">dcb0a67</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree9588f442daa3d3e914087a461a55cc8e0e46ede1targetblank9588f44a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedcb0a6748adc8b00e669d4aa059d550efb08563etargetblankdcb0a67a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/9588f442daa3d3e914087a461a55cc8e0e46ede1" target="_blank">9588f44</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/dcb0a6748adc8b00e669d4aa059d550efb08563e" target="_blank">dcb0a67</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -594,6 +594,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/dcb0a6748adc8b00e669d4aa059d550efb08563e/analysis/metabolites.Rmd" target="_blank">dcb0a67</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/a88f03722942e3581b3b24b5806e250213ce2335/docs/metabolites.html" target="_blank">a88f037</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2612,7 +2646,7 @@ treat_diff_actual_dryweight %&gt;%
               filter(draw %in% sampled_draws) %&gt;%
               filter(variable != &#39;Dryweight&#39;), 
             alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
-  geom_point(data = summary_dat2, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
+  geom_point(data = summary_dat1, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
   scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   facet_wrap( ~ variable,  nrow = 1) +
@@ -2645,6 +2679,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/a88f03722942e3581b3b24b5806e250213ce2335/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">a88f037</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">bb96acf</a>
@@ -2717,7 +2762,7 @@ lukeholman
               filter(draw %in% sampled_draws) %&gt;%
               filter(variable != &#39;Dryweight&#39;), 
             alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
-  geom_point(data = summary_dat1, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
+  geom_point(data = summary_dat2, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
   scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   facet_wrap( ~ variable,  nrow = 1) +
@@ -2750,6 +2795,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/a88f03722942e3581b3b24b5806e250213ce2335/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">a88f037</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">bb96acf</a>
