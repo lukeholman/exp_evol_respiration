@@ -129,7 +129,7 @@ scaled_metabolites %>%
 The following plot shows how each metabolite varies between sexes and treatments, and how the consecration of each metabolite co-varies with dry weight across individuals. 
 
 ```{r, fig.height=5}
-levels <- c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein", "Dryweight")
+levels <- c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein", "Dry weight")
 
 cols <- c("M females" = "pink", 
           "P females" = "red", 
@@ -139,8 +139,9 @@ cols <- c("M females" = "pink",
 grid.arrange(
   scaled_metabolites %>% 
     rename_all(~ str_remove_all(.x, "_conc")) %>%
+    rename(`Dry weight` = Dry_weight) %>%
     mutate(sex = factor(sex, c("Male", "Female"))) %>%
-    reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
+    reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line')) %>% 
     mutate(variable = factor(variable, levels)) %>%
     ggplot(aes(x = sex, y = value,  fill  = sextreat)) +
     geom_hline(yintercept = 0, linetype = 2) + 
@@ -151,19 +152,26 @@ grid.arrange(
     theme(legend.position = 'top') + 
     scale_fill_manual(values = cols, name = ""),
   
-  scaled_metabolites %>% 
-    rename_all(~ str_remove_all(.x, "_conc")) %>%
-    reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
-    mutate(variable = factor(variable, levels)) %>%
-    ggplot(aes(x = Dry_weight, y = value, colour = sextreat, fill = sextreat)) +
-    geom_smooth(method = 'lm', se = TRUE, aes(colour = NULL, fill = NULL), colour = "grey20", size = .4) +
-    geom_point(pch = 21, colour = "grey20") +
-    facet_grid( ~ variable) +
-    theme_bw() +
-    xlab("Dry weight") + ylab("Concentration") +
-    theme(legend.position = 'none') + 
-    scale_colour_manual(values = cols, name = "") + 
-    scale_fill_manual(values = cols, name = ""),
+  arrangeGrob(
+    scaled_metabolites %>% 
+      rename_all(~ str_remove_all(.x, "_conc")) %>%
+      reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
+      mutate(variable = factor(variable, levels)) %>%
+      ggplot(aes(x = Dry_weight, y = value, colour = sextreat, fill = sextreat)) +
+      geom_smooth(method = 'lm', se = TRUE, aes(colour = NULL, fill = NULL), colour = "grey20", size = .4) +
+      geom_point(pch = 21, colour = "grey20") +
+      facet_grid( ~ variable) +
+      theme_bw() +
+      xlab("Dry weight") + ylab("Concentration") +
+      theme(legend.position = 'none') + 
+      scale_colour_manual(values = cols, name = "") + 
+      scale_fill_manual(values = cols, name = ""),
+    scaled_metabolites %>% 
+      rename_all(~ str_remove_all(.x, "_conc")) %>%
+      reshape2::melt(id.vars = c('sex', 'treatment', 'sextreat', 'line', 'Dry_weight')) %>% 
+      mutate(variable = factor(variable, levels)) %>%
+      ggplot(aes(x = Dry_weight, y = value, colour = sextreat, fill = sextreat)) +
+      theme_void() + ylab(NULL), nrow = 1, widths = c(0.84, 0.16)),
   heights = c(0.55, 0.45)
 )
 ```
@@ -266,7 +274,7 @@ Here we fit a model of the five metabolites, which includes dry body weight as a
 
 
 ### Define Priors
-We use set `Normal` priors on all fixed effect parameters, mean = 0, sd = 1, which 'regularises' the estimates towards zero -- this is conservative (because it makes large posterior effect sizes more improbable), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for `line` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. 
+We use set fairly tight Normal priors on all fixed effect parameters,  which 'regularises' the estimates towards zero -- this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for `line` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition. 
 
 ```{r}
 prior1 <- c(set_prior("normal(0, 0.5)", class = "b", resp = 'Lipid'),
