@@ -552,7 +552,7 @@ treat_diff_actual_dryweight %>%
               filter(draw %in% sampled_draws) %>%
               filter(variable != 'Dryweight'), 
             alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
-  geom_point(data = summary_dat2, pch = 21, colour = "black", size = 3.1) + 
+  geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
   facet_wrap( ~ variable,  nrow = 1) +
@@ -579,7 +579,7 @@ treat_diff_standard_dryweight %>%
               filter(draw %in% sampled_draws) %>%
               filter(variable != 'Dryweight'), 
             alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
-  geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
+  geom_point(data = summary_dat2, pch = 21, colour = "black", size = 3.1) + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
   facet_wrap( ~ variable,  nrow = 1) +
