@@ -566,6 +566,9 @@ treat_diff_actual_dryweight %>%
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
 ```
 
+**Figure XX**: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M > P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were _not_ adjusted for differences in dry weight between treatments.
+
+
 #### Controlling for differences in dry weight between treatments
 
 ```{r, fig.height=4}
@@ -590,6 +593,7 @@ treat_diff_standard_dryweight %>%
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
 ```
 
+**Figure XX**: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M > P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.
 
 
 ### Table {.tabset}
@@ -641,6 +645,8 @@ treatsex_interaction_data1 %>%
   ylab("Posterior density")
 ```
 
+**Figure XX**: Posterior estimates of the difference in the treatment effect size (i.e. mean of P minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were _not_ adjusted for differences in dry weight between treatments.
+
 #### Controlling for differences in dry weight between treatments
 
 ```{r, fig.height=4}
@@ -664,7 +670,7 @@ treatsex_interaction_data2 %>%
   ylab("Posterior density")
 ```
 
-
+**Figure XX**: Posterior estimates of the difference in the treatment effect size (i.e. mean of P minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.
 
 
 
