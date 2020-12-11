@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree328e1175f76bb01c25dcc276c862ad1b1df02bb8targetblank328e117a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/328e1175f76bb01c25dcc276c862ad1b1df02bb8" target="_blank">328e117</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree962adf38ff624c76890759e536cee21fbf1303d5targetblank962adf3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/962adf38ff624c76890759e536cee21fbf1303d5" target="_blank">962adf3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree328e1175f76bb01c25dcc276c862ad1b1df02bb8targetblank328e117a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree962adf38ff624c76890759e536cee21fbf1303d5targetblank962adf3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/328e1175f76bb01c25dcc276c862ad1b1df02bb8" target="_blank">328e117</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/962adf38ff624c76890759e536cee21fbf1303d5" target="_blank">962adf3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -556,9 +556,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
-
-Unstaged changes:
-    Deleted:    output/brms_metabolite_SEM.rds
 
 </code></pre>
 <p>
@@ -597,6 +594,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/metabolites.html" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1559,128 +1573,6 @@ Dryweight ~ sex * treatment + (treatment | p | line)
 } else {
   brms_metabolite_SEM &lt;- readRDS(&#39;output/brms_metabolite_SEM.rds&#39;)
 }</code></pre>
-<pre>Running /Library/Frameworks/R.framework/Resources/bin/R CMD SHLIB foo.c
-clang -mmacosx-version-min=10.13 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/Rcpp/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/unsupported"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/BH/include" -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/src/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppParallel/include/"  -I"/Library/Frameworks/R.framework/Versions/4.0/Resources/library/rstan/include" -DEIGEN_NO_DEBUG  -DBOOST_DISABLE_ASSERTS  -DBOOST_PENDING_INTEGER_LOG2_HPP  -DSTAN_THREADS  -DBOOST_NO_AUTO_PTR  -include '/Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp'  -D_REENTRANT -DRCPP_PARALLEL_USE_TBB=1   -I/usr/local/include   -fPIC  -Wall -g -O2  -c foo.c -o foo.o
-In file included from <built-in>:1:
-In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:
-In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:88:
-/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:1: error: unknown type name 'namespace'
-namespace Eigen {
-^
-/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/src/Core/util/Macros.h:613:16: error: expected ';' after top level declarator
-namespace Eigen {
-               ^
-               ;
-In file included from <built-in>:1:
-In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/StanHeaders/include/stan/math/prim/mat/fun/Eigen.hpp:13:
-In file included from /Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Dense:1:
-/Library/Frameworks/R.framework/Versions/4.0/Resources/library/RcppEigen/include/Eigen/Core:96:10: fatal error: 'complex' file not found
-#include <complex>
-         ^~~~~~~~~
-3 errors generated.
-make: *** [foo.o] Error 1
-
-SAMPLING FOR MODEL '06b14026973e5bf7a1f333b79772f0b8' NOW (CHAIN 1).
-Chain 1: 
-Chain 1: Gradient evaluation took 0.000237 seconds
-Chain 1: 1000 transitions using 10 leapfrog steps per transition would take 2.37 seconds.
-Chain 1: Adjust your expectations accordingly!
-Chain 1: 
-Chain 1: 
-Chain 1: Iteration:    1 / 5000 [  0%]  (Warmup)
-Chain 1: Iteration:  500 / 5000 [ 10%]  (Warmup)
-Chain 1: Iteration: 1000 / 5000 [ 20%]  (Warmup)
-Chain 1: Iteration: 1500 / 5000 [ 30%]  (Warmup)
-Chain 1: Iteration: 2000 / 5000 [ 40%]  (Warmup)
-Chain 1: Iteration: 2500 / 5000 [ 50%]  (Warmup)
-Chain 1: Iteration: 2501 / 5000 [ 50%]  (Sampling)
-Chain 1: Iteration: 3000 / 5000 [ 60%]  (Sampling)
-Chain 1: Iteration: 3500 / 5000 [ 70%]  (Sampling)
-Chain 1: Iteration: 4000 / 5000 [ 80%]  (Sampling)
-Chain 1: Iteration: 4500 / 5000 [ 90%]  (Sampling)
-Chain 1: Iteration: 5000 / 5000 [100%]  (Sampling)
-Chain 1: 
-Chain 1:  Elapsed Time: 40.0657 seconds (Warm-up)
-Chain 1:                42.7391 seconds (Sampling)
-Chain 1:                82.8048 seconds (Total)
-Chain 1: 
-
-SAMPLING FOR MODEL '06b14026973e5bf7a1f333b79772f0b8' NOW (CHAIN 2).
-Chain 2: 
-Chain 2: Gradient evaluation took 0.000158 seconds
-Chain 2: 1000 transitions using 10 leapfrog steps per transition would take 1.58 seconds.
-Chain 2: Adjust your expectations accordingly!
-Chain 2: 
-Chain 2: 
-Chain 2: Iteration:    1 / 5000 [  0%]  (Warmup)
-Chain 2: Iteration:  500 / 5000 [ 10%]  (Warmup)
-Chain 2: Iteration: 1000 / 5000 [ 20%]  (Warmup)
-Chain 2: Iteration: 1500 / 5000 [ 30%]  (Warmup)
-Chain 2: Iteration: 2000 / 5000 [ 40%]  (Warmup)
-Chain 2: Iteration: 2500 / 5000 [ 50%]  (Warmup)
-Chain 2: Iteration: 2501 / 5000 [ 50%]  (Sampling)
-Chain 2: Iteration: 3000 / 5000 [ 60%]  (Sampling)
-Chain 2: Iteration: 3500 / 5000 [ 70%]  (Sampling)
-Chain 2: Iteration: 4000 / 5000 [ 80%]  (Sampling)
-Chain 2: Iteration: 4500 / 5000 [ 90%]  (Sampling)
-Chain 2: Iteration: 5000 / 5000 [100%]  (Sampling)
-Chain 2: 
-Chain 2:  Elapsed Time: 39.4029 seconds (Warm-up)
-Chain 2:                22.0297 seconds (Sampling)
-Chain 2:                61.4325 seconds (Total)
-Chain 2: 
-
-SAMPLING FOR MODEL '06b14026973e5bf7a1f333b79772f0b8' NOW (CHAIN 3).
-Chain 3: 
-Chain 3: Gradient evaluation took 0.000153 seconds
-Chain 3: 1000 transitions using 10 leapfrog steps per transition would take 1.53 seconds.
-Chain 3: Adjust your expectations accordingly!
-Chain 3: 
-Chain 3: 
-Chain 3: Iteration:    1 / 5000 [  0%]  (Warmup)
-Chain 3: Iteration:  500 / 5000 [ 10%]  (Warmup)
-Chain 3: Iteration: 1000 / 5000 [ 20%]  (Warmup)
-Chain 3: Iteration: 1500 / 5000 [ 30%]  (Warmup)
-Chain 3: Iteration: 2000 / 5000 [ 40%]  (Warmup)
-Chain 3: Iteration: 2500 / 5000 [ 50%]  (Warmup)
-Chain 3: Iteration: 2501 / 5000 [ 50%]  (Sampling)
-Chain 3: Iteration: 3000 / 5000 [ 60%]  (Sampling)
-Chain 3: Iteration: 3500 / 5000 [ 70%]  (Sampling)
-Chain 3: Iteration: 4000 / 5000 [ 80%]  (Sampling)
-Chain 3: Iteration: 4500 / 5000 [ 90%]  (Sampling)
-Chain 3: Iteration: 5000 / 5000 [100%]  (Sampling)
-Chain 3: 
-Chain 3:  Elapsed Time: 46.2987 seconds (Warm-up)
-Chain 3:                42.3731 seconds (Sampling)
-Chain 3:                88.6718 seconds (Total)
-Chain 3: 
-
-SAMPLING FOR MODEL '06b14026973e5bf7a1f333b79772f0b8' NOW (CHAIN 4).
-Chain 4: 
-Chain 4: Gradient evaluation took 0.000146 seconds
-Chain 4: 1000 transitions using 10 leapfrog steps per transition would take 1.46 seconds.
-Chain 4: Adjust your expectations accordingly!
-Chain 4: 
-Chain 4: 
-Chain 4: Iteration:    1 / 5000 [  0%]  (Warmup)
-Chain 4: Iteration:  500 / 5000 [ 10%]  (Warmup)
-Chain 4: Iteration: 1000 / 5000 [ 20%]  (Warmup)
-Chain 4: Iteration: 1500 / 5000 [ 30%]  (Warmup)
-Chain 4: Iteration: 2000 / 5000 [ 40%]  (Warmup)
-Chain 4: Iteration: 2500 / 5000 [ 50%]  (Warmup)
-Chain 4: Iteration: 2501 / 5000 [ 50%]  (Sampling)
-Chain 4: Iteration: 3000 / 5000 [ 60%]  (Sampling)
-Chain 4: Iteration: 3500 / 5000 [ 70%]  (Sampling)
-Chain 4: Iteration: 4000 / 5000 [ 80%]  (Sampling)
-Chain 4: Iteration: 4500 / 5000 [ 90%]  (Sampling)
-Chain 4: Iteration: 5000 / 5000 [100%]  (Sampling)
-Chain 4: 
-Chain 4:  Elapsed Time: 45.7943 seconds (Warm-up)
-Chain 4:                23.2955 seconds (Sampling)
-Chain 4:                69.0899 seconds (Total)
-Chain 4: 
-</pre>
 </div>
 <div id="posterior-predictive-check-of-model-fit" class="section level3">
 <h3>Posterior predictive check of model fit</h3>
@@ -1723,6 +1615,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/31ed22a0fddc910a5b2d35590773c8cd5bc5e6dd/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">31ed22a</a>
@@ -2701,6 +2604,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/7fca240a09b3fd4fc66b1d450b66b639a263005c/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">7fca240</a>
 </td>
 <td>
@@ -2782,6 +2696,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/7fca240a09b3fd4fc66b1d450b66b639a263005c/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">7fca240</a>
@@ -3380,6 +3305,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">f7c88a2</a>
 </td>
 <td>
@@ -3449,6 +3385,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">e5c580f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7c88a27be8607a9c0c6cbd2c39e0d7ab0f32aa8/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">f7c88a2</a>
