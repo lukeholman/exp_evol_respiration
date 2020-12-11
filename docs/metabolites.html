@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree962adf38ff624c76890759e536cee21fbf1303d5targetblank962adf3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/962adf38ff624c76890759e536cee21fbf1303d5" target="_blank">962adf3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree9588f442daa3d3e914087a461a55cc8e0e46ede1targetblank9588f44a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/9588f442daa3d3e914087a461a55cc8e0e46ede1" target="_blank">9588f44</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree962adf38ff624c76890759e536cee21fbf1303d5targetblank962adf3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree9588f442daa3d3e914087a461a55cc8e0e46ede1targetblank9588f44a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/962adf38ff624c76890759e536cee21fbf1303d5" target="_blank">962adf3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/9588f442daa3d3e914087a461a55cc8e0e46ede1" target="_blank">9588f44</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -594,6 +594,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/9588f442daa3d3e914087a461a55cc8e0e46ede1/analysis/metabolites.Rmd" target="_blank">9588f44</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Tweaks
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/metabolites.html" target="_blank">bb96acf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1617,6 +1651,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">bb96acf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">e5c580f</a>
 </td>
 <td>
@@ -2533,9 +2578,7 @@ treat_diff_actual_dryweight &lt;- fitted_values %&gt;%
   spread(treatment, value) %&gt;%
   mutate(`Difference in means (Poly - Mono)` = Polyandry - Monogamy) 
 
-
-
-summary_dat1 &lt;- treat_diff_standard_dryweight %&gt;%
+summary_dat1 &lt;- treat_diff_actual_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in means (Poly - Mono)`) %&gt;%
   group_by(variable, sex)  %&gt;%
@@ -2546,7 +2589,7 @@ summary_dat1 &lt;- treat_diff_standard_dryweight %&gt;%
             ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
             .groups = &quot;drop&quot;)
 
-summary_dat2 &lt;- treat_diff_actual_dryweight %&gt;%
+summary_dat2 &lt;- treat_diff_standard_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;%
   rename(x = `Difference in means (Poly - Mono)`) %&gt;%
   group_by(variable, sex)  %&gt;%
@@ -2602,6 +2645,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">bb96acf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">e5c580f</a>
@@ -2698,6 +2752,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">bb96acf</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">e5c580f</a>
 </td>
 <td>
@@ -2738,265 +2803,9 @@ lukeholman
 </div>
 <div id="table" class="section level3 tabset">
 <h3>Table</h3>
-<div id="controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
-<h4>Controlling for differences in dry weight between treatments</h4>
-<pre class="r"><code>summary_dat1 %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(full_width = FALSE)</code></pre>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:left;">
-sex
-</th>
-<th style="text-align:right;">
-Difference in means (Poly - Mono)
-</th>
-<th style="text-align:right;">
-Lower 95% CI
-</th>
-<th style="text-align:right;">
-Upper 95% CI
-</th>
-<th style="text-align:right;">
-p
-</th>
-<th style="text-align:left;">
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Carbohydrate
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
--0.251
-</td>
-<td style="text-align:right;">
--0.832
-</td>
-<td style="text-align:right;">
-0.348
-</td>
-<td style="text-align:right;">
-0.207
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Carbohydrate
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
--0.666
-</td>
-<td style="text-align:right;">
--1.317
-</td>
-<td style="text-align:right;">
-0.019
-</td>
-<td style="text-align:right;">
-0.028
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Chitin
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
--0.113
-</td>
-<td style="text-align:right;">
--0.673
-</td>
-<td style="text-align:right;">
-0.453
-</td>
-<td style="text-align:right;">
-0.340
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Chitin
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
--0.435
-</td>
-<td style="text-align:right;">
--1.020
-</td>
-<td style="text-align:right;">
-0.179
-</td>
-<td style="text-align:right;">
-0.078
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Glycogen
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
-0.224
-</td>
-<td style="text-align:right;">
--0.367
-</td>
-<td style="text-align:right;">
-0.787
-</td>
-<td style="text-align:right;">
-0.224
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Glycogen
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
-0.613
-</td>
-<td style="text-align:right;">
--0.040
-</td>
-<td style="text-align:right;">
-1.222
-</td>
-<td style="text-align:right;">
-0.033
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
-0.390
-</td>
-<td style="text-align:right;">
--0.156
-</td>
-<td style="text-align:right;">
-0.919
-</td>
-<td style="text-align:right;">
-0.077
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
-0.339
-</td>
-<td style="text-align:right;">
--0.226
-</td>
-<td style="text-align:right;">
-0.885
-</td>
-<td style="text-align:right;">
-0.110
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Protein
-</td>
-<td style="text-align:left;">
-Female
-</td>
-<td style="text-align:right;">
--0.215
-</td>
-<td style="text-align:right;">
--0.818
-</td>
-<td style="text-align:right;">
-0.378
-</td>
-<td style="text-align:right;">
-0.241
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Protein
-</td>
-<td style="text-align:left;">
-Male
-</td>
-<td style="text-align:right;">
-0.136
-</td>
-<td style="text-align:right;">
--0.526
-</td>
-<td style="text-align:right;">
-0.810
-</td>
-<td style="text-align:right;">
-0.344
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <div id="not-controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
 <h4>Not controlling for differences in dry weight between treatments</h4>
-<pre class="r"><code>summary_dat2 %&gt;%
+<pre class="r"><code>summary_dat1 %&gt;%
   kable(digits = 3) %&gt;%
   kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
@@ -3245,6 +3054,262 @@ Male
 </td>
 <td style="text-align:right;">
 0.385
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
+<h4>Controlling for differences in dry weight between treatments</h4>
+<pre class="r"><code>summary_dat2 %&gt;%
+  kable(digits = 3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+sex
+</th>
+<th style="text-align:right;">
+Difference in means (Poly - Mono)
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.251
+</td>
+<td style="text-align:right;">
+-0.832
+</td>
+<td style="text-align:right;">
+0.348
+</td>
+<td style="text-align:right;">
+0.207
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+-0.666
+</td>
+<td style="text-align:right;">
+-1.317
+</td>
+<td style="text-align:right;">
+0.019
+</td>
+<td style="text-align:right;">
+0.028
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.113
+</td>
+<td style="text-align:right;">
+-0.673
+</td>
+<td style="text-align:right;">
+0.453
+</td>
+<td style="text-align:right;">
+0.340
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+-0.435
+</td>
+<td style="text-align:right;">
+-1.020
+</td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:right;">
+0.078
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+0.224
+</td>
+<td style="text-align:right;">
+-0.367
+</td>
+<td style="text-align:right;">
+0.787
+</td>
+<td style="text-align:right;">
+0.224
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.613
+</td>
+<td style="text-align:right;">
+-0.040
+</td>
+<td style="text-align:right;">
+1.222
+</td>
+<td style="text-align:right;">
+0.033
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+0.390
+</td>
+<td style="text-align:right;">
+-0.156
+</td>
+<td style="text-align:right;">
+0.919
+</td>
+<td style="text-align:right;">
+0.077
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.339
+</td>
+<td style="text-align:right;">
+-0.226
+</td>
+<td style="text-align:right;">
+0.885
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+-0.215
+</td>
+<td style="text-align:right;">
+-0.818
+</td>
+<td style="text-align:right;">
+0.378
+</td>
+<td style="text-align:right;">
+0.241
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+0.136
+</td>
+<td style="text-align:right;">
+-0.526
+</td>
+<td style="text-align:right;">
+0.810
+</td>
+<td style="text-align:right;">
+0.344
 </td>
 <td style="text-align:left;">
 </td>
