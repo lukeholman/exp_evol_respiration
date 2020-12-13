@@ -69,19 +69,21 @@ cols <- c("M females" = "pink",
 
 eplot <- ecl.dat %>% 
   filter(EVENT == 1) %>% 
-  ggplot(aes(x = DAY, y = SEX, fill = TRT)) +
+  mutate(var = paste(TRT, SEX)) %>% 
+  ggplot(aes(x = DAY, y = SEX, fill = var)) +
   geom_boxplot() +
-  scale_fill_brewer(palette = 'Set1', direction = -1, name = "") +
+  scale_fill_manual(values = c("pink", "skyblue", "red", "blue"), name = "") +
   theme_bw() +
   theme(legend.position = 'non') +
   NULL
 
 lplot <- wing_length %>% 
+  mutate(var = paste(Treatment, Sex)) %>% 
   ggplot(aes(x = Sex, y = Length)) +
-  geom_violin(aes(colour = Treatment)) + 
-  geom_boxplot(aes(fill = Treatment), width = .1, position = position_dodge(width = .9)) +
-  scale_colour_brewer(palette = 'Set1', direction = -1, name = "") +
-  scale_fill_brewer(palette = 'Set1', direction = -1, name = "") +
+  geom_violin(aes(fill = var), alpha = .5) + 
+  geom_boxplot(aes(fill = var), width = .1, position = position_dodge(width = .9)) +
+  scale_colour_manual(values = c("pink", "skyblue", "red", "blue"), name = "") +
+  scale_fill_manual(values = c("pink", "skyblue", "red", "blue"), name = "") +
   theme_bw() +
   theme() +
   NULL
@@ -91,13 +93,24 @@ gridExtra::grid.arrange(eplot, lplot, ncol = 2)
 **Figure 1:** Time to eclosion in days for flies in each treatment split by sex. Wing vein IV length has been scaled (subtracted the mean and divided by the standard deviation). We see one Monogamy male with an unusually small value for wing length - possible error in data entry or measurement error?
 
 
+# Some information on survival analysis... 
+
+Here are some useful links for understanding [survival analyis](). For instance, [this link](http://www.sthda.com/english/wiki/cox-proportional-hazards-model) provides an explanation of how to interpret hazard ratios. 
+
+The exponents of the coefficients from a Cox model give the hazard ratio, an estimate of the effect size of covariates. In short, hazard ratios give the probability of the event occurring compared to 'control' in our case compared to Monogamy females.
+
+* Hazard ratio = 1: no effect
+* Hazard ratio > 1: reduced hazard
+* Hazard ratio < 1: increased hazard
+
+
 # Fit the model for eclosion time in `coxme`
 
-We will model time to eclosion (in days) using survival analysis. We measured the time in days from 1st instar until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` x 6 `VIAL` x 3 `SEED`). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies successfully emerged during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. Cencsored flies were assigned sex based on the observed sex ratio of eclosees. We calculated the number of flies of each sex that emerged from each vial, and assigned the remaining censored individuals (of unknown sex) sex based on the proportion of individuals of each sex that did emerge, so that overall an equal sex ratio of females:males was assigned to each vial. 
+We will model time to eclosion (in days) using survival analysis. We measured the time in days from 1st instar until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` x 6 `VIAL` x 3 `SEED`). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies successfully emerged during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. Censored flies were assigned sex based on the observed sex ratio of eclosees. We calculated the number of flies of each sex that emerged from each vial, and assigned the remaining censored individuals (of unknown sex) sex based on the proportion of individuals of each sex that did emerge, so that overall an equal sex ratio of females:males was assigned to each vial. 
 
 First we plot Kaplan-Meier survival curves and the median time to eclosion without considering our full experimental design. 
 
-```{r, fig.width=5}
+```{r, fig.width=4.5, fig.height=3.8}
 survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       conf.int = TRUE,
                       risk.table = FALSE,
@@ -107,12 +120,13 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       xlim = c(12, 21),
                       xlab = "Days",
                       ylab = "Cumulative proportion eclosed",
-                      legend = c(0.2, 0.7),
+                      legend = 'right',
                       legend.title = "",
                       legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
                       break.time.by = 2,
                       ggtheme = theme_bw())
 ```
+**Figure X:** Kaplan-Meier curve for eclosion time (in days) for flies in each treatment and sex. +'s indicate censored individuals (n = 3552).
 
 ```{r}
 # median eclosion times
@@ -120,16 +134,26 @@ survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat)
 ```
 
 
-Next we need to check that the 'proportional hazards' assumption is not violated before fitting the full model. 
-```{r, fig.width=5}
+Next we need to check that the proportional hazards assumption is not violated before fitting the full model. Here we plot the log-log of the survival curves (take the natural logarithm of the cumulative hazard twice). Crossing hazards (lines) indicate violation of the proportional hazards assumption. 
+```{r, fig.width=4, fig.height=4}
 # assess proportional hazards assumption
 par(mar = c(2, 2, 2, 2))
 plot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat), 
-     lty = 1:2, 
+     lty = 1:2, lwd = 2,
      col = c("pink", "red", "skyblue", "blue"), 
      fun = "cloglog")
+
+legend("bottomright", c("M \u2640","M \u2642",'P \u2640','P \u2642'), 
+       col = c("pink", "skyblue", "red", "blue"), 
+       lty = 1:2, 
+       lwd = 2,
+       bty = 'n'
+)
+
 ```
-Here we plot the 'cloglog' of the observed hazards where crossing lines indicate hazards are not proportional. Looks good so we continue to fit the model. 
+**Figure X:** ln(-ln(survival))
+
+Looks good so we continue to fit the model. 
 
 
 ## Fitting the `coxme` model
@@ -158,20 +182,21 @@ broom::tidy(anova(coxmod, coxmod_dropTRT)),
 broom::tidy(anova(coxmod, coxmod_dropSEX)),
 broom::tidy(anova(coxmod, coxmod_dropINT))) %>% 
   cbind(Parameter = rep(c('Treatment', 'Sex', 'Treatment x Sex'), each = 2)) %>% 
+  na.omit() %>% 
   mutate(across(1:4, round, 3)) %>% 
-  na.omit() %>% as_tibble %>% 
+  as_tibble %>% 
   relocate(Parameter, logLik, statistic, df, p.value) %>% 
   kable() %>% 
   kable_styling() %>% 
   kable_styling(full_width = FALSE)
 ```
 
-We see there is an effect of treatment and sex but not their interaction. We can calculate estimates and confidence intervals for the hazard ratio by taking the exponent of the coeffients ± 1.96 * sqrt(vcov(???)). Polyandrous flies have a reduced hazard compared to Monogamy flies, i.e. take longer to eclose (hazard ratio = `r round(exp(fixef(coxmod)[1]), 3)`, CI = `r round(exp(fixef(coxmod)[1] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[1, 1]), 3)`). Males have a reduced hazard compared to females (hazard ratio = `r round(exp(fixef(coxmod)[2]), 3)`, CI = `r round(exp(fixef(coxmod)[2] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[2, 2]), 3)`).
+We see there is an effect of treatment and sex but not their interaction. We can calculate estimates and confidence intervals for the hazard ratio by taking the exponent of the coefficients ± 1.96 * sqrt(vcov(???)). Polyandrous flies have a reduced hazard compared to Monogamy flies, i.e. take longer to eclose (hazard ratio = `r round(exp(fixef(coxmod)[1]), 3)`, CI = `r round(exp(fixef(coxmod)[1] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[1, 1]), 3)`). Males have a reduced hazard compared to females (hazard ratio = `r round(exp(fixef(coxmod)[2]), 3)`, CI = `r round(exp(fixef(coxmod)[2] + c(-1.96, 1.96) * sqrt(vcov(coxmod))[2, 2]), 3)`).
 
 
 ## Fit the model in `brms`
 
-I found [this](https://bookdown.org/content/4857/god-spiked-the-integers.html) link useful for fitting the model. Other useful links for understanding [survival analyis]() and [hazard ratios](). 
+I found [this link](https://bookdown.org/content/4857/god-spiked-the-integers.html) useful for fitting survival models in `brms`. 
 
 ```{r}
 
@@ -190,18 +215,80 @@ if(!file.exists("output/cox_brms.rds")){
 
 summary(cox_brm)
 
-#plot(cox_brm)
-
 fixef(cox_brm) %>% 
   data.frame() %>% 
-  rownames_to_column()
+  rownames_to_column() %>% 
+  rename(Parameter = rowname) %>% 
+  kable() %>% 
+  kable_styling() %>% 
+  kable_styling(full_width = FALSE)
 ```
 
-## Posterior means of $\lambda$'s
+## Posterior means of hazard functions ($\lambda$)
 
 ```{r}
 1 / exp(fixef(cox_brm)[, -2])
 ```
+
+## Hypothesis testing - eclosion time
+
+```{r}
+
+hyp_test <- bind_rows(
+  hypothesis(cox_brm, 'TRTP = 0')$hypothesis,
+  hypothesis(cox_brm, 'SEXm = 0')$hypothesis,
+  hypothesis(cox_brm, 'TRTP:SEXm = 0')$hypothesis
+) %>% 
+  mutate(Parameter = c('Polandry', 'Male', 'Polyandry x Male'),
+         across(2:5, round, 3)) %>% 
+  #select(-Hypothesis) %>% 
+  relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
+
+pvals <- bayestestR::p_direction(cox_brm) %>% 
+  as.data.frame() %>%
+  mutate(vars = map_chr(str_split(Parameter, "_"), ~ .x[2]),
+         p_val = 1 - pd, 
+         star = ifelse(p_val < 0.05, "\\*", "")) %>%
+  select(vars, p_val, star)
+
+hyp_test %>% 
+  mutate(vars = c('TRTP', 'SEXm', 'TRTP:SEXm')) %>% 
+  left_join(pvals %>% filter(vars != 'Intercept'), 
+            by = c("vars")) %>% 
+  select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
+  rename(` ` = star) %>%
+  kable() %>% 
+  kable_styling(full_width = FALSE)
+
+```
+
+Plot posteriors.
+```{r, fig.height=4, fig.width=6}
+# get posterior predictions
+post_cox <- posterior_samples(cox_brm) %>% 
+  as_tibble() %>%
+  select(contains("b_"), -contains("Intercept")) %>% 
+  mutate(draw = 1:n()) %>% 
+  pivot_longer(-draw) %>% 
+  mutate(key = str_remove_all(name, "b_"))
+
+post_cox %>%
+  ggplot(aes(value, key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = "Spectral") +
+  ylab("Model parameter") +
+  xlab("Effect on Wing length") + 
+  theme_ridges() +
+  theme(legend.position = "none") +
+  NULL
+
+```
+
+
+
+
+
 
 
 ```{r}
@@ -242,7 +329,7 @@ f %>%
 
 ```
 
-## Fit a model for wing length
+# Body size differences between treatments and sexes
 
 We measured the length of wing vein IV for a subset of flies as a correlate of body size, which may influence development time. 
 
@@ -265,6 +352,7 @@ if(!file.exists("output/wing_brms.rds")){
 }
 
 pp_check(wing_brms)
+
 ```
 
 
@@ -288,17 +376,40 @@ post_dat %>%
   theme_ridges() +
   theme(legend.position = "none") +
   NULL
+
 ```
 
-## Summary of the results of the full model
+
+## Hypothesis testing - body size
+
 ```{r}
-data.frame(Parameter = rownames(fixef(wing_brms)),
-           fixef(wing_brms)) %>% 
-  mutate(star = if_else(sign(Q2.5) == sign(Q97.5), '*', '')) %>% 
-  mutate(Parameter = c('Intercept', 'Polandry', 'Male', 'Polandry x Male')) %>%
+
+wing_test <- bind_rows(
+  hypothesis(wing_brms, 'TreatmentP = 0')$hypothesis,
+  hypothesis(wing_brms, 'SexM = 0')$hypothesis,
+  hypothesis(wing_brms, 'TreatmentP:SexM = 0')$hypothesis
+) %>% 
+  mutate(Parameter = c('Polandry', 'Male', 'Polyandry x Male'),
+         across(2:5, round, 3)) %>% 
+  #select(-Hypothesis) %>% 
+  relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
+
+pvals <- bayestestR::p_direction(wing_brms) %>% 
+  as.data.frame() %>%
+  mutate(vars = map_chr(str_split(Parameter, "_"), ~ .x[2]),
+         p_val = 1 - pd, 
+         star = ifelse(p_val < 0.05, "\\*", "")) %>%
+  select(vars, p_val, star)
+
+wing_test %>% mutate(vars = c('TreatmentP', 'SexM', 'TreatmentP.SexM')) %>% 
+  left_join(pvals %>% filter(vars != 'Intercept'), 
+              by = c("vars")) %>% 
+    select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
+  mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  rename(` ` = star) %>%
   kable() %>% 
-  kable_styling() %>% 
   kable_styling(full_width = FALSE)
+
 ```
 
 ## Extract posterior estimates and plot
@@ -322,6 +433,7 @@ fitbrms %>%
   theme(legend.position = 'top',
         axis.title.x = element_blank()) +
   NULL
+
 ```
 
 Males are smaller than females and there is no effect of selection treatment on wing length.
