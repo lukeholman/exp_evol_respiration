@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Sexual selection shapes the evolution of physiological and life history traits: an experimental evolution approach"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
@@ -8,7 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-The following website details the statistical analysis for the forthcoming paper "TITLE HERE" by Garlovsky et al.
+The following website details the statistical analysis for the forthcoming paper "Sexual selection shapes the evolution of physiological and life history traits: an experimental evolution approach" by Garlovsky, Brooks, Holman and Snook.
 
 ### [1. Juvenile development time](juvenile_development.html)
 
