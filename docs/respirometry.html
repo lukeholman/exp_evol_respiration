@@ -46,10 +46,10 @@
 <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
 <link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
 <script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
-<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 
 <link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/master/img/reproducible.png">
 <!-- Add a small amount of space between sections. -->
@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree71fee665228ac28114dc7e8577466dacb53da072targetblank71fee66a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/71fee665228ac28114dc7e8577466dacb53da072" target="_blank">71fee66</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2dftargetblankcfcdbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2df" target="_blank">cfcdbe7</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree71fee665228ac28114dc7e8577466dacb53da072targetblank71fee66a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2dftargetblankcfcdbe7a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/71fee665228ac28114dc7e8577466dacb53da072" target="_blank">71fee66</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2df" target="_blank">cfcdbe7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -567,6 +567,7 @@ Untracked files:
     Untracked:  post_preds_respiration.rds
 
 Unstaged changes:
+    Modified:   analysis/metabolites.Rmd
     Deleted:    output/Figure 2.pdf
     Deleted:    output/bayesian_R2_values.rds
     Deleted:    output/brms_SEM.rds
@@ -609,6 +610,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/cfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2df/analysis/respirometry.Rmd" target="_blank">cfcdbe7</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+New respirometry analysis
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/f3995d21390ef07af5f91bf252373fc2951a7d0c/docs/respirometry.html" target="_blank">f3995d2</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -772,6 +807,8 @@ inv_logit &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
 <li><code>BODYMASS</code> The mass/weight of the triad of flies, measured to the nearest 0.1mg.</li>
 </ul>
 <p>We expect body weight and activity levels to vary between the sexes and potentially between treatments. In turn, we expect these two ‘mediator variables’ to co-vary with respiratory flux, e.g. because larger flies have more respiring tissue, and because more active flies would have more active metabolism. There might also be weight- and activity-independent effects of sex and selection treatment on respiration, e.g. because of differences in resting metabolic rate.</p>
+<div id="raw-numbers" class="section level3">
+<h3>Raw numbers</h3>
 <pre class="r"><code>respiration &lt;- read_csv(&quot;data/2.metabolic_rates.csv&quot;) %&gt;%
   rename(SELECTION = `?SELECTION`,
          BODYMASS = BODY_WEIGHT)
@@ -803,32 +840,8 @@ respiration %&gt;%
 <div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:100%;height:auto;" class="datatables html-widget"></div>
 <script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Mono","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly","Poly"],["F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M","F","F","F","F","F","F","F","F","F","M","M","M","M","M","M","M","M","M"],["M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M1","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M2","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M3","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","M4","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P1","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P2","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P3","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4","P4"],["M1T1F","M1T1F","M1T1F","M1T2F","M1T2F","M1T2F","M1T3F","M1T3F","M1T3F","M1T1M","M1T1M","M1T1M","M1T2M","M1T2M","M1T2M","M1T3M","M1T3M","M1T3M","M2T1F","M2T1F","M2T1F","M2T2F","M2T2F","M2T2F","M2T3F","M2T3F","M2T3F","M2T1M","M2T1M","M2T1M","M2T2M","M2T2M","M2T2M","M2T3M","M2T3M","M2T3M","M3T1F","M3T1F","M3T1F","M3T2F","M3T2F","M3T2F","M3T3F","M3T3F","M3T3F","M3T1M","M3T1M","M3T1M","M3T2M","M3T2M","M3T2M","M3T3M","M3T3M","M3T3M","M4T1F","M4T1F","M4T1F","M4T2F","M4T2F","M4T2F","M4T3F","M4T3F","M4T3F","M4T1M","M4T1M","M4T1M","M4T2M","M4T2M","M4T2M","M4T3M","M4T3M","M4T3M","P1T1F","P1T1F","P1T1F","P1T2F","P1T2F","P1T2F","P1T3F","P1T3F","P1T3F","P1T1M","P1T1M","P1T1M","P1T2M","P1T2M","P1T2M","P1T3M","P1T3M","P1T3M","P2T1F","P2T1F","P2T1F","P2T2F","P2T2F","P2T2F","P2T3F","P2T3F","P2T3F","P2T1M","P2T1M","P2T1M","P2T2M","P2T2M","P2T2M","P2T3M","P2T3M","P2T3M","P3T1F","P3T1F","P3T1F","P3T2F","P3T2F","P3T2F","P3T3F","P3T3F","P3T3F","P3T1M","P3T1M","P3T1M","P3T2M","P3T2M","P3T2M","P3T3M","P3T3M","P3T3M","P4T1F","P4T1F","P4T1F","P4T2F","P4T2F","P4T2F","P4T3F","P4T3F","P4T3F","P4T1M","P4T1M","P4T1M","P4T2M","P4T2M","P4T2M","P4T3M","P4T3M","P4T3M"],["I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III","I","II","III"],["0.007","0.006","0.005","0.007","0.007","0.005","0.006","0.004","0.004","0.007","0.006","0.003","0.009","0.005","0.004","0.007","0.005","0.003","0.007","0.007","0.006","0.010","0.007","0.006","0.006","0.007","0.006","0.005","0.006","0.003","0.007","0.005","0.003","0.010","0.007","0.006","0.008","0.005","0.005","0.005","0.005","0.004","0.008","0.007","0.005","0.005","0.004","0.003","0.008","0.005","0.005","0.003","0.003","0.002","0.011","0.007","0.008","0.011","0.007","0.008","0.008","0.007","0.008","0.007","0.005","0.003","0.005","0.007","0.005","0.003","0.005","0.002","0.005","0.007","0.006","0.008","0.007","0.004","0.009","0.007","0.009","0.011","0.009","0.009","0.005","0.008","0.008","0.008","0.007","0.008","0.009","0.008","0.005","0.011","0.012","0.009","0.009","0.010","0.006","0.008","0.008","0.006","0.010","0.011","0.008","0.009","0.006","0.005","0.005","0.005","0.004","0.008","0.007","0.006","0.008","0.006","0.006","0.008","0.005","0.005","0.007","0.004","0.004","0.009","0.008","0.006","0.007","0.006","0.007","0.011","0.010","0.010","0.010","0.010","0.009","0.009","0.008","0.006","0.008","0.007","0.004","0.006","0.008","0.007"],["0.005","0.005","0.003","0.006","0.005","0.004","0.005","0.004","0.003","0.007","0.005","0.003","0.007","0.004","0.003","0.007","0.005","0.003","0.005","0.006","0.005","0.008","0.006","0.005","0.006","0.006","0.005","0.005","0.005","0.003","0.006","0.004","0.003","0.008","0.006","0.004","0.007","0.004","0.005","0.004","0.005","0.004","0.008","0.006","0.004","0.004","0.004","0.003","0.007","0.005","0.004","0.004","0.004","0.003","0.009","0.007","0.007","0.009","0.007","0.007","0.009","0.006","0.008","0.006","0.004","0.003","0.005","0.005","0.005","0.004","0.005","0.003","0.005","0.006","0.006","0.007","0.007","0.004","0.008","0.006","0.008","0.010","0.008","0.007","0.004","0.006","0.006","0.006","0.006","0.007","0.007","0.007","0.005","0.009","0.010","0.008","0.007","0.008","0.005","0.006","0.007","0.004","0.012","0.010","0.007","0.007","0.005","0.005","0.005","0.005","0.004","0.007","0.007","0.007","0.007","0.006","0.005","0.007","0.005","0.004","0.006","0.004","0.004","0.007","0.006","0.005","0.007","0.006","0.006","0.009","0.009","0.008","0.008","0.009","0.008","0.008","0.007","0.006","0.007","0.006","0.005","0.006","0.007","0.006"],["0.795","0.797","0.691","0.845","0.768","0.766","0.785","0.789","0.807","0.982","0.896","1.069","0.808","0.857","0.703","0.921","1.002","1.088","0.829","0.837","0.879","0.781","0.858","0.848","0.906","0.882","0.787","0.887","0.826","1.054","0.804","0.853","0.996","0.808","0.826","0.745","0.949","0.937","0.951","0.964","0.965","0.967","1.024","0.889","0.881","0.902","1.115","1.098","0.887","0.978","0.784","1.167","1.168","1.434","0.799","0.993","0.796","0.799","0.993","0.796","1.054","0.861","0.895","0.804","0.853","0.996","0.907","0.741","0.871","1.159","0.885","1.306","0.958","0.846","0.893","0.919","0.923","1.259","0.833","0.955","0.819","0.934","0.881","0.814","0.811","0.793","0.780","0.814","0.865","0.837","0.826","0.842","0.982","0.820","0.849","0.907","0.762","0.797","0.873","0.816","0.922","0.771","1.120","0.893","0.884","0.814","0.785","0.885","0.919","0.997","1.176","0.851","1.020","1.015","0.810","0.936","0.866","0.957","0.893","0.837","0.843","0.836","0.851","0.823","0.824","0.928","0.991","1.020","0.926","0.858","0.889","0.818","0.813","0.822","0.873","0.935","0.889","0.947","0.916","0.846","1.214","0.958","0.816","0.864"],["0.017","0.013","0.005","0.005","0.011","0.005","0.010","0.007","0.005","0.047","0.041","0.027","0.059","0.023","0.008","0.020","0.012","0.005","0.007","0.011","0.036","0.032","0.041","0.013","0.010","0.010","0.011","0.007","0.005","0.005","0.048","0.016","0.020","0.043","0.029","0.008","0.022","0.006","0.032","0.005","0.036","0.040","0.009","0.028","0.023","0.009","0.005","0.026","0.012","0.019","0.005","0.026","0.038","0.030","0.005","0.025","0.009","0.005","0.025","0.009","0.006","0.005","0.048","0.048","0.016","0.020","0.006","0.013","0.015","0.004","0.004","0.004","0.014","0.051","0.047","0.051","0.009","0.018","0.056","0.049","0.063","0.058","0.047","0.044","0.029","0.061","0.072","0.041","0.051","0.058","0.027","0.031","0.031","0.054","0.063","0.050","0.097","0.084","0.074","0.045","0.050","0.040","0.069","0.062","0.061","0.066","0.049","0.046","0.010","0.006","0.007","0.033","0.052","0.060","0.011","0.044","0.035","0.052","0.051","0.017","0.042","0.038","0.031","0.051","0.048","0.052","0.004","0.004","0.004","0.074","0.091","0.075","0.079","0.101","0.097","0.065","0.075","0.073","0.030","0.043","0.061","0.051","0.073","0.075"],["0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.002","0.002","0.002","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.002","0.002","0.002","0.002","0.002","0.002","0.002","0.002","0.002","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.002","0.002","0.002","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001","0.001"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>SELECTION<\/th>\n      <th>SEX<\/th>\n      <th>LINE<\/th>\n      <th>SAMPLE<\/th>\n      <th>CYCLE<\/th>\n      <th>VO2<\/th>\n      <th>VCO2<\/th>\n      <th>RQ<\/th>\n      <th>ACTIVITY<\/th>\n      <th>BODYMASS<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_respiration"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
-<div id="draw-the-causal-diagram" class="section level2">
-<h2>Draw the causal diagram</h2>
-<pre class="r"><code>DiagrammeR::grViz(&#39;digraph {
-
-graph [layout = dot, rankdir = LR]
-
-# define the global styles of the nodes. We can override these in box if we wish
-node [shape = rectangle, style = filled, fillcolor = Linen]
-
-&quot;Metabolic\nrate&quot; [shape = oval, fillcolor = Beige]
-&quot;Metabolic\nsubstrate&quot; [shape = oval, fillcolor = Beige]
-&quot;Other factors\n(e.g. physiology)&quot; [shape = oval, fillcolor = Beige]
-
-# edge definitions with the node IDs
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Other factors\n(e.g. physiology)&quot;, &quot;Body mass&quot; , &quot;Activity&quot;} -&gt; {&quot;Metabolic\nrate&quot;, &quot;Metabolic\nsubstrate&quot;} 
-
-{&quot;Metabolic\nrate&quot;} -&gt; {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;}
-{&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
-{&quot;Metabolic\nsubstrate&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
-}&#39;)</code></pre>
-<p><div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script> <br></br> <strong>Figure XX:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised <em>a priori</em> between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
-</div>
-<div id="inspecting-the-raw-data" class="section level2">
-<h2>Inspecting the raw data</h2>
-<p>Create a “pairs plot” of the raw data.</p>
+<div id="plot-of-correlations-between-variables" class="section level3">
+<h3>Plot of correlations between variables</h3>
 <pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, ...) + scale_fill_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1) + 
   scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
@@ -868,45 +881,135 @@ pairs_plot &lt;- respiration %&gt;%
 
 # pairs_plot %&gt;% ggsave(filename = &quot;output/pairs_plot.pdf&quot;, height = 10, width = 10)
 pairs_plot</code></pre>
-<p><img src="figure/respirometry.Rmd/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
-Past versions of unnamed-chunk-4-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-4-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
+</div>
+<div id="mean-body-weight-of-triads" class="section level3">
+<h3>Mean body weight of triads</h3>
+<pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
+respiration %&gt;% 
+  select(SEX, SELECTION, BODYMASS) %&gt;%
+  distinct() %&gt;%
+  group_by(SEX, SELECTION) %&gt;% 
+  summarise(mean_dwt = mean(BODYMASS * 1000 / 3), 
+            SE = se(BODYMASS * 1000 / 3), 
+            n = n()) %&gt;% 
+  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
-<th>
-Version
+<th style="text-align:left;">
+SEX
 </th>
-<th>
-Author
+<th style="text-align:left;">
+SELECTION
 </th>
-<th>
-Date
+<th style="text-align:right;">
+mean_dwt
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+n
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2fc158d6b5ce97ffbdd73c6cd7a9b4b9ef14e28f/docs/figure/respirometry.Rmd/unnamed-chunk-4-1.png" target="_blank">2fc158d</a>
+<td style="text-align:left;">
+F
 </td>
-<td>
-lukeholman
+<td style="text-align:left;">
+Mono
 </td>
-<td>
-2020-12-18
+<td style="text-align:right;">
+0.397
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.469
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:right;">
+0.285
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:right;">
+12
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
+<div id="draw-the-causal-diagram" class="section level2">
+<h2>Draw the causal diagram</h2>
+<pre class="r"><code>DiagrammeR::grViz(&#39;digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+&quot;Metabolic\nrate&quot; [shape = oval, fillcolor = Beige]
+&quot;Metabolic\nsubstrate&quot; [shape = oval, fillcolor = Beige]
+&quot;Other factors\n(e.g. physiology)&quot; [shape = oval, fillcolor = Beige]
+
+# edge definitions with the node IDs
+&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Other factors\n(e.g. physiology)&quot;, &quot;Body mass&quot; , &quot;Activity&quot;} -&gt; {&quot;Metabolic\nrate&quot;, &quot;Metabolic\nsubstrate&quot;} 
+
+{&quot;Metabolic\nrate&quot;} -&gt; {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;}
+{&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
+{&quot;Metabolic\nsubstrate&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
+}&#39;)</code></pre>
+<p><div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script> <br></br> <strong>Figure XX:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised <em>a priori</em> between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
 </div>
 <div id="fit-bayesian-structural-equation-model-sem-via-brms" class="section level2">
 <h2>Fit Bayesian structural equation model (SEM) via <code>brms</code></h2>
@@ -1043,44 +1146,7 @@ prior_SEM</code></pre>
     ggtitle(&quot;Activity level&quot;) + theme(legend.position = &quot;none&quot;),
   nrow = 1
 )</code></pre>
-<p><img src="figure/respirometry.Rmd/unnamed-chunk-9-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-9-1">
-Past versions of unnamed-chunk-9-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-9-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2fc158d6b5ce97ffbdd73c6cd7a9b4b9ef14e28f/docs/figure/respirometry.Rmd/unnamed-chunk-9-1.png" target="_blank">2fc158d</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-12-18
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
@@ -2594,44 +2660,7 @@ grid.arrange(p1,
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) </code></pre>
-<p><img src="figure/respirometry.Rmd/unnamed-chunk-14-1.png" width="480" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
-Past versions of unnamed-chunk-14-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-14-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2fc158d6b5ce97ffbdd73c6cd7a9b4b9ef14e28f/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">2fc158d</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-12-18
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="tables" class="section level4">
 <h4>Tables</h4>
