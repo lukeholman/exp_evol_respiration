@@ -104,51 +104,64 @@ respiration %>%
 ### Plot of correlations between variables
 
 ```{r fig.height=10, fig.width=10}
+cols <- c("M females" = "pink", 
+          "P females" = "red", 
+          "M males" = "skyblue", 
+          "P males" = "blue")
+
 modified_densityDiag <- function(data, mapping, ...) {
-  ggally_densityDiag(data, mapping, ...) + scale_fill_brewer(type = "qual", palette = "Set1", direction = -1) + 
+  ggally_densityDiag(data, mapping, colour = "grey10", ...) + 
+    scale_fill_manual(values = cols) + 
   scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
 }
 
 modified_points <- function(data, mapping, ...) {
-  ggally_points(data, mapping, ...) + scale_colour_brewer(type = "qual", palette = "Set1", direction = -1) + 
-  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+  ggally_points(data, mapping, pch = 21, colour = "grey10", ...) +
+    scale_fill_manual(values = cols) + 
+    scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
 }
 
 modified_facetdensity <- function(data, mapping, ...) {
-  ggally_facetdensity(data, mapping, ...) + scale_colour_brewer(type = "qual", palette = "Set1", direction = -1)
+  ggally_facetdensity(data, mapping, ...) + 
+    scale_colour_manual(values = cols)
 }
 
 modified_box_no_facet <- function(data, mapping, ...) {
-  ggally_box_no_facet(data, mapping, ...) + scale_fill_brewer(type = "qual", palette = "Set1", direction = -1)
+  ggally_box_no_facet(data, mapping, colour = "grey10", ...) +
+    scale_fill_manual(values = cols)
 }
 
-pairs_plot <- respiration %>% 
+respiration_pairs_plot <- respiration %>% 
   select(SEX, SELECTION, CYCLE, VO2, VCO2, RQ, ACTIVITY, BODYMASS) %>%
   mutate(VO2 = VO2 * 1000, 
          VCO2 = VCO2 * 1000, 
          BODYMASS = BODYMASS * 1000, 
          ACTIVITY = ACTIVITY * 100) %>%
-  mutate(SEX = factor(ifelse(SEX == "M", "Male", "Female"), c("Male", "Female"))) %>%
-  rename(Sex = SEX, Treatment = SELECTION, Cycle = CYCLE, 
-         Activity = ACTIVITY, `Body mass` = BODYMASS) %>%
-  ggpairs(aes(colour = Treatment),
+  mutate(SEX = factor(ifelse(SEX == "M", "males", "females")),
+         SELECTION = factor(ifelse(SELECTION == "Mono", "M", "P")),
+         `Sex and treatment` = factor(paste(SELECTION, SEX), c("M males", "P males", "M females", "P females"))) %>%
+  mutate_if(is.numeric, ~ as.numeric(scale(.x))) %>%
+  select(-SEX, -SELECTION) %>%
+  rename(Cycle = CYCLE, Activity = ACTIVITY, `Body mass` = BODYMASS) %>% 
+  select(VO2, VCO2, RQ, Activity, `Body mass`, `Sex and treatment`, Cycle) %>%
+  ggpairs(aes(colour = `Sex and treatment`, fill = `Sex and treatment`),
           diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
                       discrete = wrap("blank")),
-          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5), 
+          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1), 
                        discrete = wrap("blank"),
                        combo = wrap(modified_box_no_facet, alpha = 0.7)),
-          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5),
+          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1),
                        discrete = wrap("blank"),
-                       combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
+                       combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-# pairs_plot %>% ggsave(filename = "output/pairs_plot.pdf", height = 10, width = 10)
-pairs_plot
+respiration_pairs_plot %>% ggsave(filename = "output/respiration_pairs_plot.pdf", height = 10, width = 10)
+respiration_pairs_plot
 ```
 
 **Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
 
 
-### Mean body weight of triads
+### Mean body weight per individual
 
 ```{r}
 se <- function(x) sd(x) / sqrt(length(x))
@@ -156,11 +169,26 @@ respiration %>%
   select(SEX, SELECTION, BODYMASS) %>%
   distinct() %>%
   group_by(SEX, SELECTION) %>% 
-  summarise(mean_dwt = mean(BODYMASS * 1000 / 3), 
+  summarise(`Mean weight per fly (mg)` = mean(BODYMASS * 1000 / 3), 
             SE = se(BODYMASS * 1000 / 3), 
             n = n()) %>% 
-  kable(digits = 3) %>% kable_styling(full_width = FALSE)
+  kable(digits = 2) %>% kable_styling(full_width = FALSE)
 ```
+
+### Mean activity level
+
+```{r}
+se <- function(x) sd(x) / sqrt(length(x))
+respiration %>% 
+  select(SEX, SELECTION, ACTIVITY, CYCLE) %>%
+  distinct() %>%
+  group_by(SEX, SELECTION, CYCLE) %>% 
+  summarise(`Mean activity level` = mean(ACTIVITY * 1000 / 3), 
+            SE = se(ACTIVITY * 1000 / 3), 
+            n = n()) %>% 
+  kable(digits = 2) %>% kable_styling(full_width = FALSE)
+```
+
 
 ## Draw the causal diagram
 
@@ -502,11 +530,6 @@ posterior_effect_size <- post_preds_respiration %>%
 Note that the females are larger than males, and that P females are somewhat larger than M females. P individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while P males maintain consistent, high activity levels).
 
 ```{r fig.height=7.5, fig.width=5, fig.showtext=TRUE}
-cols <- c("M females" = "pink", 
-          "P females" = "red", 
-          "M males" = "skyblue", 
-          "P males" = "blue")
-
 p1 <- arrangeGrob(
   
   bodymass_posterior %>%
