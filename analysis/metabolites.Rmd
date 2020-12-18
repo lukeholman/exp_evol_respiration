@@ -58,7 +58,7 @@ options(stringsAsFactors = FALSE)
 
 ## Load metabolite composition data
 
-This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the weights of five metabolites which together equal the dry weight. These are:
+This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the concentrations of five metabolites. These are:
 
 - `Lipid_conc` (i.e. the weight of the hexane fraction, divided by the full dry weight), 
 - `Carbohydrate_conc` (i.e. the weight of the aqueous fraction, divided by the full dry weight), 
@@ -66,7 +66,7 @@ This analysis set out to test whether sexual selection treatment had an effect o
 - `Glycogen_conc` (i.e. $\mu$g of glycogen per milligram as measured by the hexokinase assay), and 
 - `Chitin_conc` (estimated as the difference between the initial and final dry weights)
 
-We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Heavier flies might contain different proportions of lipids, chitin, etc., and these proportions might vary by sex and treatment (both because of the differences in dry weight, or because of weight-independent effects of sex and treatment on metabolite composition).
+We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.
 
 ```{r}
 metabolites <- read_csv('data/3.metabolite_data.csv') %>%
