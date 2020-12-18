@@ -15,6 +15,10 @@ navbar:
     href: metabolites.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/lukeholman/exp_evol_respiration
 output:
   workflowr::wflow_html:
     toc: yes
