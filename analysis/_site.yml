@@ -1,12 +1,18 @@
 name: "respiration_exp_evolution"
 output_dir: ../docs
 navbar:
-  title: "respiration_exp_evolution"
+  title: " "
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
+  - text: Development
+    href: juvenile_development.html
+  - text: Resistance
+    href: resistance.html
+  - text: Respirometry
+    href: metabolites.html
+  - text: Metabolites
+    href: metabolites.html
   - text: License
     href: license.html
 output:

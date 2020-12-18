@@ -185,7 +185,7 @@ broom::tidy(anova(coxmod, coxmod_dropINT))) %>%
   na.omit() %>% 
   mutate(across(1:4, round, 3)) %>% 
   as_tibble %>% 
-  relocate(Parameter, logLik, statistic, df, p.value) %>% 
+  relocate(Parameter, loglik, statistic, df, p.value) %>% 
   kable() %>% 
   kable_styling() %>% 
   kable_styling(full_width = FALSE)
