@@ -388,12 +388,24 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">respiration_exp_evolution</a>
+      <a class="navbar-brand" href="index.html"> </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
   <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="juvenile_development.html">Development</a>
+</li>
+<li>
+  <a href="resistance.html">Resistance</a>
+</li>
+<li>
+  <a href="metabolites.html">Respirometry</a>
+</li>
+<li>
+  <a href="metabolites.html">Metabolites</a>
 </li>
 <li>
   <a href="about.html">About</a>
@@ -537,16 +549,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7dcf48a9a626dbaac2d1da8ad91ae16cef693eactargetblank7dcf48aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7dcf48a9a626dbaac2d1da8ad91ae16cef693eac" target="_blank">7dcf48a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree603958889f4ebdd525106c22325efde8db5121c5targetblank6039588a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/603958889f4ebdd525106c22325efde8db5121c5" target="_blank">6039588</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7dcf48a9a626dbaac2d1da8ad91ae16cef693eactargetblank7dcf48aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree603958889f4ebdd525106c22325efde8db5121c5targetblank6039588a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7dcf48a9a626dbaac2d1da8ad91ae16cef693eac" target="_blank">7dcf48a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/603958889f4ebdd525106c22325efde8db5121c5" target="_blank">6039588</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -569,6 +581,8 @@ Untracked files:
     Untracked:  post_preds_respiration.rds
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
     Modified:   analysis/metabolites.Rmd
     Deleted:    output/Figure 2.pdf
     Deleted:    output/bayesian_R2_values.rds
@@ -612,6 +626,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/603958889f4ebdd525106c22325efde8db5121c5/analysis/respirometry.Rmd" target="_blank">6039588</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+new menu
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/4b2ed7018d65ad5855bb0ca0773819b5b074e964/docs/respirometry.html" target="_blank">4b2ed70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -4015,6 +4063,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/4b2ed7018d65ad5855bb0ca0773819b5b074e964/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">4b2ed70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/2791e70bfba58cbb5318dbbb6a52cb0c9bbccdef/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">2791e70</a>
 </td>
 <td>
@@ -4467,14 +4526,20 @@ III
   select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %&gt;%
   group_by(mediators_blocked, SEX, CYCLE) %&gt;%
   summarise(x = list(posterior_summary(VO2_effect) %&gt;% 
-                       as.data.frame()), .groups = &quot;drop&quot;) %&gt;%
+                        as.data.frame()),
+            p = 1 - as.numeric(bayestestR::p_direction(VO2_effect)),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;) %&gt;%
   unnest(x) %&gt;% mutate(Response = &quot;VO2 effect size&quot;) %&gt;%
   bind_rows(
     posterior_effect_size %&gt;%
-      select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %&gt;%
+      select(mediators_blocked, SEX, CYCLE, RQ_effect, draw) %&gt;%
       group_by(mediators_blocked, SEX, CYCLE) %&gt;%
-      summarise(x = list(posterior_summary(VO2_effect) %&gt;% 
-                           as.data.frame()), .groups = &quot;drop&quot;) %&gt;%
+       summarise(x = list(posterior_summary(RQ_effect) %&gt;% 
+                        as.data.frame()),
+            p = 1 - as.numeric(bayestestR::p_direction(RQ_effect)),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;) %&gt;%
       unnest(x) %&gt;% mutate(Response = &quot;RQ effect size&quot;)) %&gt;%
   select(-Response) %&gt;% rename(`Mediators blocked` = mediators_blocked, Sex = SEX, Cycle = CYCLE) %&gt;%
   kable(digits = 3) %&gt;%
@@ -4505,11 +4570,16 @@ Q2.5
 <th style="text-align:right;">
 Q97.5
 </th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
 </tr>
 </thead>
 <tbody>
 <tr grouplength="18">
-<td colspan="7" style="border-bottom: 1px solid;">
+<td colspan="9" style="border-bottom: 1px solid;">
 <strong>VO2 effect size</strong>
 </td>
 </tr>
@@ -4535,6 +4605,12 @@ Cycle I
 <td style="text-align:right;">
 1.235
 </td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4557,6 +4633,12 @@ Cycle II
 </td>
 <td style="text-align:right;">
 1.547
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -4581,6 +4663,12 @@ Cycle III
 <td style="text-align:right;">
 1.688
 </td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4603,6 +4691,12 @@ Cycle I
 </td>
 <td style="text-align:right;">
 0.970
+</td>
+<td style="text-align:right;">
+0.015
+</td>
+<td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -4627,6 +4721,12 @@ Cycle II
 <td style="text-align:right;">
 1.222
 </td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4649,6 +4749,12 @@ Cycle III
 </td>
 <td style="text-align:right;">
 0.959
+</td>
+<td style="text-align:right;">
+0.050
+</td>
+<td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -4673,6 +4779,12 @@ Cycle I
 <td style="text-align:right;">
 1.221
 </td>
+<td style="text-align:right;">
+0.005
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4695,6 +4807,12 @@ Cycle II
 </td>
 <td style="text-align:right;">
 1.534
+</td>
+<td style="text-align:right;">
+0.001
+</td>
+<td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -4719,6 +4837,12 @@ Cycle III
 <td style="text-align:right;">
 1.675
 </td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4741,6 +4865,12 @@ Cycle I
 </td>
 <td style="text-align:right;">
 0.898
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:left;">
+*
 </td>
 </tr>
 <tr>
@@ -4765,6 +4895,12 @@ Cycle II
 <td style="text-align:right;">
 1.158
 </td>
+<td style="text-align:right;">
+0.011
+</td>
+<td style="text-align:left;">
+*
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4787,6 +4923,11 @@ Cycle III
 </td>
 <td style="text-align:right;">
 0.888
+</td>
+<td style="text-align:right;">
+0.088
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -4811,6 +4952,11 @@ Cycle I
 <td style="text-align:right;">
 0.803
 </td>
+<td style="text-align:right;">
+0.179
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4833,6 +4979,11 @@ Cycle II
 </td>
 <td style="text-align:right;">
 0.923
+</td>
+<td style="text-align:right;">
+0.144
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -4857,6 +5008,11 @@ Cycle III
 <td style="text-align:right;">
 1.026
 </td>
+<td style="text-align:right;">
+0.079
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4879,6 +5035,11 @@ Cycle I
 </td>
 <td style="text-align:right;">
 0.493
+</td>
+<td style="text-align:right;">
+0.492
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -4903,6 +5064,11 @@ Cycle II
 <td style="text-align:right;">
 0.710
 </td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
 <tr>
 <td style="text-align:left; padding-left: 2em;" indentlevel="1">
@@ -4926,9 +5092,14 @@ Cycle III
 <td style="text-align:right;">
 0.499
 </td>
+<td style="text-align:right;">
+0.417
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
 <tr grouplength="18">
-<td colspan="7" style="border-bottom: 1px solid;">
+<td colspan="9" style="border-bottom: 1px solid;">
 <strong>RQ effect size</strong>
 </td>
 </tr>
@@ -4943,292 +5114,357 @@ Males
 Cycle I
 </td>
 <td style="text-align:right;">
-0.714
-</td>
-<td style="text-align:right;">
-0.267
-</td>
-<td style="text-align:right;">
-0.185
-</td>
-<td style="text-align:right;">
-1.235
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Neither
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle II
-</td>
-<td style="text-align:right;">
-0.987
-</td>
-<td style="text-align:right;">
-0.285
-</td>
-<td style="text-align:right;">
-0.425
-</td>
-<td style="text-align:right;">
-1.547
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Neither
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle III
-</td>
-<td style="text-align:right;">
-1.132
-</td>
-<td style="text-align:right;">
-0.284
-</td>
-<td style="text-align:right;">
-0.569
-</td>
-<td style="text-align:right;">
-1.688
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Neither
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle I
-</td>
-<td style="text-align:right;">
-0.504
-</td>
-<td style="text-align:right;">
-0.234
-</td>
-<td style="text-align:right;">
-0.046
-</td>
-<td style="text-align:right;">
-0.970
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Neither
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle II
-</td>
-<td style="text-align:right;">
-0.698
-</td>
-<td style="text-align:right;">
-0.268
-</td>
-<td style="text-align:right;">
-0.172
-</td>
-<td style="text-align:right;">
-1.222
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Neither
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle III
-</td>
-<td style="text-align:right;">
-0.434
-</td>
-<td style="text-align:right;">
-0.265
-</td>
-<td style="text-align:right;">
--0.080
-</td>
-<td style="text-align:right;">
-0.959
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle I
-</td>
-<td style="text-align:right;">
-0.703
-</td>
-<td style="text-align:right;">
-0.267
-</td>
-<td style="text-align:right;">
-0.175
-</td>
-<td style="text-align:right;">
-1.221
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle II
-</td>
-<td style="text-align:right;">
-0.976
-</td>
-<td style="text-align:right;">
-0.285
-</td>
-<td style="text-align:right;">
-0.413
-</td>
-<td style="text-align:right;">
-1.534
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle III
-</td>
-<td style="text-align:right;">
-1.121
-</td>
-<td style="text-align:right;">
-0.284
-</td>
-<td style="text-align:right;">
-0.558
-</td>
-<td style="text-align:right;">
-1.675
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle I
-</td>
-<td style="text-align:right;">
-0.430
-</td>
-<td style="text-align:right;">
-0.237
-</td>
-<td style="text-align:right;">
--0.033
-</td>
-<td style="text-align:right;">
-0.898
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle II
-</td>
-<td style="text-align:right;">
-0.624
-</td>
-<td style="text-align:right;">
-0.273
-</td>
-<td style="text-align:right;">
-0.088
-</td>
-<td style="text-align:right;">
-1.158
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Body mass
-</td>
-<td style="text-align:left;">
-Females
-</td>
-<td style="text-align:left;">
-Cycle III
-</td>
-<td style="text-align:right;">
-0.360
-</td>
-<td style="text-align:right;">
-0.269
-</td>
-<td style="text-align:right;">
--0.164
-</td>
-<td style="text-align:right;">
-0.888
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Activity
-</td>
-<td style="text-align:left;">
-Males
-</td>
-<td style="text-align:left;">
-Cycle I
-</td>
-<td style="text-align:right;">
-0.250
+0.117
 </td>
 <td style="text-align:right;">
 0.278
 </td>
 <td style="text-align:right;">
--0.296
+-0.453
 </td>
 <td style="text-align:right;">
-0.803
+0.639
+</td>
+<td style="text-align:right;">
+0.326
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Neither
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:right;">
+-0.189
+</td>
+<td style="text-align:right;">
+0.346
+</td>
+<td style="text-align:right;">
+-0.865
+</td>
+<td style="text-align:right;">
+0.490
+</td>
+<td style="text-align:right;">
+0.290
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Neither
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:right;">
+-0.077
+</td>
+<td style="text-align:right;">
+0.390
+</td>
+<td style="text-align:right;">
+-0.811
+</td>
+<td style="text-align:right;">
+0.700
+</td>
+<td style="text-align:right;">
+0.417
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Neither
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+0.249
+</td>
+<td style="text-align:right;">
+-0.463
+</td>
+<td style="text-align:right;">
+0.523
+</td>
+<td style="text-align:right;">
+0.444
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Neither
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:right;">
+0.037
+</td>
+<td style="text-align:right;">
+0.287
+</td>
+<td style="text-align:right;">
+-0.536
+</td>
+<td style="text-align:right;">
+0.595
+</td>
+<td style="text-align:right;">
+0.447
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Neither
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:right;">
+0.373
+</td>
+<td style="text-align:right;">
+0.310
+</td>
+<td style="text-align:right;">
+-0.255
+</td>
+<td style="text-align:right;">
+0.969
+</td>
+<td style="text-align:right;">
+0.116
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:right;">
+0.118
+</td>
+<td style="text-align:right;">
+0.279
+</td>
+<td style="text-align:right;">
+-0.454
+</td>
+<td style="text-align:right;">
+0.645
+</td>
+<td style="text-align:right;">
+0.326
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:right;">
+-0.187
+</td>
+<td style="text-align:right;">
+0.345
+</td>
+<td style="text-align:right;">
+-0.863
+</td>
+<td style="text-align:right;">
+0.490
+</td>
+<td style="text-align:right;">
+0.289
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:right;">
+-0.076
+</td>
+<td style="text-align:right;">
+0.390
+</td>
+<td style="text-align:right;">
+-0.810
+</td>
+<td style="text-align:right;">
+0.699
+</td>
+<td style="text-align:right;">
+0.418
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:right;">
+0.038
+</td>
+<td style="text-align:right;">
+0.252
+</td>
+<td style="text-align:right;">
+-0.471
+</td>
+<td style="text-align:right;">
+0.525
+</td>
+<td style="text-align:right;">
+0.436
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:right;">
+0.039
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:right;">
+-0.543
+</td>
+<td style="text-align:right;">
+0.601
+</td>
+<td style="text-align:right;">
+0.446
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Body mass
+</td>
+<td style="text-align:left;">
+Females
+</td>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:right;">
+0.374
+</td>
+<td style="text-align:right;">
+0.312
+</td>
+<td style="text-align:right;">
+-0.260
+</td>
+<td style="text-align:right;">
+0.968
+</td>
+<td style="text-align:right;">
+0.115
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+Activity
+</td>
+<td style="text-align:left;">
+Males
+</td>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:right;">
+0.235
+</td>
+<td style="text-align:right;">
+0.288
+</td>
+<td style="text-align:right;">
+-0.353
+</td>
+<td style="text-align:right;">
+0.779
+</td>
+<td style="text-align:right;">
+0.202
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -5242,16 +5478,21 @@ Males
 Cycle II
 </td>
 <td style="text-align:right;">
-0.320
+-0.002
 </td>
 <td style="text-align:right;">
-0.305
+0.367
 </td>
 <td style="text-align:right;">
--0.283
+-0.728
 </td>
 <td style="text-align:right;">
-0.923
+0.698
+</td>
+<td style="text-align:right;">
+0.498
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -5265,16 +5506,21 @@ Males
 Cycle III
 </td>
 <td style="text-align:right;">
-0.428
+0.113
 </td>
 <td style="text-align:right;">
-0.306
+0.411
 </td>
 <td style="text-align:right;">
--0.167
+-0.675
 </td>
 <td style="text-align:right;">
-1.026
+0.912
+</td>
+<td style="text-align:right;">
+0.395
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -5288,16 +5534,21 @@ Females
 Cycle I
 </td>
 <td style="text-align:right;">
-0.009
+0.178
 </td>
 <td style="text-align:right;">
-0.242
+0.268
 </td>
 <td style="text-align:right;">
--0.457
+-0.355
 </td>
 <td style="text-align:right;">
-0.493
+0.695
+</td>
+<td style="text-align:right;">
+0.250
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -5311,16 +5562,21 @@ Females
 Cycle II
 </td>
 <td style="text-align:right;">
-0.154
+0.183
 </td>
 <td style="text-align:right;">
-0.281
+0.309
 </td>
 <td style="text-align:right;">
--0.394
+-0.427
 </td>
 <td style="text-align:right;">
-0.710
+0.785
+</td>
+<td style="text-align:right;">
+0.272
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 <tr>
@@ -5334,16 +5590,290 @@ Females
 Cycle III
 </td>
 <td style="text-align:right;">
--0.055
+0.507
 </td>
 <td style="text-align:right;">
-0.277
+0.322
 </td>
 <td style="text-align:right;">
--0.588
+-0.157
 </td>
 <td style="text-align:right;">
-0.499
+1.110
+</td>
+<td style="text-align:right;">
+0.062
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
+<h2>Posterior difference in treatment effect size between sexes</h2>
+<p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each cycle, for VO<span class="math inline">\(_2\)</span>. We find that the effect of the P/M treatment on VO<span class="math inline">\(_2\)</span> is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.</p>
+<div id="figure-1" class="section level3 tabset">
+<h3>Figure</h3>
+<pre class="r"><code>treatsex_interaction &lt;- posterior_effect_size %&gt;%
+  rename(Cycle = CYCLE) %&gt;%
+  group_by(draw, Cycle, mediators_blocked) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = VO2_effect[1] - VO2_effect[2],
+            .groups = &quot;drop&quot;)
+
+treatsex_interaction %&gt;%
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeyeh() +
+  facet_grid(mediators_blocked ~ Cycle) +
+  scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab(&quot;Posterior density&quot;)</code></pre>
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="table" class="section level3 tabset">
+<h3>Table</h3>
+<pre class="r"><code>treatsex_interaction %&gt;%
+  rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
+  group_by(Cycle, mediators_blocked) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;) %&gt;%
+  kable(digits=3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Cycle
+</th>
+<th style="text-align:left;">
+mediators_blocked
+</th>
+<th style="text-align:right;">
+Difference in effect size between sexes (male - female)
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:left;">
+Neither
+</td>
+<td style="text-align:right;">
+0.213
+</td>
+<td style="text-align:right;">
+-0.314
+</td>
+<td style="text-align:right;">
+0.714
+</td>
+<td style="text-align:right;">
+0.209
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:left;">
+Body mass
+</td>
+<td style="text-align:right;">
+0.275
+</td>
+<td style="text-align:right;">
+-0.255
+</td>
+<td style="text-align:right;">
+0.784
+</td>
+<td style="text-align:right;">
+0.151
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle I
+</td>
+<td style="text-align:left;">
+Activity
+</td>
+<td style="text-align:right;">
+0.244
+</td>
+<td style="text-align:right;">
+-0.284
+</td>
+<td style="text-align:right;">
+0.745
+</td>
+<td style="text-align:right;">
+0.177
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:left;">
+Neither
+</td>
+<td style="text-align:right;">
+0.295
+</td>
+<td style="text-align:right;">
+-0.345
+</td>
+<td style="text-align:right;">
+0.915
+</td>
+<td style="text-align:right;">
+0.181
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:left;">
+Body mass
+</td>
+<td style="text-align:right;">
+0.360
+</td>
+<td style="text-align:right;">
+-0.287
+</td>
+<td style="text-align:right;">
+0.982
+</td>
+<td style="text-align:right;">
+0.139
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle II
+</td>
+<td style="text-align:left;">
+Activity
+</td>
+<td style="text-align:right;">
+0.174
+</td>
+<td style="text-align:right;">
+-0.471
+</td>
+<td style="text-align:right;">
+0.792
+</td>
+<td style="text-align:right;">
+0.297
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:left;">
+Neither
+</td>
+<td style="text-align:right;">
+0.699
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+<td style="text-align:right;">
+1.324
+</td>
+<td style="text-align:right;">
+0.017
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:left;">
+Body mass
+</td>
+<td style="text-align:right;">
+0.764
+</td>
+<td style="text-align:right;">
+0.110
+</td>
+<td style="text-align:right;">
+1.392
+</td>
+<td style="text-align:right;">
+0.010
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cycle III
+</td>
+<td style="text-align:left;">
+Activity
+</td>
+<td style="text-align:right;">
+0.485
+</td>
+<td style="text-align:right;">
+-0.165
+</td>
+<td style="text-align:right;">
+1.106
+</td>
+<td style="text-align:right;">
+0.070
+</td>
+<td style="text-align:left;">
 </td>
 </tr>
 </tbody>
@@ -6164,8 +6694,6 @@ loaded via a namespace (and not attached):
 [124] rmarkdown_2.5        git2r_0.27.1         shiny_1.4.0.2       
 [127] lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
-</div>
-</div>
 </div>
 </div>
 </div>
