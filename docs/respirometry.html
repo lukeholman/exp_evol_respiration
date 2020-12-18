@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2dftargetblankcfcdbe7a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2df" target="_blank">cfcdbe7</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree5a0449449231c26f4404a033d1db4a58a63125f0targetblank5a04494a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/5a0449449231c26f4404a033d1db4a58a63125f0" target="_blank">5a04494</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2dftargetblankcfcdbe7a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree5a0449449231c26f4404a033d1db4a58a63125f0targetblank5a04494a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cfcdbe7ad1e96fe0ac37aa2c7dc26b3ba36ff2df" target="_blank">cfcdbe7</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/5a0449449231c26f4404a033d1db4a58a63125f0" target="_blank">5a04494</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -562,8 +562,10 @@ Ignored files:
 Untracked files:
     Untracked:  output/brms_SEM_respiration.rds
     Untracked:  output/metabolite_interaction_plot.pdf
+    Untracked:  output/metabolite_pairs_plot.pdf
     Untracked:  output/metabolite_plot.pdf
     Untracked:  output/respiration_figure.pdf
+    Untracked:  output/respiration_pairs_plot.pdf
     Untracked:  post_preds_respiration.rds
 
 Unstaged changes:
@@ -610,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/5a0449449231c26f4404a033d1db4a58a63125f0/analysis/respirometry.Rmd" target="_blank">5a04494</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Fix pairs plot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/a14c3784a106e71d73e04484412547fc29aa1d82/docs/respirometry.html" target="_blank">a14c378</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -842,59 +878,109 @@ respiration %&gt;%
 </div>
 <div id="plot-of-correlations-between-variables" class="section level3">
 <h3>Plot of correlations between variables</h3>
-<pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
-  ggally_densityDiag(data, mapping, ...) + scale_fill_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1) + 
+<pre class="r"><code>cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
+          &quot;P females&quot; = &quot;red&quot;, 
+          &quot;M males&quot; = &quot;skyblue&quot;, 
+          &quot;P males&quot; = &quot;blue&quot;)
+
+modified_densityDiag &lt;- function(data, mapping, ...) {
+  ggally_densityDiag(data, mapping, colour = &quot;grey10&quot;, ...) + 
+    scale_fill_manual(values = cols) + 
   scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
 }
 
 modified_points &lt;- function(data, mapping, ...) {
-  ggally_points(data, mapping, ...) + scale_colour_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1) + 
-  scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
+  ggally_points(data, mapping, pch = 21, colour = &quot;grey10&quot;, ...) +
+    scale_fill_manual(values = cols) + 
+    scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
 }
 
 modified_facetdensity &lt;- function(data, mapping, ...) {
-  ggally_facetdensity(data, mapping, ...) + scale_colour_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1)
+  ggally_facetdensity(data, mapping, ...) + 
+    scale_colour_manual(values = cols)
 }
 
 modified_box_no_facet &lt;- function(data, mapping, ...) {
-  ggally_box_no_facet(data, mapping, ...) + scale_fill_brewer(type = &quot;qual&quot;, palette = &quot;Set1&quot;, direction = -1)
+  ggally_box_no_facet(data, mapping, colour = &quot;grey10&quot;, ...) +
+    scale_fill_manual(values = cols)
 }
 
-pairs_plot &lt;- respiration %&gt;% 
+respiration_pairs_plot &lt;- respiration %&gt;% 
   select(SEX, SELECTION, CYCLE, VO2, VCO2, RQ, ACTIVITY, BODYMASS) %&gt;%
   mutate(VO2 = VO2 * 1000, 
          VCO2 = VCO2 * 1000, 
          BODYMASS = BODYMASS * 1000, 
          ACTIVITY = ACTIVITY * 100) %&gt;%
-  mutate(SEX = factor(ifelse(SEX == &quot;M&quot;, &quot;Male&quot;, &quot;Female&quot;), c(&quot;Male&quot;, &quot;Female&quot;))) %&gt;%
-  rename(Sex = SEX, Treatment = SELECTION, Cycle = CYCLE, 
-         Activity = ACTIVITY, `Body mass` = BODYMASS) %&gt;%
-  ggpairs(aes(colour = Treatment),
+  mutate(SEX = factor(ifelse(SEX == &quot;M&quot;, &quot;males&quot;, &quot;females&quot;)),
+         SELECTION = factor(ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;P&quot;)),
+         `Sex and treatment` = factor(paste(SELECTION, SEX), c(&quot;M males&quot;, &quot;P males&quot;, &quot;M females&quot;, &quot;P females&quot;))) %&gt;%
+  mutate_if(is.numeric, ~ as.numeric(scale(.x))) %&gt;%
+  select(-SEX, -SELECTION) %&gt;%
+  rename(Cycle = CYCLE, Activity = ACTIVITY, `Body mass` = BODYMASS) %&gt;% 
+  select(VO2, VCO2, RQ, Activity, `Body mass`, `Sex and treatment`, Cycle) %&gt;%
+  ggpairs(aes(colour = `Sex and treatment`, fill = `Sex and treatment`),
           diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
                       discrete = wrap(&quot;blank&quot;)),
-          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5), 
+          lower = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1), 
                        discrete = wrap(&quot;blank&quot;),
                        combo = wrap(modified_box_no_facet, alpha = 0.7)),
-          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 0.5),
+          upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1),
                        discrete = wrap(&quot;blank&quot;),
-                       combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
+                       combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-# pairs_plot %&gt;% ggsave(filename = &quot;output/pairs_plot.pdf&quot;, height = 10, width = 10)
-pairs_plot</code></pre>
+respiration_pairs_plot %&gt;% ggsave(filename = &quot;output/respiration_pairs_plot.pdf&quot;, height = 10, width = 10)
+respiration_pairs_plot</code></pre>
 <p><img src="figure/respirometry.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-3-1">
+Past versions of unnamed-chunk-3-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-3-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/a14c3784a106e71d73e04484412547fc29aa1d82/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">a14c378</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
 </div>
-<div id="mean-body-weight-of-triads" class="section level3">
-<h3>Mean body weight of triads</h3>
+<div id="mean-body-weight-per-individual" class="section level3">
+<h3>Mean body weight per individual</h3>
 <pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
 respiration %&gt;% 
   select(SEX, SELECTION, BODYMASS) %&gt;%
   distinct() %&gt;%
   group_by(SEX, SELECTION) %&gt;% 
-  summarise(mean_dwt = mean(BODYMASS * 1000 / 3), 
+  summarise(`Mean weight per fly (mg)` = mean(BODYMASS * 1000 / 3), 
             SE = se(BODYMASS * 1000 / 3), 
             n = n()) %&gt;% 
-  kable(digits = 3) %&gt;% kable_styling(full_width = FALSE)</code></pre>
+  kable(digits = 2) %&gt;% kable_styling(full_width = FALSE)</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -905,7 +991,7 @@ SEX
 SELECTION
 </th>
 <th style="text-align:right;">
-mean_dwt
+Mean weight per fly (mg)
 </th>
 <th style="text-align:right;">
 SE
@@ -924,10 +1010,10 @@ F
 Mono
 </td>
 <td style="text-align:right;">
-0.397
+0.40
 </td>
 <td style="text-align:right;">
-0.017
+0.02
 </td>
 <td style="text-align:right;">
 12
@@ -941,10 +1027,10 @@ F
 Poly
 </td>
 <td style="text-align:right;">
-0.469
+0.47
 </td>
 <td style="text-align:right;">
-0.038
+0.04
 </td>
 <td style="text-align:right;">
 12
@@ -958,10 +1044,10 @@ M
 Mono
 </td>
 <td style="text-align:right;">
-0.285
+0.29
 </td>
 <td style="text-align:right;">
-0.024
+0.02
 </td>
 <td style="text-align:right;">
 10
@@ -975,10 +1061,288 @@ M
 Poly
 </td>
 <td style="text-align:right;">
-0.286
+0.29
 </td>
 <td style="text-align:right;">
-0.024
+0.02
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="mean-activity-level" class="section level3">
+<h3>Mean activity level</h3>
+<pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
+respiration %&gt;% 
+  select(SEX, SELECTION, ACTIVITY, CYCLE) %&gt;%
+  distinct() %&gt;%
+  group_by(SEX, SELECTION, CYCLE) %&gt;% 
+  summarise(`Mean activity level` = mean(ACTIVITY * 1000 / 3), 
+            SE = se(ACTIVITY * 1000 / 3), 
+            n = n()) %&gt;% 
+  kable(digits = 2) %&gt;% kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+SEX
+</th>
+<th style="text-align:left;">
+SELECTION
+</th>
+<th style="text-align:left;">
+CYCLE
+</th>
+<th style="text-align:right;">
+Mean activity level
+</th>
+<th style="text-align:right;">
+SE
+</th>
+<th style="text-align:right;">
+n
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+3.81
+</td>
+<td style="text-align:right;">
+0.85
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+5.85
+</td>
+<td style="text-align:right;">
+1.28
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+6.87
+</td>
+<td style="text-align:right;">
+1.59
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+14.16
+</td>
+<td style="text-align:right;">
+2.95
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+16.24
+</td>
+<td style="text-align:right;">
+3.14
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+F
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+15.63
+</td>
+<td style="text-align:right;">
+2.78
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+8.48
+</td>
+<td style="text-align:right;">
+2.03
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+6.23
+</td>
+<td style="text-align:right;">
+1.31
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Mono
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+4.67
+</td>
+<td style="text-align:right;">
+1.03
+</td>
+<td style="text-align:right;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+I
+</td>
+<td style="text-align:right;">
+16.62
+</td>
+<td style="text-align:right;">
+1.27
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+II
+</td>
+<td style="text-align:right;">
+18.02
+</td>
+<td style="text-align:right;">
+1.10
+</td>
+<td style="text-align:right;">
+12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+M
+</td>
+<td style="text-align:left;">
+Poly
+</td>
+<td style="text-align:left;">
+III
+</td>
+<td style="text-align:right;">
+17.45
+</td>
+<td style="text-align:right;">
+1.71
 </td>
 <td style="text-align:right;">
 12
@@ -1146,7 +1510,7 @@ prior_SEM</code></pre>
     ggtitle(&quot;Activity level&quot;) + theme(legend.position = &quot;none&quot;),
   nrow = 1
 )</code></pre>
-<p><img src="figure/respirometry.Rmd/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-11-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
@@ -2569,12 +2933,7 @@ posterior_effect_size &lt;- post_preds_respiration %&gt;%
 <div id="figure" class="section level4">
 <h4>Figure</h4>
 <p>Note that the females are larger than males, and that P females are somewhat larger than M females. P individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while P males maintain consistent, high activity levels).</p>
-<pre class="r"><code>cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
-          &quot;P females&quot; = &quot;red&quot;, 
-          &quot;M males&quot; = &quot;skyblue&quot;, 
-          &quot;P males&quot; = &quot;blue&quot;)
-
-p1 &lt;- arrangeGrob(
+<pre class="r"><code>p1 &lt;- arrangeGrob(
   
   bodymass_posterior %&gt;%
     mutate(CYCLE = &quot;All cycles&quot;) %&gt;%
@@ -2660,7 +3019,7 @@ grid.arrange(p1,
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) </code></pre>
-<p><img src="figure/respirometry.Rmd/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/respirometry.Rmd/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
 </div>
 <div id="tables" class="section level4">
 <h4>Tables</h4>
