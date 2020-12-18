@@ -31,6 +31,11 @@ local({
 ## Load packages
 
 ```{r}
+# it was slightly harder to install the showtext package. On Mac, I did this:
+# installed 'homebrew' using Terminal: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+# installed 'libpng' using Terminal: brew install libpng
+# installed 'showtext' in R using: devtools::install_github("yixuan/showtext")  
+
 library(tidyverse)
 library(GGally)
 library(gridExtra)
@@ -40,7 +45,13 @@ library(tidybayes)
 library(DT)
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+library(showtext)
 output_max_height() # a knitrhook option
+
+# set up nice font for figure
+nice_font <- "Lora"
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
 
 options(stringsAsFactors = FALSE)
 ```
@@ -55,7 +66,7 @@ This analysis set out to test whether sexual selection treatment had an effect o
 - `Glycogen_conc` (i.e. $\mu$g of glycogen per milligram as measured by the hexokinase assay), and 
 - `Chitin_conc` (estimated as the difference between the initial and final dry weights)
 
-We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Larger flies will have more lipids, carbs, etc., and this may vary by sex and treatment both directly and indirectly.
+We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Heavier flies might contain different proportions of lipids, chitin, etc., and these proportions might vary by sex and treatment (both because of the differences in dry weight, or because of weight-independent effects of sex and treatment on metabolite composition).
 
 ```{r}
 metabolites <- read_csv('data/3.metabolite_data.csv') %>%
@@ -111,7 +122,7 @@ my_data_table <- function(df){
           extend = 'pdf',
           pageSize = 'A4',
           orientation = 'landscape',
-          filename = 'Apis_methylation')),
+          filename = 'Dpseudo_metabolites')),
       pageLength = 50
     )
   )
@@ -149,7 +160,8 @@ grid.arrange(
     facet_grid( ~ variable) +
     theme_bw() +
     xlab("Sex") + ylab("Concentration") +
-    theme(legend.position = 'top') + 
+    theme(legend.position = 'top',
+          text = element_text(family = nice_font)) + 
     scale_fill_manual(values = cols, name = ""),
   
   arrangeGrob(
@@ -163,7 +175,8 @@ grid.arrange(
       facet_grid( ~ variable) +
       theme_bw() +
       xlab("Dry weight") + ylab("Concentration") +
-      theme(legend.position = 'none') + 
+      theme(legend.position = 'none',
+            text = element_text(family = nice_font),) + 
       scale_colour_manual(values = cols, name = "") + 
       scale_fill_manual(values = cols, name = ""),
     scaled_metabolites %>% 
@@ -268,8 +281,6 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 
 
 ## Fit `brms` structural equation model
-
-
 Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.   
 
 
@@ -293,7 +304,7 @@ prior1 <- c(set_prior("normal(0, 0.5)", class = "b", resp = 'Lipid'),
 prior1
 ```
 
-### Define the six sub-models
+### Define the SEM's sub-models
 
 The fixed effects formula is `sex * treatment + Dryweight` (or `sex * treatment` in the case of the model of dry weight). The random effects part of the formula indicates that the 8 independent selection lines may differ in their means, and that the treatment effect may vary in sign/magnitude between lines. The notation `| p |` means that the model estimates the correlations in line effects (both slopes and intercepts) between the 6 response variables. Finally, the notation `set_rescor(TRUE)` means that the model should estimate the residual correlations between the response variables.
 
@@ -461,7 +472,7 @@ By clicking the tabs and comparing, one can see that the estimates of the treatm
 ### Figure {.tabset}
 
 #### Not controlling for differences in dry weight between treatments
-```{r, fig.height=4}
+```{r, fig.height=4, fig.showtext=TRUE}
 new <- expand_grid(sex = c("Male", "Female"),
                    treatment = c("Monogamy", "Polyandry"),
                    Dryweight = NA, line = NA) %>%
@@ -543,7 +554,7 @@ summary_dat2 <- treat_diff_standard_dryweight %>%
 sampled_draws <- sample(unique(fitted_values$draw), 100)
 ylims <- c(-1.8, 1.8)
 
-treat_diff_actual_dryweight %>%
+p1 <- treat_diff_actual_dryweight %>%
   filter(variable != 'Dryweight') %>% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
@@ -559,9 +570,14 @@ treat_diff_actual_dryweight %>%
   theme_bw() +
   theme(legend.position = 'none',
         strip.background = element_blank(),
+        text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
+
+
+ggsave("output/metabolite_plot.pdf", p1, height=4, width=6)
+p1
 ```
 
 **Figure XX**: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M > P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were _not_ adjusted for differences in dry weight between treatments.
@@ -569,7 +585,7 @@ treat_diff_actual_dryweight %>%
 
 #### Controlling for differences in dry weight between treatments
 
-```{r, fig.height=4}
+```{r, fig.height=4, fig.showtext=TRUE}
 treat_diff_standard_dryweight %>%
   filter(variable != 'Dryweight') %>% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
@@ -586,6 +602,7 @@ treat_diff_standard_dryweight %>%
   theme_bw() +
   theme(legend.position = 'none',
         strip.background = element_blank(),
+        text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
@@ -630,7 +647,7 @@ treatsex_interaction_data1 <- treat_diff_actual_dryweight %>%
             .groups = "drop") # males - females
 
 
-treatsex_interaction_data1 %>%
+p2 <- treatsex_interaction_data1 %>%
   filter(variable != 'Dryweight') %>% 
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
@@ -639,8 +656,12 @@ treatsex_interaction_data1 %>%
   scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
   theme_bw() +
   theme(legend.position = 'none',
+        text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab("Posterior density")
+
+ggsave("output/metabolite_interaction_plot.pdf", p2, height=4, width=6)
+p2
 ```
 
 **Figure XX**: Posterior estimates of the difference in the treatment effect size (i.e. mean of P minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were _not_ adjusted for differences in dry weight between treatments.
@@ -664,6 +685,7 @@ treatsex_interaction_data2 %>%
   scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
   theme_bw() +
   theme(legend.position = 'none',
+        text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab("Posterior density")
 ```
