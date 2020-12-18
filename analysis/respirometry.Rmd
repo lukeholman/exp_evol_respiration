@@ -1,5 +1,5 @@
 ---
-title: "Statistical analysis"
+title: "Respirometry"
 output: 
   workflowr::wflow_html:
     code_folding: hide 
@@ -7,12 +7,17 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r global_options, include=FALSE}
-knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```{r global_options, include = FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 ## Load R packages
 ```{r}
+# it was slightly harder to install the showtext package. On Mac, I did this:
+# installed 'homebrew' using Terminal: ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" 
+# installed 'libpng' using Terminal: brew install libpng
+# installed 'showtext' in R using: devtools::install_github("yixuan/showtext")  
+
 library(tidyverse)
 library(gridExtra)
 library(grid)
@@ -28,23 +33,66 @@ library(ggridges)
 library(future)
 library(future.apply)
 library(GGally)
+library(DT)
+library(showtext)
 
 library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
 
 output_max_height() # a knitrhook option
 options(stringsAsFactors = FALSE)
 
+# set up nice font for figure
+nice_font <- "Lora"
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
+
 # Define function for the inverse logit
 inv_logit <- function(x) 1 / (1 + exp(-x))
 ```
 
 ## Load respirometry data
+
+
+This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the weights of five metabolites which together equal the dry weight. These are:
+
+- `Lipid_conc` (i.e. the weight of the hexane fraction, divided by the full dry weight), 
+- `Carbohydrate_conc` (i.e. the weight of the aqueous fraction, divided by the full dry weight), 
+- `Protein_conc` (i.e. $\mu$g of protein per milligram as measured by the bicinchoninic acid protein assay),
+- `Glycogen_conc` (i.e. $\mu$g of glycogen per milligram as measured by the hexokinase assay), and 
+- `Chitin_conc` (estimated as the difference between the initial and final dry weights)
+
 ```{r}
 respiration <- read_csv("data/2.metabolic_rates.csv") %>%
-  rename(SELECTION = `?SELECTION`)
+  rename(SELECTION = `?SELECTION`,
+         BODYMASS = BODY_WEIGHT)
+
+my_data_table <- function(df){
+  datatable(
+    df, rownames=FALSE,
+    autoHideNavigation = TRUE,
+    extensions = c("Scroller",  "Buttons"),
+    options = list(
+      dom = 'Bfrtip',
+      deferRender=TRUE,
+      scrollX=TRUE, scrollY=400,
+      scrollCollapse=TRUE,
+      buttons = 
+        list('csv', list(
+          extend = 'pdf',
+          pageSize = 'A4',
+          orientation = 'landscape',
+          filename = 'Dpseudo_respiration')),
+      pageLength = 50
+    )
+  )
+}
+
+respiration %>%
+  mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %>%
+  my_data_table()
 ```
 
-## Draw the flow diagram
+## Draw the causal diagram
 
 ```{r}
 DiagrammeR::grViz('digraph {
@@ -67,15 +115,14 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 }')
 ```
 <br></br>
-**Figure 1:** Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised a priori between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.
+**Figure XX:** Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised _a priori_ between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.
 
 
 ## Inspecting the raw data
 
 Create a "pairs plot" of the raw data. 
 
-```{r}
-
+```{r fig.height=10, fig.width=10}
 modified_densityDiag <- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, ...) + scale_fill_brewer(type = "qual", palette = "Set1", direction = -1) + 
   scale_x_continuous(guide = guide_axis(check.overlap = TRUE))
@@ -95,14 +142,14 @@ modified_box_no_facet <- function(data, mapping, ...) {
 }
 
 pairs_plot <- respiration %>% 
-  select(SEX, SELECTION, CYCLE, VO2, VCO2, RQ, ACTIVITY, BODY_WEIGHT) %>%
+  select(SEX, SELECTION, CYCLE, VO2, VCO2, RQ, ACTIVITY, BODYMASS) %>%
   mutate(VO2 = VO2 * 1000, 
          VCO2 = VCO2 * 1000, 
-         BODY_WEIGHT = BODY_WEIGHT * 1000, 
+         BODYMASS = BODYMASS * 1000, 
          ACTIVITY = ACTIVITY * 100) %>%
   mutate(SEX = factor(ifelse(SEX == "M", "Male", "Female"), c("Male", "Female"))) %>%
   rename(Sex = SEX, Treatment = SELECTION, Cycle = CYCLE, 
-         Activity = ACTIVITY, `Body mass` = BODY_WEIGHT) %>%
+         Activity = ACTIVITY, `Body mass` = BODYMASS) %>%
   ggpairs(aes(colour = Treatment),
           diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
                       discrete = wrap("blank")),
@@ -113,782 +160,1213 @@ pairs_plot <- respiration %>%
                        discrete = wrap("blank"),
                        combo = wrap(modified_facetdensity, alpha = 0.7, size = 0.5))) 
 
-pairs_plot %>% ggsave(filename = "output/pairs_plot.pdf", height = 10, width = 10)
+# pairs_plot %>% ggsave(filename = "output/pairs_plot.pdf", height = 10, width = 10)
 pairs_plot
 ```
 
-**Figure 2:** Boxplots, scatterplots, and density plots illustrating the variance and covariance among the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O_2 consumed or CO_2 produced, the % time spent active, and the mass of the fly in milligrams; the resporatory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but values outside this range can occur when there is sampling/measurement error for O_2 and/or CO_2. 
+**Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
 
-## Fit the first `brms` models, ignoring the moderator variables
 
-### Scale the input data
 
-Here, we scale and centre the body mass and activity (across all samples), and multiply VO2 and VCO2 by 1000 so that their units (and resulting regression coefficients) are close to those assumed by the `brms` default priors. 
+## Fit Bayesian structural equation model (SEM) via `brms`
 
-We did not scale and centre VO2 and VCO2, because we will soon relate them to each other via the respiratory quotient, RQ, so it makes sense to leave them in their original units rather than converting their units to standard deviations. 
+### Scale the data
 
-Note that body mass and activity are not actually used until the following section (i.e. _Fit the `brms` structural equation model (SEM)_).
+Here, we mean-center and scale body mass and activity. We also multiply `VO2` and `VCO2` by 1000, such that their units (and thus the associated regression coefficients) are not too small (and have means closer to those expected by the `brms` default intercept priors). 
+
+The reason we do not mean-center and scale `VO2` and `VCO2` is that the model below relates them to each other in terms of the respiratory quotient, `RQ`, which would be more complex if they had been converted to standard deviations. 
 
 ```{r}
 scaled_data <- respiration %>%
   mutate(VO2 = VO2 * 1000, 
          VCO2 = VCO2 * 1000,
-         BODY_WEIGHT = as.numeric(scale(BODY_WEIGHT)),
+         BODYMASS = as.numeric(scale(BODYMASS)),
          ACTIVITY = as.numeric(scale(ACTIVITY))) %>% 
-  rename(BODYMASS = BODY_WEIGHT)
+  select(-RQ) 
+
+scaled_data %>%
+  mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %>%
+  my_data_table()
 ```
 
-### Write out the full model's formulae
+### Define the SEM's sub-models
 
-Here, I write out all the formulae for the "full model", as well as their equivalents for all the simpler models nested within the full model. All of these models contain more than one formula each (i.e. they are multivariate models): one formula for oxygen consumption (VO2) and one for CO2 production (VCO2), as well as a formula for the parameter RQ (the respiratory quotient, i.e. VCO2 / VO2). I assume that VO2 and RQ are both affected by the  predictor variables that resukt from the experimental design, namely SELECTION (i.e. M vs P treatment), SEX (Male or Female), CYCLE (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), LINE (a random intercept term with 8 levels, one for each of the four independent replicates of the M an P treatmens), and SAMPLE (which identifies the three replicate measures of each triad of flies across the three cycles). The formulae for VO2 and VCO2 are as follows:
+Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (`VO2`) and another for `CO2` production (`VCO2`) which depends on the parameter `RQ` (the respiratory quotient, i.e. `VCO2` / `VO2`); there are also sub-models for body mass (`BODYMASS`) and activity level (`ACTIVITY`).
+
+In short, we assume that `VO2`, `RQ`, `BODYMASS`, and `ACTIVITY` are affected by the predictor variables related to the experimental design. These variables are `SELECTION` (i.e. M vs P treatment), `SEX` (Male or Female), `CYCLE` (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), `LINE` (8 levels, one for each of the four independent replicates of the M an P treatments), and `SAMPLE` (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, `VCO2` is predicted from the estimated values of `VO2` and `RQ` as `VO2` \times `RQ`, and thus is related to the predictor variables only indirectly (the choice to make `VCO2` dependent rather than `VO2` dependant on `RQ` is arbitrary, and does not affect the results).
+
+The `brms` notation for the line random effects (`(SELECTION | p | LINE)`) means that the model fits a random intercept for each of the 8 lines, and that these random intercepts are (potentially) correlated across each of the response variables. Furthermore, the model fits a random slope for `SELECTION`, which allows the treatment effect to vary across the replicate lines. 
 
 #### VO2
 
-Formula: `VO2 ~ SELECTION * SEX * CYCLE + (1 | LINE) + (1 | SAMPLE)`  
+Formula: `VO2 ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + (SELECTION | p | LINE) + (1 | SAMPLE)`  
          
-This formula allows for effects on VO2 of sex, selection and cycle (and all 2- and 3-way interactions), and models the variation in VO2 within and between each triad of flies and each replicate selection line (preventing pseudo-replication by properly accounting for our experimental design). 
+This formula allows for effects on `VO2` of sex, selection and cycle (and all 2- and 3-way interactions). The model also allows for linear effects of `BODYMASS` and `ACTIVITY` on `VO2`. Furthermore the model assumes there may be variation in `VO2` within and between each triad of flies, and between each replicate selection line (preventing pseudo-replication by properly accounting for our experimental design). 
 
-#### VCO2 (as determined by the parameter RQ) 
+#### VCO2 (as determined by the estimated parameter RQ) 
 
 Formulae (2-part model, see `vignette("brms_nonlinear")`): 
 
 `VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))`
 
-`RQ ~ SELECTION * SEX * CYCLE + (1 | LINE) + (1 | SAMPLE)`
+`RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + (SELECTION | p | LINE) + (1 | SAMPLE)`
 
-VCO2 is assumed to depend on the value of VO2 from the same measurement, multiplied by RQ, a parameter that is constrained to vary between 0.7 and 1 (based on our prior knowledge of the chemistry of respiration) through the use of the inverse logit function. In turn, RQ is assumed to depend on the same set of predictors as for VO2. 
-
-#### Priors
-
-To apply some mild regularisation and assist model convergence, we set a prior on all the fixed effect parameters of `normal(0, 3)`.
-
-#### Family
-
-All response variables are assumed to follow a normal (Gaussian) distribution.
-
-### Finding all the sub-models for model selection
-
-Now that we have written out the full model, we can find all its component sub-models. This is complicated by the fact that it is a multivariate model, and so we need to find the sub-models for both VO2 and RQ, and then find all possible combinations of these. 
-
-```{r}
-# For convenience, we borrow the function `dredge()` from the MuMIn package, 
-# and use it find all submodels
-all_sub_models <- paste(get.models(with(options(na.action = na.fail), 
-                      dredge(lm(VO2 ~ SELECTION * SEX * CYCLE, data = scaled_data))), subset = TRUE) %>%
-  map_chr(~ as.character(.x$call)[2]) %>% 
-    unname() %>% 
-    str_remove_all(" [+] 1") %>% 
-    str_remove_all("VO2 ~ "), 
-  "+ (1 | LINE) + (1 | SAMPLE)") 
-
-# Find all combinations of sub-model formulas for VO2 and RQ
-combos <- expand.grid(vo2 = all_sub_models, 
-                      rq = all_sub_models, stringsAsFactors = FALSE)
-
-# Write out the complete multi-part formulas for all 361 to be compared
-write_formula <- function(vo2, rq){
-glue("
-bf(VO2 ~ {vo2}) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ {rq}, nl = TRUE) + set_rescor(FALSE)") %>% 
-    as.character()
-}
-
-all_formulas <- map2(combos[,1], 
-                     combos[,2], 
-                     write_formula)
-
-print("Inspect the first few formulas:")
-head(unlist(all_formulas))
-```
-
-### Run all the `brms` models and save them to disk
-
-Here, we run all 361 of the models whose formulae are given in the vector `all_formulas`, and save the results of each model to an external hard drive (this uses about 55GB). Note that the prior for each model is the same, except that one does not need to specify a prior on the fixed effects in models that do not contain any fixed effects, which is why the `if()` statements are needed.  
-
-```{r eval = FALSE}
-# Function to run a model using formula number "i" in "formula_list" on dataframe "my_data"
-run_model <- function(i, formula_list, my_data){
-  
-  save_location <- "/Volumes/LACIE_SHARE/brms_respiration"
-  num <- str_pad(i, 3, pad = "0")
-  file_name <- glue("{save_location}/model_{num}.rds")
-  if(file.exists(file_name)) return(NULL)
-  
-  focal_formula <- eval(parse(text = formula_list[[i]]))
-  
-  if(!str_detect(focal_formula, "VO2 ~ 1") & !str_detect(focal_formula, "RQ ~ 1")){
-    model <- brm(focal_formula, 
-                 data = my_data, 
-                 iter = 10000, chains = 4, cores = 1,
-                 prior = c(prior(normal(0, 3), class = "b", resp = "VO2"),
-                           prior(normal(0, 3), class = "b", resp = "VCO2", nlpar = "RQ")),
-                 control = list(max_treedepth = 20, adapt_delta = 0.99),
-                 save_all_pars = TRUE)
-  } 
-  if(!str_detect(focal_formula, "VO2 ~ 1") & str_detect(focal_formula, "RQ ~ 1")){
-    model <- brm(focal_formula, 
-                 data = my_data, 
-                 iter = 10000, chains = 4, cores = 1,
-                 prior = prior(normal(0, 3), class = "b", resp = "VO2"),
-                 control = list(max_treedepth = 20, adapt_delta = 0.99),
-                 save_all_pars = TRUE)
-  }
-  if(str_detect(focal_formula, "VO2 ~ 1") & !str_detect(focal_formula, "RQ ~ 1")){
-    model <- brm(focal_formula, 
-                 data = my_data, 
-                 iter = 10000, chains = 4, cores = 1,
-                 prior = prior(normal(0, 3), class = "b", resp = "VCO2", nlpar = "RQ"),
-                 control = list(max_treedepth = 20, adapt_delta = 0.99),
-                 save_all_pars = TRUE)
-  }
-  if(str_detect(focal_formula, "VO2 ~ 1") & str_detect(focal_formula, "RQ ~ 1")){
-    model <- brm(focal_formula, 
-                 data = my_data, 
-                 iter = 10000, chains = 4, cores = 1,
-                 control = list(max_treedepth = 20, adapt_delta = 0.99),
-                 save_all_pars = TRUE)
-  }
-  
-  saveRDS(model, file = file_name)
-  rm(model) # Force clean up to help R not run out of memory
-  gc()
-  return(NULL)
-}
-
-# Run all the models in parallel over 4 cores - this worked fine on a 2015 iMac with 32GB RAM
-options(mc.cores=4)
-plan(multiprocess)
-
-future_lapply(1:length(all_formulas), 
-              run_model, 
-              formula_list = all_formulas, 
-              my_data = scaled_data)
-```
-
-### Compare all the fitted `brms` models using leave-one-out cross validation (LOO)
-
-It is not possible to load all the models without running out of memory, so I here use a simple algorithm to select the top 10 models. The algorithm picks 20 candidate models at random, ranks them using LOO, and then removes the 10 worst-fitting models from the list of models under comparison. This is repeated until only 10 models remain - these are the 10 best-fitting models as ranked by LOO (under the PSIS-LOO approximation; see the `loo` package documentation and papers by Aki Vehtari and colleagues).
-
-```{r}
-if(!file.exists("data/model_selection_table.rds")){
-  
-  # Get the file names of the 361 models
-  out_files <- list.files("/Volumes/LACIE_SHARE/brms_respiration", full.names = TRUE)
-  
-  # Algorithm to pick the top 10 models without running out of memory
-  while(length(out_files) > 20){
-    
-    # Pick 20 random models that have not yet been eliminated
-    sampled_files <- sample(out_files, 20)
-    
-    # Rank all 20 models using LOO cross-validation
-    weights <- model_weights(
-      readRDS(sampled_files[1]), readRDS(sampled_files[2]),
-      readRDS(sampled_files[3]), readRDS(sampled_files[4]),
-      readRDS(sampled_files[5]), readRDS(sampled_files[6]),
-      readRDS(sampled_files[7]), readRDS(sampled_files[8]),
-      readRDS(sampled_files[9]), readRDS(sampled_files[10]),
-      readRDS(sampled_files[11]), readRDS(sampled_files[12]),
-      readRDS(sampled_files[13]), readRDS(sampled_files[14]),
-      readRDS(sampled_files[15]), readRDS(sampled_files[16]),
-      readRDS(sampled_files[17]), readRDS(sampled_files[18]),
-      readRDS(sampled_files[19]), readRDS(sampled_files[20]),
-      weights = "loo")
-    
-    # Discard all but the 10 top-ranked models from the set still to be compared
-    to_keep <- sampled_files[order(weights, decreasing=TRUE)[1:10]]
-    to_remove <- sampled_files[!(sampled_files %in% to_keep)]
-    out_files <- out_files[!(out_files %in% to_remove)]
-    print(paste(length(out_files), "left to compare"))
-  }
-  
-  top_model_files <- out_files
-  saveRDS(top_model_files, "data/top_model_files.rds")
-  
-  # Get the weights for the top 10 models
-  resp_model_weights <- model_weights(
-    readRDS(top_model_files[1]), readRDS(top_model_files[2]),
-    readRDS(top_model_files[3]), readRDS(top_model_files[4]),
-    readRDS(top_model_files[5]), readRDS(top_model_files[6]),
-    readRDS(top_model_files[7]), readRDS(top_model_files[8]),
-    readRDS(top_model_files[9]), readRDS(top_model_files[10]),
-    weights = "loo"
-  )
-  
-  # Format them nicely in a table
-  resp_model_weights <- round(resp_model_weights, 3) 
-  names(resp_model_weights) <- out_files[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))]
-  names(resp_model_weights) <- all_formulas[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))]
-  
-  model_selection_table <- enframe(resp_model_weights, name = "Model", value = "LOO model weight") %>%
-    arrange(-`LOO model weight`) %>%
-    mutate(Model = str_remove_all(Model, " \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\)\\) \\+ bf\\("),
-           Model = str_remove_all(Model, "bf\\("),
-           Model = str_remove_all(Model, "~ VO2 \\* \\(0.7 \\+ 0.3 \\* inv_logit\\(RQ\\)\\), "),
-           Model = str_remove_all(Model, " \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\), nl = TRUE\\) \\+ set_rescor\\(FALSE\\)")) %>%
-    mutate(split = strsplit(Model, split = " RQ"),
-           `Model of VO2` = map_chr(split, ~ .x[1]),
-           `Model of RQ` = map_chr(split, ~ .x[2])) %>%
-    mutate(`Model of VO2` = str_remove_all(`Model of VO2`, "VO2 "),
-           `Model of VO2` = str_remove_all(`Model of VO2`, "VCO2"),
-           `Model of RQ` = str_replace_all(`Model of RQ`, " ~", "~")) %>%
-    select(`Model of VO2`, `Model of RQ`, `LOO model weight`) 
-  
-  saveRDS(model_selection_table, file = "data/model_selection_table.rds")
-} else {
-  top_model_files <- readRDS("data/top_model_files.rds")
-  model_selection_table <- readRDS("data/model_selection_table.rds")
-}
-```
-
-
-#### Model selection table
-
-This table shows the top ten models from the set of 361 that was compared. The models were compared using leave-one-out cross validation (LOO), which is similar to more familiar metrics like AIC, but is regarded as the current best method for comparing the fit of a set of Bayesian models (see the documentation in `brms` and `loo` packages).
-
-```{r}
-library(formattable)
-
-model_selection_table %>%
-  mutate_if(is.character, ~ str_replace_all(.x, "CYCLE", "Cycle")) %>%
-  mutate_if(is.character, ~ str_replace_all(.x, "SELECTION", "Selection")) %>%
-  mutate_if(is.character, ~ str_replace_all(.x, "SEX", "Sex")) %>%
-  mutate(`LOO model weight` = color_bar("lightgreen")(`LOO model weight`)) %>%
-  kable(escape = F, full.width = FALSE) %>% kable_styling()
-```
-
-### Inspect the parameter estimates
-
-#### Perform Bayesian model averaging
-Since there is no model that was strongly preferred to all the others, we here perform model averaging to calculate the parameter estimates for all the fixed effects that were present in at least 1 of the top 3 models. Parameters that were not present in all models were set to zero for models that lacked that parameter: this is sometimes called "full model averaging" (see e.g. ?MuMIn::model.avg), and it applies "shrinkage", meaning that parameters that are not present in all of the top models get shrunk somewhat towards zero. The models are averaged according to their "stacking weights", which is the current state-of-the-art for Bayesian model averaging (see e.g. [here](https://mc-stan.org/loo/articles/loo2-weights.html)).
-
-```{r}
-avg <- posterior_average(
-  readRDS(top_model_files[1]), readRDS(top_model_files[2]), readRDS(top_model_files[3]),
-  weights = "stacking", missing = 0) %>%
-  select(contains("b_"), contains("sd_"))
-
-make_model_summary_table <- function(posterior_samples){
-  pvalues <- summarise_all(posterior_samples, p_direction) %>% 
-    gather(key, p) %>%
-    mutate(p = 1 - p) %>%
-    mutate(` ` = ifelse(p < 0.05, "\\*", ""),
-           ` ` = replace(` `, p > 0.05 & p < 0.1, "~"),
-           ` ` = replace(` `, p < 0.01, "**"), 
-           ` ` = replace(` `, p < 0.001, "***"))
-  
-  posterior_samples %>%
-    summarise_all(~ list(posterior_summary(.x)))  %>% gather() %>% 
-    mutate(Estimate = map_dbl(value, ~ .x[1]),
-           Error = map_dbl(value, ~ .x[2]),
-           Q2.5 = map_dbl(value, ~ .x[3]),
-           Q97.5 = map_dbl(value, ~ .x[4])) %>% 
-    select(-value) %>%
-    left_join(pvalues, by = "key") %>%
-    mutate_if(is.numeric, ~ round(.x, 3)) %>%
-    mutate(p = replace(p, grepl("sd_", key), " "),
-           p = replace(p, grepl("sigma_", key), " "),
-           p = replace(p, grepl("Intercept_", key), " "),
-           ` ` = replace(` `, grepl("sd_", key), " "),
-           ` ` = replace(` `, grepl("sigma_", key), " "),
-           ` ` = replace(` `, grepl("Intercept_", key), " "))
-}
-```
-
-### Inspect tables of results {.tabset}
-Here we present the model-averaged estimates for each of the fixed effects, as well as the results for the top model that contained our most interesting predictor, namely the M vs P selection treatment (i.e. the second-best model in the model selection table). 
-
-#### Results from model averaging
-```{r}
-model_averaging_results <- avg %>%
-  select(-starts_with("r_"), -starts_with("z_"), -starts_with("lp"), -starts_with("sd_")) %>% 
-  make_model_summary_table() %>%
-  mutate(key = str_remove_all(key, "b_"),
-         split = strsplit(key, split = "_"),
-         resp = map_chr(split, ~ .x[1]),
-         Parameter = map_chr(split, ~ tail(.x, 1)),
-         resp = replace(resp, resp == "VCO2", "RQ"),
-         Parameter = replace(Parameter, Parameter == "CYCLEIII", "Cycle (III)"),
-         Parameter = replace(Parameter, Parameter == "CYCLEII", "Cycle (II)"),
-         Parameter = replace(Parameter, Parameter == "SEXM", "Sex (M)"),
-         Parameter = replace(Parameter, Parameter == "CYCLEIII:SEXM", "Cycle (III) x Sex (M)"),
-         Parameter = replace(Parameter, Parameter == "CYCLEII:SEXM", "Cycle (II) x Sex (M)"),
-         Parameter = replace(Parameter, Parameter == "SELECTIONPoly:SEXM", "Treatment (P) x Sex (M)"),
-         Parameter = replace(Parameter, Parameter == "SELECTIONPoly", "Treatment (P)")) %>%
-  select(resp, Parameter, everything()) %>% select(-split, -key) %>%
-  arrange(desc(resp))
-
-saveRDS(model_averaging_results, "online_supp/model_averaging_results.rds")
-
-
-model_averaging_results %>%
-  kable() %>%
-  kable_styling(full_width = FALSE)
-```
-
-#### Results from the individual top model containing selection
-```{r}
-top_model_with_selection <- posterior_samples(readRDS(top_model_files[2])) %>%
-  select(-starts_with("r_"), -starts_with("z_"), -starts_with("lp"), 
-         -starts_with("Intercept_"), -starts_with("sd_"), -starts_with("sigma_")) %>% 
-  make_model_summary_table() %>%
-  mutate(key = str_remove_all(key, "b_"),
-         split = strsplit(key, split = "_"),
-         resp = map_chr(split, ~ .x[1]),
-         Parameter = map_chr(split, ~ tail(.x, 1)),
-         resp = replace(resp, resp == "VCO2", "RQ"),
-         Parameter = replace(Parameter, Parameter == "SELECTIONPoly", "Treatment (P)"),
-         Parameter = replace(Parameter, Parameter == "CYCLEIII", "Cycle (III)"),
-         Parameter = replace(Parameter, Parameter == "CYCLEII", "Cycle (II)"),
-         Parameter = replace(Parameter, Parameter == "SEXM", "Sex (M)")) %>%
-  select(resp, Parameter, everything()) %>% select(-split, -key)
-  
-saveRDS(top_model_with_selection, "online_supp/top_model_with_selection.rds")
-
-top_model_with_selection %>%
-  kable() %>%
-  kable_styling(full_width = FALSE)
-```
-
-### Plot the parameter estimates {.tabset}
-Again, we plot the estimates for model averaging, or the top model that contained selection treatment. We do not plot the estimates for RQ, since none of the parameter estimates clearly differed from zero.
-
-#### Model averaged estimates
-```{r}
-name_converter <- tibble(
-  new_name = c("O2: Male sex", "O2: P treatment", "O2: Cycle II", "O2: Cycle III",
-               "O2: Male x Cycle II interaction", "O2: Male x Cycle III interaction",
-               "RQ: Male sex", "RQ: Cycle II", "RQ: Cycle III"),
-  old_name = c("VO2_SEXM", "VO2_SELECTIONPoly", "VO2_CYCLEII", "VO2_CYCLEIII",
-               "VO2_CYCLEII:SEXM", "VO2_CYCLEIII:SEXM",
-               "VCO2_RQ_SEXM", "VCO2_RQ_CYCLEII", "VCO2_RQ_CYCLEIII")
-) %>% mutate(new_name = factor(new_name, rev(new_name)))
-
-overall_SD_VO2 <- scaled_data$VO2 %>% sd()
-
-plotter <- function(posterior_samples){
-  
-  posterior_samples %>% 
-    as_tibble() %>%
-    select(contains("b_"), -contains("Intercept")) %>%
-    gather() %>% 
-    mutate(key = str_remove_all(key, "b_")) %>%
-    left_join(name_converter, by = c("key" = "old_name")) %>%
-    mutate(variable = ifelse(grepl("O2", new_name), "O2", "RQ")) %>%
-    filter(variable == "O2") %>%
-    mutate(new_name = factor(str_remove(as.character(new_name), "O2: "),
-                             rev(unique(str_remove(as.character(new_name), "O2: "))))) %>%
-    mutate(value = value / overall_SD_VO2) %>%
-    ggplot(aes(value, new_name, fill = new_name)) + 
-    geom_vline(xintercept = 0, linetype = 2) + 
-    geom_density_ridges(alpha = 0.7) +
-    scale_fill_brewer(palette = "Spectral") +
-    ylab("Model parameter") +
-    xlab("Effect on O2 consumption (SD)") + 
-    theme_ridges() +
-    theme(legend.position = "none") +
-    coord_cartesian(xlim = c(-1.4, 1.7))
-}
-
-plotter(avg)
-```
-
-#### Estimates from the individual top model containing selection
-```{r}
-plotter(readRDS(top_model_files[2]))
-```
-
-
-### Plot posterior predictive checks
-Finally, we check that the values predicted by the (second-top) model resemble the real data (which they should, if the model is an adequate approximation of the true 'data-generating processes'). This is done by drawing 10 samples from the posterior of the model, and using them to produce some new data (here, for VO2). The plot looks good, because the predicted data look similar to the original data, which is a necessary condiction for reliable inference.
-```{r}
-pp_check(readRDS(top_model_files[2]), resp = "VO2")
-```
-
-
-
-## Fit the `brms` structural equation model (SEM)
-
-This next section fits a more complex version of previous multivariate model, which additionally includes the "mediator variables" (for definition, see e.g. [Wikipedia](https://en.wikipedia.org/wiki/Mediation_(statistics))) body mass and activity. The mediator variables potentially vary between sexes and selection treatments (and cycle, in the case of activity, but not body size), but they also potentially affect the main response variables, VO2 and RQ. Therefore, body mass and activity potentially "mediate" the effect of treatment, sex, and cycle on respiration. Using a structural equation model, one can partition an effect (e.g. the effect of treatment on respiration) into the share that is due to mediation vs other processes. For a good introduction to causal inference using Bayesian statistics, see [this video lecture](https://www.youtube.com/watch?v=0Jc6Kgw5qc0&list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&index=7) and others in that series.
-
-To limit the complexity of this already complex analysis, we forego a model selection step and simply fit the full model and analyse it. 
-
-
-### Formulae in the structural equation model
-
-The SEM contains two additional formulae than the previous model, as well as additional predictor variables. 
-
-There is a sub-model for both of the mediator variables (activity and body mass), a model of oxygen production (VO2), and a model of CO2 production (VCO2, which is related to VO2 via the parameter RQ, the respiratory quotient, which the model also estimates). 
-
-The formulae were chosen _a priori_, to reflect our biological intuition about the direction of causality, and the factors that might affect each response variable.
-
-#### Activity level (one value per cycle, i.e. 3 measures on each 'sample' of individuals)
-
-Formula: `ACTIVITY ~ SELECTION * SEX + CYCLE + (1 | LINE) + (1 | SAMPLE)`
-
-This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction), and for an effect of cycle (coded as a 3-level factor, allowing non-linear change across the 3 cycles). The random factors were added due to our repeated measures of replicate selection lines and samples (same for the following forrmulae).
+`VCO2` is assumed to depend on the value of `VO2` from the same measurement, multiplied by `RQ`. We use a modified inverse logit function that forces `RQ` to lie 0.7 and 1 (this must be the case, given the chemistry of respiration, and building this information into the model should yield more precise estimates of the model's parameters). In turn, `RQ` is predicted by the same set of predictors as for `VO2`. 
 
 #### Body mass
 
-Formula: `BODYMASS ~ SELECTION * SEX + (1 | LINE)`
+`BODYMASS | subset(body_subset) ~ SELECTION * SEX + (SELECTION | p | LINE)`  
 
-This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction). Because there is only one measure of body mass for each sample of flies, we do not need to fit a sample-level random effect; also, this model is run on only a subset of the full dataset (one of the 3 cycles), since we would incur pseudo-replication if we used the full dataset. Note that this means there is less replication for body mass than for the other variables, and so the parameter estimates are less precise for this model (visible in the figures plotted later).
+The model fits the selection line treatment and sex as fixed effects, as well as the random intercept for line. There is not `SAMPLE` random effect, since the body mass of each triad of flies was measured only once (unlike for the other response variables, which were each measured 3 times). The notation `subset(body_subset)` instructs `brms` to fit this model using only a sub-set of the data, because unfortunately the body mass data was not collected for every triad of flies due to an experimental error (leaving our the `subset` term would discard all rows of the data for which body size was not measured, wasting the data for the other response variables).
 
-#### VO2
+#### Activity level
 
-Formula: `VO2 ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +`  
-         `SELECTION:BODYMASS + SELECTION:ACTIVITY +` 
-         `SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)`
-         
-This formula allows for effects on activity of sex, selection and cycle (and their 2- and 3-way interactions), and for sex- and selection treatment-specific effects of body mass and activity level.
+`ACTIVITY ~ SELECTION * SEX + (SELECTION | p | LINE) + (1 | SAMPLE)`  
 
-#### VCO2 (as determined by the parameter RQ) 
+The model fits the selection line treatment and sex as fixed effects, as well as crossed random intercepts for line and sample.
 
-Formulae (2-part model, see `vignette("brms_nonlinear")`): 
-
-`VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))`
-
-`RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +`  
-`SELECTION:BODYMASS + SELECTION:ACTIVITY +` 
-`SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)`
-
-VCO2 is assumed to depend on the value of VO2 from the same measurement, multiplied by RQ, a parameter that is constrained to vary between 0.7 and 1 (based on our prior knowledge of the chemistry of respiration) through the use of the inverse logit function. In turn, RQ is assumed to depend on the same set of predictors as for VO2. 
-
-#### Priors
-
-To apply some mild regularisation and assist model convergence, we set a prior on all the fixed effect parameters of `normal(0, 3)`.
-
-#### Family
-
-All response variables are assumed to follow a normal (Gaussian) distribution, except for activity level (which follows a beta distribution); as we shall see, this turns out to be a reasonable approximation of the response variables' true distributions.
-
-### Fit the `brms` model
 
 ```{r}
-# add a subsetting variable, so that we can estimate the effects of selection and sex 
-# on body size without having three redundant measures of body size (one per cycle). 
-# See ?brmsformula, section beginning "For multivariate models, subset may be used..."
-scaled_data <- scaled_data %>%
+brms_data <- scaled_data %>%
   mutate(body_subset = CYCLE == "I")    
 
-if(!file.exists("output/brms_SEM.rds")){
+brms_formula <- 
+  bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model
+       BODYMASS + ACTIVITY +  
+       (SELECTION | p | LINE) + (1 | SAMPLE)) +
   
-  # Set up formula for the SEM:
-  brms_formula <- 
-    
-    bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model
-         BODYMASS + ACTIVITY +  
-         SELECTION:BODYMASS + SELECTION:ACTIVITY + 
-         SEX:BODYMASS + SEX:ACTIVITY + 
-         (1 | LINE) + (1 | SAMPLE)) +
-    
-    bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models
-       RQ ~ SELECTION * SEX * CYCLE + 
-         BODYMASS + ACTIVITY + 
-         SELECTION:BODYMASS + SELECTION:ACTIVITY + 
-         SEX:BODYMASS + SEX:ACTIVITY + 
-         (1 | LINE) + (1 | SAMPLE),
-       nl = TRUE) +
-    
-    bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
-         (1 | LINE)) +
-    
-    bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
-         (1 | LINE) + (1 | SAMPLE)) +   # , family = "beta"
-    
-    set_rescor(FALSE)
+  bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models
+     RQ ~ SELECTION * SEX * CYCLE + 
+       BODYMASS + ACTIVITY + 
+       (SELECTION | p | LINE) + (1 | SAMPLE),
+     nl = TRUE) +
   
-  # Run the SEM:
-  brms_SEM <- brm(
-    brms_formula,  
-    data = scaled_data,
-    iter = 10000, chains = 4, cores = 1,
-    prior = prior(normal(0, 1), class = "b"),
-    control = list(max_treedepth = 20, adapt_delta = 0.999)
-  )
+  bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
+       (SELECTION | p | LINE)) +
   
-  saveRDS(brms_SEM, file = "output/brms_SEM.rds")
+  bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
+       (SELECTION | p | LINE) + (1 | SAMPLE)) +  
   
-} else {
-  brms_SEM <- readRDS("output/brms_SEM.rds")
-}
+  set_rescor(FALSE) # cannot estimate residual correlations when using the subset() argument
+
+brms_formula
 ```
 
+### Define Priors
+We use set fairly tight Normal priors on all fixed effect parameters, which 'regularises' the estimates towards zero -- this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for `LINE` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition. 
 
-### Inspect the model output
-Here is the complete output of `summary()` called on the SEM. Note that the model has converged (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of the parameter estimates ("Estimate" column) are not directly comparable between the response variables.
-```{r output_max_height = "300px"}
-summary(brms_SEM)
-```
-
-### Make a neat table of the fixed effects
 ```{r}
-pvalues <- as.data.frame(p_direction(brms_SEM)) %>% 
-  filter(!grepl("[.]1", Parameter)) %>%
-  mutate(Parameter = str_remove_all(Parameter, "b_"),
-         Parameter = str_replace_all(Parameter, "[.]", ":"),
-         p = 1 - pd) %>%
-  select(Parameter, p) %>% distinct()
+prior_SEM <- c(set_prior("normal(0, 1)", class = "b", resp = 'VO2'),
+            set_prior("normal(0, 1)", class = "b", resp = "VCO2", nlpar = "RQ"),
+            set_prior("normal(0, 1)", class = "b", resp = "BODYMASS"),
+            set_prior("normal(0, 1)", class = "b", resp = "ACTIVITY"),
+            
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "LINE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "LINE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "SAMPLE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "SAMPLE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'BODYMASS', group = "LINE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "LINE"),
+            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "SAMPLE"))
+
+prior_SEM
+```
+
+### Run the model
+
+The model is run over 4 chains with 7000 iterations each (with the first 3500 discarded as burn-in), for a total of 3500*4 = 14,000 posterior samples. 
+
+```{r}
+if(!file.exists("output/brms_SEM_respiration.rds")){
+  brms_SEM_respiration <- brm(
+    brms_formula, 
+    data = brms_data, 
+    iter = 7000, chains = 4, cores = 1,
+    prior = prior_SEM,
+    control = list(max_treedepth = 20, adapt_delta = 0.99))
+  
+  saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration.rds")
+} else brms_SEM_respiration <- readRDS("output/brms_SEM_respiration.rds")
+```
 
 
-SEM_fixed_effects <- fixef(brms_SEM) %>% 
-  as.data.frame() %>%
-  rownames_to_column("Parameter") %>%
-  left_join(pvalues, by = "Parameter") %>%
-  mutate(` ` = ifelse(p < 0.05, "\\*", ""),
-         ` ` = replace(` `, p > 0.05 & p < 0.1, "~"),
-         ` ` = replace(` `, p < 0.01, "**"), 
-         ` ` = replace(` `, p < 0.001, "***")) %>%
-  mutate(Response = map_chr(strsplit(Parameter, split = "_"), ~ .x[1]),
-         Response = str_replace_all(Response, "BODYMASS", "Body mass"),
-         Response = str_replace_all(Response, "ACTIVITY", "Activity"),
-         Response = str_replace_all(Response, "VCO2", "RQ"),
-         Parameter = str_replace_all(Parameter, "BODYMASS", "Body mass"),
-         Parameter = str_replace_all(Parameter, "ACTIVITY", "Activity"),
-         Parameter = str_remove_all(Parameter, ".+_"),
-         Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Polyandry"),
-         Parameter = str_replace_all(Parameter, "CYCLEIII", "Cycle III"),
-         Parameter = str_replace_all(Parameter, "CYCLEII", "Cycle II"),
-         Parameter = str_replace_all(Parameter, "SEXM", "Male"),
+### Posterior predictive check of model fit
+
+The plot below shows that the fitted model is able to produce posterior predictions that have a similar distribution to the original data, for each of the response variables, which is a necessary condition for the model to be used for statistical inference. Note that the fit produces less accurate predictions for body mass, reflecting the smaller number of data points for this response variable.
+
+```{r, fig.height=2, fig.width=5, message=F, warning=F}
+grid.arrange(
+  pp_check(brms_SEM_respiration, resp = "VO2") + 
+    ggtitle("VO2") + theme(legend.position = "none"),
+  pp_check(brms_SEM_respiration, resp = "VCO2") + 
+    ggtitle("VCO2") + theme(legend.position = "none"),
+  pp_check(brms_SEM_respiration, resp = "BODYMASS") + 
+    ggtitle("Body mass") + theme(legend.position = "none"),
+  pp_check(brms_SEM_respiration, resp = "ACTIVITY") + 
+    ggtitle("Activity level") + theme(legend.position = "none"),
+  nrow = 1
+)
+```
+
+
+## Table of model parameter estimates {.tabset}
+
+### Formatted table
+
+This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The `p` column shows 1 - minus the "probability of direction", i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable `line`, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.
+
+```{r}
+hypSEM <- left_join(
+  fixef(brms_SEM_respiration) %>% as.data.frame() %>% rownames_to_column("Parameter"),
+  bayestestR::p_direction(brms_SEM_respiration) %>% as.data.frame() %>% select(Parameter, pd) %>%
+  mutate(Parameter = str_remove_all(Parameter, "b_"), Parameter = str_replace_all(Parameter, "[.]", ":")), 
+  by = "Parameter"
+) %>% mutate(Response = map_chr(str_split(Parameter, "_"), ~ .x[1]),
+             Parameter = map(str_split(Parameter, "_"), ~ .x[length(.x)]),
+             pd = 1 - pd) %>%
+  select(Response, Parameter, everything()) %>% 
+  rename(p = pd) %>%
+  mutate(Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Treatment (P)"),
+         Parameter = str_replace_all(Parameter, "SEXM", "Sex (M)"),
+         Parameter = str_replace_all(Parameter, "BODYMASS", "Body weight"),
+         Parameter = str_replace_all(Parameter, "ACTIVITY", "Activity level"),
+         Parameter = str_replace_all(Parameter, "CYCLEIII", "Cycle (III)"),
+         Parameter = str_replace_all(Parameter, "CYCLEII", "Cycle (II)"),
          Parameter = str_replace_all(Parameter, ":", " x ")) %>%
-  select(Response, Parameter, everything()) %>%
-  mutate(Response = factor(Response, 
-                           c("Activity", "Body mass", "VO2", "RQ"))) %>%
-  arrange(Response) %>% 
-  select(-Response) 
+  mutate(Response = str_replace_all(Response, "BODYMASS", "Body weight"),
+         Response = str_replace_all(Response, "ACTIVITY", "Activity level"),
+         Response = str_replace_all(Response, "VCO2", "Respiratory quotient (RQ)"),
+         Response = factor(Response, c("VO2", "Respiratory quotient (RQ)", "Activity level", "Body weight"))) %>%
+  mutate(` ` = ifelse(p < 0.05, "\\*", "")) %>%
+  distinct() %>%
+  arrange(Response) %>%
+  select(-Response)
 
-saveRDS(SEM_fixed_effects, "online_supp/SEM_fixed_effects.rds")
-
-SEM_fixed_effects %>%
+hypSEM  %>% 
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
-  group_rows("Activity level", 1, 12) %>%
-  group_rows("Body mass", 13, 16) %>%
-  group_rows("VO2", 17, 34) %>%
-  group_rows("Respiratory quotient (RQ)", 35, 52)
+  group_rows("Oxygen consumption (VO2)", 1, 14) %>%
+  group_rows("Respiratory quotient (RQ)", 15, 28) %>%
+  group_rows("Activity level", 29, 40) %>%
+  group_rows("Body weight", 41, 44) 
+```
+
+### Complete output from `summary.brmsfit()`
+
+- 'Group-Level Effects' (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like `sd(VO2_Intercept)`) and slopes (e.g. `sd(VO2_SELECTIONPoly)`), as well as the correlations between these effects (e.g. `cor(VO2_Intercept,VO2_SELECTIONPoly)`.
+- 'Population-Level Effects:' (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies, in Cycle I) and the effects of treatment, sex, dry weight, and the various interaction terms, for each response variable.
+- 'Family Specific Parameters': This is the parameter sigma for the residual variance for each response variable
+
+Note that the model has converged (Rhat = 1) and the posterior is adequately samples (high ESS values).
+
+```{r max.height='30px'}
+brms_SEM_respiration
 ```
 
 
-### Plot posterior predictive checks
-Again, the fit looks ok.
+
+
+## Posterior estimates of the effect size
+
+Here, we calculate the effect size of the selection treatment on each response variable (and `RQ`) from the posterior estimates of the SEM.
+
+### Derive posterior predictions of group means
+
+Here, we use the model to predict the means for each response variable (and the parameter `RQ`) in each treatment, sex and cycle (averaged across the eight replicate selection lines). 
+
+Because the model contains body mass and activity level as mediator variables, we derived the posterior predictions in three different ways, and display the answer for all three in the following figures/tables. 
+
+Firstly, we predicted the posterior means without controlling for either of the mediator variables, by deriving our predictions for each cycle, sex, and treatment with `BODYMASS` and `ACTIVITY` set to their estimated mean values for that specific cycle/sex/treatment combination. This means that (for example) if activity level positively affects respiration, and P flies evolved higher activity levels, we would predict higher VO2 in P flies due to their larger activity levels. 
+
+Secondly, we predicted the posterior means while controlling for differences in activity level between cycles, sexes, and treatments. This was accomplished by producing the posterior predictions with `ACTIVITY` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if activity levels were the same across cycles, sexes, and treatments.
+
+Thirdly, we predicted the posterior means while controlling for differences in body mass between sexes and treatment. This was accomplished by producing the posterior predictions with `BODYMASS` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if body mass were the same across sexes and treatments.
+
 ```{r}
-pp_check(brms_SEM, resp = "VO2")
-```
-
-### Extract the posterior estimates of the means
-These are used for plotting the range of means that is supported by the data, given our priors. The posterior estimates show the mean of each group, accounting for all the random effects (i.e. the design of the experiment), the covariance structure of the response variables, etc. 
-
-We will also use these posteriors for hypothesis testing, e.g. to see if the mean body size of the polyandry flies differs from that of monogamy flies, by subtracting one posterior from the other to get the posterior estimate of the _difference_ in means. If most (e.g. >95%) of this posterior difference lies on one side of zero, the two means may be considered 'significantly different' as conventionally defined. The magnitude of the difference in means is also an intuitive measure of effect size, and the posterior gives a sense of how precisely we have estimated effect size.
-
-```{r posterior_predictions}
 new <- scaled_data %>%
   select(SELECTION, SEX, CYCLE) %>%
   distinct() %>%
   mutate(body_subset = TRUE)
 
-# Get the posterior estimate of body weight and activity,
-# for the 4 combinations of sex and monogamy/polandry treatment
-bodymass <- brms_SEM %>%
+# Find the posterior estimates of the means for the mediator variables:
+bodymass_posterior <- brms_SEM_respiration %>%
   fitted(newdata = new, re_formula = NA,
-         resp = "BODYMASS", summary = FALSE)
-activity <- brms_SEM %>%
+         resp = "BODYMASS", summary = FALSE) %>% 
+  reshape2::melt() %>%
+  rename(draw = Var1, parameter_space = Var2, `Body mass` = value) %>%
+  left_join(new %>% mutate(parameter_space = 1:n()), by = "parameter_space") %>%
+  select(draw, SELECTION, SEX, `Body mass`) %>% as_tibble() %>% distinct() %>%
+  mutate(
+    treat = ifelse(SELECTION == "Mono", "M", "P"), 
+    sex = ifelse(SEX == "F", "females", "males"), 
+    sextreat = paste(treat, sex),
+    SEX = factor(ifelse(SEX == "F", "Females", "Males"), c("Males", "Females")),
+    SELECTION = ifelse(SELECTION == "Poly", "Polyandry", "Monandry")) 
+
+activity_posterior <- brms_SEM_respiration %>%
   fitted(newdata = new, re_formula = NA,
-         resp = "ACTIVITY", summary = FALSE)
-
-new <- left_join(
-  data.frame(new, t(bodymass)) %>%
-    gather(draw, BODYMASS, starts_with("X")) %>% as_tibble(),
-  data.frame(new, t(activity)) %>%
-    gather(draw, ACTIVITY, starts_with("X")) %>% as_tibble(),
-  by = c("SELECTION", "SEX", "CYCLE", "body_subset", "draw")) %>%
-  mutate(draw = as.numeric(str_remove_all(draw, "X")))
-
-new <- bind_rows(
-  new %>% mutate(mediators_blocked = "Neither"),
-  new %>% mutate(mediators_blocked = "Activity",
-                 ACTIVITY = mean(scaled_data$ACTIVITY)),
-  new %>% mutate(mediators_blocked = "Body mass",
-                 BODYMASS = mean(scaled_data$BODYMASS))
-  ) %>%
-  mutate(VO2 = as.numeric(NA),
-         RQ = as.numeric(NA)) %>% arrange(draw)
+         resp = "ACTIVITY", summary = FALSE) %>% 
+  reshape2::melt() %>%
+  rename(draw = Var1, parameter_space = Var2, `Activity level` = value) %>%
+  left_join(new %>% mutate(parameter_space = 1:n()), by = "parameter_space") %>%
+  select(draw, SELECTION, SEX, CYCLE, `Activity level`) %>% as_tibble() %>%
+  mutate(
+    treat = ifelse(SELECTION == "Mono", "M", "P"), 
+    sex = ifelse(SEX == "F", "females", "males"), 
+    sextreat = paste(treat, sex),
+    SEX = factor(ifelse(SEX == "F", "Females", "Males"), c("Males", "Females")),
+    SELECTION = ifelse(SELECTION == "Poly", "Polyandry", "Monandry")) 
 
 
-if(length(list.files("output/temp_files", full.names = TRUE)) < 20000){
-  lapply(1:max(new$draw), function(i){
-    print(i)
-    focal <- new[new$draw == i, ]
-    focal_draw <- focal$draw[1]
-    focal$VO2 <- fitted(brms_SEM, re_formula = NA, resp = "VO2",
-                        newdata = focal, subset = focal_draw)[,1]
-    focal$RQ <- fitted(brms_SEM, re_formula = NA, resp = "VCO2", nlpar = "RQ",
-                       newdata = focal, subset = focal_draw)[,1]
-    focal %>% saveRDS(glue("output/temp_files/preds_{i}.rds"))
-    rm(focal)
-  })
-}
+# Get the median posterior estimate of body weight and activity,
+# for the 4 combinations of sex and monogamy/polyandry treatment (and 3 cycles, for activity)
+bodymass <- brms_SEM_respiration %>%
+  fitted(newdata = new, re_formula = NA,
+         resp = "BODYMASS") %>% as_tibble()
 
-posterior_predictions <- list.files("output/temp_files", full.names = TRUE) %>% map_df(readRDS)
-new_both_blocked <-  (new[1:12, ]) %>% mutate(mediators_blocked = "Both",
-                           BODYMASS = 0,
-                           ACTIVITY = 0) %>%
-  mutate(key = paste("V", 1:n(), sep = "")) %>% select(-RQ, -draw)
+activity <- brms_SEM_respiration %>%
+  fitted(newdata = new, re_formula = NA,
+         resp = "ACTIVITY") %>% as_tibble()
 
-posterior_predictions <- posterior_predictions %>%
-  bind_rows(
-    left_join(
-      fitted(brms_SEM, re_formula = NA, resp = "VO2",
-             newdata = new_both_blocked, summary = FALSE) %>%
-        as.data.frame() %>% mutate(draw = 1:n()) %>% gather(key, VO2_pred, -draw) %>% 
-        left_join(new_both_blocked, by = "key"),
-      fitted(brms_SEM, re_formula = NA, resp = "VCO2", nlpar = "RQ",
-             newdata = new_both_blocked, summary = FALSE) %>%
-        as.data.frame() %>% mutate(draw = 1:n()) %>% gather(key, RQ, -draw) %>% 
-        left_join(new_both_blocked, by = "key"), 
-      by = c("draw", "key", "SELECTION", "SEX", "CYCLE", 
-             "body_subset", "BODYMASS", "ACTIVITY", "mediators_blocked", "VO2")
-    ) %>% as_tibble() %>% 
-      select(-VO2) %>% rename(VO2 = VO2_pred) %>%
-      select(!! names(posterior_predictions))
-  ) %>% mutate(RQ = 0.7 + 0.3 * inv_logit(RQ))
+new_mediators <- new %>%
+  mutate(BODYMASS = bodymass$Estimate,
+         ACTIVITY = activity$Estimate)
+
+new_complete <- bind_rows(
+  new_mediators %>% mutate(mediators_blocked = "Neither"),
+  new_mediators %>% mutate(mediators_blocked = "Activity", 
+                 ACTIVITY = 0),
+  new_mediators %>% mutate(mediators_blocked = "Body mass",
+                 BODYMASS = 0)) %>%
+  mutate(VO2 = NA, parameter_space = 1:n()) 
+
+post_preds_respiration <- left_join(
+  brms_SEM_respiration %>%
+    fitted(newdata = new_complete, re_formula = NA,
+           resp = "VO2", summary = FALSE) %>% reshape2::melt() %>% 
+    rename(draw = Var1, parameter_space = Var2, VO2 = value) %>%
+    left_join(new_complete %>% select(-VO2), by = "parameter_space") %>% 
+    as_tibble(),
+  
+  brms_SEM_respiration %>%
+    fitted(newdata = new_complete, re_formula = NA,
+           resp = "VCO2", nlpar = "RQ", summary = FALSE) %>% reshape2::melt() %>% 
+    rename(draw = Var1, parameter_space = Var2, RQ = value) %>%
+    left_join(new_complete %>% select(-VO2), by = "parameter_space") %>% 
+    as_tibble() %>%
+    mutate(RQ = 0.7 + 0.3 * inv_logit(RQ)), 
+  by = c("draw", "parameter_space", "SELECTION", "SEX", "CYCLE", 
+         "body_subset", "BODYMASS", "ACTIVITY", "mediators_blocked")
+) %>% select(draw, VO2, RQ, SELECTION, SEX, CYCLE, mediators_blocked)
 ```
 
-
-## Effect of selection treatment on mediator variables
-
-Here, we see that triads of flies from the M and P selection treatments differ strongly in activity levels, and (for females) in body mass. Thus, in subsequent analyses, we attempt to partition out the effect of selection on respiration that is due to the difference in body size, activity, or other unmeasured mediator variables (e.g. physiological differences).
+### Find posterior estimates of effect size {.tabset}
+We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen's d), from the model shown above. 
 
 ```{r}
-parse_mediators <- function(x){
-  var <- x
-  x <- get(x)
-  ndraws <- nrow(x)
-  colnames(x) <- apply(new[1:12, ], 1, paste0, collapse="~")
-  gather(as_tibble(x)) %>%
-    mutate(draw = rep(1:ndraws, 12),
-           split = strsplit(key, split = "~"),
-           SELECTION = map_chr(split, ~.x[1]),
-           CYCLE = map_chr(split, ~.x[3]),
-           SEX = map_chr(split, ~.x[2])) %>%
-    select(draw, SEX, SELECTION, CYCLE, value) %>%
-    mutate(mediator = var)
-}
-
-parsed_bodymass <- parse_mediators("bodymass") %>%
-  filter(CYCLE == "I")
-
-parsed_activity <- parse_mediators("activity")
-
-pd <- position_dodge(0.4)
 overall_SD_VO2 <- scaled_data$VO2 %>% sd()
-overall_mean_VO2 <- scaled_data$VO2 %>% mean()
-overall_SD_RQ <- scaled_data$RQ %>% sd()
-overall_mean_RQ <- scaled_data$RQ %>% mean()
+overall_SD_RQ <- respiration$RQ %>% sd()
 
-
-
-posterior_means_plot <- posterior_predictions %>%
-  select(draw, SELECTION, SEX, CYCLE, VO2, RQ) %>%
-  mutate(VO2 = (VO2 - overall_mean_VO2) / overall_SD_VO2,
-         RQ = (RQ - overall_mean_RQ) / overall_SD_RQ) %>%
-  left_join((parsed_activity) %>% select(-mediator) %>% rename(Activity = value), 
-            by = c("draw", "SELECTION", "SEX", "CYCLE")) %>%
-  left_join((parsed_bodymass) %>% select(-mediator, -CYCLE) %>% 
-              rename(`Body mass` = value), 
-            by = c("draw", "SELECTION", "SEX")) %>%
-  filter(!is.na(Activity)) %>%
-  gather(resp, value, VO2, RQ, Activity, `Body mass`) %>%
-  filter(!(resp == "Body mass" & CYCLE %in% c("II", "III"))) %>%
-  mutate(CYCLE = replace(CYCLE, resp == "Body mass", "All")) %>%
+posterior_effect_size <- post_preds_respiration %>%
+  mutate(mediators_blocked = factor(mediators_blocked, c("Neither", "Body mass", "Activity"))) %>%
   mutate(SEX = factor(ifelse(SEX == "M", "Males", "Females"), c("Males", "Females"))) %>%
-  mutate(resp = replace(resp, resp == "VO2", "O2")) %>%
-  mutate(resp = factor(resp, c("O2", "RQ", "Activity", "Body mass"))) %>%
-  mutate(SELECTION = ifelse(SELECTION == "Mono", "Monogamy", "Polyandry")) %>%
-  ggplot(aes(CYCLE, value, colour = SELECTION)) + 
-  geom_hline(yintercept = 0, linetype = 2) + 
-  stat_pointinterval(position = pd, fill = NA, .width = c(0.5, 0.95), alpha = 0.7) + 
-  scale_colour_brewer(palette = "Set1", direction = -1, name = "") +
-  theme_bw() + 
-  theme(legend.position = "top", panel.grid.major.x = element_blank()) + 
-  facet_grid(SEX ~ resp, scales = "free") +
-  xlab("Cycle") + 
-  ylab("Posterior estimate of the mean")
-
-posterior_means_plot %>% ggsave(filename = "output/posterior_means_plot.pdf", width = 6, height = 4.1)
-posterior_means_plot
-```
-
-**Figure 3:** LEGEND HERE
-
-
-
-
-## Effect of selection treatment on respiration
-
-### Plot the effect size for M/P treatment on O2 consumption
-
-The plot show the model's best estimates of the effect size of the M/P treatment on VO2, defined as the posterior estimate of difference in mean O2 consumption, divided by the standard deviation in O2 consumption (i.e. Cohen's $d$). Positive effect size indicates higher O2 consumption in the polyandry treatment compared to the monogamy treatment.
-
-Effect size was calculated while statistically controlling for one, both, or neither of the two mediator variables (termed "blocking" the mediator variables). Note that the effect size is smaller when activity is controlled for, while controlling for body size had no effect on effect size. Additionally, controlling for activity caused the effect size of the M/P treatment to become statistically indistinguishable from zero. The results therefore indicate that activity mediates most, perhaps all, of the effect of treatment on O2 consumption.
-
-
-```{r fig.height=4.7, fig.width=8}
-mediation_figure_VO2 <- posterior_predictions %>%
-  mutate(mediators_blocked = replace(mediators_blocked, mediators_blocked == "Body mass", "Body\nmass")) %>%
-  mutate(mediators_blocked = factor(mediators_blocked, c("Neither", "Body\nmass", "Activity", "Both"))) %>%
-  mutate(SEX = factor(ifelse(SEX=="M", "Males", "Females"), c("Males", "Females"))) %>%
   mutate(CYCLE = paste("Cycle", CYCLE)) %>%
   group_by(draw, SEX, CYCLE, mediators_blocked) %>%
-  summarise(VO2_effect = (VO2[SELECTION == "Poly"] - VO2[SELECTION == "Mono"]) / overall_SD_VO2) %>%
-  ungroup() %>% 
-  ggplot(aes(x = mediators_blocked, 
-             y = VO2_effect)) + 
-  geom_hline(yintercept = 0, linetype = 2) + 
-  stat_pointinterval(point_size = 4) + 
-  facet_grid(SEX ~ CYCLE) +
- # coord_cartesian(ylim = c(-1.2, 2.4)) +
-  ylab("Effect size of polyandry treatment\non O2 consumption (Cohen's d)") + 
-  xlab("Mediator variables that were controlled for")  +
-  theme_bw() +
-  theme(legend.position = "none")
-
-mediation_figure_VO2 %>% ggsave(filename = "output/mediation_figure_VO2.pdf", height=4.7, width=8)
-
-mediation_figure_VO2
+  summarise(VO2_effect = (VO2[SELECTION == "Poly"] - VO2[SELECTION == "Mono"]) / overall_SD_VO2,
+            RQ_effect = (RQ[SELECTION == "Poly"] - RQ[SELECTION == "Mono"]) / overall_SD_RQ,
+            .groups = "drop") 
 ```
 
-**Figure S2**: LEGEND HERE
+#### Figure
 
-### Plot the effect size for M/P treatment on RQ
+Note that the females are larger than males, and that P females are somewhat larger than M females. P individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while P males maintain consistent, high activity levels).
 
-Equivalent plot, for RQ. Positive effect size indicates higher RQ (i.e. more carbohydrate metabolism and/or less lipid metabolism) in the polyandry treatment compared to the monogamy treatment.
+```{r fig.height=7.5, fig.width=5, fig.showtext=TRUE}
+cols <- c("M females" = "pink", 
+          "P females" = "red", 
+          "M males" = "skyblue", 
+          "P males" = "blue")
 
-Note that there is little evidence for an effect of treatment on RQ, except perhaps in Cycle III in females. However, we were not able to measure the effect of treatment on RQ with sufficient precision to rule out the existence of a large effect.
+p1 <- arrangeGrob(
+  
+  bodymass_posterior %>%
+    mutate(CYCLE = "All cycles") %>%
+    ggplot(aes(y = SELECTION, x = `Body mass`, fill = sextreat)) + 
+    geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
+    geom_halfeyeh(alpha = 0.7, size = 0.6) +
+    facet_grid(SEX ~ CYCLE) +
+    coord_cartesian(xlim = c(-1.9, 1.9)) + 
+    scale_fill_manual(values = cols, name = "") + 
+    theme_bw() + 
+    theme(legend.position = "none",
+          strip.text.y = element_text(colour = "white"),
+          text = element_text(family = nice_font),
+          strip.background = element_rect(fill = "white", colour = "white")) + 
+    ylab(NULL),
+  
+  activity_posterior %>%
+    mutate(CYCLE = paste("Cycle", CYCLE)) %>%
+    ggplot(aes(y = SELECTION, x = `Activity level`, fill = sextreat)) + 
+    geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
+    stat_halfeyeh(alpha = 0.7, size = 0.6) + 
+    facet_grid(SEX ~ CYCLE) +
+    scale_fill_manual(values = cols, name = "") + 
+    theme_bw() + 
+    coord_cartesian(xlim = c(-1.5, 1.7)) + 
+    theme(legend.position = "none", 
+          axis.text.y = element_blank(), 
+          text = element_text(family = nice_font),
+          strip.background = element_blank(),
+          axis.ticks.y = element_blank()) + ylab(NULL),
+  nrow = 1, widths = c(0.38, 0.62), 
+  left = textGrob("Selection treatment", rot = 90, gp=gpar(fontfamily = nice_font)),
+  top = textGrob("A. Mediator variables", hjust = 1, gp=gpar(fontfamily = nice_font)) 
+)
 
-```{r fig.height=4.7, fig.width=8}
+p2 <- arrangeGrob(
+  posterior_effect_size %>% 
+    ggplot(aes(y = mediators_blocked, 
+               x = VO2_effect,
+               fill = mediators_blocked)) + 
+    geom_vline(xintercept = 0, linetype = 2) + 
+    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    facet_grid(SEX ~ CYCLE) +
+    xlab(expression(VO[2]~effect~size~(P~-~M))) + 
+    ylab(NULL)  +
+    scale_fill_brewer(palette = "Set2") + 
+    theme_bw() +
+    coord_cartesian(xlim = c(-0.6, 1.9)) + 
+    theme(legend.position = "none",
+          text = element_text(family = nice_font),
+          strip.background = element_blank()),
+  
+  posterior_effect_size %>% 
+    ggplot(aes(y = mediators_blocked, 
+               x = RQ_effect,
+               fill = mediators_blocked)) + 
+    geom_vline(xintercept = 0, linetype = 2) + 
+    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    facet_grid(SEX ~ CYCLE) +
+    xlab("RQ effect size (P - M)") + 
+    ylab(NULL)  +
+    scale_fill_brewer(palette = "Set2") + 
+    theme_bw() +
+    scale_x_continuous(breaks = c(-1, 0, 1)) +
+    coord_cartesian(xlim = c(-1.1, 1.5)) + 
+    theme(legend.position = "none",
+          text = element_text(family = nice_font),
+          strip.background = element_blank()),
+  ncol = 1, 
+  left = textGrob("Mediator variables controlled for", rot = 90, gp=gpar(fontfamily = nice_font)),
+  top = textGrob("B. Measures of respiration", hjust = 1, gp=gpar(fontfamily = nice_font)) 
+)
 
-mediation_figure_RQ <- posterior_predictions %>%
-  mutate(mediators_blocked = factor(mediators_blocked, c("Neither", "Body mass", "Activity", "Both"))) %>%
-  mutate(SEX = factor(ifelse(SEX=="M", "Males", "Females"), c("Males", "Females"))) %>%
-  mutate(CYCLE = paste("Cycle", CYCLE)) %>%
-  group_by(draw, SEX, CYCLE, mediators_blocked) %>%
-  summarise(RQ_effect = (RQ[SELECTION == "Poly"] - RQ[SELECTION == "Mono"]) / overall_SD_RQ) %>%
-  ungroup() %>% 
-  ggplot(aes(x = mediators_blocked, 
-             y = RQ_effect)) + 
-  geom_hline(yintercept = 0, linetype = 2) + 
-  stat_pointinterval(point_size = 4) + 
-  facet_grid(SEX ~ CYCLE) +
-  ylab("Effect size of polyandry treatment\non RQ (Cohen's d)") + 
-  xlab("Mediator variables that were controlled for")  +
-  theme_bw() +
-  theme(legend.position = "none")
+p_filler <- ggplot() + theme_void()
 
-mediation_figure_RQ %>% ggsave(filename = "output/mediation_figure_RQ.pdf", height=4.7, width=8)
+grid.arrange(p1, 
+             arrangeGrob(p_filler, p2, p_filler, 
+                         nrow = 1, widths = c(0.1, 0.8, 0.1)), 
+             heights = c(0.35, 0.65)) %>%
+  ggsave("output/respiration_figure.pdf", plot = ., height = 7.5, width = 5)
 
-mediation_figure_RQ
+grid.arrange(p1, 
+             arrangeGrob(p_filler, p2, p_filler, 
+                         nrow = 1, widths = c(0.1, 0.8, 0.1)), 
+             heights = c(0.35, 0.65)) 
 ```
 
-**Figure S3**: LEGEND HERE
+
+#### Tables
+
+##### Posterior estimates of the mean for mediator variables
+
+```{r}
+bodymass_posterior %>%
+  mutate(CYCLE = "All cycles") %>%
+  select(SELECTION, SEX, CYCLE, `Body mass`, draw) %>% 
+  group_by(SELECTION, SEX, CYCLE) %>%
+  summarise(x = list(posterior_summary(`Body mass`) %>% 
+                        as.data.frame()), .groups = "drop") %>%
+  unnest(x) %>% mutate(Response = "Body weight (mean)") %>%
+  bind_rows(
+activity_posterior %>%
+  select(SELECTION, SEX, CYCLE, `Activity level`, draw) %>%
+  group_by(SELECTION, SEX, CYCLE) %>%
+  summarise(x = list(posterior_summary(`Activity level`) %>% 
+                        as.data.frame()), .groups = "drop") %>%
+  unnest(x) %>% mutate(Response = "Activity level (mean)")) %>%
+  rename(Selection = SELECTION, Sex = SEX, Cycle = CYCLE) %>%
+  select(-Response) %>%
+  kable(digits = 3) %>%
+  kable_styling(full_width = FALSE) %>%
+  pack_rows("Body weight (mean)", 1, 4) %>%
+  pack_rows("Activity level (mean)", 5, 16)
+```
+
+
+##### Posterior estimates of the effect size for VO$_2$ and RQ
+
+```{r}
+posterior_effect_size %>%
+  select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %>%
+  group_by(mediators_blocked, SEX, CYCLE) %>%
+  summarise(x = list(posterior_summary(VO2_effect) %>% 
+                       as.data.frame()), .groups = "drop") %>%
+  unnest(x) %>% mutate(Response = "VO2 effect size") %>%
+  bind_rows(
+    posterior_effect_size %>%
+      select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %>%
+      group_by(mediators_blocked, SEX, CYCLE) %>%
+      summarise(x = list(posterior_summary(VO2_effect) %>% 
+                           as.data.frame()), .groups = "drop") %>%
+      unnest(x) %>% mutate(Response = "RQ effect size")) %>%
+  select(-Response) %>% rename(`Mediators blocked` = mediators_blocked, Sex = SEX, Cycle = CYCLE) %>%
+  kable(digits = 3) %>%
+  kable_styling(full_width = FALSE) %>%
+  pack_rows("VO2 effect size", 1, 18) %>%
+  pack_rows("RQ effect size", 19, 36)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ### Finding all the sub-models for model selection -->
+
+<!-- Now that we have written out the full model, we can find all its component sub-models. This is complicated by the fact that it is a multivariate model, and so we need to find the sub-models for both VO2 and RQ, and then find all possible combinations of these.  -->
+
+<!-- ```{r} -->
+<!-- # For convenience, we borrow the function `dredge()` from the MuMIn package,  -->
+<!-- # and use it find all submodels -->
+<!-- all_sub_models <- paste(get.models(with(options(na.action = na.fail),  -->
+<!--                       dredge(lm(VO2 ~ SELECTION * SEX * CYCLE, data = scaled_data))), subset = TRUE) %>% -->
+<!--   map_chr(~ as.character(.x$call)[2]) %>%  -->
+<!--     unname() %>%  -->
+<!--     str_remove_all(" [+] 1") %>%  -->
+<!--     str_remove_all("VO2 ~ "),  -->
+<!--   "+ (1 | LINE) + (1 | SAMPLE)")  -->
+
+<!-- # Find all combinations of sub-model formulas for VO2 and RQ -->
+<!-- combos <- expand.grid(vo2 = all_sub_models,  -->
+<!--                       rq = all_sub_models, stringsAsFactors = FALSE) -->
+
+<!-- # Write out the complete multi-part formulas for all 361 to be compared -->
+<!-- write_formula <- function(vo2, rq){ -->
+<!-- glue(" -->
+<!-- bf(VO2 ~ {vo2}) + bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)), RQ ~ {rq}, nl = TRUE) + set_rescor(FALSE)") %>%  -->
+<!--     as.character() -->
+<!-- } -->
+
+<!-- all_formulas <- map2(combos[,1],  -->
+<!--                      combos[,2],  -->
+<!--                      write_formula) -->
+
+<!-- print("Inspect the first few formulas:") -->
+<!-- head(unlist(all_formulas)) -->
+<!-- ``` -->
+
+<!-- # Simpler test: -->
+
+
+
+
+<!-- ### Run all the `brms` models and save them to disk -->
+
+<!-- Here, we run all 361 of the models whose formulae are given in the vector `all_formulas`, and save the results of each model to an external hard drive (this uses about 55GB). Note that the prior for each model is the same, except that one does not need to specify a prior on the fixed effects in models that do not contain any fixed effects, which is why the `if()` statements are needed.   -->
+
+<!-- ```{r eval = FALSE} -->
+<!-- # Function to run a model using formula number "i" in "formula_list" on dataframe "my_data" -->
+<!-- run_model <- function(i, formula_list, my_data){ -->
+
+<!--   save_location <- "/Volumes/LACIE_SHARE/brms_respiration" -->
+<!--   num <- str_pad(i, 3, pad = "0") -->
+<!--   file_name <- glue("{save_location}/model_{num}.rds") -->
+<!--   if(file.exists(file_name)) return(NULL) -->
+
+<!--   focal_formula <- eval(parse(text = formula_list[[i]])) -->
+
+<!--   if(!str_detect(focal_formula, "VO2 ~ 1") & !str_detect(focal_formula, "RQ ~ 1")){ -->
+<!--     model <- brm(focal_formula,  -->
+<!--                  data = my_data,  -->
+<!--                  iter = 10000, chains = 4, cores = 1, -->
+<!--                  prior = c(prior(normal(0, 3), class = "b", resp = "VO2"), -->
+<!--                            prior(normal(0, 3), class = "b", resp = "VCO2", nlpar = "RQ")), -->
+<!--                  control = list(max_treedepth = 20, adapt_delta = 0.99), -->
+<!--                  save_all_pars = TRUE) -->
+<!--   }  -->
+<!--   if(!str_detect(focal_formula, "VO2 ~ 1") & str_detect(focal_formula, "RQ ~ 1")){ -->
+<!--     model <- brm(focal_formula,  -->
+<!--                  data = my_data,  -->
+<!--                  iter = 10000, chains = 4, cores = 1, -->
+<!--                  prior = prior(normal(0, 3), class = "b", resp = "VO2"), -->
+<!--                  control = list(max_treedepth = 20, adapt_delta = 0.99), -->
+<!--                  save_all_pars = TRUE) -->
+<!--   } -->
+<!--   if(str_detect(focal_formula, "VO2 ~ 1") & !str_detect(focal_formula, "RQ ~ 1")){ -->
+<!--     model <- brm(focal_formula,  -->
+<!--                  data = my_data,  -->
+<!--                  iter = 10000, chains = 4, cores = 1, -->
+<!--                  prior = prior(normal(0, 3), class = "b", resp = "VCO2", nlpar = "RQ"), -->
+<!--                  control = list(max_treedepth = 20, adapt_delta = 0.99), -->
+<!--                  save_all_pars = TRUE) -->
+<!--   } -->
+<!--   if(str_detect(focal_formula, "VO2 ~ 1") & str_detect(focal_formula, "RQ ~ 1")){ -->
+<!--     model <- brm(focal_formula,  -->
+<!--                  data = my_data,  -->
+<!--                  iter = 10000, chains = 4, cores = 1, -->
+<!--                  control = list(max_treedepth = 20, adapt_delta = 0.99), -->
+<!--                  save_all_pars = TRUE) -->
+<!--   } -->
+
+<!--   saveRDS(model, file = file_name) -->
+<!--   rm(model) # Force clean up to help R not run out of memory -->
+<!--   gc() -->
+<!--   return(NULL) -->
+<!-- } -->
+
+<!-- # Run all the models in parallel over 4 cores - this worked fine on a 2015 iMac with 32GB RAM -->
+<!-- options(mc.cores=4) -->
+<!-- plan(multiprocess) -->
+
+<!-- future_lapply(1:length(all_formulas),  -->
+<!--               run_model,  -->
+<!--               formula_list = all_formulas,  -->
+<!--               my_data = scaled_data) -->
+<!-- ``` -->
+
+<!-- ### Compare all the fitted `brms` models using leave-one-out cross validation (LOO) -->
+
+<!-- It is not possible to load all the models without running out of memory, so I here use a simple algorithm to select the top 10 models. The algorithm picks 20 candidate models at random, ranks them using LOO, and then removes the 10 worst-fitting models from the list of models under comparison. This is repeated until only 10 models remain - these are the 10 best-fitting models as ranked by LOO (under the PSIS-LOO approximation; see the `loo` package documentation and papers by Aki Vehtari and colleagues). -->
+
+<!-- ```{r} -->
+<!-- if(!file.exists("data/model_selection_table.rds")){ -->
+
+<!--   # Get the file names of the 361 models -->
+<!--   out_files <- list.files("/Volumes/LACIE_SHARE/brms_respiration", full.names = TRUE) -->
+
+<!--   # Algorithm to pick the top 10 models without running out of memory -->
+<!--   while(length(out_files) > 20){ -->
+
+<!--     # Pick 20 random models that have not yet been eliminated -->
+<!--     sampled_files <- sample(out_files, 20) -->
+
+<!--     # Rank all 20 models using LOO cross-validation -->
+<!--     weights <- model_weights( -->
+<!--       readRDS(sampled_files[1]), readRDS(sampled_files[2]), -->
+<!--       readRDS(sampled_files[3]), readRDS(sampled_files[4]), -->
+<!--       readRDS(sampled_files[5]), readRDS(sampled_files[6]), -->
+<!--       readRDS(sampled_files[7]), readRDS(sampled_files[8]), -->
+<!--       readRDS(sampled_files[9]), readRDS(sampled_files[10]), -->
+<!--       readRDS(sampled_files[11]), readRDS(sampled_files[12]), -->
+<!--       readRDS(sampled_files[13]), readRDS(sampled_files[14]), -->
+<!--       readRDS(sampled_files[15]), readRDS(sampled_files[16]), -->
+<!--       readRDS(sampled_files[17]), readRDS(sampled_files[18]), -->
+<!--       readRDS(sampled_files[19]), readRDS(sampled_files[20]), -->
+<!--       weights = "loo") -->
+
+<!--     # Discard all but the 10 top-ranked models from the set still to be compared -->
+<!--     to_keep <- sampled_files[order(weights, decreasing=TRUE)[1:10]] -->
+<!--     to_remove <- sampled_files[!(sampled_files %in% to_keep)] -->
+<!--     out_files <- out_files[!(out_files %in% to_remove)] -->
+<!--     print(paste(length(out_files), "left to compare")) -->
+<!--   } -->
+
+<!--   top_model_files <- out_files -->
+<!--   saveRDS(top_model_files, "data/top_model_files.rds") -->
+
+<!--   # Get the weights for the top 10 models -->
+<!--   resp_model_weights <- model_weights( -->
+<!--     readRDS(top_model_files[1]), readRDS(top_model_files[2]), -->
+<!--     readRDS(top_model_files[3]), readRDS(top_model_files[4]), -->
+<!--     readRDS(top_model_files[5]), readRDS(top_model_files[6]), -->
+<!--     readRDS(top_model_files[7]), readRDS(top_model_files[8]), -->
+<!--     readRDS(top_model_files[9]), readRDS(top_model_files[10]), -->
+<!--     weights = "loo" -->
+<!--   ) -->
+
+<!--   # Format them nicely in a table -->
+<!--   resp_model_weights <- round(resp_model_weights, 3)  -->
+<!--   names(resp_model_weights) <- out_files[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))] -->
+<!--   names(resp_model_weights) <- all_formulas[as.numeric(str_extract(names(resp_model_weights), "[:digit:]+"))] -->
+
+<!--   model_selection_table <- enframe(resp_model_weights, name = "Model", value = "LOO model weight") %>% -->
+<!--     arrange(-`LOO model weight`) %>% -->
+<!--     mutate(Model = str_remove_all(Model, " \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\)\\) \\+ bf\\("), -->
+<!--            Model = str_remove_all(Model, "bf\\("), -->
+<!--            Model = str_remove_all(Model, "~ VO2 \\* \\(0.7 \\+ 0.3 \\* inv_logit\\(RQ\\)\\), "), -->
+<!--            Model = str_remove_all(Model, " \\+ \\(1 \\| LINE\\) \\+ \\(1 \\| SAMPLE\\), nl = TRUE\\) \\+ set_rescor\\(FALSE\\)")) %>% -->
+<!--     mutate(split = strsplit(Model, split = " RQ"), -->
+<!--            `Model of VO2` = map_chr(split, ~ .x[1]), -->
+<!--            `Model of RQ` = map_chr(split, ~ .x[2])) %>% -->
+<!--     mutate(`Model of VO2` = str_remove_all(`Model of VO2`, "VO2 "), -->
+<!--            `Model of VO2` = str_remove_all(`Model of VO2`, "VCO2"), -->
+<!--            `Model of RQ` = str_replace_all(`Model of RQ`, " ~", "~")) %>% -->
+<!--     select(`Model of VO2`, `Model of RQ`, `LOO model weight`)  -->
+
+<!--   saveRDS(model_selection_table, file = "data/model_selection_table.rds") -->
+<!-- } else { -->
+<!--   top_model_files <- readRDS("data/top_model_files.rds") -->
+<!--   model_selection_table <- readRDS("data/model_selection_table.rds") -->
+<!-- } -->
+<!-- ``` -->
+
+
+<!-- #### Model selection table -->
+
+<!-- This table shows the top ten models from the set of 361 that was compared. The models were compared using leave-one-out cross validation (LOO), which is similar to more familiar metrics like AIC, but is regarded as the current best method for comparing the fit of a set of Bayesian models (see the documentation in `brms` and `loo` packages). -->
+
+<!-- ```{r} -->
+<!-- library(formattable) -->
+
+<!-- model_selection_table %>% -->
+<!--   mutate_if(is.character, ~ str_replace_all(.x, "CYCLE", "Cycle")) %>% -->
+<!--   mutate_if(is.character, ~ str_replace_all(.x, "SELECTION", "Selection")) %>% -->
+<!--   mutate_if(is.character, ~ str_replace_all(.x, "SEX", "Sex")) %>% -->
+<!--   mutate(`LOO model weight` = color_bar("lightgreen")(`LOO model weight`)) %>% -->
+<!--   kable(escape = F, full.width = FALSE) %>% kable_styling() -->
+<!-- ``` -->
+
+<!-- ### Inspect the parameter estimates -->
+
+<!-- #### Perform Bayesian model averaging -->
+<!-- Since there is no model that was strongly preferred to all the others, we here perform model averaging to calculate the parameter estimates for all the fixed effects that were present in at least 1 of the top 3 models. Parameters that were not present in all models were set to zero for models that lacked that parameter: this is sometimes called "full model averaging" (see e.g. ?MuMIn::model.avg), and it applies "shrinkage", meaning that parameters that are not present in all of the top models get shrunk somewhat towards zero. The models are averaged according to their "stacking weights", which is the current state-of-the-art for Bayesian model averaging (see e.g. [here](https://mc-stan.org/loo/articles/loo2-weights.html)). -->
+
+<!-- ```{r} -->
+<!-- avg <- posterior_average( -->
+<!--   readRDS(top_model_files[1]), readRDS(top_model_files[2]), readRDS(top_model_files[3]), -->
+<!--   weights = "stacking", missing = 0) %>% -->
+<!--   select(contains("b_"), contains("sd_")) -->
+
+<!-- make_model_summary_table <- function(posterior_samples){ -->
+<!--   pvalues <- summarise_all(posterior_samples, p_direction) %>%  -->
+<!--     gather(key, p) %>% -->
+<!--     mutate(p = 1 - p) %>% -->
+<!--     mutate(` ` = ifelse(p < 0.05, "\\*", ""), -->
+<!--            ` ` = replace(` `, p > 0.05 & p < 0.1, "~"), -->
+<!--            ` ` = replace(` `, p < 0.01, "**"),  -->
+<!--            ` ` = replace(` `, p < 0.001, "***")) -->
+
+<!--   posterior_samples %>% -->
+<!--     summarise_all(~ list(posterior_summary(.x)))  %>% gather() %>%  -->
+<!--     mutate(Estimate = map_dbl(value, ~ .x[1]), -->
+<!--            Error = map_dbl(value, ~ .x[2]), -->
+<!--            Q2.5 = map_dbl(value, ~ .x[3]), -->
+<!--            Q97.5 = map_dbl(value, ~ .x[4])) %>%  -->
+<!--     select(-value) %>% -->
+<!--     left_join(pvalues, by = "key") %>% -->
+<!--     mutate_if(is.numeric, ~ round(.x, 3)) %>% -->
+<!--     mutate(p = replace(p, grepl("sd_", key), " "), -->
+<!--            p = replace(p, grepl("sigma_", key), " "), -->
+<!--            p = replace(p, grepl("Intercept_", key), " "), -->
+<!--            ` ` = replace(` `, grepl("sd_", key), " "), -->
+<!--            ` ` = replace(` `, grepl("sigma_", key), " "), -->
+<!--            ` ` = replace(` `, grepl("Intercept_", key), " ")) -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ### Inspect tables of results {.tabset} -->
+<!-- Here we present the model-averaged estimates for each of the fixed effects, as well as the results for the top model that contained our most interesting predictor, namely the M vs P selection treatment (i.e. the second-best model in the model selection table).  -->
+
+<!-- #### Results from model averaging -->
+<!-- ```{r} -->
+<!-- model_averaging_results <- avg %>% -->
+<!--   select(-starts_with("r_"), -starts_with("z_"), -starts_with("lp"), -starts_with("sd_")) %>%  -->
+<!--   make_model_summary_table() %>% -->
+<!--   mutate(key = str_remove_all(key, "b_"), -->
+<!--          split = strsplit(key, split = "_"), -->
+<!--          resp = map_chr(split, ~ .x[1]), -->
+<!--          Parameter = map_chr(split, ~ tail(.x, 1)), -->
+<!--          resp = replace(resp, resp == "VCO2", "RQ"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEIII", "Cycle (III)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEII", "Cycle (II)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "SEXM", "Sex (M)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEIII:SEXM", "Cycle (III) x Sex (M)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEII:SEXM", "Cycle (II) x Sex (M)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "SELECTIONPoly:SEXM", "Treatment (P) x Sex (M)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "SELECTIONPoly", "Treatment (P)")) %>% -->
+<!--   select(resp, Parameter, everything()) %>% select(-split, -key) %>% -->
+<!--   arrange(desc(resp)) -->
+
+<!-- saveRDS(model_averaging_results, "online_supp/model_averaging_results.rds") -->
+
+
+<!-- model_averaging_results %>% -->
+<!--   kable() %>% -->
+<!--   kable_styling(full_width = FALSE) -->
+<!-- ``` -->
+
+<!-- #### Results from the individual top model containing selection -->
+<!-- ```{r} -->
+<!-- top_model_with_selection <- posterior_samples(readRDS(top_model_files[2])) %>% -->
+<!--   select(-starts_with("r_"), -starts_with("z_"), -starts_with("lp"),  -->
+<!--          -starts_with("Intercept_"), -starts_with("sd_"), -starts_with("sigma_")) %>%  -->
+<!--   make_model_summary_table() %>% -->
+<!--   mutate(key = str_remove_all(key, "b_"), -->
+<!--          split = strsplit(key, split = "_"), -->
+<!--          resp = map_chr(split, ~ .x[1]), -->
+<!--          Parameter = map_chr(split, ~ tail(.x, 1)), -->
+<!--          resp = replace(resp, resp == "VCO2", "RQ"), -->
+<!--          Parameter = replace(Parameter, Parameter == "SELECTIONPoly", "Treatment (P)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEIII", "Cycle (III)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "CYCLEII", "Cycle (II)"), -->
+<!--          Parameter = replace(Parameter, Parameter == "SEXM", "Sex (M)")) %>% -->
+<!--   select(resp, Parameter, everything()) %>% select(-split, -key) -->
+
+<!-- saveRDS(top_model_with_selection, "online_supp/top_model_with_selection.rds") -->
+
+<!-- top_model_with_selection %>% -->
+<!--   kable() %>% -->
+<!--   kable_styling(full_width = FALSE) -->
+<!-- ``` -->
+
+<!-- ### Plot the parameter estimates {.tabset} -->
+<!-- Again, we plot the estimates for model averaging, or the top model that contained selection treatment. We do not plot the estimates for RQ, since none of the parameter estimates clearly differed from zero. -->
+
+<!-- #### Model averaged estimates -->
+<!-- ```{r} -->
+<!-- name_converter <- tibble( -->
+<!--   new_name = c("O2: Male sex", "O2: P treatment", "O2: Cycle II", "O2: Cycle III", -->
+<!--                "O2: Male x Cycle II interaction", "O2: Male x Cycle III interaction", -->
+<!--                "RQ: Male sex", "RQ: Cycle II", "RQ: Cycle III"), -->
+<!--   old_name = c("VO2_SEXM", "VO2_SELECTIONPoly", "VO2_CYCLEII", "VO2_CYCLEIII", -->
+<!--                "VO2_CYCLEII:SEXM", "VO2_CYCLEIII:SEXM", -->
+<!--                "VCO2_RQ_SEXM", "VCO2_RQ_CYCLEII", "VCO2_RQ_CYCLEIII") -->
+<!-- ) %>% mutate(new_name = factor(new_name, rev(new_name))) -->
+
+<!-- overall_SD_VO2 <- scaled_data$VO2 %>% sd() -->
+
+<!-- plotter <- function(posterior_samples){ -->
+
+<!--   posterior_samples %>%  -->
+<!--     as_tibble() %>% -->
+<!--     select(contains("b_"), -contains("Intercept")) %>% -->
+<!--     gather() %>%  -->
+<!--     mutate(key = str_remove_all(key, "b_")) %>% -->
+<!--     left_join(name_converter, by = c("key" = "old_name")) %>% -->
+<!--     mutate(variable = ifelse(grepl("O2", new_name), "O2", "RQ")) %>% -->
+<!--     filter(variable == "O2") %>% -->
+<!--     mutate(new_name = factor(str_remove(as.character(new_name), "O2: "), -->
+<!--                              rev(unique(str_remove(as.character(new_name), "O2: "))))) %>% -->
+<!--     mutate(value = value / overall_SD_VO2) %>% -->
+<!--     ggplot(aes(value, new_name, fill = new_name)) +  -->
+<!--     geom_vline(xintercept = 0, linetype = 2) +  -->
+<!--     geom_density_ridges(alpha = 0.7) + -->
+<!--     scale_fill_brewer(palette = "Spectral") + -->
+<!--     ylab("Model parameter") + -->
+<!--     xlab("Effect on O2 consumption (SD)") +  -->
+<!--     theme_ridges() + -->
+<!--     theme(legend.position = "none") + -->
+<!--     coord_cartesian(xlim = c(-1.4, 1.7)) -->
+<!-- } -->
+
+<!-- plotter(avg) -->
+<!-- ``` -->
+
+<!-- #### Estimates from the individual top model containing selection -->
+<!-- ```{r} -->
+<!-- plotter(readRDS(top_model_files[2])) -->
+<!-- ``` -->
+
+
+<!-- ### Plot posterior predictive checks -->
+<!-- Finally, we check that the values predicted by the (second-top) model resemble the real data (which they should, if the model is an adequate approximation of the true 'data-generating processes'). This is done by drawing 10 samples from the posterior of the model, and using them to produce some new data (here, for VO2). The plot looks good, because the predicted data look similar to the original data, which is a necessary condiction for reliable inference. -->
+<!-- ```{r} -->
+<!-- pp_check(readRDS(top_model_files[2]), resp = "VO2") -->
+<!-- ``` -->
+
+
+
+<!-- ## Fit the `brms` structural equation model (SEM) -->
+
+<!-- This next section fits a more complex version of previous multivariate model, which additionally includes the "mediator variables" (for definition, see e.g. [Wikipedia](https://en.wikipedia.org/wiki/Mediation_(statistics))) body mass and activity. The mediator variables potentially vary between sexes and selection treatments (and cycle, in the case of activity, but not body size), but they also potentially affect the main response variables, VO2 and RQ. Therefore, body mass and activity potentially "mediate" the effect of treatment, sex, and cycle on respiration. Using a structural equation model, one can partition an effect (e.g. the effect of treatment on respiration) into the share that is due to mediation vs other processes. For a good introduction to causal inference using Bayesian statistics, see [this video lecture](https://www.youtube.com/watch?v=0Jc6Kgw5qc0&list=PLDcUM9US4XdNM4Edgs7weiyIguLSToZRI&index=7) and others in that series. -->
+
+<!-- To limit the complexity of this already complex analysis, we forego a model selection step and simply fit the full model and analyse it.  -->
+
+
+<!-- ### Formulae in the structural equation model -->
+
+<!-- The SEM contains two additional formulae than the previous model, as well as additional predictor variables.  -->
+
+<!-- There is a sub-model for both of the mediator variables (activity and body mass), a model of oxygen production (VO2), and a model of CO2 production (VCO2, which is related to VO2 via the parameter RQ, the respiratory quotient, which the model also estimates).  -->
+
+<!-- The formulae were chosen _a priori_, to reflect our biological intuition about the direction of causality, and the factors that might affect each response variable. -->
+
+<!-- #### Activity level (one value per cycle, i.e. 3 measures on each 'sample' of individuals) -->
+
+<!-- Formula: `ACTIVITY ~ SELECTION * SEX + CYCLE + (1 | LINE) + (1 | SAMPLE)` -->
+
+<!-- This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction), and for an effect of cycle (coded as a 3-level factor, allowing non-linear change across the 3 cycles). The random factors were added due to our repeated measures of replicate selection lines and samples (same for the following forrmulae). -->
+
+<!-- #### Body mass -->
+
+<!-- Formula: `BODYMASS ~ SELECTION * SEX + (1 | LINE)` -->
+
+<!-- This formula allows for effects on activity of sex and selection treatment (and their 2-way interaction). Because there is only one measure of body mass for each sample of flies, we do not need to fit a sample-level random effect; also, this model is run on only a subset of the full dataset (one of the 3 cycles), since we would incur pseudo-replication if we used the full dataset. Note that this means there is less replication for body mass than for the other variables, and so the parameter estimates are less precise for this model (visible in the figures plotted later). -->
+
+<!-- #### VO2 -->
+
+<!-- Formula: `VO2 ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +`   -->
+<!--          `SELECTION:BODYMASS + SELECTION:ACTIVITY +`  -->
+<!--          `SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)` -->
+
+<!-- This formula allows for effects on activity of sex, selection and cycle (and their 2- and 3-way interactions), and for sex- and selection treatment-specific effects of body mass and activity level. -->
+
+<!-- #### VCO2 (as determined by the parameter RQ)  -->
+
+<!-- Formulae (2-part model, see `vignette("brms_nonlinear")`):  -->
+
+<!-- `VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))` -->
+
+<!-- `RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY +`   -->
+<!-- `SELECTION:BODYMASS + SELECTION:ACTIVITY +`  -->
+<!-- `SEX:BODYMASS + SEX:ACTIVITY + (1 | LINE) + (1 | SAMPLE)` -->
+
+<!-- VCO2 is assumed to depend on the value of VO2 from the same measurement, multiplied by RQ, a parameter that is constrained to vary between 0.7 and 1 (based on our prior knowledge of the chemistry of respiration) through the use of the inverse logit function. In turn, RQ is assumed to depend on the same set of predictors as for VO2.  -->
+
+<!-- #### Priors -->
+
+<!-- To apply some mild regularisation and assist model convergence, we set a prior on all the fixed effect parameters of `normal(0, 3)`. -->
+
+<!-- #### Family -->
+
+<!-- All response variables are assumed to follow a normal (Gaussian) distribution, except for activity level (which follows a beta distribution); as we shall see, this turns out to be a reasonable approximation of the response variables' true distributions. -->
+
+<!-- ### Fit the `brms` model -->
+
+<!-- ```{r} -->
+<!-- # add a subsetting variable, so that we can estimate the effects of selection and sex  -->
+<!-- # on body size without having three redundant measures of body size (one per cycle).  -->
+<!-- # See ?brmsformula, section beginning "For multivariate models, subset may be used..." -->
+<!-- scaled_data <- scaled_data %>% -->
+<!--   mutate(body_subset = CYCLE == "I")     -->
+
+<!-- if(!file.exists("output/brms_SEM.rds")){ -->
+
+<!--   # Set up formula for the SEM: -->
+<!--   brms_formula <-  -->
+
+<!--     bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model -->
+<!--          BODYMASS + ACTIVITY +   -->
+<!--          SELECTION:BODYMASS + SELECTION:ACTIVITY +  -->
+<!--          SEX:BODYMASS + SEX:ACTIVITY +  -->
+<!--          (1 | LINE) + (1 | SAMPLE)) + -->
+
+<!--     bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models -->
+<!--        RQ ~ SELECTION * SEX * CYCLE +  -->
+<!--          BODYMASS + ACTIVITY +  -->
+<!--          SELECTION:BODYMASS + SELECTION:ACTIVITY +  -->
+<!--          SEX:BODYMASS + SEX:ACTIVITY +  -->
+<!--          (1 | LINE) + (1 | SAMPLE), -->
+<!--        nl = TRUE) + -->
+
+<!--     bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model -->
+<!--          (1 | LINE)) + -->
+
+<!--     bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model -->
+<!--          (1 | LINE) + (1 | SAMPLE)) +   # , family = "beta" -->
+
+<!--     set_rescor(FALSE) -->
+
+<!--   # Run the SEM: -->
+<!--   brms_SEM <- brm( -->
+<!--     brms_formula,   -->
+<!--     data = scaled_data, -->
+<!--     iter = 10000, chains = 4, cores = 1, -->
+<!--     prior = prior(normal(0, 1), class = "b"), -->
+<!--     control = list(max_treedepth = 20, adapt_delta = 0.999) -->
+<!--   ) -->
+
+<!--   saveRDS(brms_SEM, file = "output/brms_SEM.rds") -->
+
+<!-- } else { -->
+<!--   brms_SEM <- readRDS("output/brms_SEM.rds") -->
+<!-- } -->
+<!-- ``` -->
+
+
+<!-- ### Inspect the model output -->
+<!-- Here is the complete output of `summary()` called on the SEM. Note that the model has converged (Rhat = 1), and that no parameters are under-sampled (shown by the ESS columns). Several parameters also differ significantly from zero (shown by their 95% credible intervals not overlapping zero). Note that the response variables are not all in the same units, so the magnitudes of the parameter estimates ("Estimate" column) are not directly comparable between the response variables. -->
+<!-- ```{r output_max_height = "300px"} -->
+<!-- summary(brms_SEM) -->
+<!-- ``` -->
+
+<!-- ### Make a neat table of the fixed effects -->
+<!-- ```{r} -->
+<!-- pvalues <- as.data.frame(p_direction(brms_SEM)) %>%  -->
+<!--   filter(!grepl("[.]1", Parameter)) %>% -->
+<!--   mutate(Parameter = str_remove_all(Parameter, "b_"), -->
+<!--          Parameter = str_replace_all(Parameter, "[.]", ":"), -->
+<!--          p = 1 - pd) %>% -->
+<!--   select(Parameter, p) %>% distinct() -->
+
+
+<!-- SEM_fixed_effects <- fixef(brms_SEM) %>%  -->
+<!--   as.data.frame() %>% -->
+<!--   rownames_to_column("Parameter") %>% -->
+<!--   left_join(pvalues, by = "Parameter") %>% -->
+<!--   mutate(` ` = ifelse(p < 0.05, "\\*", ""), -->
+<!--          ` ` = replace(` `, p > 0.05 & p < 0.1, "~"), -->
+<!--          ` ` = replace(` `, p < 0.01, "**"),  -->
+<!--          ` ` = replace(` `, p < 0.001, "***")) %>% -->
+<!--   mutate(Response = map_chr(strsplit(Parameter, split = "_"), ~ .x[1]), -->
+<!--          Response = str_replace_all(Response, "BODYMASS", "Body mass"), -->
+<!--          Response = str_replace_all(Response, "ACTIVITY", "Activity"), -->
+<!--          Response = str_replace_all(Response, "VCO2", "RQ"), -->
+<!--          Parameter = str_replace_all(Parameter, "BODYMASS", "Body mass"), -->
+<!--          Parameter = str_replace_all(Parameter, "ACTIVITY", "Activity"), -->
+<!--          Parameter = str_remove_all(Parameter, ".+_"), -->
+<!--          Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Polyandry"), -->
+<!--          Parameter = str_replace_all(Parameter, "CYCLEIII", "Cycle III"), -->
+<!--          Parameter = str_replace_all(Parameter, "CYCLEII", "Cycle II"), -->
+<!--          Parameter = str_replace_all(Parameter, "SEXM", "Male"), -->
+<!--          Parameter = str_replace_all(Parameter, ":", " x ")) %>% -->
+<!--   select(Response, Parameter, everything()) %>% -->
+<!--   mutate(Response = factor(Response,  -->
+<!--                            c("Activity", "Body mass", "VO2", "RQ"))) %>% -->
+<!--   arrange(Response) %>%  -->
+<!--   select(-Response)  -->
+
+<!-- saveRDS(SEM_fixed_effects, "online_supp/SEM_fixed_effects.rds") -->
+
+<!-- SEM_fixed_effects %>% -->
+<!--   kable(digits = 3) %>%  -->
+<!--   kable_styling(full_width = FALSE) %>% -->
+<!--   group_rows("Activity level", 1, 12) %>% -->
+<!--   group_rows("Body mass", 13, 16) %>% -->
+<!--   group_rows("VO2", 17, 34) %>% -->
+<!--   group_rows("Respiratory quotient (RQ)", 35, 52) -->
+<!-- ``` -->
+
+
+<!-- ### Plot posterior predictive checks -->
+<!-- Again, the fit looks ok. -->
+<!-- ```{r} -->
+<!-- pp_check(brms_SEM, resp = "VO2") -->
+<!-- ``` -->
+
+<!-- ### Extract the posterior estimates of the means -->
+<!-- These are used for plotting the range of means that is supported by the data, given our priors. The posterior estimates show the mean of each group, accounting for all the random effects (i.e. the design of the experiment), the covariance structure of the response variables, etc.  -->
+
+<!-- We will also use these posteriors for hypothesis testing, e.g. to see if the mean body size of the polyandry flies differs from that of monogamy flies, by subtracting one posterior from the other to get the posterior estimate of the _difference_ in means. If most (e.g. >95%) of this posterior difference lies on one side of zero, the two means may be considered 'significantly different' as conventionally defined. The magnitude of the difference in means is also an intuitive measure of effect size, and the posterior gives a sense of how precisely we have estimated effect size. -->
+
+<!-- ```{r posterior_predictions} -->
+<!-- new <- scaled_data %>% -->
+<!--   select(SELECTION, SEX, CYCLE) %>% -->
+<!--   distinct() %>% -->
+<!--   mutate(body_subset = TRUE) -->
+
+<!-- # Get the posterior estimate of body weight and activity, -->
+<!-- # for the 4 combinations of sex and monogamy/polandry treatment -->
+<!-- bodymass <- brms_SEM %>% -->
+<!--   fitted(newdata = new, re_formula = NA, -->
+<!--          resp = "BODYMASS", summary = FALSE) -->
+<!-- activity <- brms_SEM %>% -->
+<!--   fitted(newdata = new, re_formula = NA, -->
+<!--          resp = "ACTIVITY", summary = FALSE) -->
+
+<!-- new <- left_join( -->
+<!--   data.frame(new, t(bodymass)) %>% -->
+<!--     gather(draw, BODYMASS, starts_with("X")) %>% as_tibble(), -->
+<!--   data.frame(new, t(activity)) %>% -->
+<!--     gather(draw, ACTIVITY, starts_with("X")) %>% as_tibble(), -->
+<!--   by = c("SELECTION", "SEX", "CYCLE", "body_subset", "draw")) %>% -->
+<!--   mutate(draw = as.numeric(str_remove_all(draw, "X"))) -->
+
+<!-- new <- bind_rows( -->
+<!--   new %>% mutate(mediators_blocked = "Neither"), -->
+<!--   new %>% mutate(mediators_blocked = "Activity", -->
+<!--                  ACTIVITY = mean(scaled_data$ACTIVITY)), -->
+<!--   new %>% mutate(mediators_blocked = "Body mass", -->
+<!--                  BODYMASS = mean(scaled_data$BODYMASS)) -->
+<!--   ) %>% -->
+<!--   mutate(VO2 = as.numeric(NA), -->
+<!--          RQ = as.numeric(NA)) %>% arrange(draw) -->
+
+
+<!-- if(length(list.files("output/temp_files", full.names = TRUE)) < 20000){ -->
+<!--   lapply(1:max(new$draw), function(i){ -->
+<!--     print(i) -->
+<!--     focal <- new[new$draw == i, ] -->
+<!--     focal_draw <- focal$draw[1] -->
+<!--     focal$VO2 <- fitted(brms_SEM, re_formula = NA, resp = "VO2", -->
+<!--                         newdata = focal, subset = focal_draw)[,1] -->
+<!--     focal$RQ <- fitted(brms_SEM, re_formula = NA, resp = "VCO2", nlpar = "RQ", -->
+<!--                        newdata = focal, subset = focal_draw)[,1] -->
+<!--     focal %>% saveRDS(glue("output/temp_files/preds_{i}.rds")) -->
+<!--     rm(focal) -->
+<!--   }) -->
+<!-- } -->
+
+<!-- posterior_predictions <- list.files("output/temp_files", full.names = TRUE) %>% map_df(readRDS) -->
+<!-- new_both_blocked <-  (new[1:12, ]) %>% mutate(mediators_blocked = "Both", -->
+<!--                            BODYMASS = 0, -->
+<!--                            ACTIVITY = 0) %>% -->
+<!--   mutate(key = paste("V", 1:n(), sep = "")) %>% select(-RQ, -draw) -->
+
+<!-- posterior_predictions <- posterior_predictions %>% -->
+<!--   bind_rows( -->
+<!--     left_join( -->
+<!--       fitted(brms_SEM, re_formula = NA, resp = "VO2", -->
+<!--              newdata = new_both_blocked, summary = FALSE) %>% -->
+<!--         as.data.frame() %>% mutate(draw = 1:n()) %>% gather(key, VO2_pred, -draw) %>%  -->
+<!--         left_join(new_both_blocked, by = "key"), -->
+<!--       fitted(brms_SEM, re_formula = NA, resp = "VCO2", nlpar = "RQ", -->
+<!--              newdata = new_both_blocked, summary = FALSE) %>% -->
+<!--         as.data.frame() %>% mutate(draw = 1:n()) %>% gather(key, RQ, -draw) %>%  -->
+<!--         left_join(new_both_blocked, by = "key"),  -->
+<!--       by = c("draw", "key", "SELECTION", "SEX", "CYCLE",  -->
+<!--              "body_subset", "BODYMASS", "ACTIVITY", "mediators_blocked", "VO2") -->
+<!--     ) %>% as_tibble() %>%  -->
+<!--       select(-VO2) %>% rename(VO2 = VO2_pred) %>% -->
+<!--       select(!! names(posterior_predictions)) -->
+<!--   ) %>% mutate(RQ = 0.7 + 0.3 * inv_logit(RQ)) -->
+<!-- ``` -->
+
+
+<!-- ## Effect of selection treatment on mediator variables -->
+
+<!-- Here, we see that triads of flies from the M and P selection treatments differ strongly in activity levels, and (for females) in body mass. Thus, in subsequent analyses, we attempt to partition out the effect of selection on respiration that is due to the difference in body size, activity, or other unmeasured mediator variables (e.g. physiological differences). -->
+
+<!-- ```{r} -->
+<!-- parse_mediators <- function(x){ -->
+<!--   var <- x -->
+<!--   x <- get(x) -->
+<!--   ndraws <- nrow(x) -->
+<!--   colnames(x) <- apply(new[1:12, ], 1, paste0, collapse="~") -->
+<!--   gather(as_tibble(x)) %>% -->
+<!--     mutate(draw = rep(1:ndraws, 12), -->
+<!--            split = strsplit(key, split = "~"), -->
+<!--            SELECTION = map_chr(split, ~.x[1]), -->
+<!--            CYCLE = map_chr(split, ~.x[3]), -->
+<!--            SEX = map_chr(split, ~.x[2])) %>% -->
+<!--     select(draw, SEX, SELECTION, CYCLE, value) %>% -->
+<!--     mutate(mediator = var) -->
+<!-- } -->
+
+<!-- parsed_bodymass <- parse_mediators("bodymass") %>% -->
+<!--   filter(CYCLE == "I") -->
+
+<!-- parsed_activity <- parse_mediators("activity") -->
+
+<!-- pd <- position_dodge(0.4) -->
+<!-- overall_SD_VO2 <- scaled_data$VO2 %>% sd() -->
+<!-- overall_mean_VO2 <- scaled_data$VO2 %>% mean() -->
+<!-- overall_SD_RQ <- scaled_data$RQ %>% sd() -->
+<!-- overall_mean_RQ <- scaled_data$RQ %>% mean() -->
+
+
+
+<!-- posterior_means_plot <- posterior_predictions %>% -->
+<!--   select(draw, SELECTION, SEX, CYCLE, VO2, RQ) %>% -->
+<!--   mutate(VO2 = (VO2 - overall_mean_VO2) / overall_SD_VO2, -->
+<!--          RQ = (RQ - overall_mean_RQ) / overall_SD_RQ) %>% -->
+<!--   left_join((parsed_activity) %>% select(-mediator) %>% rename(Activity = value),  -->
+<!--             by = c("draw", "SELECTION", "SEX", "CYCLE")) %>% -->
+<!--   left_join((parsed_bodymass) %>% select(-mediator, -CYCLE) %>%  -->
+<!--               rename(`Body mass` = value),  -->
+<!--             by = c("draw", "SELECTION", "SEX")) %>% -->
+<!--   filter(!is.na(Activity)) %>% -->
+<!--   gather(resp, value, VO2, RQ, Activity, `Body mass`) %>% -->
+<!--   filter(!(resp == "Body mass" & CYCLE %in% c("II", "III"))) %>% -->
+<!--   mutate(CYCLE = replace(CYCLE, resp == "Body mass", "All")) %>% -->
+<!--   mutate(SEX = factor(ifelse(SEX == "M", "Males", "Females"), c("Males", "Females"))) %>% -->
+<!--   mutate(resp = replace(resp, resp == "VO2", "O2")) %>% -->
+<!--   mutate(resp = factor(resp, c("O2", "RQ", "Activity", "Body mass"))) %>% -->
+<!--   mutate(SELECTION = ifelse(SELECTION == "Mono", "Monogamy", "Polyandry")) %>% -->
+<!--   ggplot(aes(CYCLE, value, colour = SELECTION)) +  -->
+<!--   geom_hline(yintercept = 0, linetype = 2) +  -->
+<!--   stat_pointinterval(position = pd, fill = NA, .width = c(0.5, 0.95), alpha = 0.7) +  -->
+<!--   scale_colour_brewer(palette = "Set1", direction = -1, name = "") + -->
+<!--   theme_bw() +  -->
+<!--   theme(legend.position = "top", panel.grid.major.x = element_blank()) +  -->
+<!--   facet_grid(SEX ~ resp, scales = "free") + -->
+<!--   xlab("Cycle") +  -->
+<!--   ylab("Posterior estimate of the mean") -->
+
+<!-- posterior_means_plot %>% ggsave(filename = "output/posterior_means_plot.pdf", width = 6, height = 4.1) -->
+<!-- posterior_means_plot -->
+<!-- ``` -->
+
+<!-- **Figure 3:** LEGEND HERE -->
+
+
+
+
+<!-- ## Effect of selection treatment on respiration -->
+
+<!-- ### Plot the effect size for M/P treatment on O2 consumption -->
+
+<!-- The plot show the model's best estimates of the effect size of the M/P treatment on VO2, defined as the posterior estimate of difference in mean O2 consumption, divided by the standard deviation in O2 consumption (i.e. Cohen's $d$). Positive effect size indicates higher O2 consumption in the polyandry treatment compared to the monogamy treatment. -->
+
+<!-- Effect size was calculated while statistically controlling for one, both, or neither of the two mediator variables (termed "blocking" the mediator variables). Note that the effect size is smaller when activity is controlled for, while controlling for body size had no effect on effect size. Additionally, controlling for activity caused the effect size of the M/P treatment to become statistically indistinguishable from zero. The results therefore indicate that activity mediates most, perhaps all, of the effect of treatment on O2 consumption. -->
+
+
+<!-- ```{r fig.height=4.7, fig.width=8} -->
+<!-- mediation_figure_VO2 <- posterior_predictions %>% -->
+<!--   mutate(mediators_blocked = replace(mediators_blocked, mediators_blocked == "Body mass", "Body\nmass")) %>% -->
+<!--   mutate(mediators_blocked = factor(mediators_blocked, c("Neither", "Body\nmass", "Activity", "Both"))) %>% -->
+<!--   mutate(SEX = factor(ifelse(SEX=="M", "Males", "Females"), c("Males", "Females"))) %>% -->
+<!--   mutate(CYCLE = paste("Cycle", CYCLE)) %>% -->
+<!--   group_by(draw, SEX, CYCLE, mediators_blocked) %>% -->
+<!--   summarise(VO2_effect = (VO2[SELECTION == "Poly"] - VO2[SELECTION == "Mono"]) / overall_SD_VO2) %>% -->
+<!--   ungroup() %>%  -->
+<!--   ggplot(aes(x = mediators_blocked,  -->
+<!--              y = VO2_effect)) +  -->
+<!--   geom_hline(yintercept = 0, linetype = 2) +  -->
+<!--   stat_pointinterval(point_size = 4) +  -->
+<!--   facet_grid(SEX ~ CYCLE) + -->
+<!--  # coord_cartesian(ylim = c(-1.2, 2.4)) + -->
+<!--   ylab("Effect size of polyandry treatment\non O2 consumption (Cohen's d)") +  -->
+<!--   xlab("Mediator variables that were controlled for")  + -->
+<!--   theme_bw() + -->
+<!--   theme(legend.position = "none") -->
+
+<!-- mediation_figure_VO2 %>% ggsave(filename = "output/mediation_figure_VO2.pdf", height=4.7, width=8) -->
+
+<!-- mediation_figure_VO2 -->
+<!-- ``` -->
+
+<!-- **Figure S2**: LEGEND HERE -->
+
+<!-- ### Plot the effect size for M/P treatment on RQ -->
+
+<!-- Equivalent plot, for RQ. Positive effect size indicates higher RQ (i.e. more carbohydrate metabolism and/or less lipid metabolism) in the polyandry treatment compared to the monogamy treatment. -->
+
+<!-- Note that there is little evidence for an effect of treatment on RQ, except perhaps in Cycle III in females. However, we were not able to measure the effect of treatment on RQ with sufficient precision to rule out the existence of a large effect. -->
+
+<!-- ```{r fig.height=4.7, fig.width=8} -->
+
+<!-- mediation_figure_RQ <- posterior_predictions %>% -->
+<!--   mutate(mediators_blocked = factor(mediators_blocked, c("Neither", "Body mass", "Activity", "Both"))) %>% -->
+<!--   mutate(SEX = factor(ifelse(SEX=="M", "Males", "Females"), c("Males", "Females"))) %>% -->
+<!--   mutate(CYCLE = paste("Cycle", CYCLE)) %>% -->
+<!--   group_by(draw, SEX, CYCLE, mediators_blocked) %>% -->
+<!--   summarise(RQ_effect = (RQ[SELECTION == "Poly"] - RQ[SELECTION == "Mono"]) / overall_SD_RQ) %>% -->
+<!--   ungroup() %>%  -->
+<!--   ggplot(aes(x = mediators_blocked,  -->
+<!--              y = RQ_effect)) +  -->
+<!--   geom_hline(yintercept = 0, linetype = 2) +  -->
+<!--   stat_pointinterval(point_size = 4) +  -->
+<!--   facet_grid(SEX ~ CYCLE) + -->
+<!--   ylab("Effect size of polyandry treatment\non RQ (Cohen's d)") +  -->
+<!--   xlab("Mediator variables that were controlled for")  + -->
+<!--   theme_bw() + -->
+<!--   theme(legend.position = "none") -->
+
+<!-- mediation_figure_RQ %>% ggsave(filename = "output/mediation_figure_RQ.pdf", height=4.7, width=8) -->
+
+<!-- mediation_figure_RQ -->
+<!-- ``` -->
+
+<!-- **Figure S3**: LEGEND HERE -->
 
 <!-- ## Table of posterior means {.tabset} -->
 
