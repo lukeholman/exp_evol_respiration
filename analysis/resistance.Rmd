@@ -1,7 +1,5 @@
 ---
-title: "resistance"
-author: "lukeholman"
-date: "2020-11-30"
+title: "Desiccation and starvation resistance"
 output: 
   workflowr::wflow_html:
     code_folding: hide 
