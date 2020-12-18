@@ -1,7 +1,5 @@
 ---
-title: "juvenile_development"
-author: "lukeholman"
-date: "2020-11-30"
+title: "Juvenile development time"
 output: 
   workflowr::wflow_html:
     code_folding: hide 
