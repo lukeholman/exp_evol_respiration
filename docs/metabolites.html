@@ -446,7 +446,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-11
+<strong>Last updated:</strong> 2020-12-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedcb0a6748adc8b00e669d4aa059d550efb08563etargetblankdcb0a67a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/dcb0a6748adc8b00e669d4aa059d550efb08563e" target="_blank">dcb0a67</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea3b516e81f5a9959da2cdd66ffa0bc83810ab5eatargetblanka3b516ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a3b516e81f5a9959da2cdd66ffa0bc83810ab5ea" target="_blank">a3b516e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreedcb0a6748adc8b00e669d4aa059d550efb08563etargetblankdcb0a67a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea3b516e81f5a9959da2cdd66ffa0bc83810ab5eatargetblanka3b516ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/dcb0a6748adc8b00e669d4aa059d550efb08563e" target="_blank">dcb0a67</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a3b516e81f5a9959da2cdd66ffa0bc83810ab5ea" target="_blank">a3b516e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -554,8 +554,23 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
+    Ignored:    .Rapp.history
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  output/brms_SEM_respiration.rds
+    Untracked:  output/metabolite_interaction_plot.pdf
+    Untracked:  output/metabolite_plot.pdf
+    Untracked:  output/respiration_figure.pdf
+    Untracked:  post_preds_respiration.rds
+
+Unstaged changes:
+    Deleted:    output/Figure 2.pdf
+    Deleted:    output/bayesian_R2_values.rds
+    Deleted:    output/brms_SEM.rds
+    Deleted:    output/pairs_plot.pdf
 
 </code></pre>
 <p>
@@ -594,6 +609,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/a3b516e81f5a9959da2cdd66ffa0bc83810ab5ea/analysis/metabolites.Rmd" target="_blank">a3b516e</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Neater figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/b6cf554cb1d8efc059edda993ef7a349d3178f61/docs/metabolites.html" target="_blank">b6cf554</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1147,7 +1196,12 @@ Tweaks Nov 2020
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
-<pre class="r"><code>library(tidyverse)
+<pre class="r"><code># it was slightly harder to install the showtext package. On Mac, I did this:
+# installed &#39;homebrew&#39; using Terminal: ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot; 
+# installed &#39;libpng&#39; using Terminal: brew install libpng
+# installed &#39;showtext&#39; in R using: devtools::install_github(&quot;yixuan/showtext&quot;)  
+
+library(tidyverse)
 library(GGally)
 library(gridExtra)
 library(ggridges)
@@ -1156,7 +1210,13 @@ library(tidybayes)
 library(DT)
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
+library(showtext)
 output_max_height() # a knitrhook option
+
+# set up nice font for figure
+nice_font &lt;- &quot;Lora&quot;
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
 
 options(stringsAsFactors = FALSE)</code></pre>
 </div>
@@ -1170,7 +1230,7 @@ options(stringsAsFactors = FALSE)</code></pre>
 <li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
 <li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
-<p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Larger flies will have more lipids, carbs, etc., and this may vary by sex and treatment both directly and indirectly.</p>
+<p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Heavier flies might contain different proportions of lipids, chitin, etc., and these proportions might vary by sex and treatment (both because of the differences in dry weight, or because of weight-independent effects of sex and treatment on metabolite composition).</p>
 <pre class="r"><code>metabolites &lt;- read_csv(&#39;data/3.metabolite_data.csv&#39;) %&gt;%
   mutate(sex = ifelse(sex == &quot;m&quot;, &quot;Male&quot;, &quot;Female&quot;),
          line = paste(treatment, line, sep = &quot;&quot;),
@@ -1221,7 +1281,7 @@ scaled_metabolites &lt;- metabolites %&gt;%
           extend = &#39;pdf&#39;,
           pageSize = &#39;A4&#39;,
           orientation = &#39;landscape&#39;,
-          filename = &#39;Apis_methylation&#39;)),
+          filename = &#39;Dpseudo_metabolites&#39;)),
       pageLength = 50
     )
   )
@@ -1232,7 +1292,7 @@ scaled_metabolites %&gt;%
   mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %&gt;%
   my_data_table()</code></pre>
 <div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Apis_methylation"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_metabolites"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="simple-plots" class="section level3">
 <h3>Simple plots</h3>
@@ -1257,7 +1317,8 @@ grid.arrange(
     facet_grid( ~ variable) +
     theme_bw() +
     xlab(&quot;Sex&quot;) + ylab(&quot;Concentration&quot;) +
-    theme(legend.position = &#39;top&#39;) + 
+    theme(legend.position = &#39;top&#39;,
+          text = element_text(family = nice_font)) + 
     scale_fill_manual(values = cols, name = &quot;&quot;),
   
   arrangeGrob(
@@ -1271,7 +1332,8 @@ grid.arrange(
       facet_grid( ~ variable) +
       theme_bw() +
       xlab(&quot;Dry weight&quot;) + ylab(&quot;Concentration&quot;) +
-      theme(legend.position = &#39;none&#39;) + 
+      theme(legend.position = &#39;none&#39;,
+            text = element_text(family = nice_font),) + 
       scale_colour_manual(values = cols, name = &quot;&quot;) + 
       scale_fill_manual(values = cols, name = &quot;&quot;),
     scaled_metabolites %&gt;% 
@@ -1598,8 +1660,8 @@ prior1</code></pre>
  cauchy(0, 0.01)    sd       line    Dryweight                    user
 </pre>
 </div>
-<div id="define-the-six-sub-models" class="section level3">
-<h3>Define the six sub-models</h3>
+<div id="define-the-sems-sub-models" class="section level3">
+<h3>Define the SEM’s sub-models</h3>
 <p>The fixed effects formula is <code>sex * treatment + Dryweight</code> (or <code>sex * treatment</code> in the case of the model of dry weight). The random effects part of the formula indicates that the 8 independent selection lines may differ in their means, and that the treatment effect may vary in sign/magnitude between lines. The notation <code>| p |</code> means that the model estimates the correlations in line effects (both slopes and intercepts) between the 6 response variables. Finally, the notation <code>set_rescor(TRUE)</code> means that the model should estimate the residual correlations between the response variables.</p>
 <pre class="r"><code>brms_formula &lt;- 
   
@@ -2637,7 +2699,7 @@ summary_dat2 &lt;- treat_diff_standard_dryweight %&gt;%
 sampled_draws &lt;- sample(unique(fitted_values$draw), 100)
 ylims &lt;- c(-1.8, 1.8)
 
-treat_diff_actual_dryweight %&gt;%
+p1 &lt;- treat_diff_actual_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
@@ -2653,9 +2715,14 @@ treat_diff_actual_dryweight %&gt;%
   theme_bw() +
   theme(legend.position = &#39;none&#39;,
         strip.background = element_blank(),
+        text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
-  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
+  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)
+
+
+ggsave(&quot;output/metabolite_plot.pdf&quot;, p1, height=4, width=6)
+p1</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
@@ -2679,6 +2746,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/b6cf554cb1d8efc059edda993ef7a349d3178f61/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">b6cf554</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/a88f03722942e3581b3b24b5806e250213ce2335/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">a88f037</a>
@@ -2769,6 +2847,7 @@ lukeholman
   theme_bw() +
   theme(legend.position = &#39;none&#39;,
         strip.background = element_blank(),
+        text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
@@ -2795,6 +2874,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/b6cf554cb1d8efc059edda993ef7a349d3178f61/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">b6cf554</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-11
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/a88f03722942e3581b3b24b5806e250213ce2335/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">a88f037</a>
@@ -3390,7 +3480,7 @@ Male
             .groups = &quot;drop&quot;) # males - females
 
 
-treatsex_interaction_data1 %&gt;%
+p2 &lt;- treatsex_interaction_data1 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
@@ -3399,8 +3489,12 @@ treatsex_interaction_data1 %&gt;%
   scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
   theme_bw() +
   theme(legend.position = &#39;none&#39;,
+        text = element_text(family = nice_font),
         strip.background = element_blank()) +
-  ylab(&quot;Posterior density&quot;)</code></pre>
+  ylab(&quot;Posterior density&quot;)
+
+ggsave(&quot;output/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
+p2</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
@@ -3481,6 +3575,7 @@ treatsex_interaction_data2 %&gt;%
   scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
   theme_bw() +
   theme(legend.position = &#39;none&#39;,
+        text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -3829,9 +3924,9 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 DT_0.13          tidybayes_2.0.3  brms_2.14.4      Rcpp_1.0.4.6     ggridges_0.5.2   gridExtra_2.3   
-[10] GGally_1.5.0     forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1      tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2   
-[19] tidyverse_1.3.0  workflowr_1.6.2 
+ [1] showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2   knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 DT_0.13          tidybayes_2.0.3  brms_2.14.4     
+[10] Rcpp_1.0.4.6     ggridges_0.5.2   gridExtra_2.3    GGally_1.5.0     forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
+[19] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         svUnit_1.0.3         splines_4.0.3        crosstalk_1.1.0.1   
