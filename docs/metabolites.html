@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea3b516e81f5a9959da2cdd66ffa0bc83810ab5eatargetblanka3b516ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a3b516e81f5a9959da2cdd66ffa0bc83810ab5ea" target="_blank">a3b516e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebcaef7098fc2a097bca23309163b11a22c280414targetblankbcaef70a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bcaef7098fc2a097bca23309163b11a22c280414" target="_blank">bcaef70</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea3b516e81f5a9959da2cdd66ffa0bc83810ab5eatargetblanka3b516ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebcaef7098fc2a097bca23309163b11a22c280414targetblankbcaef70a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a3b516e81f5a9959da2cdd66ffa0bc83810ab5ea" target="_blank">a3b516e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bcaef7098fc2a097bca23309163b11a22c280414" target="_blank">bcaef70</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -609,6 +609,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/bcaef7098fc2a097bca23309163b11a22c280414/analysis/metabolites.Rmd" target="_blank">bcaef70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Neater figures
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/metabolites.html" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1222,7 +1256,7 @@ options(stringsAsFactors = FALSE)</code></pre>
 </div>
 <div id="load-metabolite-composition-data" class="section level2">
 <h2>Load metabolite composition data</h2>
-<p>This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the weights of five metabolites which together equal the dry weight. These are:</p>
+<p>This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the concentrations of five metabolites. These are:</p>
 <ul>
 <li><code>Lipid_conc</code> (i.e. the weight of the hexane fraction, divided by the full dry weight),</li>
 <li><code>Carbohydrate_conc</code> (i.e. the weight of the aqueous fraction, divided by the full dry weight),</li>
@@ -1230,7 +1264,7 @@ options(stringsAsFactors = FALSE)</code></pre>
 <li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
 <li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
-<p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight to affect our five response variables of interest. Heavier flies might contain different proportions of lipids, chitin, etc., and these proportions might vary by sex and treatment (both because of the differences in dry weight, or because of weight-independent effects of sex and treatment on metabolite composition).</p>
+<p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.</p>
 <pre class="r"><code>metabolites &lt;- read_csv(&#39;data/3.metabolite_data.csv&#39;) %&gt;%
   mutate(sex = ifelse(sex == &quot;m&quot;, &quot;Male&quot;, &quot;Female&quot;),
          line = paste(treatment, line, sep = &quot;&quot;),
@@ -1369,6 +1403,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-5-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/49e77920343139531454be7392056f8f6c56563f/docs/figure/metabolites.Rmd/unnamed-chunk-5-1.png" target="_blank">49e7792</a>
 </td>
 <td>
@@ -1480,6 +1525,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-6-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/43cc270470695d3d364de840c3d752ca0810a05d/docs/figure/metabolites.Rmd/unnamed-chunk-6-1.png" target="_blank">43cc270</a>
@@ -1745,6 +1801,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/bb96acf3c4f141f3382729ea1d034d06d79ca586/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">bb96acf</a>
@@ -2748,6 +2815,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/b6cf554cb1d8efc059edda993ef7a349d3178f61/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">b6cf554</a>
 </td>
 <td>
@@ -2874,6 +2952,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/b6cf554cb1d8efc059edda993ef7a349d3178f61/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">b6cf554</a>
@@ -3520,6 +3609,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">e5c580f</a>
 </td>
 <td>
@@ -3601,6 +3701,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">034431b</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/e5c580f6fafb848475c4b371a28e74210f3635ba/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">e5c580f</a>
