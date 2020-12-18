@@ -190,7 +190,7 @@ grid.arrange(
 ```
 
 
-## Plot of correlations between variables
+### Plot of correlations between variables
 
 Some of the metabolites, especially lipid concentration, are correlated with dry weight. There is also a large difference in dry weight between sexes (and treatments, to a less extent), and sex and treatment effects are evident for some of the metabolites in the raw data. Some of the metabolites are weakly correlated with other metabolites, e.g. lipid and glycogen concentration.
 
@@ -217,11 +217,12 @@ modified_box_no_facet <- function(data, mapping, ...) {
     scale_fill_manual(values = cols)
 }
 
-pairs_plot <- scaled_metabolites %>% 
+metabolite_pairs_plot <- scaled_metabolites %>% 
   arrange(sex, treatment) %>%
   select(-line, -sex, -treatment) %>%
   rename(`Sex and treatment` = sextreat) %>%
   rename_all(~ str_replace_all(.x, "_", " ")) %>%
+  
   ggpairs(aes(colour = `Sex and treatment`, fill = `Sex and treatment`),
           diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
                       discrete = wrap("blank")),
@@ -231,7 +232,9 @@ pairs_plot <- scaled_metabolites %>%
           upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1),
                        discrete = wrap("blank"),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
-pairs_plot
+
+metabolite_pairs_plot %>% ggsave(filename = "output/metabolite_pairs_plot.pdf", height = 10, width = 10)
+metabolite_pairs_plot
 ```
 
 ### Mean dry weight
