@@ -537,16 +537,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecc92e06ab951064b4abf5c1082b96c40ce6f2239targetblankcc92e06a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cc92e06ab951064b4abf5c1082b96c40ce6f2239" target="_blank">cc92e06</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7dcf48a9a626dbaac2d1da8ad91ae16cef693eactargetblank7dcf48aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7dcf48a9a626dbaac2d1da8ad91ae16cef693eac" target="_blank">7dcf48a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreecc92e06ab951064b4abf5c1082b96c40ce6f2239targetblankcc92e06a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7dcf48a9a626dbaac2d1da8ad91ae16cef693eactargetblank7dcf48aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/cc92e06ab951064b4abf5c1082b96c40ce6f2239" target="_blank">cc92e06</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7dcf48a9a626dbaac2d1da8ad91ae16cef693eac" target="_blank">7dcf48a</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -612,6 +612,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7dcf48a9a626dbaac2d1da8ad91ae16cef693eac/analysis/respirometry.Rmd" target="_blank">7dcf48a</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Fix pairs plot
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/2791e70bfba58cbb5318dbbb6a52cb0c9bbccdef/docs/respirometry.html" target="_blank">2791e70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2413,6 +2447,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2791e70bfba58cbb5318dbbb6a52cb0c9bbccdef/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">2791e70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/a14c3784a106e71d73e04484412547fc29aa1d82/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">a14c378</a>
 </td>
 <td>
@@ -3892,7 +3937,7 @@ posterior_effect_size &lt;- post_preds_respiration %&gt;%
           axis.ticks.y = element_blank()) + ylab(NULL),
   nrow = 1, widths = c(0.38, 0.62), 
   left = textGrob(&quot;Selection treatment&quot;, rot = 90, gp=gpar(fontfamily = nice_font)),
-  top = textGrob(&quot;A. Mediator variables&quot;, hjust = 1, gp=gpar(fontfamily = nice_font)) 
+  top = textGrob(&quot;A. Mediator variables (means)&quot;, hjust = 1, gp=gpar(fontfamily = nice_font)) 
 )
 
 p2 &lt;- arrangeGrob(
@@ -3903,7 +3948,7 @@ p2 &lt;- arrangeGrob(
     geom_vline(xintercept = 0, linetype = 2) + 
     stat_halfeyeh(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(expression(VO[2]~effect~size~(P~-~M))) + 
+    xlab(expression(VO[2]~(P~-~M))) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = &quot;Set2&quot;) + 
     theme_bw() +
@@ -3919,7 +3964,7 @@ p2 &lt;- arrangeGrob(
     geom_vline(xintercept = 0, linetype = 2) + 
     stat_halfeyeh(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(&quot;RQ effect size (P - M)&quot;) + 
+    xlab(&quot;RQ (P - M)&quot;) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = &quot;Set2&quot;) + 
     theme_bw() +
@@ -3930,7 +3975,7 @@ p2 &lt;- arrangeGrob(
           strip.background = element_blank()),
   ncol = 1, 
   left = textGrob(&quot;Mediator variables controlled for&quot;, rot = 90, gp=gpar(fontfamily = nice_font)),
-  top = textGrob(&quot;B. Measures of respiration&quot;, hjust = 1, gp=gpar(fontfamily = nice_font)) 
+  top = textGrob(&quot;B. Respiration (effect sizes)&quot;, hjust = 1, gp=gpar(fontfamily = nice_font)) 
 )
 
 p_filler &lt;- ggplot() + theme_void()
@@ -3939,13 +3984,50 @@ grid.arrange(p1,
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) %&gt;%
-  ggsave(&quot;output/respiration_figure.pdf&quot;, plot = ., height = 7.5, width = 5)
+  ggsave(&quot;output/respiration_figure.pdf&quot;, plot = ., height = 8, width = 5)
 
 grid.arrange(p1, 
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) </code></pre>
 <p><img src="figure/respirometry.Rmd/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-19-1">
+Past versions of unnamed-chunk-19-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-19-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/2791e70bfba58cbb5318dbbb6a52cb0c9bbccdef/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">2791e70</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="tables" class="section level4">
 <h4>Tables</h4>
