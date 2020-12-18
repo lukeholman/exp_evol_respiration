@@ -228,7 +228,7 @@ The model fits the selection line treatment and sex as fixed effects, as well as
 
 #### Activity level
 
-`ACTIVITY ~ SELECTION * SEX + (SELECTION | p | LINE) + (1 | SAMPLE)`  
+`ACTIVITY ~ SELECTION * SEX * CYCLE + (SELECTION | p | LINE) + (1 | SAMPLE)`  
 
 The model fits the selection line treatment and sex as fixed effects, as well as crossed random intercepts for line and sample.
 
