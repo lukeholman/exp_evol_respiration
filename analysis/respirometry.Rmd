@@ -67,6 +67,7 @@ This analysis set out to test whether sexual selection treatment had an effect o
 
 We expect body weight and activity levels to vary between the sexes and potentially between treatments. In turn, we expect these two 'mediator variables' to co-vary with respiratory flux, e.g. because larger flies have more respiring tissue, and because more active flies would have more active metabolism. There might also be weight- and activity-independent effects of sex and selection treatment on respiration, e.g. because of differences in resting metabolic rate.
 
+### Raw numbers 
 
 ```{r}
 respiration <- read_csv("data/2.metabolic_rates.csv") %>%
@@ -99,35 +100,8 @@ respiration %>%
   my_data_table()
 ```
 
-## Draw the causal diagram
 
-```{r}
-DiagrammeR::grViz('digraph {
-
-graph [layout = dot, rankdir = LR]
-
-# define the global styles of the nodes. We can override these in box if we wish
-node [shape = rectangle, style = filled, fillcolor = Linen]
-
-"Metabolic\nrate" [shape = oval, fillcolor = Beige]
-"Metabolic\nsubstrate" [shape = oval, fillcolor = Beige]
-"Other factors\n(e.g. physiology)" [shape = oval, fillcolor = Beige]
-
-# edge definitions with the node IDs
-"Mating system\ntreatment (M vs P)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"} -> {"Metabolic\nrate", "Metabolic\nsubstrate"} 
-
-{"Metabolic\nrate"} -> {"O\u2082 consumption", "CO\u2082 production"}
-{"O\u2082 consumption", "CO\u2082 production"} -> "Respiratory\nquotient (RQ)"
-{"Metabolic\nsubstrate"} -> "Respiratory\nquotient (RQ)"
-}')
-```
-<br></br>
-**Figure XX:** Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised _a priori_ between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.
-
-
-## Inspecting the raw data
-
-Create a "pairs plot" of the raw data. 
+### Plot of correlations between variables
 
 ```{r fig.height=10, fig.width=10}
 modified_densityDiag <- function(data, mapping, ...) {
@@ -173,6 +147,45 @@ pairs_plot
 
 **Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
 
+
+### Mean body weight of triads
+
+```{r}
+se <- function(x) sd(x) / sqrt(length(x))
+respiration %>% 
+  select(SEX, SELECTION, BODYMASS) %>%
+  distinct() %>%
+  group_by(SEX, SELECTION) %>% 
+  summarise(mean_dwt = mean(BODYMASS * 1000 / 3), 
+            SE = se(BODYMASS * 1000 / 3), 
+            n = n()) %>% 
+  kable(digits = 3) %>% kable_styling(full_width = FALSE)
+```
+
+## Draw the causal diagram
+
+```{r}
+DiagrammeR::grViz('digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+"Metabolic\nrate" [shape = oval, fillcolor = Beige]
+"Metabolic\nsubstrate" [shape = oval, fillcolor = Beige]
+"Other factors\n(e.g. physiology)" [shape = oval, fillcolor = Beige]
+
+# edge definitions with the node IDs
+"Mating system\ntreatment (M vs P)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"} -> {"Metabolic\nrate", "Metabolic\nsubstrate"} 
+
+{"Metabolic\nrate"} -> {"O\u2082 consumption", "CO\u2082 production"}
+{"O\u2082 consumption", "CO\u2082 production"} -> "Respiratory\nquotient (RQ)"
+{"Metabolic\nsubstrate"} -> "Respiratory\nquotient (RQ)"
+}')
+```
+<br></br>
+**Figure XX:** Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised _a priori_ between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.
 
 
 ## Fit Bayesian structural equation model (SEM) via `brms`
