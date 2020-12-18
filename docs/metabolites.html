@@ -388,7 +388,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">respiration_exp_evolution</a>
+      <a class="navbar-brand" href="index.html"> </a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -396,7 +396,16 @@ div.tocify {
   <a href="index.html">Home</a>
 </li>
 <li>
-  <a href="about.html">About</a>
+  <a href="juvenile_development.html">Development</a>
+</li>
+<li>
+  <a href="resistance.html">Resistance</a>
+</li>
+<li>
+  <a href="metabolites.html">Respirometry</a>
+</li>
+<li>
+  <a href="metabolites.html">Metabolites</a>
 </li>
 <li>
   <a href="license.html">License</a>
@@ -537,16 +546,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebcaef7098fc2a097bca23309163b11a22c280414targetblankbcaef70a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bcaef7098fc2a097bca23309163b11a22c280414" target="_blank">bcaef70</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec058bc3ee919dc3f83d62ff20b0c71317aa1f6bftargetblankc058bc3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c058bc3ee919dc3f83d62ff20b0c71317aa1f6bf" target="_blank">c058bc3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreebcaef7098fc2a097bca23309163b11a22c280414targetblankbcaef70a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec058bc3ee919dc3f83d62ff20b0c71317aa1f6bftargetblankc058bc3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/bcaef7098fc2a097bca23309163b11a22c280414" target="_blank">bcaef70</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c058bc3ee919dc3f83d62ff20b0c71317aa1f6bf" target="_blank">c058bc3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -562,11 +571,15 @@ Ignored files:
 Untracked files:
     Untracked:  output/brms_SEM_respiration.rds
     Untracked:  output/metabolite_interaction_plot.pdf
+    Untracked:  output/metabolite_pairs_plot.pdf
     Untracked:  output/metabolite_plot.pdf
     Untracked:  output/respiration_figure.pdf
+    Untracked:  output/respiration_pairs_plot.pdf
     Untracked:  post_preds_respiration.rds
 
 Unstaged changes:
+    Modified:   analysis/_site.yml
+    Modified:   analysis/about.Rmd
     Deleted:    output/Figure 2.pdf
     Deleted:    output/bayesian_R2_values.rds
     Deleted:    output/brms_SEM.rds
@@ -609,6 +622,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/c058bc3ee919dc3f83d62ff20b0c71317aa1f6bf/analysis/metabolites.Rmd" target="_blank">c058bc3</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+new menu
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/b1f42b1ec38dcc02877b243035cfba2e5745b5e5/docs/metabolites.html" target="_blank">b1f42b1</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1461,9 +1508,8 @@ lukeholman
 </div>
 </div>
 </div>
-</div>
-<div id="plot-of-correlations-between-variables" class="section level2">
-<h2>Plot of correlations between variables</h2>
+<div id="plot-of-correlations-between-variables" class="section level3">
+<h3>Plot of correlations between variables</h3>
 <p>Some of the metabolites, especially lipid concentration, are correlated with dry weight. There is also a large difference in dry weight between sexes (and treatments, to a less extent), and sex and treatment effects are evident for some of the metabolites in the raw data. Some of the metabolites are weakly correlated with other metabolites, e.g. lipid and glycogen concentration.</p>
 <pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, colour = &quot;grey10&quot;, ...) + 
@@ -1487,11 +1533,12 @@ modified_box_no_facet &lt;- function(data, mapping, ...) {
     scale_fill_manual(values = cols)
 }
 
-pairs_plot &lt;- scaled_metabolites %&gt;% 
+metabolite_pairs_plot &lt;- scaled_metabolites %&gt;% 
   arrange(sex, treatment) %&gt;%
   select(-line, -sex, -treatment) %&gt;%
   rename(`Sex and treatment` = sextreat) %&gt;%
   rename_all(~ str_replace_all(.x, &quot;_&quot;, &quot; &quot;)) %&gt;%
+  
   ggpairs(aes(colour = `Sex and treatment`, fill = `Sex and treatment`),
           diag = list(continuous = wrap(modified_densityDiag, alpha = 0.7),
                       discrete = wrap(&quot;blank&quot;)),
@@ -1501,7 +1548,9 @@ pairs_plot &lt;- scaled_metabolites %&gt;%
           upper = list(continuous = wrap(modified_points, alpha = 0.7, size = 1.1),
                        discrete = wrap(&quot;blank&quot;),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
-pairs_plot</code></pre>
+
+metabolite_pairs_plot %&gt;% ggsave(filename = &quot;output/metabolite_pairs_plot.pdf&quot;, height = 10, width = 10)
+metabolite_pairs_plot</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
@@ -1549,6 +1598,7 @@ lukeholman
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </div>
 <div id="mean-dry-weight" class="section level3">
