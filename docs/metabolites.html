@@ -554,16 +554,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree09db1ca66832e3baf303b758f7c5c6b89c0b444dtargetblank09db1caa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/09db1ca66832e3baf303b758f7c5c6b89c0b444d" target="_blank">09db1ca</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02ctargetblank99fd9d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02c" target="_blank">99fd9d4</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree09db1ca66832e3baf303b758f7c5c6b89c0b444dtargetblank09db1caa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02ctargetblank99fd9d4a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/09db1ca66832e3baf303b758f7c5c6b89c0b444d" target="_blank">09db1ca</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02c" target="_blank">99fd9d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -574,23 +574,14 @@ Ignored files:
     Ignored:    .Rapp.history
     Ignored:    .Rproj.user/
     Ignored:    analysis/.DS_Store
+    Ignored:    code/old mediator variable code.R
     Ignored:    output/.DS_Store
-    Ignored:    output/brms_SEM_respiration.rds
 
 Untracked files:
-    Untracked:  output/metabolite_interaction_plot.pdf
-    Untracked:  output/metabolite_pairs_plot.pdf
-    Untracked:  output/metabolite_plot.pdf
-    Untracked:  output/respiration_figure.pdf
-    Untracked:  output/respiration_pairs_plot.pdf
-    Untracked:  post_preds_respiration.rds
+    Untracked:  figures/
 
 Unstaged changes:
     Modified:   .gitignore
-    Deleted:    output/Figure 2.pdf
-    Deleted:    output/bayesian_R2_values.rds
-    Deleted:    output/brms_SEM.rds
-    Deleted:    output/pairs_plot.pdf
 
 </code></pre>
 <p>
@@ -629,6 +620,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02c/analysis/metabolites.Rmd" target="_blank">99fd9d4</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+new menu
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/0d5bcc951f100a27ab74393063a546d55dd75d78/docs/metabolites.html" target="_blank">0d5bcc9</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1590,7 +1615,7 @@ metabolite_pairs_plot &lt;- scaled_metabolites %&gt;%
                        discrete = wrap(&quot;blank&quot;),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-metabolite_pairs_plot %&gt;% ggsave(filename = &quot;output/metabolite_pairs_plot.pdf&quot;, height = 10, width = 10)
+metabolite_pairs_plot %&gt;% ggsave(filename = &quot;figures/metabolite_pairs_plot.pdf&quot;, height = 10, width = 10)
 metabolite_pairs_plot</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
@@ -2879,7 +2904,7 @@ p1 &lt;- treat_diff_actual_dryweight %&gt;%
   ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)
 
 
-ggsave(&quot;output/metabolite_plot.pdf&quot;, p1, height=4, width=6)
+ggsave(&quot;figures/metabolite_plot.pdf&quot;, p1, height=4, width=6)
 p1</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3673,7 +3698,7 @@ p2 &lt;- treatsex_interaction_data1 %&gt;%
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)
 
-ggsave(&quot;output/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
+ggsave(&quot;figures/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
 p2</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
