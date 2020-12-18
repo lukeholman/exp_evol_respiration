@@ -693,14 +693,20 @@ posterior_effect_size %>%
   select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %>%
   group_by(mediators_blocked, SEX, CYCLE) %>%
   summarise(x = list(posterior_summary(VO2_effect) %>% 
-                       as.data.frame()), .groups = "drop") %>%
+                        as.data.frame()),
+            p = 1 - as.numeric(bayestestR::p_direction(VO2_effect)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
   unnest(x) %>% mutate(Response = "VO2 effect size") %>%
   bind_rows(
     posterior_effect_size %>%
-      select(mediators_blocked, SEX, CYCLE, VO2_effect, draw) %>%
+      select(mediators_blocked, SEX, CYCLE, RQ_effect, draw) %>%
       group_by(mediators_blocked, SEX, CYCLE) %>%
-      summarise(x = list(posterior_summary(VO2_effect) %>% 
-                           as.data.frame()), .groups = "drop") %>%
+       summarise(x = list(posterior_summary(RQ_effect) %>% 
+                        as.data.frame()),
+            p = 1 - as.numeric(bayestestR::p_direction(RQ_effect)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
       unnest(x) %>% mutate(Response = "RQ effect size")) %>%
   select(-Response) %>% rename(`Mediators blocked` = mediators_blocked, Sex = SEX, Cycle = CYCLE) %>%
   kable(digits = 3) %>%
@@ -710,11 +716,48 @@ posterior_effect_size %>%
 ```
 
 
+## Posterior difference in treatment effect size between sexes 
+
+This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each cycle, for VO$_2$. We find that the effect of the P/M treatment on VO$_2$ is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.
+
+### Figure {.tabset}
+
+```{r}
+treatsex_interaction <- posterior_effect_size %>%
+  rename(Cycle = CYCLE) %>%
+  group_by(draw, Cycle, mediators_blocked) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = VO2_effect[1] - VO2_effect[2],
+            .groups = "drop")
+
+treatsex_interaction %>%
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeyeh() +
+  facet_grid(mediators_blocked ~ Cycle) +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab("Posterior density")
+```
 
 
+### Table {.tabset}
 
-
-
+```{r}
+treatsex_interaction %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
+  group_by(Cycle, mediators_blocked) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
+```
 
 
 
