@@ -160,8 +160,9 @@ respiration_pairs_plot
 
 **Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
 
+### Group means {.tabset}
 
-### Mean body weight per individual
+#### Body weight (per individual)
 
 ```{r}
 se <- function(x) sd(x) / sqrt(length(x))
@@ -175,16 +176,54 @@ respiration %>%
   kable(digits = 2) %>% kable_styling(full_width = FALSE)
 ```
 
-### Mean activity level
+#### Mean activity level
 
 ```{r}
-se <- function(x) sd(x) / sqrt(length(x))
 respiration %>% 
   select(SEX, SELECTION, ACTIVITY, CYCLE) %>%
   distinct() %>%
   group_by(SEX, SELECTION, CYCLE) %>% 
   summarise(`Mean activity level` = mean(ACTIVITY * 1000 / 3), 
             SE = se(ACTIVITY * 1000 / 3), 
+            n = n()) %>% 
+  kable(digits = 2) %>% kable_styling(full_width = FALSE)
+```
+
+#### Mean VO$_2$
+
+```{r}
+respiration %>% 
+  select(SEX, SELECTION, VO2, CYCLE) %>%
+  distinct() %>%
+  group_by(SEX, SELECTION, CYCLE) %>% 
+  summarise(`Mean VO2` = mean(VO2 * 1000), 
+            SE = se(VO2 * 1000), 
+            n = n()) %>% 
+  kable(digits = 2) %>% kable_styling(full_width = FALSE)
+```
+
+#### Mean VCO$_2$
+
+```{r}
+respiration %>% 
+  select(SEX, SELECTION, VCO2, CYCLE) %>%
+  distinct() %>%
+  group_by(SEX, SELECTION, CYCLE) %>% 
+  summarise(`Mean VCO2` = mean(VCO2 * 1000), 
+            SE = se(VCO2 * 1000), 
+            n = n()) %>% 
+  kable(digits = 2) %>% kable_styling(full_width = FALSE)
+```
+
+#### Mean RQ
+
+```{r}
+respiration %>% 
+  select(SEX, SELECTION, RQ, CYCLE) %>%
+  distinct() %>%
+  group_by(SEX, SELECTION, CYCLE) %>% 
+  summarise(`Mean VO2` = mean(RQ), 
+            SE = se(RQ), 
             n = n()) %>% 
   kable(digits = 2) %>% kable_styling(full_width = FALSE)
 ```
