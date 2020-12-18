@@ -50,16 +50,23 @@ showtext_auto()
 inv_logit <- function(x) 1 / (1 + exp(-x))
 ```
 
-## Load respirometry data
+## Inspect the raw data
 
+This analysis set out to test whether sexual selection treatment had an effect on respiration in the flies. The variables in the raw data are as follows:
 
-This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the weights of five metabolites which together equal the dry weight. These are:
+- `SELECTION` The selection treatment of the focal triad of flies (monandry or polyandry)
+- `SEX` The sex of the focal triad of flies (male or female)
+- `LINE` The replicate selection line (M1-4 and P1-4)
+- `SAMPLE` Grouping variable that identifies the specific triad of flies (there are three measurements of each for all response variables except body weight). The have names like `M1T1F` (i.e. the first triad of females from line M1)
+- `CYCLE` The respirometry cycle (three measurements were taken, with cycle I being the first and cycle III the last)
+- `VO2` The amount of O$_2$ produced over the cycle
+- `VCO2` The amount of CO$_2$ consumed over the cycle
+- `RQ` The respiratory quotient, i.e. `VCO2` / `VO2`
+- `ACTIVITY` The amount of locomotor activity by the triad of flies over the focal cycle; measured by infrared light
+- `BODYMASS` The mass/weight of the triad of flies, measured to the nearest 0.1mg. 
 
-- `Lipid_conc` (i.e. the weight of the hexane fraction, divided by the full dry weight), 
-- `Carbohydrate_conc` (i.e. the weight of the aqueous fraction, divided by the full dry weight), 
-- `Protein_conc` (i.e. $\mu$g of protein per milligram as measured by the bicinchoninic acid protein assay),
-- `Glycogen_conc` (i.e. $\mu$g of glycogen per milligram as measured by the hexokinase assay), and 
-- `Chitin_conc` (estimated as the difference between the initial and final dry weights)
+We expect body weight and activity levels to vary between the sexes and potentially between treatments. In turn, we expect these two 'mediator variables' to co-vary with respiratory flux, e.g. because larger flies have more respiring tissue, and because more active flies would have more active metabolism. There might also be weight- and activity-independent effects of sex and selection treatment on respiration, e.g. because of differences in resting metabolic rate.
+
 
 ```{r}
 respiration <- read_csv("data/2.metabolic_rates.csv") %>%
