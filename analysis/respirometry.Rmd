@@ -602,7 +602,7 @@ p1 <- arrangeGrob(
           axis.ticks.y = element_blank()) + ylab(NULL),
   nrow = 1, widths = c(0.38, 0.62), 
   left = textGrob("Selection treatment", rot = 90, gp=gpar(fontfamily = nice_font)),
-  top = textGrob("A. Mediator variables", hjust = 1, gp=gpar(fontfamily = nice_font)) 
+  top = textGrob("A. Mediator variables (means)", hjust = 1, gp=gpar(fontfamily = nice_font)) 
 )
 
 p2 <- arrangeGrob(
@@ -613,7 +613,7 @@ p2 <- arrangeGrob(
     geom_vline(xintercept = 0, linetype = 2) + 
     stat_halfeyeh(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(expression(VO[2]~effect~size~(P~-~M))) + 
+    xlab(expression(VO[2]~(P~-~M))) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = "Set2") + 
     theme_bw() +
@@ -629,7 +629,7 @@ p2 <- arrangeGrob(
     geom_vline(xintercept = 0, linetype = 2) + 
     stat_halfeyeh(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab("RQ effect size (P - M)") + 
+    xlab("RQ (P - M)") + 
     ylab(NULL)  +
     scale_fill_brewer(palette = "Set2") + 
     theme_bw() +
@@ -640,7 +640,7 @@ p2 <- arrangeGrob(
           strip.background = element_blank()),
   ncol = 1, 
   left = textGrob("Mediator variables controlled for", rot = 90, gp=gpar(fontfamily = nice_font)),
-  top = textGrob("B. Measures of respiration", hjust = 1, gp=gpar(fontfamily = nice_font)) 
+  top = textGrob("B. Respiration (effect sizes)", hjust = 1, gp=gpar(fontfamily = nice_font)) 
 )
 
 p_filler <- ggplot() + theme_void()
@@ -649,7 +649,7 @@ grid.arrange(p1,
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) %>%
-  ggsave("output/respiration_figure.pdf", plot = ., height = 7.5, width = 5)
+  ggsave("output/respiration_figure.pdf", plot = ., height = 8, width = 5)
 
 grid.arrange(p1, 
              arrangeGrob(p_filler, p2, p_filler, 
