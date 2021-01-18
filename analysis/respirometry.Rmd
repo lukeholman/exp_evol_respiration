@@ -162,13 +162,13 @@ respiration_pairs_plot
 
 ### Group means {.tabset}
 
-#### Body weight (per individual)
+#### Body weight (per triad)
 
 ```{r}
 se <- function(x) sd(x) / sqrt(length(x))
 respiration %>% 
-  select(SEX, SELECTION, BODYMASS) %>%
-  distinct() %>%
+  select(SEX, SELECTION, BODYMASS, SAMPLE) %>% 
+  distinct(SAMPLE, .keep_all = TRUE) %>%
   group_by(SEX, SELECTION) %>% 
   summarise(`Mean weight per fly (mg)` = mean(BODYMASS * 1000 / 3), 
             SE = se(BODYMASS * 1000 / 3), 
@@ -180,8 +180,8 @@ respiration %>%
 
 ```{r}
 respiration %>% 
-  select(SEX, SELECTION, ACTIVITY, CYCLE) %>%
-  distinct() %>%
+  select(SEX, SELECTION, ACTIVITY, CYCLE, SAMPLE) %>%
+  distinct(SAMPLE, CYCLE, .keep_all = TRUE) %>%
   group_by(SEX, SELECTION, CYCLE) %>% 
   summarise(`Mean activity level` = mean(ACTIVITY * 1000 / 3), 
             SE = se(ACTIVITY * 1000 / 3), 
@@ -193,8 +193,8 @@ respiration %>%
 
 ```{r}
 respiration %>% 
-  select(SEX, SELECTION, VO2, CYCLE) %>%
-  distinct() %>%
+  select(SEX, SELECTION, VO2, CYCLE, SAMPLE) %>%
+  distinct(SAMPLE, CYCLE, .keep_all = TRUE) %>% 
   group_by(SEX, SELECTION, CYCLE) %>% 
   summarise(`Mean VO2` = mean(VO2 * 1000), 
             SE = se(VO2 * 1000), 
@@ -206,8 +206,8 @@ respiration %>%
 
 ```{r}
 respiration %>% 
-  select(SEX, SELECTION, VCO2, CYCLE) %>%
-  distinct() %>%
+  select(SEX, SELECTION, VCO2, CYCLE, SAMPLE) %>%
+  distinct(SAMPLE, CYCLE, .keep_all = TRUE) %>%
   group_by(SEX, SELECTION, CYCLE) %>% 
   summarise(`Mean VCO2` = mean(VCO2 * 1000), 
             SE = se(VCO2 * 1000), 
@@ -219,8 +219,8 @@ respiration %>%
 
 ```{r}
 respiration %>% 
-  select(SEX, SELECTION, RQ, CYCLE) %>%
-  distinct() %>%
+  select(SEX, SELECTION, RQ, CYCLE, SAMPLE) %>%
+  distinct(SAMPLE, CYCLE, .keep_all = TRUE) %>%
   group_by(SEX, SELECTION, CYCLE) %>% 
   summarise(`Mean VO2` = mean(RQ), 
             SE = se(RQ), 

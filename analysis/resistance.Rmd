@@ -37,7 +37,8 @@ options(stringsAsFactors = FALSE)
 DesRes <- read.csv("data/3.DesRes.csv") %>% 
   # add event (all flies died)
   mutate(EVENT = 1,
-         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)),
+         ID = paste(LINE, Vial, sep = ''))
 
 # calculate survival times
 # paste time and date
@@ -48,14 +49,13 @@ start_timeDes <- "04/02/2017 12:00"
 
 DesRes$survival.time <- as.numeric(strptime(DesRes$d, format = "%d/%m/%Y %H") - strptime(start_timeDes, format = "%d/%m/%Y %H"))
 
-des.surv <- Surv(DesRes$survival.time, DesRes$EVENT)
-
 
 # load starvation resistance data
 StaRes <- read.csv("data/3.StarvRes.csv") %>% 
   # add event (all flies died)
   mutate(EVENT = 1,
-         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)),
+         ID = paste(LINE, Vial, sep = ''))
 
 # calculate survival times
 # paste time and date
@@ -66,16 +66,15 @@ start_timeSta <- "04/02/2017 12:00"
 
 StaRes$survival.time <- as.numeric(strptime(StaRes$d, format = "%d/%m/%Y %H") - strptime(start_timeSta, format = "%d/%m/%Y %H"))
 
-summary(StaRes)
-
 # 5 individuals have missing survival times which we will right censor at max. survival time
 StaRes[which(is.na(StaRes$survival.time)), 'EVENT'] <- 0
 StaRes[which(is.na(StaRes$survival.time)), 'survival.time'] <- max(na.omit(StaRes$survival.time))
+
 ```
 
 ## Inspecting the raw data
 
-```{r, fig.height=4}
+```{r, fig.height=3}
 bind_rows(
   DesRes %>% 
   select(Treatment, Sex, survival.time) %>% mutate(var = 'Desiccation'),
@@ -85,27 +84,34 @@ bind_rows(
   mutate(var2 = paste(Treatment, Sex)) %>% 
   ggplot(aes(x = survival.time, y = Sex, fill = var2)) +
   geom_boxplot() +
-  scale_fill_manual(values = c("pink", "skyblue", "red", "blue"), name = "") +
+  scale_fill_manual(values = c("pink", "skyblue", "red", "blue"), name = "",
+                    labels = c('Monogamy Females', 'Monogamy Males',
+                               'Polandry Females', 'Polandry Males')) +
   labs(x = 'Survival time (hours)') +
   facet_wrap(~var, ncol = 2) +
   theme_bw() +
   NULL
+
 ```
 **Figure 1:** Survival time in hours for flies in each treatment split by sex. 
 
+# Survival analysis
+We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (`EVENT` = 1) for single sex triads of flies housed in vials (n = 20 per replicate per sex) containing moisture only (agar media) or food and moisture (normal media). Our observation period concluded when all flies perished. However, due to... some individuals were right censored (`EVENT` = 0) at the end of the observation period...
 
-## Fit the model for desiccation/starvation resistance
+### Kaplan-Meier survival curve
+First we plot Kaplan-Meier survival curves. 
 
-Plot the survival curves and median survival times
-```{r, warning = FALSE, echo=FALSE, fig.show="hold", out.width="50%"}
+```{r, fig.width=5, fig.height=3}
 survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
                       conf.int = TRUE,
                       risk.table = FALSE,
                       linetype = "Sex",
                       palette = c("pink", "skyblue", "red", "blue"),
                       xlab = "Time (hours)",
+                      legend = 'right',
                       legend.title = "",
-                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      legend.labs = c("Monogamy \u2640","Monogamy \u2642",
+                                      'Polandry \u2640','Polandry \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
 
@@ -115,22 +121,18 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       linetype = "Sex",
                       palette = c("pink", "skyblue", "red", "blue"),
                       xlab = "Time (hours)",
+                      legend = 'right',
                       legend.title = "",
-                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      legend.labs = c("Monogamy \u2640","Monogamy \u2642",
+                                      'Polandry \u2640','Polandry \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
+
 ```
 **Figure 2:** Kaplan-Meier survival curves for flies in each treatment split by sex. + indicates censored individuals (n = 5).
 
-```{r}
-# median eclosion times
-survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes)
-
-survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes)
-```
-
-
-Next we check that the proportional hazards assumption is met. 
+### Check proportional hazards assumption
+Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see [here](https://pubmed.ncbi.nlm.nih.gov/17080754/)).
 ```{r, fig.width=8, fig.height=4}
 # assess proportional hazards assumption
 par(mar = c(2, 2, 2, 2), mfrow = c(1, 2))
@@ -153,163 +155,20 @@ plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
      main = 'Starvation',
      fun = "cloglog")
 
-```
-
-For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see this [paper](https://pubmed.ncbi.nlm.nih.gov/17080754/)) and a frailty term to account for replicates within each treatment. We can define the degrees of freedom explicitly (df = 6).
-
-
-## Fit the Accelerated failure time models
-
-```{r}
-weibull.des <- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
-                       data = DesRes, dist = "weibull")
-
-
-weibull.sta <- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
-                       data = StaRes, dist = "weibull")
-
-
-bind_rows(anova(weibull.des), anova(weibull.sta)) %>% 
-  cbind(Parameter = c('Null', 'Treatment', 'Sex', '`frailty(LINE)`', 'Treatment x Sex')) %>% 
-  mutate(across(1:5, round, 3)) %>% 
-  mutate(star = ifelse(`Pr(>Chi)` < 0.05, "\\*", "")) %>% 
-  select(Parameter, Df, `Resid. Df`, Deviance, `Pr(>Chi)`, star) %>% 
-  filter(Parameter!='`frailty(LINE)`') %>% 
-  rename(` ` = star) %>% 
-  mutate(`Pr(>Chi)` = ifelse(`Pr(>Chi)` > 0.001, round(`Pr(>Chi)`, 3), '< 0.001')) %>% 
-  kable() %>% 
-  kable_styling() %>% 
-  kable_styling(full_width = FALSE) %>%
-  group_rows("Desiccation", 1, 4) %>%
-  group_rows("Starvation", 5, 8)
+par(mfrow = c(1, 1))
 
 ```
 
-We see equivocal support for a treatment effect for desiccation resistance and no effect for starvation resistance. For both assays there is support for a sex effect and a treatment x sex interaction. 
-
-## Calculate hazard ratios 
-
-We can use the following equation to translate the AFT coefficients, $\beta$, to a hazard ratio, $\alpha$:
-$$
-\beta = -\alpha * p
-$$
-where $p$ is the shape parameter ($1/$scale parameter)  (see [here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). The shape parameter describes the change in hazard over time where: 
-
-* $p$ = 1: constant hazard
-* $p$ > 1: increasing hazard over time
-* $p$ < 1: decreasing hazard over time
-
-
-```{r}
-# function to get hazard ratios and standard errors
-hazR <- function(mod) {
-  
-  b_coef = c(coefficients(summary(mod)))
-  coef = (b_coef * -1 * 1/mod$scale)
-  HazardRatio = exp(coef)
-  
-  b_se = summary(mod)$table[, 2]
-  se = (b_se * -1 * 1/mod$scale)
-  HR.se = exp(se)
-  
-  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
-  
-}
-```
-
-For both desiccation and starvation resistance Polyandrous females live longer than Monogamy females (although not significantly so). Males die sooner than females, and Polyandry males die sooner than Monogamy males.  
-```{r}
-bind_rows(hazR(weibull.des), hazR(weibull.sta)) %>% as_tibble() %>% 
-  cbind(Parameter = c('Treatment', 'Sex', 'Treatment x Sex')) %>% 
-  select(Parameter, `Hazard ratio` = HazardRatio, `Std. Err.` = HR.se) %>% 
-  kable() %>% 
-  kable_styling() %>% 
-  kable_styling(full_width = FALSE) %>%
-  group_rows("Desiccation", 1, 3) %>%
-  group_rows("Starvation", 4, 6)
-```
-
-# Plot the predicted curves
-
-```{r, fig.width=8, fig.height=4}
-par(mar = c(5,5,2,1), mfrow = c(1,2))
-# Desiccation plot
-# M female
-curve(pweibull(x, scale = exp(coef(weibull.des)[1]), shape = 1/weibull.des$scale, 
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      col = 'pink', ylab = expression(hat(S)(t)), xlab='t', lwd = 2,
-      main = "Desiccation resistance") 
-
-# P female
-curve(pweibull(x, scale = exp(coef(weibull.des)[1] + coef(weibull.des)[2]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add = T, lwd = 2, col = 'red')
-
-# M male
-curve(pweibull(x, scale = exp(coef(weibull.des)[1] + coef(weibull.des)[3]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add = T, col = 'skyblue', lty = 2, lwd = 2)
-
-# P male
-curve(pweibull(x, 
-               scale = exp(coef(weibull.des)[1] + coef(weibull.des)[2] + coef(weibull.des)[3] + coef(weibull.des)[4]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add=T, col = 'blue', lty = 2, lwd = 2)
-
-legend("topright", c("M \u2640","M \u2642",'P \u2640','P \u2642'), 
-       col = c("pink", "skyblue", "red", "blue"), 
-       lty = 1:2, 
-       lwd = 2,
-       bty = 'n'
-)
-
-# Starvation plot
-# M female
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1]), shape = 1/weibull.sta$scale, 
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      col = 'pink', ylab = expression(hat(S)(t)), xlab='t', lwd = 2,
-      main = "Starvation resistance") 
-
-# P female
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[2]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add = T, lwd = 2, col = 'red')
-
-# M male
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[3]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add = T, col = 'skyblue', lty = 2, lwd = 2)
-
-# P male
-curve(pweibull(x, 
-               scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[2] + coef(weibull.sta)[3] + coef(weibull.sta)[4]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add=T, col = 'blue', lty = 2, lwd = 2)
-```
-**Figure X:** Here we plot the model predicted survival functions ($\hat{S}_{(t)}$) for each sex and treatment for the two assays.
-
-
-## Fit the `brms` survival models for desiccation and starvation resistance
-
-Here I have attempted to fit the analyses using `brms`. While the results of the models are qualitatively similar (sex and treatment x sex effects), I am not sure my calculation of hazard ratios is correct. Documentation for fitting survival analysis in `brms` still fairly sparse. Altogether I think using the simpler AFT models is sufficient. 
+## Fit the survival models for desiccation and starvation resistance
+We fit an accelerated failure time model in `brms` using `family = weibull()`, with time (hours) to event (death) as the response and sexual selection treatment (`Treatment`; Monogamy or Polyandry), `Sex` (female or male) and their interaction as predictors. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals housed in the same vial may show a correlated response. 
 
 ```{r}
 
 if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, else load it
   
-  des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+  des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+               prior = c(set_prior("normal(0,1)", class = "b"),
+                         set_prior("cauchy(0,0.1)", class = "sd")),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
                               adapt_delta = 0.999),
@@ -323,7 +182,9 @@ if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, els
 
 if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, else load it
   
-  sta_brm <- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (1|LINE),
+  sta_brm <- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+               prior = c(set_prior("normal(0,0.5)", class = "b"),
+                         set_prior("cauchy(0,0.1)", class = "sd")),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
                               adapt_delta = 0.999),
@@ -336,25 +197,12 @@ if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, els
   sta_brm <- readRDS('output/sta_brm.rds')
 }
 
-
-# function to get hazard ratios and standard errors - needs adapting 
-hazR <- function(mod) {
-  
-  a = c(fixef(mod)[, 1])
-  coef = (a * -1 * 1/summary(mod)$spec_pars[1])
-  HazardRatio = exp(coef)
-  
-  b = c(fixef(mod)[, 2])
-  se = (b * -1 * 1/summary(mod)$spec_pars[1])
-  HR.se = exp(se)
-  
-  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
-  
-}
-
 ```
 
-## Hypothesis testing
+### Table of model parameter estimates - eclosion time {.tabset}
+
+#### Formatted table 
+Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)`, i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times shorter than Monogamy females.
 
 ```{r}
 
@@ -363,9 +211,8 @@ des_test <- bind_rows(
   hypothesis(des_brm, 'Sexm = 0')$hypothesis,
   hypothesis(des_brm, 'TreatmentP:Sexm = 0')$hypothesis
 ) %>% 
-  mutate(Parameter = c('Polandry', 'Male', 'Polyandry x Male'),
+  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)'),
          across(2:5, round, 3)) %>% 
-  #select(-Hypothesis) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
 sta_test <- bind_rows(
@@ -373,9 +220,8 @@ sta_test <- bind_rows(
   hypothesis(sta_brm, 'Sexm = 0')$hypothesis,
   hypothesis(sta_brm, 'TreatmentP:Sexm = 0')$hypothesis
 ) %>% 
-  mutate(Parameter = c('Polandry', 'Male', 'Polyandry x Male'),
+  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)'),
          across(2:5, round, 3)) %>% 
-  #select(-Hypothesis) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
 des_pvals <- bayestestR::p_direction(des_brm) %>% 
@@ -413,9 +259,26 @@ bind_rows(
 
 ```
 
+#### Complete output from `summary.brmsfit()` {.tabset}
+The shape parameter ($1/$scale parameter; see [here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)) describes the change in hazard over time where: 
 
-Plot posteriors.
-```{r, fig.height=4, fig.width=6}
+* $p$ = 1: constant hazard
+* $p$ > 1: increasing hazard over time
+* $p$ < 1: decreasing hazard over time
+
+##### Desiccation 
+```{r}
+des_brm
+```
+
+##### Starvation 
+```{r}
+sta_brm
+```
+
+### Posterior effect size of treatment and sex on survival
+
+```{r, fig.height=3, fig.width=7}
 # get posterior predictions
 post_des <- posterior_samples(des_brm) %>% 
   as_tibble() %>%
@@ -430,84 +293,20 @@ post_sta <- posterior_samples(sta_brm) %>%
   mutate(draw = 1:n()) %>% 
   pivot_longer(-draw) %>% 
   mutate(key = str_remove_all(name, "b_"))
-```
-
-
-## Plotting the hazard ratio gives an estimate of the effect size, so we can plot the effect sizes from both experiments together.
-
-```{r}
 
 bind_rows(post_des %>% mutate(var = 'Desiccation'), 
           post_sta %>% mutate(var = 'Starvation')) %>%
-  mutate(HR = exp(value)) %>% 
-  ggplot(aes(x = HR, y = key, fill = var)) + 
-  geom_vline(xintercept = 1, linetype = 2) + 
-  stat_halfeye(alpha = .8, position = position_dodge(width = .1)) +
-  scale_fill_brewer(palette = "Dark2") +
-  coord_cartesian(xlim = c(0.6, 1.5)) +
-  labs(x = "Hazard ratio", y = "Model parameter") +
+  mutate(key = recode(key, TreatmentP = "Treatment (P)", Sexm = 'Sex (M)', `TreatmentP:Sexm` = 'Treatment (P) x Sex (M)')) %>% 
+  ggplot(aes(x = value, y = key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = "Spectral") +
+  coord_cartesian(xlim = c(-0.4, 0.4)) +
+  labs(x = "Effect size", y = "Model parameter") +
+  facet_wrap(~var) +
   theme_ridges() +
-  theme(#legend.position = "none",
+  theme(legend.position = 'none',
         legend.title = element_blank()) +
-  NULL
-
-```
-
-## Summary of the results of the full model
-```{r}
-
-bind_rows(
-  fixef(des_brm) %>% data.frame() %>% rownames_to_column(), 
-  fixef(sta_brm) %>% data.frame() %>% rownames_to_column()) %>% 
-  as_tibble() %>% 
-  select(Parameter = rowname, Estimate, Est.Error, Q2.5, Q97.5) %>% 
-  mutate(Parameter = rep(c('Intercept', 'Polandry', 'Male', 'Polandry x Male'), 2),
-         #across(2:5, exp), # this will convert to hazard ratio?
-         across(2:5, round, 3)) %>%
-  kable() %>% 
-  kable_styling() %>% 
-  kable_styling(full_width = FALSE) %>%
-  group_rows("Desiccation", 1, 4) %>%
-  group_rows("Starvation", 5, 8)
-
-```
-
-## Extract posterior estimates and plot
-
-```{r}
-# wrangle
-des_fit <-
-  fixef(des_brm) %>% 
-  data.frame() %>% 
-  rownames_to_column() %>% 
-  mutate(param = str_remove(rowname, "m|P")) %>% 
-  tidyr::expand(nesting(Estimate, Q2.5, Q97.5, param),
-         survival.time = 0:100) %>% 
-  mutate(m  = 1 - pexp(survival.time, rate = 1 / exp(Estimate)),
-         ll = 1 - pexp(survival.time, rate = 1 / exp(Q2.5)),
-         ul = 1 - pexp(survival.time, rate = 1 / exp(Q97.5)))
-  
-# plot!
-des_fit %>% 
-  ggplot(aes(x = survival.time)) +
-#  geom_hline(yintercept = .5, linetype = 3, aes(color = param)) +
-  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param),
-              alpha = 1/2) +
- # geom_line(aes(y = m, aes(color = cols))) +
-  # scale_fill_manual(values = wes_palette("Moonrise2")[c(4, 1)], breaks = NULL) +
-  # scale_color_manual(values = wes_palette("Moonrise2")[c(4, 1)], breaks = NULL) +
-  # scale_y_continuous("proportion remaining", , breaks = c(0, .5, 1), limits = c(0, 1)) +
-  labs(x = "Survival time (hours)") +
-  NULL
-
-des_fit %>% 
-  ggplot(aes(x = survival.time, y = m, colour = param)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param), alpha = 1/2) +
-  scale_colour_manual(values = c("pink", "red", "skyblue", "blue")) +
-  scale_fill_manual(values = c("pink", "red", "skyblue", "blue")) +
-  theme_bw() +
-  theme() +
   NULL
 
 ```

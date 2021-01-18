@@ -10,7 +10,7 @@ navbar:
   - text: Resistance
     href: resistance.html
   - text: Respirometry
-    href: metabolites.html
+    href: respirometry.html
   - text: Metabolites
     href: metabolites.html
   - text: License
