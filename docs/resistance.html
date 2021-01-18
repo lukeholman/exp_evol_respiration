@@ -13,6 +13,7 @@
 
 <title>Desiccation and starvation resistance</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -26,9 +27,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -39,6 +39,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -93,6 +95,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -383,7 +386,7 @@ div.tocify {
   <a href="resistance.html">Resistance</a>
 </li>
 <li>
-  <a href="metabolites.html">Respirometry</a>
+  <a href="respirometry.html">Respirometry</a>
 </li>
 <li>
   <a href="metabolites.html">Metabolites</a>
@@ -395,7 +398,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lukeholman/exp_evol_respiration">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     Source code
   </a>
@@ -442,7 +445,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-18
+<strong>Last updated:</strong> 2021-01-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -533,31 +536,33 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree5c3ec4e01d484caa78cac6c3965c96cf33f512e1targetblank5c3ec4ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/5c3ec4e01d484caa78cac6c3965c96cf33f512e1" target="_blank">5c3ec4e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree5c3ec4e01d484caa78cac6c3965c96cf33f512e1targetblank5c3ec4ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/5c3ec4e01d484caa78cac6c3965c96cf33f512e1" target="_blank">5c3ec4e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
-    Ignored:    .DS_Store
-    Ignored:    .Rapp.history
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/.DS_Store
-    Ignored:    code/old mediator variable code.R
     Ignored:    output/.DS_Store
 
 Unstaged changes:
-    Modified:   analysis/juvenile_development.Rmd
+    Modified:   figures/respiration_figure.pdf
+    Modified:   figures/respiration_pairs_plot.pdf
+    Modified:   output/cox_brms.rds
+    Modified:   output/des_brm.rds
+    Modified:   output/sta_brm.rds
+    Modified:   output/wing_brms.rds
 
 </code></pre>
 <p>
@@ -596,6 +601,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a/analysis/resistance.Rmd" target="_blank">c2d846f</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/037f2fc20501c23164eb06dee79636c5e808558e/docs/resistance.html" target="_blank">037f2fc</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -760,7 +799,7 @@ Rmd
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit again
@@ -777,7 +816,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit again
@@ -794,7 +833,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit
@@ -811,7 +850,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit
@@ -828,7 +867,7 @@ Rmd
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit
@@ -845,7 +884,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit
@@ -862,7 +901,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 MDG commit
@@ -879,7 +918,7 @@ Rmd
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 <td>
 workflowr::wflow_git_commit(all = T)
@@ -932,7 +971,8 @@ options(stringsAsFactors = FALSE)</code></pre>
 DesRes &lt;- read.csv(&quot;data/3.DesRes.csv&quot;) %&gt;% 
   # add event (all flies died)
   mutate(EVENT = 1,
-         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)),
+         ID = paste(LINE, Vial, sep = &#39;&#39;))
 
 # calculate survival times
 # paste time and date
@@ -943,14 +983,13 @@ start_timeDes &lt;- &quot;04/02/2017 12:00&quot;
 
 DesRes$survival.time &lt;- as.numeric(strptime(DesRes$d, format = &quot;%d/%m/%Y %H&quot;) - strptime(start_timeDes, format = &quot;%d/%m/%Y %H&quot;))
 
-des.surv &lt;- Surv(DesRes$survival.time, DesRes$EVENT)
-
 
 # load starvation resistance data
 StaRes &lt;- read.csv(&quot;data/3.StarvRes.csv&quot;) %&gt;% 
   # add event (all flies died)
   mutate(EVENT = 1,
-         LINE = paste0(Treatment, substr(Replicate, 2, 2)))
+         LINE = paste0(Treatment, substr(Replicate, 2, 2)),
+         ID = paste(LINE, Vial, sep = &#39;&#39;))
 
 # calculate survival times
 # paste time and date
@@ -960,8 +999,6 @@ StaRes$d &lt;- paste(StaRes$Death_date, StaRes$Death_time, sep = &#39; &#39;)
 start_timeSta &lt;- &quot;04/02/2017 12:00&quot;
 
 StaRes$survival.time &lt;- as.numeric(strptime(StaRes$d, format = &quot;%d/%m/%Y %H&quot;) - strptime(start_timeSta, format = &quot;%d/%m/%Y %H&quot;))
-
-summary(StaRes)
 
 # 5 individuals have missing survival times which we will right censor at max. survival time
 StaRes[which(is.na(StaRes$survival.time)), &#39;EVENT&#39;] &lt;- 0
@@ -978,7 +1015,9 @@ StaRes[which(is.na(StaRes$survival.time)), &#39;survival.time&#39;] &lt;- max(na
   mutate(var2 = paste(Treatment, Sex)) %&gt;% 
   ggplot(aes(x = survival.time, y = Sex, fill = var2)) +
   geom_boxplot() +
-  scale_fill_manual(values = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), name = &quot;&quot;) +
+  scale_fill_manual(values = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), name = &quot;&quot;,
+                    labels = c(&#39;Monogamy Females&#39;, &#39;Monogamy Males&#39;,
+                               &#39;Polandry Females&#39;, &#39;Polandry Males&#39;)) +
   labs(x = &#39;Survival time (hours)&#39;) +
   facet_wrap(~var, ncol = 2) +
   theme_bw() +
@@ -1036,7 +1075,7 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 </tr>
 <tr>
@@ -1047,7 +1086,7 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 </tr>
 </tbody>
@@ -1056,9 +1095,25 @@ Martin Garlovsky
 </div>
 <p><strong>Figure 1:</strong> Survival time in hours for flies in each treatment split by sex.</p>
 </div>
-<div id="fit-the-model-for-desiccationstarvation-resistance" class="section level2">
-<h2>Fit the model for desiccation/starvation resistance</h2>
-<p>Plot the survival curves and median survival times <img src="figure/resistance.Rmd/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /></p>
+<div id="survival-analysis" class="section level1">
+<h1>Survival analysis</h1>
+<p>We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (<code>EVENT</code> = 1) for single sex triads of flies housed in vials (n = 20 per replicate per sex) containing moisture only (agar media) or food and moisture (normal media). Our observation period concluded when all flies perished. However, due to… some individuals were right censored (<code>EVENT</code> = 0) at the end of the observation period…</p>
+<div id="kaplan-meier-survival-curve" class="section level3">
+<h3>Kaplan-Meier survival curve</h3>
+<p>First we plot Kaplan-Meier survival curves.</p>
+<pre class="r"><code>survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
+                      conf.int = TRUE,
+                      risk.table = FALSE,
+                      linetype = &quot;Sex&quot;,
+                      palette = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;),
+                      xlab = &quot;Time (hours)&quot;,
+                      legend = &#39;right&#39;,
+                      legend.title = &quot;&quot;,
+                      legend.labs = c(&quot;Monogamy \u2640&quot;,&quot;Monogamy \u2642&quot;,
+                                      &#39;Polandry \u2640&#39;,&#39;Polandry \u2642&#39;),
+                      break.time.by = 12,
+                      ggtheme = theme_bw()) </code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
 Past versions of unnamed-chunk-4-1.png
@@ -1111,14 +1166,26 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-4-2.png" width="50%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
+                      conf.int = TRUE,
+                      risk.table = FALSE,
+                      linetype = &quot;Sex&quot;,
+                      palette = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;),
+                      xlab = &quot;Time (hours)&quot;,
+                      legend = &#39;right&#39;,
+                      legend.title = &quot;&quot;,
+                      legend.labs = c(&quot;Monogamy \u2640&quot;,&quot;Monogamy \u2642&quot;,
+                                      &#39;Polandry \u2640&#39;,&#39;Polandry \u2642&#39;),
+                      break.time.by = 12,
+                      ggtheme = theme_bw()) </code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-4-2.png" width="480" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
 Past versions of unnamed-chunk-4-2.png
@@ -1171,7 +1238,7 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-04
+2020-12-03
 </td>
 </tr>
 </tbody>
@@ -1179,28 +1246,10 @@ Martin Garlovsky
 </div>
 </div>
 <p><strong>Figure 2:</strong> Kaplan-Meier survival curves for flies in each treatment split by sex. + indicates censored individuals (n = 5).</p>
-<pre class="r"><code># median eclosion times
-survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes)</code></pre>
-<pre>Call: survfit(formula = Surv(survival.time, EVENT) ~ Treatment + Sex, 
-    data = DesRes)
-
-                     n events median 0.95LCL 0.95UCL
-Treatment=M, Sex=f 108    108     38      38      42
-Treatment=M, Sex=m 111    111     32      32      34
-Treatment=P, Sex=f 114    114     40      38      42
-Treatment=P, Sex=m 105    105     32      32      34
-</pre>
-<pre class="r"><code>survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes)</code></pre>
-<pre>Call: survfit(formula = Surv(survival.time, EVENT) ~ Treatment + Sex, 
-    data = StaRes)
-
-                     n events median 0.95LCL 0.95UCL
-Treatment=M, Sex=f 120    118     57      52      62
-Treatment=M, Sex=m 120    120     40      38      44
-Treatment=P, Sex=f 120    117     66      62      70
-Treatment=P, Sex=m 120    120     42      40      42
-</pre>
-<p>Next we check that the proportional hazards assumption is met.</p>
+</div>
+<div id="check-proportional-hazards-assumption" class="section level3">
+<h3>Check proportional hazards assumption</h3>
+<p>Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see <a href="https://pubmed.ncbi.nlm.nih.gov/17080754/">here</a>).</p>
 <pre class="r"><code># assess proportional hazards assumption
 par(mar = c(2, 2, 2, 2), mfrow = c(1, 2))
 plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes), 
@@ -1221,13 +1270,13 @@ plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
      col = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), 
      main = &#39;Starvation&#39;,
      fun = &quot;cloglog&quot;)</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
-Past versions of unnamed-chunk-6-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
+Past versions of unnamed-chunk-5-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-6-1" class="collapse">
+<div id="fig-unnamed-chunk-5-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1246,7 +1295,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">989e86f</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">989e86f</a>
 </td>
 <td>
 lukeholman
@@ -1257,511 +1306,29 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">96d1188</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">df61dde</a>
 </td>
 <td>
 Martin Garlovsky
 </td>
 <td>
-2020-12-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">df61dde</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2020-12-04
+2020-12-03
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
-<p>For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see this <a href="https://pubmed.ncbi.nlm.nih.gov/17080754/">paper</a>) and a frailty term to account for replicates within each treatment. We can define the degrees of freedom explicitly (df = 6).</p>
+<pre class="r"><code>par(mfrow = c(1, 1))</code></pre>
 </div>
-<div id="fit-the-accelerated-failure-time-models" class="section level2">
-<h2>Fit the Accelerated failure time models</h2>
-<pre class="r"><code>weibull.des &lt;- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
-                       data = DesRes, dist = &quot;weibull&quot;)
-
-
-weibull.sta &lt;- survreg(Surv(survival.time, EVENT) ~ Treatment * Sex + frailty(LINE, df = 6), 
-                       data = StaRes, dist = &quot;weibull&quot;)
-
-
-bind_rows(anova(weibull.des), anova(weibull.sta)) %&gt;% 
-  cbind(Parameter = c(&#39;Null&#39;, &#39;Treatment&#39;, &#39;Sex&#39;, &#39;`frailty(LINE)`&#39;, &#39;Treatment x Sex&#39;)) %&gt;% 
-  mutate(across(1:5, round, 3)) %&gt;% 
-  mutate(star = ifelse(`Pr(&gt;Chi)` &lt; 0.05, &quot;\\*&quot;, &quot;&quot;)) %&gt;% 
-  select(Parameter, Df, `Resid. Df`, Deviance, `Pr(&gt;Chi)`, star) %&gt;% 
-  filter(Parameter!=&#39;`frailty(LINE)`&#39;) %&gt;% 
-  rename(` ` = star) %&gt;% 
-  mutate(`Pr(&gt;Chi)` = ifelse(`Pr(&gt;Chi)` &gt; 0.001, round(`Pr(&gt;Chi)`, 3), &#39;&lt; 0.001&#39;)) %&gt;% 
-  kable() %&gt;% 
-  kable_styling() %&gt;% 
-  kable_styling(full_width = FALSE) %&gt;%
-  group_rows(&quot;Desiccation&quot;, 1, 4) %&gt;%
-  group_rows(&quot;Starvation&quot;, 5, 8)</code></pre>
-<table class="table table" style="margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Parameter
-</th>
-<th style="text-align:right;">
-Df
-</th>
-<th style="text-align:right;">
-Resid. Df
-</th>
-<th style="text-align:right;">
-Deviance
-</th>
-<th style="text-align:left;">
-Pr(&gt;Chi)
-</th>
-<th style="text-align:left;">
-</th>
-</tr>
-</thead>
-<tbody>
-<tr grouplength="4">
-<td colspan="6" style="border-bottom: 1px solid;">
-<strong>Desiccation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Null
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-436.000
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-435.000
-</td>
-<td style="text-align:right;">
-3.849
-</td>
-<td style="text-align:left;">
-0.05
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Sex
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-434.000
-</td>
-<td style="text-align:right;">
-154.904
-</td>
-<td style="text-align:left;">
-&lt; 0.001
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment x Sex
-</td>
-<td style="text-align:right;">
-1.010
-</td>
-<td style="text-align:right;">
-429.020
-</td>
-<td style="text-align:right;">
-8.682
-</td>
-<td style="text-align:left;">
-0.003
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr grouplength="4">
-<td colspan="6" style="border-bottom: 1px solid;">
-<strong>Starvation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Null
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:right;">
-478.000
-</td>
-<td style="text-align:right;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-<td style="text-align:left;">
-NA
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-477.000
-</td>
-<td style="text-align:right;">
-2.681
-</td>
-<td style="text-align:left;">
-0.102
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Sex
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-476.000
-</td>
-<td style="text-align:right;">
-219.907
-</td>
-<td style="text-align:left;">
-&lt; 0.001
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment x Sex
-</td>
-<td style="text-align:right;">
-1.019
-</td>
-<td style="text-align:right;">
-471.028
-</td>
-<td style="text-align:right;">
-16.045
-</td>
-<td style="text-align:left;">
-&lt; 0.001
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-</tbody>
-</table>
-<p>We see equivocal support for a treatment effect for desiccation resistance and no effect for starvation resistance. For both assays there is support for a sex effect and a treatment x sex interaction.</p>
-</div>
-<div id="calculate-hazard-ratios" class="section level2">
-<h2>Calculate hazard ratios</h2>
-<p>We can use the following equation to translate the AFT coefficients, <span class="math inline">\(\beta\)</span>, to a hazard ratio, <span class="math inline">\(\alpha\)</span>: <span class="math display">\[
-\beta = -\alpha * p
-\]</span> where <span class="math inline">\(p\)</span> is the shape parameter (<span class="math inline">\(1/\)</span>scale parameter) (see <a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">here</a>). The shape parameter describes the change in hazard over time where:</p>
-<ul>
-<li><span class="math inline">\(p\)</span> = 1: constant hazard</li>
-<li><span class="math inline">\(p\)</span> &gt; 1: increasing hazard over time</li>
-<li><span class="math inline">\(p\)</span> &lt; 1: decreasing hazard over time</li>
-</ul>
-<pre class="r"><code># function to get hazard ratios and standard errors
-hazR &lt;- function(mod) {
-  
-  b_coef = c(coefficients(summary(mod)))
-  coef = (b_coef * -1 * 1/mod$scale)
-  HazardRatio = exp(coef)
-  
-  b_se = summary(mod)$table[, 2]
-  se = (b_se * -1 * 1/mod$scale)
-  HR.se = exp(se)
-  
-  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
-  
-}</code></pre>
-<p>For both desiccation and starvation resistance Polyandrous females live longer than Monogamy females (although not significantly so). Males die sooner than females, and Polyandry males die sooner than Monogamy males.</p>
-<pre class="r"><code>bind_rows(hazR(weibull.des), hazR(weibull.sta)) %&gt;% as_tibble() %&gt;% 
-  cbind(Parameter = c(&#39;Treatment&#39;, &#39;Sex&#39;, &#39;Treatment x Sex&#39;)) %&gt;% 
-  select(Parameter, `Hazard ratio` = HazardRatio, `Std. Err.` = HR.se) %&gt;% 
-  kable() %&gt;% 
-  kable_styling() %&gt;% 
-  kable_styling(full_width = FALSE) %&gt;%
-  group_rows(&quot;Desiccation&quot;, 1, 3) %&gt;%
-  group_rows(&quot;Starvation&quot;, 4, 6)</code></pre>
-<table class="table table" style="margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Parameter
-</th>
-<th style="text-align:right;">
-Hazard ratio
-</th>
-<th style="text-align:right;">
-Std. Err.
-</th>
-</tr>
-</thead>
-<tbody>
-<tr grouplength="3">
-<td colspan="3" style="border-bottom: 1px solid;">
-<strong>Desiccation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment
-</td>
-<td style="text-align:right;">
-0.736
-</td>
-<td style="text-align:right;">
-0.354
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Sex
-</td>
-<td style="text-align:right;">
-2.872
-</td>
-<td style="text-align:right;">
-0.866
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment x Sex
-</td>
-<td style="text-align:right;">
-1.834
-</td>
-<td style="text-align:right;">
-0.815
-</td>
-</tr>
-<tr grouplength="3">
-<td colspan="3" style="border-bottom: 1px solid;">
-<strong>Starvation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment
-</td>
-<td style="text-align:right;">
-0.674
-</td>
-<td style="text-align:right;">
-0.458
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Sex
-</td>
-<td style="text-align:right;">
-4.231
-</td>
-<td style="text-align:right;">
-0.876
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Treatment x Sex
-</td>
-<td style="text-align:right;">
-2.134
-</td>
-<td style="text-align:right;">
-0.830
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="plot-the-predicted-curves" class="section level1">
-<h1>Plot the predicted curves</h1>
-<pre class="r"><code>par(mar = c(5,5,2,1), mfrow = c(1,2))
-# Desiccation plot
-# M female
-curve(pweibull(x, scale = exp(coef(weibull.des)[1]), shape = 1/weibull.des$scale, 
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      col = &#39;pink&#39;, ylab = expression(hat(S)(t)), xlab=&#39;t&#39;, lwd = 2,
-      main = &quot;Desiccation resistance&quot;) 
-
-# P female
-curve(pweibull(x, scale = exp(coef(weibull.des)[1] + coef(weibull.des)[2]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add = T, lwd = 2, col = &#39;red&#39;)
-
-# M male
-curve(pweibull(x, scale = exp(coef(weibull.des)[1] + coef(weibull.des)[3]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add = T, col = &#39;skyblue&#39;, lty = 2, lwd = 2)
-
-# P male
-curve(pweibull(x, 
-               scale = exp(coef(weibull.des)[1] + coef(weibull.des)[2] + coef(weibull.des)[3] + coef(weibull.des)[4]), 
-               shape = 1/weibull.des$scale,
-               lower.tail = FALSE), from = 0, to = max(na.omit(DesRes$survival.time)), 
-      add=T, col = &#39;blue&#39;, lty = 2, lwd = 2)
-
-legend(&quot;topright&quot;, c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,&#39;P \u2640&#39;,&#39;P \u2642&#39;), 
-       col = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), 
-       lty = 1:2, 
-       lwd = 2,
-       bty = &#39;n&#39;
-)
-
-# Starvation plot
-# M female
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1]), shape = 1/weibull.sta$scale, 
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      col = &#39;pink&#39;, ylab = expression(hat(S)(t)), xlab=&#39;t&#39;, lwd = 2,
-      main = &quot;Starvation resistance&quot;) 
-
-# P female
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[2]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add = T, lwd = 2, col = &#39;red&#39;)
-
-# M male
-curve(pweibull(x, scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[3]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), 
-      from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add = T, col = &#39;skyblue&#39;, lty = 2, lwd = 2)
-
-# P male
-curve(pweibull(x, 
-               scale = exp(coef(weibull.sta)[1] + coef(weibull.sta)[2] + coef(weibull.sta)[3] + coef(weibull.sta)[4]), 
-               shape = 1/weibull.sta$scale,
-               lower.tail = FALSE), from = 0, to = max(na.omit(StaRes$survival.time)), 
-      add=T, col = &#39;blue&#39;, lty = 2, lwd = 2)</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">989e86f</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-12-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">96d1188</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2020-12-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7d4b609075052dc7e107bda649d7ffd41e36ce84/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">7d4b609</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2020-12-05
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><strong>Figure X:</strong> Here we plot the model predicted survival functions (<span class="math inline">\(\hat{S}_{(t)}\)</span>) for each sex and treatment for the two assays.</p>
-<div id="fit-the-brms-survival-models-for-desiccation-and-starvation-resistance" class="section level2">
-<h2>Fit the <code>brms</code> survival models for desiccation and starvation resistance</h2>
-<p>Here I have attempted to fit the analyses using <code>brms</code>. While the results of the models are qualitatively similar (sex and treatment x sex effects), I am not sure my calculation of hazard ratios is correct. Documentation for fitting survival analysis in <code>brms</code> still fairly sparse. Altogether I think using the simpler AFT models is sufficient.</p>
+<div id="fit-the-survival-models-for-desiccation-and-starvation-resistance" class="section level2">
+<h2>Fit the survival models for desiccation and starvation resistance</h2>
+<p>We fit an accelerated failure time model in <code>brms</code> using <code>family = weibull()</code>, with time (hours) to event (death) as the response and sexual selection treatment (<code>Treatment</code>; Monogamy or Polyandry), <code>Sex</code> (female or male) and their interaction as predictors. <a href="https://bookdown.org/content/4857/god-spiked-the-integers.html">See here</a> for a helpful explanation on fitting survival models in <code>brms</code>. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial <code>ID</code> as a random intercept term as individuals housed in the same vial may show a correlated response.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/des_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
   
-  des_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE),
+  des_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+               prior = c(set_prior(&quot;normal(0,1)&quot;, class = &quot;b&quot;),
+                         set_prior(&quot;cauchy(0,0.1)&quot;, class = &quot;sd&quot;)),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
                               adapt_delta = 0.999),
@@ -1775,7 +1342,9 @@ Martin Garlovsky
 
 if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
   
-  sta_brm &lt;- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (1|LINE),
+  sta_brm &lt;- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+               prior = c(set_prior(&quot;normal(0,0.5)&quot;, class = &quot;b&quot;),
+                         set_prior(&quot;cauchy(0,0.1)&quot;, class = &quot;sd&quot;)),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
                               adapt_delta = 0.999),
@@ -1786,34 +1355,19 @@ if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exi
   saveRDS(sta_brm, &quot;output/sta_brm.rds&quot;)
 } else {
   sta_brm &lt;- readRDS(&#39;output/sta_brm.rds&#39;)
-}
-
-
-# function to get hazard ratios and standard errors - needs adapting 
-hazR &lt;- function(mod) {
-  
-  a = c(fixef(mod)[, 1])
-  coef = (a * -1 * 1/summary(mod)$spec_pars[1])
-  HazardRatio = exp(coef)
-  
-  b = c(fixef(mod)[, 2])
-  se = (b * -1 * 1/summary(mod)$spec_pars[1])
-  HR.se = exp(se)
-  
-  return(data.frame(round(cbind(HazardRatio, HR.se), 3)[-c(1,5), ]))
-  
 }</code></pre>
-</div>
-<div id="hypothesis-testing" class="section level2">
-<h2>Hypothesis testing</h2>
+<div id="table-of-model-parameter-estimates---eclosion-time" class="section level3 tabset">
+<h3 class="tabset">Table of model parameter estimates - eclosion time</h3>
+<div id="formatted-table" class="section level4">
+<h4>Formatted table</h4>
+<p>Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) (<a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">see here</a>). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(-0.183) = 0.832, i.e. Monogamy males live 0.832 times shorter than Monogamy females.</p>
 <pre class="r"><code>des_test &lt;- bind_rows(
   hypothesis(des_brm, &#39;TreatmentP = 0&#39;)$hypothesis,
   hypothesis(des_brm, &#39;Sexm = 0&#39;)$hypothesis,
   hypothesis(des_brm, &#39;TreatmentP:Sexm = 0&#39;)$hypothesis
 ) %&gt;% 
-  mutate(Parameter = c(&#39;Polandry&#39;, &#39;Male&#39;, &#39;Polyandry x Male&#39;),
+  mutate(Parameter = c(&#39;Treatment (P)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (P) x Sex (M)&#39;),
          across(2:5, round, 3)) %&gt;% 
-  #select(-Hypothesis) %&gt;% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
 sta_test &lt;- bind_rows(
@@ -1821,9 +1375,8 @@ sta_test &lt;- bind_rows(
   hypothesis(sta_brm, &#39;Sexm = 0&#39;)$hypothesis,
   hypothesis(sta_brm, &#39;TreatmentP:Sexm = 0&#39;)$hypothesis
 ) %&gt;% 
-  mutate(Parameter = c(&#39;Polandry&#39;, &#39;Male&#39;, &#39;Polyandry x Male&#39;),
+  mutate(Parameter = c(&#39;Treatment (P)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (P) x Sex (M)&#39;),
          across(2:5, round, 3)) %&gt;% 
-  #select(-Hypothesis) %&gt;% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
 des_pvals &lt;- bayestestR::p_direction(des_brm) %&gt;% 
@@ -1890,30 +1443,30 @@ p
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Treatment (P)
 </td>
 <td style="text-align:right;">
-0.054
+0.052
 </td>
 <td style="text-align:right;">
-0.107
+0.099
 </td>
 <td style="text-align:right;">
--0.151
+-0.146
 </td>
 <td style="text-align:right;">
-0.278
+0.249
 </td>
 <td style="text-align:left;">
-0.272
+0.277
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Sex (M)
 </td>
 <td style="text-align:right;">
 -0.183
@@ -1925,7 +1478,7 @@ Male
 -0.232
 </td>
 <td style="text-align:right;">
--0.134
+-0.136
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -1935,20 +1488,20 @@ Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry x Male
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Treatment (P) x Sex (M)
 </td>
 <td style="text-align:right;">
--0.104
+-0.103
 </td>
 <td style="text-align:right;">
-0.036
+0.035
 </td>
 <td style="text-align:right;">
--0.173
+-0.174
 </td>
 <td style="text-align:right;">
--0.034
+-0.035
 </td>
 <td style="text-align:left;">
 0.002
@@ -1963,42 +1516,42 @@ Polyandry x Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Treatment (P)
 </td>
 <td style="text-align:right;">
-0.101
+0.088
 </td>
 <td style="text-align:right;">
-0.147
+0.108
 </td>
 <td style="text-align:right;">
--0.147
+-0.132
 </td>
 <td style="text-align:right;">
-0.352
+0.302
 </td>
 <td style="text-align:left;">
-0.182
+0.184
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Sex (M)
 </td>
 <td style="text-align:right;">
--0.318
+-0.334
 </td>
 <td style="text-align:right;">
-0.030
+0.036
 </td>
 <td style="text-align:right;">
--0.377
+-0.404
 </td>
 <td style="text-align:right;">
--0.259
+-0.265
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -2008,23 +1561,23 @@ Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polyandry x Male
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+Treatment (P) x Sex (M)
 </td>
 <td style="text-align:right;">
--0.167
+-0.131
 </td>
 <td style="text-align:right;">
-0.042
+0.050
 </td>
 <td style="text-align:right;">
--0.251
+-0.228
 </td>
 <td style="text-align:right;">
--0.085
+-0.031
 </td>
 <td style="text-align:left;">
-&lt; 0.001
+0.005
 </td>
 <td style="text-align:left;">
 *
@@ -2032,7 +1585,97 @@ Polyandry x Male
 </tr>
 </tbody>
 </table>
-<p>Plot posteriors.</p>
+</div>
+<div id="complete-output-from-summary.brmsfit" class="section level4 tabset">
+<h4 class="tabset">Complete output from <code>summary.brmsfit()</code></h4>
+<p>The shape parameter (<span class="math inline">\(1/\)</span>scale parameter; see <a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">here</a>) describes the change in hazard over time where:</p>
+<ul>
+<li><span class="math inline">\(p\)</span> = 1: constant hazard</li>
+<li><span class="math inline">\(p\)</span> &gt; 1: increasing hazard over time</li>
+<li><span class="math inline">\(p\)</span> &lt; 1: decreasing hazard over time</li>
+</ul>
+<div id="desiccation" class="section level5">
+<h5>Desiccation</h5>
+<pre class="r"><code>des_brm</code></pre>
+<pre> Family: weibull 
+  Links: mu = log; shape = identity 
+Formula: survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment | LINE) 
+   Data: DesRes (Number of observations: 438) 
+Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup samples = 10000
+
+Group-Level Effects: 
+~LINE (Number of levels: 8) 
+                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+sd(Intercept)                 0.11      0.04     0.06     0.23 1.00     4265
+sd(TreatmentP)                0.08      0.07     0.00     0.27 1.00     2753
+cor(Intercept,TreatmentP)    -0.07      0.56    -0.95     0.94 1.00     5698
+                          Tail_ESS
+sd(Intercept)                 4823
+sd(TreatmentP)                4090
+cor(Intercept,TreatmentP)     5886
+
+Population-Level Effects: 
+                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept           3.67      0.06     3.54     3.80 1.00     3653     4692
+TreatmentP          0.05      0.10    -0.15     0.25 1.00     3968     4620
+Sexm               -0.18      0.02    -0.23    -0.14 1.00     9161     8098
+TreatmentP:Sexm    -0.10      0.04    -0.17    -0.04 1.00     8761     7867
+
+Family Specific Parameters: 
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+shape     5.74      0.20     5.35     6.15 1.00    13757     7786
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).
+</pre>
+</div>
+<div id="starvation" class="section level5">
+<h5>Starvation</h5>
+<pre class="r"><code>sta_brm</code></pre>
+<pre> Family: weibull 
+  Links: mu = log; shape = identity 
+Formula: survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment | LINE) + (1 | ID) 
+   Data: StaRes %>% mutate(EVENT = if_else(EVENT == 1, 0, 1 (Number of observations: 480) 
+Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup samples = 10000
+
+Group-Level Effects: 
+~ID (Number of levels: 160) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.12      0.01     0.10     0.14 1.00     3767     5984
+
+~LINE (Number of levels: 8) 
+                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
+sd(Intercept)                 0.14      0.05     0.07     0.27 1.00     3864
+sd(TreatmentP)                0.08      0.08     0.00     0.27 1.00     3801
+cor(Intercept,TreatmentP)    -0.24      0.56    -0.98     0.91 1.00     6686
+                          Tail_ESS
+sd(Intercept)                 4216
+sd(TreatmentP)                4370
+cor(Intercept,TreatmentP)     5591
+
+Population-Level Effects: 
+                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+Intercept           4.07      0.08     3.92     4.23 1.00     3627     4963
+TreatmentP          0.09      0.11    -0.13     0.30 1.00     4401     4844
+Sexm               -0.33      0.04    -0.40    -0.27 1.00     4801     6136
+TreatmentP:Sexm    -0.13      0.05    -0.23    -0.03 1.00     4838     5556
+
+Family Specific Parameters: 
+      Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+shape     5.68      0.26     5.19     6.19 1.00     5846     6682
+
+Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+and Tail_ESS are effective sample size measures, and Rhat is the potential
+scale reduction factor on split chains (at convergence, Rhat = 1).
+</pre>
+</div>
+</div>
+</div>
+<div id="posterior-effect-size-of-treatment-and-sex-on-survival" class="section level3">
+<h3>Posterior effect size of treatment and sex on survival</h3>
 <pre class="r"><code># get posterior predictions
 post_des &lt;- posterior_samples(des_brm) %&gt;% 
   as_tibble() %&gt;%
@@ -2046,30 +1689,29 @@ post_sta &lt;- posterior_samples(sta_brm) %&gt;%
   select(contains(&quot;b_&quot;), -contains(&quot;Intercept&quot;)) %&gt;% 
   mutate(draw = 1:n()) %&gt;% 
   pivot_longer(-draw) %&gt;% 
-  mutate(key = str_remove_all(name, &quot;b_&quot;))</code></pre>
-</div>
-<div id="plotting-the-hazard-ratio-gives-an-estimate-of-the-effect-size-so-we-can-plot-the-effect-sizes-from-both-experiments-together." class="section level2">
-<h2>Plotting the hazard ratio gives an estimate of the effect size, so we can plot the effect sizes from both experiments together.</h2>
-<pre class="r"><code>bind_rows(post_des %&gt;% mutate(var = &#39;Desiccation&#39;), 
+  mutate(key = str_remove_all(name, &quot;b_&quot;))
+
+bind_rows(post_des %&gt;% mutate(var = &#39;Desiccation&#39;), 
           post_sta %&gt;% mutate(var = &#39;Starvation&#39;)) %&gt;%
-  mutate(HR = exp(value)) %&gt;% 
-  ggplot(aes(x = HR, y = key, fill = var)) + 
-  geom_vline(xintercept = 1, linetype = 2) + 
-  stat_halfeye(alpha = .8, position = position_dodge(width = .1)) +
-  scale_fill_brewer(palette = &quot;Dark2&quot;) +
-  coord_cartesian(xlim = c(0.6, 1.5)) +
-  labs(x = &quot;Hazard ratio&quot;, y = &quot;Model parameter&quot;) +
+  mutate(key = recode(key, TreatmentP = &quot;Treatment (P)&quot;, Sexm = &#39;Sex (M)&#39;, `TreatmentP:Sexm` = &#39;Treatment (P) x Sex (M)&#39;)) %&gt;% 
+  ggplot(aes(x = value, y = key, fill = key)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(alpha = .8) +
+  scale_fill_brewer(palette = &quot;Spectral&quot;) +
+  coord_cartesian(xlim = c(-0.4, 0.4)) +
+  labs(x = &quot;Effect size&quot;, y = &quot;Model parameter&quot;) +
+  facet_wrap(~var) +
   theme_ridges() +
-  theme(#legend.position = &quot;none&quot;,
+  theme(legend.position = &#39;none&#39;,
         legend.title = element_blank()) +
   NULL</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
-Past versions of unnamed-chunk-14-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
+Past versions of unnamed-chunk-10-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div id="fig-unnamed-chunk-10-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -2088,7 +1730,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-14-1.png" target="_blank">989e86f</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">989e86f</a>
 </td>
 <td>
 lukeholman
@@ -2099,7 +1741,7 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-14-1.png" target="_blank">96d1188</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">96d1188</a>
 </td>
 <td>
 Martin Garlovsky
@@ -2108,323 +1750,15 @@ Martin Garlovsky
 2020-12-13
 </td>
 </tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="summary-of-the-results-of-the-full-model" class="section level2">
-<h2>Summary of the results of the full model</h2>
-<pre class="r"><code>bind_rows(
-  fixef(des_brm) %&gt;% data.frame() %&gt;% rownames_to_column(), 
-  fixef(sta_brm) %&gt;% data.frame() %&gt;% rownames_to_column()) %&gt;% 
-  as_tibble() %&gt;% 
-  select(Parameter = rowname, Estimate, Est.Error, Q2.5, Q97.5) %&gt;% 
-  mutate(Parameter = rep(c(&#39;Intercept&#39;, &#39;Polandry&#39;, &#39;Male&#39;, &#39;Polandry x Male&#39;), 2),
-         #across(2:5, exp), # this will convert to hazard ratio?
-         across(2:5, round, 3)) %&gt;%
-  kable() %&gt;% 
-  kable_styling() %&gt;% 
-  kable_styling(full_width = FALSE) %&gt;%
-  group_rows(&quot;Desiccation&quot;, 1, 4) %&gt;%
-  group_rows(&quot;Starvation&quot;, 5, 8)</code></pre>
-<table class="table table" style="margin-left: auto; margin-right: auto; width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-Parameter
-</th>
-<th style="text-align:right;">
-Estimate
-</th>
-<th style="text-align:right;">
-Est.Error
-</th>
-<th style="text-align:right;">
-Q2.5
-</th>
-<th style="text-align:right;">
-Q97.5
-</th>
-</tr>
-</thead>
-<tbody>
-<tr grouplength="4">
-<td colspan="5" style="border-bottom: 1px solid;">
-<strong>Desiccation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Intercept
-</td>
-<td style="text-align:right;">
-3.670
-</td>
-<td style="text-align:right;">
-0.076
-</td>
-<td style="text-align:right;">
-3.515
-</td>
-<td style="text-align:right;">
-3.819
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry
-</td>
-<td style="text-align:right;">
-0.054
-</td>
-<td style="text-align:right;">
-0.107
-</td>
-<td style="text-align:right;">
--0.151
-</td>
-<td style="text-align:right;">
-0.278
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
-</td>
-<td style="text-align:right;">
--0.183
-</td>
-<td style="text-align:right;">
-0.025
-</td>
-<td style="text-align:right;">
--0.232
-</td>
-<td style="text-align:right;">
--0.134
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry x Male
-</td>
-<td style="text-align:right;">
--0.104
-</td>
-<td style="text-align:right;">
-0.036
-</td>
-<td style="text-align:right;">
--0.173
-</td>
-<td style="text-align:right;">
--0.034
-</td>
-</tr>
-<tr grouplength="4">
-<td colspan="5" style="border-bottom: 1px solid;">
-<strong>Starvation</strong>
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Intercept
-</td>
-<td style="text-align:right;">
-4.071
-</td>
-<td style="text-align:right;">
-0.101
-</td>
-<td style="text-align:right;">
-3.889
-</td>
-<td style="text-align:right;">
-4.249
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry
-</td>
-<td style="text-align:right;">
-0.101
-</td>
-<td style="text-align:right;">
-0.147
-</td>
-<td style="text-align:right;">
--0.147
-</td>
-<td style="text-align:right;">
-0.352
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Male
-</td>
-<td style="text-align:right;">
--0.318
-</td>
-<td style="text-align:right;">
-0.030
-</td>
-<td style="text-align:right;">
--0.377
-</td>
-<td style="text-align:right;">
--0.259
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
-Polandry x Male
-</td>
-<td style="text-align:right;">
--0.167
-</td>
-<td style="text-align:right;">
-0.042
-</td>
-<td style="text-align:right;">
--0.251
-</td>
-<td style="text-align:right;">
--0.085
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div id="extract-posterior-estimates-and-plot" class="section level2">
-<h2>Extract posterior estimates and plot</h2>
-<pre class="r"><code># wrangle
-des_fit &lt;-
-  fixef(des_brm) %&gt;% 
-  data.frame() %&gt;% 
-  rownames_to_column() %&gt;% 
-  mutate(param = str_remove(rowname, &quot;m|P&quot;)) %&gt;% 
-  tidyr::expand(nesting(Estimate, Q2.5, Q97.5, param),
-         survival.time = 0:100) %&gt;% 
-  mutate(m  = 1 - pexp(survival.time, rate = 1 / exp(Estimate)),
-         ll = 1 - pexp(survival.time, rate = 1 / exp(Q2.5)),
-         ul = 1 - pexp(survival.time, rate = 1 / exp(Q97.5)))
-  
-# plot!
-des_fit %&gt;% 
-  ggplot(aes(x = survival.time)) +
-#  geom_hline(yintercept = .5, linetype = 3, aes(color = param)) +
-  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param),
-              alpha = 1/2) +
- # geom_line(aes(y = m, aes(color = cols))) +
-  # scale_fill_manual(values = wes_palette(&quot;Moonrise2&quot;)[c(4, 1)], breaks = NULL) +
-  # scale_color_manual(values = wes_palette(&quot;Moonrise2&quot;)[c(4, 1)], breaks = NULL) +
-  # scale_y_continuous(&quot;proportion remaining&quot;, , breaks = c(0, .5, 1), limits = c(0, 1)) +
-  labs(x = &quot;Survival time (hours)&quot;) +
-  NULL</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
-Past versions of unnamed-chunk-16-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-16-1.png" target="_blank">989e86f</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-12-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-16-1.png" target="_blank">96d1188</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7d4b609075052dc7e107bda649d7ffd41e36ce84/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">7d4b609</a>
 </td>
 <td>
 Martin Garlovsky
 </td>
 <td>
-2020-12-13
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<pre class="r"><code>des_fit %&gt;% 
-  ggplot(aes(x = survival.time, y = m, colour = param)) +
-  geom_line() +
-  geom_ribbon(aes(ymin = ll, ymax = ul, fill = param), alpha = 1/2) +
-  scale_colour_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;)) +
-  scale_fill_manual(values = c(&quot;pink&quot;, &quot;red&quot;, &quot;skyblue&quot;, &quot;blue&quot;)) +
-  theme_bw() +
-  theme() +
-  NULL</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-16-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-2">
-Past versions of unnamed-chunk-16-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-16-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-16-2.png" target="_blank">989e86f</a>
-</td>
-<td>
-lukeholman
-</td>
-<td>
-2020-12-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-16-2.png" target="_blank">96d1188</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2020-12-13
+2020-12-05
 </td>
 </tr>
 </tbody>
@@ -2441,75 +1775,75 @@ Martin Garlovsky
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.4
+Running under: macOS Mojave 10.14.6
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 ggridges_0.5.2  
- [5] tidybayes_2.0.3  brms_2.14.4      Rcpp_1.0.4.6     lme4_1.1-23     
+ [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.3.1 ggridges_0.5.3  
+ [5] tidybayes_2.3.1  brms_2.14.4      Rcpp_1.0.5       lme4_1.1-26     
  [9] Matrix_1.2-18    coxme_2.2-16     bdsmatrix_1.3-4  survival_3.2-7  
-[13] forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4     
-[17] readr_1.3.1      tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2   
+[13] forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2      purrr_0.3.4     
+[17] readr_1.4.0      tidyr_1.1.2      tibble_3.0.4     ggplot2_3.3.3   
 [21] tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6          
-  [4] igraph_1.2.5         svUnit_1.0.3         splines_4.0.3       
-  [7] crosstalk_1.1.0.1    TH.data_1.0-10       rstantools_2.1.1    
- [10] inline_0.3.15        digest_0.6.25        htmltools_0.5.0     
- [13] rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
- [16] openxlsx_4.1.5       modelr_0.1.8         RcppParallel_5.0.1  
- [19] matrixStats_0.56.0   xts_0.12-0           sandwich_2.5-1      
- [22] prettyunits_1.1.1    colorspace_1.4-1     blob_1.2.1          
- [25] rvest_0.3.5          haven_2.3.1          xfun_0.19           
- [28] callr_3.4.3          crayon_1.3.4         jsonlite_1.7.0      
- [31] zoo_1.8-8            glue_1.4.2           survminer_0.4.8     
- [34] gtable_0.3.0         emmeans_1.4.7        webshot_0.5.2       
- [37] V8_3.4.0             car_3.0-8            pkgbuild_1.0.8      
- [40] rstan_2.21.2         abind_1.4-5          scales_1.1.1        
- [43] mvtnorm_1.1-0        DBI_1.1.0            rstatix_0.5.0       
- [46] miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4        
- [49] foreign_0.8-80       km.ci_0.5-2          stats4_4.0.3        
- [52] StanHeaders_2.21.0-3 DT_0.13              htmlwidgets_1.5.1   
- [55] httr_1.4.1           threejs_0.3.3        arrayhelpers_1.1-0  
- [58] ellipsis_0.3.1       farver_2.0.3         pkgconfig_2.0.3     
- [61] loo_2.3.1            dbplyr_1.4.4         labeling_0.3        
- [64] tidyselect_1.1.0     rlang_0.4.6          reshape2_1.4.4      
- [67] later_1.0.0          munsell_0.5.0        cellranger_1.1.0    
- [70] tools_4.0.3          cli_2.0.2            generics_0.0.2      
- [73] broom_0.5.6          evaluate_0.14        fastmap_1.0.1       
- [76] yaml_2.2.1           processx_3.4.2       fs_1.4.1            
- [79] zip_2.0.4            survMisc_0.5.5       nlme_3.1-149        
- [82] whisker_0.4          mime_0.9             projpred_2.0.2      
- [85] xml2_1.3.2           compiler_4.0.3       bayesplot_1.7.2     
- [88] shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6         
- [91] curl_4.3             ggsignif_0.6.0       reprex_0.3.0        
- [94] statmod_1.4.34       stringi_1.5.3        highr_0.8           
- [97] ps_1.3.3             Brobdingnag_1.2-6    lattice_0.20-41     
-[100] nloptr_1.2.2.1       markdown_1.1         KMsurv_0.1-5        
-[103] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4        
-[106] lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3    
-[109] insight_0.8.4        data.table_1.12.8    httpuv_1.5.3.1      
-[112] R6_2.4.1             promises_1.1.0       rio_0.5.16          
-[115] gridExtra_2.3        codetools_0.2-16     boot_1.3-25         
-[118] colourpicker_1.0     MASS_7.3-53          gtools_3.8.2        
-[121] assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0         
-[124] shinystan_2.5.0      multcomp_1.4-13      bayestestR_0.6.0    
-[127] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
-[130] grid_4.0.3           coda_0.19-3          minqa_1.2.4         
-[133] rmarkdown_2.5        carData_3.0-4        ggpubr_0.3.0        
-[136] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8     
-[139] base64enc_0.1-3      dygraphs_1.1.1.6    
+  [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6          
+  [4] igraph_1.2.6         splines_4.0.3        svUnit_1.0.3        
+  [7] crosstalk_1.1.1      rstantools_2.1.1     inline_0.3.17       
+ [10] digest_0.6.27        htmltools_0.5.0      rsconnect_0.8.16    
+ [13] fansi_0.4.1          magrittr_2.0.1       openxlsx_4.2.3      
+ [16] modelr_0.1.8         RcppParallel_5.0.2   matrixStats_0.57.0  
+ [19] xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-0    
+ [22] rvest_0.3.6          ggdist_2.4.0         haven_2.3.1         
+ [25] xfun_0.20            callr_3.5.1          crayon_1.3.4        
+ [28] jsonlite_1.7.2       zoo_1.8-8            glue_1.4.2          
+ [31] survminer_0.4.8      gtable_0.3.0         webshot_0.5.2       
+ [34] V8_3.4.0             distributional_0.2.1 car_3.0-10          
+ [37] pkgbuild_1.2.0       rstan_2.21.2         abind_1.4-5         
+ [40] scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.0           
+ [43] rstatix_0.6.0        miniUI_0.1.1.1       viridisLite_0.3.0   
+ [46] xtable_1.8-4         foreign_0.8-80       km.ci_0.5-2         
+ [49] stats4_4.0.3         StanHeaders_2.21.0-7 DT_0.17             
+ [52] htmlwidgets_1.5.3    httr_1.4.2           threejs_0.3.3       
+ [55] RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1      
+ [58] pkgconfig_2.0.3      loo_2.4.1            farver_2.0.3        
+ [61] dbplyr_2.0.0         labeling_0.4.2       tidyselect_1.1.0    
+ [64] rlang_0.4.10         reshape2_1.4.4       later_1.1.0.1       
+ [67] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3         
+ [70] cli_2.2.0            generics_0.1.0       broom_0.7.3         
+ [73] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
+ [76] processx_3.4.5       fs_1.5.0             zip_2.1.1           
+ [79] survMisc_0.5.5       nlme_3.1-149         whisker_0.4         
+ [82] mime_0.9             projpred_2.0.2       xml2_1.3.2          
+ [85] compiler_4.0.3       bayesplot_1.8.0      shinythemes_1.1.2   
+ [88] rstudioapi_0.13      gamm4_0.2-6          curl_4.3            
+ [91] ggsignif_0.6.0       reprex_0.3.0         statmod_1.4.35      
+ [94] stringi_1.5.3        highr_0.8            ps_1.5.0            
+ [97] Brobdingnag_1.2-6    lattice_0.20-41      nloptr_1.2.2.2      
+[100] markdown_1.1         KMsurv_0.1-5         shinyjs_2.0.0       
+[103] vctrs_0.3.6          pillar_1.4.7         lifecycle_0.2.0     
+[106] bridgesampling_1.0-0 insight_0.11.1       data.table_1.13.6   
+[109] httpuv_1.5.4         R6_2.5.0             promises_1.1.1      
+[112] rio_0.5.16           gridExtra_2.3        codetools_0.2-16    
+[115] boot_1.3-25          colourpicker_1.1.0   MASS_7.3-53         
+[118] gtools_3.8.2         assertthat_0.2.1     rprojroot_2.0.2     
+[121] withr_2.3.0          shinystan_2.5.0      bayestestR_0.8.0    
+[124] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
+[127] grid_4.0.3           coda_0.19-4          minqa_1.2.4         
+[130] rmarkdown_2.6        carData_3.0-4        ggpubr_0.4.0        
+[133] git2r_0.28.0         shiny_1.5.0          lubridate_1.7.9.2   
+[136] base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -2526,6 +1860,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>
