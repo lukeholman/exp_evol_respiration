@@ -67,6 +67,8 @@ start_timeSta <- "04/02/2017 12:00"
 StaRes$survival.time <- as.numeric(strptime(StaRes$d, format = "%d/%m/%Y %H") - strptime(start_timeSta, format = "%d/%m/%Y %H"))
 
 # 5 individuals have missing survival times which we will right censor at max. survival time
+# Two M females (M2) were right censored as survival time not recorded
+# Three P females (P2 Vial 6 and P4 vial 9) were right censored as survival time not recorded
 StaRes[which(is.na(StaRes$survival.time)), 'EVENT'] <- 0
 StaRes[which(is.na(StaRes$survival.time)), 'survival.time'] <- max(na.omit(StaRes$survival.time))
 
@@ -96,7 +98,7 @@ bind_rows(
 **Figure 1:** Survival time in hours for flies in each treatment split by sex. 
 
 # Survival analysis
-We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (`EVENT` = 1) for single sex triads of flies housed in vials (n = 20 per replicate per sex) containing moisture only (agar media) or food and moisture (normal media). Our observation period concluded when all flies perished. However, due to... some individuals were right censored (`EVENT` = 0) at the end of the observation period...
+We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (`EVENT` = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three P females) were right censored (`EVENT` = 0) at the end of the observation period as death times were not recorded or remained alive. 
 
 ### Kaplan-Meier survival curve
 First we plot Kaplan-Meier survival curves. 
@@ -167,7 +169,7 @@ We fit an accelerated failure time model in `brms` using `family = weibull()`, w
 if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, else load it
   
   des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
-               prior = c(set_prior("normal(0,1)", class = "b"),
+               prior = c(set_prior("normal(0,0.5)", class = "b"),
                          set_prior("cauchy(0,0.1)", class = "sd")),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
