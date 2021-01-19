@@ -222,7 +222,7 @@ respiration %>%
   select(SEX, SELECTION, RQ, CYCLE, SAMPLE) %>%
   distinct(SAMPLE, CYCLE, .keep_all = TRUE) %>%
   group_by(SEX, SELECTION, CYCLE) %>% 
-  summarise(`Mean VO2` = mean(RQ), 
+  summarise(`Mean RQ` = mean(RQ), 
             SE = se(RQ), 
             n = n()) %>% 
   kable(digits = 2) %>% kable_styling(full_width = FALSE)
