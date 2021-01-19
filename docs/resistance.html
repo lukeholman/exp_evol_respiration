@@ -445,7 +445,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-18
+<strong>Last updated:</strong> 2021-01-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -536,16 +536,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7bf6463758e985d1c39571b197be60c4cd4aaf4atargetblank7bf6463a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7bf6463758e985d1c39571b197be60c4cd4aaf4a" target="_blank">7bf6463</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7bf6463758e985d1c39571b197be60c4cd4aaf4atargetblank7bf6463a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7bf6463758e985d1c39571b197be60c4cd4aaf4a" target="_blank">7bf6463</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -601,6 +601,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7bf6463758e985d1c39571b197be60c4cd4aaf4a/analysis/resistance.Rmd" target="_blank">7bf6463</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-19
+</td>
+<td>
+wflow_publish(“analysis/resistance.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/resistance.html" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1001,6 +1035,8 @@ start_timeSta &lt;- &quot;04/02/2017 12:00&quot;
 StaRes$survival.time &lt;- as.numeric(strptime(StaRes$d, format = &quot;%d/%m/%Y %H&quot;) - strptime(start_timeSta, format = &quot;%d/%m/%Y %H&quot;))
 
 # 5 individuals have missing survival times which we will right censor at max. survival time
+# Two M females (M2) were right censored as survival time not recorded
+# Three P females (P2 Vial 6 and P4 vial 9) were right censored as survival time not recorded
 StaRes[which(is.na(StaRes$survival.time)), &#39;EVENT&#39;] &lt;- 0
 StaRes[which(is.na(StaRes$survival.time)), &#39;survival.time&#39;] &lt;- max(na.omit(StaRes$survival.time))</code></pre>
 </div>
@@ -1045,6 +1081,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">989e86f</a>
@@ -1097,7 +1144,7 @@ Martin Garlovsky
 </div>
 <div id="survival-analysis" class="section level1">
 <h1>Survival analysis</h1>
-<p>We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (<code>EVENT</code> = 1) for single sex triads of flies housed in vials (n = 20 per replicate per sex) containing moisture only (agar media) or food and moisture (normal media). Our observation period concluded when all flies perished. However, due to… some individuals were right censored (<code>EVENT</code> = 0) at the end of the observation period…</p>
+<p>We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (<code>EVENT</code> = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three P females) were right censored (<code>EVENT</code> = 0) at the end of the observation period as death times were not recorded or remained alive.</p>
 <div id="kaplan-meier-survival-curve" class="section level3">
 <h3>Kaplan-Meier survival curve</h3>
 <p>First we plot Kaplan-Meier survival curves.</p>
@@ -1136,6 +1183,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-4-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-4-1.png" target="_blank">989e86f</a>
@@ -1208,6 +1266,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">989e86f</a>
@@ -1295,6 +1364,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1327,7 +1407,7 @@ Martin Garlovsky
 <pre class="r"><code>if(!file.exists(&quot;output/des_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
   
   des_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
-               prior = c(set_prior(&quot;normal(0,1)&quot;, class = &quot;b&quot;),
+               prior = c(set_prior(&quot;normal(0,0.5)&quot;, class = &quot;b&quot;),
                          set_prior(&quot;cauchy(0,0.1)&quot;, class = &quot;sd&quot;)),
                iter = 5000, chains = 4, cores = 4,
                control = list(max_treedepth = 20,
@@ -1360,7 +1440,7 @@ if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exi
 <h3 class="tabset">Table of model parameter estimates - eclosion time</h3>
 <div id="formatted-table" class="section level4">
 <h4>Formatted table</h4>
-<p>Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) (<a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">see here</a>). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(-0.183) = 0.832, i.e. Monogamy males live 0.832 times shorter than Monogamy females.</p>
+<p>Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) (<a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">see here</a>). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(-0.167) = 0.847, i.e. Monogamy males live 0.847 times shorter than Monogamy females.</p>
 <pre class="r"><code>des_test &lt;- bind_rows(
   hypothesis(des_brm, &#39;TreatmentP = 0&#39;)$hypothesis,
   hypothesis(des_brm, &#39;Sexm = 0&#39;)$hypothesis,
@@ -1447,19 +1527,19 @@ p
 Treatment (P)
 </td>
 <td style="text-align:right;">
-0.052
+0.055
 </td>
 <td style="text-align:right;">
-0.099
+0.098
 </td>
 <td style="text-align:right;">
--0.146
+-0.139
 </td>
 <td style="text-align:right;">
-0.249
+0.256
 </td>
 <td style="text-align:left;">
-0.277
+0.269
 </td>
 <td style="text-align:left;">
 </td>
@@ -1469,16 +1549,16 @@ Treatment (P)
 Sex (M)
 </td>
 <td style="text-align:right;">
--0.183
+-0.167
 </td>
 <td style="text-align:right;">
-0.025
+0.033
 </td>
 <td style="text-align:right;">
--0.232
+-0.229
 </td>
 <td style="text-align:right;">
--0.136
+-0.103
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -1492,19 +1572,19 @@ Sex (M)
 Treatment (P) x Sex (M)
 </td>
 <td style="text-align:right;">
--0.103
+-0.097
 </td>
 <td style="text-align:right;">
-0.035
+0.046
 </td>
 <td style="text-align:right;">
--0.174
+-0.189
 </td>
 <td style="text-align:right;">
--0.035
+-0.007
 </td>
 <td style="text-align:left;">
-0.002
+0.017
 </td>
 <td style="text-align:left;">
 *
@@ -1599,32 +1679,36 @@ Treatment (P) x Sex (M)
 <pre class="r"><code>des_brm</code></pre>
 <pre> Family: weibull 
   Links: mu = log; shape = identity 
-Formula: survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment | LINE) 
+Formula: survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment | LINE) + (1 | ID) 
    Data: DesRes (Number of observations: 438) 
 Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
          total post-warmup samples = 10000
 
 Group-Level Effects: 
+~ID (Number of levels: 146) 
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.11      0.01     0.09     0.13 1.00     2793     4912
+
 ~LINE (Number of levels: 8) 
                           Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-sd(Intercept)                 0.11      0.04     0.06     0.23 1.00     4265
-sd(TreatmentP)                0.08      0.07     0.00     0.27 1.00     2753
-cor(Intercept,TreatmentP)    -0.07      0.56    -0.95     0.94 1.00     5698
+sd(Intercept)                 0.11      0.04     0.05     0.22 1.00     3291
+sd(TreatmentP)                0.07      0.07     0.00     0.26 1.00     3111
+cor(Intercept,TreatmentP)    -0.15      0.57    -0.96     0.92 1.00     4892
                           Tail_ESS
-sd(Intercept)                 4823
-sd(TreatmentP)                4090
-cor(Intercept,TreatmentP)     5886
+sd(Intercept)                 5284
+sd(TreatmentP)                5026
+cor(Intercept,TreatmentP)     5213
 
 Population-Level Effects: 
                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept           3.67      0.06     3.54     3.80 1.00     3653     4692
-TreatmentP          0.05      0.10    -0.15     0.25 1.00     3968     4620
-Sexm               -0.18      0.02    -0.23    -0.14 1.00     9161     8098
-TreatmentP:Sexm    -0.10      0.04    -0.17    -0.04 1.00     8761     7867
+Intercept           3.66      0.06     3.53     3.79 1.00     2749     4013
+TreatmentP          0.05      0.10    -0.14     0.26 1.00     2782     3535
+Sexm               -0.17      0.03    -0.23    -0.10 1.00     2900     4317
+TreatmentP:Sexm    -0.10      0.05    -0.19    -0.01 1.00     2685     4957
 
 Family Specific Parameters: 
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-shape     5.74      0.20     5.35     6.15 1.00    13757     7786
+shape     7.56      0.37     6.86     8.29 1.00     4599     6970
 
 Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
@@ -1728,6 +1812,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">989e86f</a>
