@@ -466,7 +466,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-18
+<strong>Last updated:</strong> 2021-01-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -557,16 +557,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64targetblankd0bfb9ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64" target="_blank">d0bfb9e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64targetblankd0bfb9ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64" target="_blank">d0bfb9e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -578,6 +578,7 @@ Ignored files:
     Ignored:    output/.DS_Store
 
 Unstaged changes:
+    Modified:   analysis/resistance.Rmd
     Modified:   figures/respiration_figure.pdf
     Modified:   figures/respiration_pairs_plot.pdf
     Modified:   output/cox_brms.rds
@@ -622,6 +623,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/d0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64/analysis/respirometry.Rmd" target="_blank">d0bfb9e</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-19
+</td>
+<td>
+wflow_publish(“analysis/respirometry.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/respirometry.html" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1184,6 +1219,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/47bc2174467f7d0563f5c0094ceb51ebfe35f4d2/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">47bc217</a>
@@ -2154,7 +2200,7 @@ III
   select(SEX, SELECTION, RQ, CYCLE, SAMPLE) %&gt;%
   distinct(SAMPLE, CYCLE, .keep_all = TRUE) %&gt;%
   group_by(SEX, SELECTION, CYCLE) %&gt;% 
-  summarise(`Mean VO2` = mean(RQ), 
+  summarise(`Mean RQ` = mean(RQ), 
             SE = se(RQ), 
             n = n()) %&gt;% 
   kable(digits = 2) %&gt;% kable_styling(full_width = FALSE)</code></pre>
@@ -2171,7 +2217,7 @@ SELECTION
 CYCLE
 </th>
 <th style="text-align:right;">
-Mean VO2
+Mean RQ
 </th>
 <th style="text-align:right;">
 SE
@@ -2608,6 +2654,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/2791e70bfba58cbb5318dbbb6a52cb0c9bbccdef/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">2791e70</a>
@@ -4176,6 +4233,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/4b2ed7018d65ad5855bb0ca0773819b5b074e964/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">4b2ed70</a>
@@ -5773,6 +5841,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/d3f10f895f80892ee6c166fdd374d913c2c96427/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">d3f10f8</a>
