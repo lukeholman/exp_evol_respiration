@@ -12,7 +12,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 ```
 
 ## Load packages
-
 ```{r}
 library(tidyverse)
 library(ggridges)
@@ -34,17 +33,80 @@ options(stringsAsFactors = FALSE)
 ## Load data
 ```{r, results='hide'}
 # load eclosion data
-eclosion.dat <- read.csv("data/1.eclosion_times.csv")
+eclosion_wide <- read.csv("data/1.eclosion_wide.csv")
+
+# convert data to 'long' format
+eclosion_long <- reshape2::melt(eclosion_wide, id.vars = "DAY")
+
+# add ID columns
+eclosion_long$YEAR <- factor("2015")
+eclosion_long$variable <- paste(eclosion_long$variable, eclosion_long$YEAR, sep = "_")
+eclosion_long$ID <- gsub(pattern = "_m|f_", replacement = "", x = eclosion_long$variable)
+
+# calculate days to eclosion starting from seeding day
+eclosion_long <- eclosion_long %>% 
+  separate(variable, c("LINE", "SEED", "VIAL", "SEX", "YEAR")) %>% 
+  mutate(SEED_DAY = case_when(SEED == 'A' ~ "2015-7-20", 
+                              SEED == 'B' ~ "2015-7-21",
+                              SEED == 'C' ~ "2015-7-22"),
+         START_DAY = case_when(SEED == 'A' ~ "2015-8-01", 
+                               SEED == 'B' ~ "2015-8-02",
+                               SEED == "C" & 
+                                 LINE == "M1"| LINE == "M2"| LINE == "M3"| LINE == "M4" ~ "2015-8-03",
+                               TRUE ~ "2015-8-04"),
+         DAY_ZERO = as.numeric(as.Date(START_DAY) - as.Date(SEED_DAY)),
+         DAY = DAY + DAY_ZERO)
+
+
+# remove rows where no flies eclosed
+eclosion_long <- subset(eclosion_long, value>0)
+
+# add event 
+eclosion_long$EVENT <- 1
+
+# calulate number not eclosed for each vial (out of 100)
+uneclosed <- as.data.frame(eclosion_long %>% 
+                             group_by(ID, LINE, SEED, VIAL) %>% 
+                             summarise(SEX = "fm",
+                                       DAY = 21,
+                                       eclosing = 100 - sum(value),
+                                       EVENT = 0,
+                                       YEAR = "2015"))
+
+
+# calculate proportion eclosed of each sex to give weights to uneclosed
+p <- eclosion_long %>% group_by(SEX) %>% summarise(S = sum(value))
+prop.male <- p$S[2]/(p$S[2]+p$S[1])
+prop.female <- p$S[1]/(p$S[2]+p$S[1])
+
+# assign sex to uneclosed in each vial based on those that have eclosed... i.e. slighly more females already eclosed
+uneclosed.male <- mutate(uneclosed, 
+                            SEX = "m", eclosing = round(uneclosed$eclosing*prop.female))
+
+uneclosed.female <- mutate(uneclosed, 
+                              SEX = "f", eclosing = round(uneclosed$eclosing*prop.male))
+
+colnames(eclosion_long)[7] <- "eclosing"
+
+# reorder columns
+eclosion_long <- eclosion_long %>% select(ID, DAY, SEX, LINE, SEED, VIAL, YEAR, eclosing, EVENT)
+
+# bind eclosed data to calculated uneclosed
+eclosion_long <- rbind(eclosion_long, uneclosed.male, uneclosed.female)
+eclosion_long <- eclosion_long[order(eclosion_long$ID, eclosion_long$SEX), ]
+
+# add treatment variable 
+eclosion_long$TRT <- factor(substr(eclosion_long$ID, 1, 1))
 
 # remove vials seeded with more than 100 larvae
 #unique(eclosion.dat[which(eclosion.dat$eclosing < 0), "ID"]) # 4 vials overseeded
-
-eclosion.dat.trim <- eclosion.dat %>% 
-  filter(ID %in% eclosion.dat[which(eclosion.dat$eclosing < 0), "ID"] == FALSE)
+eclosion.dat.trim <- eclosion_long %>% 
+  filter(ID %in% eclosion_long[which(eclosion_long$eclosing < 0), "ID"] == FALSE)
 
 # expand data frame so each row is a single fly
 ecl.dat <- reshape::untable(eclosion.dat.trim[ ,c(1:7, 9, 10)], 
                            num = eclosion.dat.trim[, 8])
+
 
 # load wing length data
 wing_length <- read.csv("data/1.wing_length.csv") %>% 
@@ -58,7 +120,11 @@ wing_length$LINE <- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 2))
 ```
 
 # Survival analysis 
-We modeled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` per `Treatment` x 6 `VIAL` per `LINE` x 3 `SEED` days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies eclosed during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. Censored flies were assigned sex based on the observed sex ratio of eclosees. We calculated the number of flies of each sex that emerged from each vial, and assigned the remaining censored individuals (of unknown sex) sex based on the proportion of individuals of each sex that did emerge, so that overall an equal sex ratio of females:males was assigned to each vial. 
+We modeled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` per `Treatment` x 6 `VIAL` per `LINE` x 3 `SEED` days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies eclosed during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. 
+
+### Censoring
+Censored flies were assigned sex based on the observed sex ratio of eclosees assuming an equal (50:50) sex ratio of larvae seeded to each vial at the beginning of the experiment. We calculate the number of number of males and females that did eclose and susbsequently assign sex to the remaining (uneclosed) individuals of unknown sex based on the proportion of individuals of each sex that did emerge. For example, if 70 flies were counted eclosing from a vial with 40 females and 30 males, we then designate the remaining 30 flies as 10 females and 20 males and so on so that each vial ends with 50 females and 50 males some of which are right censored (`EVENT` = 0).
+
 
 ### Kaplan-Meier survival curve
 First we plot Kaplan-Meier survival curves without considering our full experimental design. 
@@ -72,12 +138,13 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       fun = "event",
                       xlim = c(12, 21),
                       xlab = "Days",
-                      ylab = "Cumulative proportion eclosed",
+                      #ylab = "Cumulative proportion eclosed",
                       legend = 'right',
                       legend.title = "",
                       legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
                       break.time.by = 2,
                       ggtheme = theme_bw())
+#ggsave(filename = 'figures/eclosion.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
 
 ```
 **Figure X:** Kaplan-Meier curve for eclosion time (in days) for flies in each treatment and sex. +'s indicate censored individuals (n = `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)`).
