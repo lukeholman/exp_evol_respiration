@@ -13,7 +13,6 @@
 
 <title>Juvenile development time</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -39,8 +38,6 @@ div.section {
   padding-top: 12px;
 }
 </style>
-
-
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -445,7 +442,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-18
+<strong>Last updated:</strong> 2021-02-06
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -493,7 +490,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -536,33 +533,34 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree25528a3aee0e9e421f26a86ecf0e725ba26503b2targetblank25528a3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/25528a3aee0e9e421f26a86ecf0e725ba26503b2" target="_blank">25528a3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec2d846fc2a9cc72bfee6123cd5f65bd48d73cd6atargetblankc2d846fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree25528a3aee0e9e421f26a86ecf0e725ba26503b2targetblank25528a3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c2d846fc2a9cc72bfee6123cd5f65bd48d73cd6a" target="_blank">c2d846f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/25528a3aee0e9e421f26a86ecf0e725ba26503b2" target="_blank">25528a3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  data/1.eclosion_wide.csv
+    Untracked:  figures/desiccation.pdf
+    Untracked:  figures/eclosion.pdf
+    Untracked:  figures/starvation.pdf
 
 Unstaged changes:
-    Modified:   figures/respiration_figure.pdf
-    Modified:   figures/respiration_pairs_plot.pdf
-    Modified:   output/cox_brms.rds
-    Modified:   output/des_brm.rds
-    Modified:   output/sta_brm.rds
-    Modified:   output/wing_brms.rds
+    Modified:   analysis/resistance.Rmd
 
 </code></pre>
 <p>
@@ -601,6 +599,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/25528a3aee0e9e421f26a86ecf0e725ba26503b2/analysis/juvenile_development.Rmd" target="_blank">25528a3</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-06
+</td>
+<td>
+wflow_publish(“analysis/juvenile_development.Rmd”)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/juvenile_development.html" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -816,7 +848,7 @@ html
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 <td>
 MDG commit
@@ -833,7 +865,7 @@ Rmd
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 <td>
 workflowr::wflow_git_commit(all = T)
@@ -884,17 +916,80 @@ options(stringsAsFactors = FALSE)</code></pre>
 <div id="load-data" class="section level2">
 <h2>Load data</h2>
 <pre class="r"><code># load eclosion data
-eclosion.dat &lt;- read.csv(&quot;data/1.eclosion_times.csv&quot;)
+eclosion_wide &lt;- read.csv(&quot;data/1.eclosion_wide.csv&quot;)
+
+# convert data to &#39;long&#39; format
+eclosion_long &lt;- reshape2::melt(eclosion_wide, id.vars = &quot;DAY&quot;)
+
+# add ID columns
+eclosion_long$YEAR &lt;- factor(&quot;2015&quot;)
+eclosion_long$variable &lt;- paste(eclosion_long$variable, eclosion_long$YEAR, sep = &quot;_&quot;)
+eclosion_long$ID &lt;- gsub(pattern = &quot;_m|f_&quot;, replacement = &quot;&quot;, x = eclosion_long$variable)
+
+# calculate days to eclosion starting from seeding day
+eclosion_long &lt;- eclosion_long %&gt;% 
+  separate(variable, c(&quot;LINE&quot;, &quot;SEED&quot;, &quot;VIAL&quot;, &quot;SEX&quot;, &quot;YEAR&quot;)) %&gt;% 
+  mutate(SEED_DAY = case_when(SEED == &#39;A&#39; ~ &quot;2015-7-20&quot;, 
+                              SEED == &#39;B&#39; ~ &quot;2015-7-21&quot;,
+                              SEED == &#39;C&#39; ~ &quot;2015-7-22&quot;),
+         START_DAY = case_when(SEED == &#39;A&#39; ~ &quot;2015-8-01&quot;, 
+                               SEED == &#39;B&#39; ~ &quot;2015-8-02&quot;,
+                               SEED == &quot;C&quot; &amp; 
+                                 LINE == &quot;M1&quot;| LINE == &quot;M2&quot;| LINE == &quot;M3&quot;| LINE == &quot;M4&quot; ~ &quot;2015-8-03&quot;,
+                               TRUE ~ &quot;2015-8-04&quot;),
+         DAY_ZERO = as.numeric(as.Date(START_DAY) - as.Date(SEED_DAY)),
+         DAY = DAY + DAY_ZERO)
+
+
+# remove rows where no flies eclosed
+eclosion_long &lt;- subset(eclosion_long, value&gt;0)
+
+# add event 
+eclosion_long$EVENT &lt;- 1
+
+# calulate number not eclosed for each vial (out of 100)
+uneclosed &lt;- as.data.frame(eclosion_long %&gt;% 
+                             group_by(ID, LINE, SEED, VIAL) %&gt;% 
+                             summarise(SEX = &quot;fm&quot;,
+                                       DAY = 21,
+                                       eclosing = 100 - sum(value),
+                                       EVENT = 0,
+                                       YEAR = &quot;2015&quot;))
+
+
+# calculate proportion eclosed of each sex to give weights to uneclosed
+p &lt;- eclosion_long %&gt;% group_by(SEX) %&gt;% summarise(S = sum(value))
+prop.male &lt;- p$S[2]/(p$S[2]+p$S[1])
+prop.female &lt;- p$S[1]/(p$S[2]+p$S[1])
+
+# assign sex to uneclosed in each vial based on those that have eclosed... i.e. slighly more females already eclosed
+uneclosed.male &lt;- mutate(uneclosed, 
+                            SEX = &quot;m&quot;, eclosing = round(uneclosed$eclosing*prop.female))
+
+uneclosed.female &lt;- mutate(uneclosed, 
+                              SEX = &quot;f&quot;, eclosing = round(uneclosed$eclosing*prop.male))
+
+colnames(eclosion_long)[7] &lt;- &quot;eclosing&quot;
+
+# reorder columns
+eclosion_long &lt;- eclosion_long %&gt;% select(ID, DAY, SEX, LINE, SEED, VIAL, YEAR, eclosing, EVENT)
+
+# bind eclosed data to calculated uneclosed
+eclosion_long &lt;- rbind(eclosion_long, uneclosed.male, uneclosed.female)
+eclosion_long &lt;- eclosion_long[order(eclosion_long$ID, eclosion_long$SEX), ]
+
+# add treatment variable 
+eclosion_long$TRT &lt;- factor(substr(eclosion_long$ID, 1, 1))
 
 # remove vials seeded with more than 100 larvae
 #unique(eclosion.dat[which(eclosion.dat$eclosing &lt; 0), &quot;ID&quot;]) # 4 vials overseeded
-
-eclosion.dat.trim &lt;- eclosion.dat %&gt;% 
-  filter(ID %in% eclosion.dat[which(eclosion.dat$eclosing &lt; 0), &quot;ID&quot;] == FALSE)
+eclosion.dat.trim &lt;- eclosion_long %&gt;% 
+  filter(ID %in% eclosion_long[which(eclosion_long$eclosing &lt; 0), &quot;ID&quot;] == FALSE)
 
 # expand data frame so each row is a single fly
 ecl.dat &lt;- reshape::untable(eclosion.dat.trim[ ,c(1:7, 9, 10)], 
                            num = eclosion.dat.trim[, 8])
+
 
 # load wing length data
 wing_length &lt;- read.csv(&quot;data/1.wing_length.csv&quot;) %&gt;% 
@@ -907,7 +1002,11 @@ wing_length$LINE &lt;- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 
 </div>
 <div id="survival-analysis" class="section level1">
 <h1>Survival analysis</h1>
-<p>We modeled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (<code>EVENT</code> = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (<code>EVENT</code> = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 <code>Treatment</code> x 4 <code>LINE</code> per <code>Treatment</code> x 6 <code>VIAL</code> per <code>LINE</code> x 3 <code>SEED</code> days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total 10448 flies eclosed during the observation period leaving 3552 individuals to be right censored on day 9. Censored flies were assigned sex based on the observed sex ratio of eclosees. We calculated the number of flies of each sex that emerged from each vial, and assigned the remaining censored individuals (of unknown sex) sex based on the proportion of individuals of each sex that did emerge, so that overall an equal sex ratio of females:males was assigned to each vial.</p>
+<p>We modeled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (<code>EVENT</code> = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (<code>EVENT</code> = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 <code>Treatment</code> x 4 <code>LINE</code> per <code>Treatment</code> x 6 <code>VIAL</code> per <code>LINE</code> x 3 <code>SEED</code> days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total 10448 flies eclosed during the observation period leaving 3552 individuals to be right censored on day 9.</p>
+<div id="censoring" class="section level3">
+<h3>Censoring</h3>
+<p>Censored flies were assigned sex based on the observed sex ratio of eclosees assuming an equal (50:50) sex ratio of larvae seeded to each vial at the beginning of the experiment. We calculate the number of number of males and females that did eclose and susbsequently assign sex to the remaining (uneclosed) individuals of unknown sex based on the proportion of individuals of each sex that did emerge. For example, if 70 flies were counted eclosing from a vial with 40 females and 30 males, we then designate the remaining 30 flies as 10 females and 20 males and so on so that each vial ends with 50 females and 50 males some of which are right censored (<code>EVENT</code> = 0).</p>
+</div>
 <div id="kaplan-meier-survival-curve" class="section level3">
 <h3>Kaplan-Meier survival curve</h3>
 <p>First we plot Kaplan-Meier survival curves without considering our full experimental design.</p>
@@ -919,7 +1018,7 @@ wing_length$LINE &lt;- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 
                       fun = &quot;event&quot;,
                       xlim = c(12, 21),
                       xlab = &quot;Days&quot;,
-                      ylab = &quot;Cumulative proportion eclosed&quot;,
+                      #ylab = &quot;Cumulative proportion eclosed&quot;,
                       legend = &#39;right&#39;,
                       legend.title = &quot;&quot;,
                       legend.labs = c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,&#39;P \u2640&#39;,&#39;P \u2642&#39;),
@@ -950,6 +1049,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-3-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-3-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -978,13 +1088,14 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
+<pre class="r"><code>#ggsave(filename = &#39;figures/eclosion.pdf&#39;, width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)</code></pre>
 <p><strong>Figure X:</strong> Kaplan-Meier curve for eclosion time (in days) for flies in each treatment and sex. +’s indicate censored individuals (n = 3552).</p>
 </div>
 <div id="check-proportional-hazards-assumption" class="section level3">
@@ -1027,6 +1138,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-4-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-4-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1066,7 +1188,7 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 </tr>
 </tbody>
@@ -1099,7 +1221,7 @@ Martin Garlovsky
 }</code></pre>
 </div>
 <div id="table-of-model-parameter-estimates---eclosion-time" class="section level3 tabset">
-<h3 class="tabset">Table of model parameter estimates - eclosion time</h3>
+<h3>Table of model parameter estimates - eclosion time</h3>
 <div id="formatted-table" class="section level4">
 <h4>Formatted table</h4>
 <p>This tables shows the fixed effects estimates on eclosion time. The p column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. Click the next tab to see a complete summary of the model and its output.</p>
@@ -1368,6 +1490,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-8-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-8-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1385,7 +1518,7 @@ lukeholman
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 </tr>
 </tbody>
@@ -1397,10 +1530,10 @@ Martin Garlovsky
 </div>
 </div>
 <div id="body-size-differences-wing-vein-iv-length" class="section level1 tabset">
-<h1 class="tabset">Body size differences (wing vein IV length)</h1>
+<h1>Body size differences (wing vein IV length)</h1>
 <p>We measured the length of wing vein VI as a proxy for body size to test for differences between sexes and treatments as body size may influence development time. Prior to measurement, wing images were anonymised using a custom <a href="https://github.com/henryjuho/Drosophila_wing_length">python script provided by Henry Barton</a> and then decoded for statistical analysis. Wing length was scaled by subtracting the mean (across all measurements) and dividing by the standard deviation.</p>
 <div id="inspecting-the-raw-data" class="section level3 tabset">
-<h3 class="tabset">Inspecting the raw data</h3>
+<h3>Inspecting the raw data</h3>
 <div id="violin-plots" class="section level4">
 <h4>Violin plots</h4>
 <pre class="r"><code>wing_length %&gt;% 
@@ -1441,6 +1574,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-9-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-9-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1458,7 +1602,7 @@ lukeholman
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 </tr>
 </tbody>
@@ -1627,6 +1771,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-12-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-12-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1666,7 +1821,7 @@ Martin Garlovsky
 Martin Garlovsky
 </td>
 <td>
-2020-12-03
+2020-12-04
 </td>
 </tr>
 </tbody>
@@ -1675,7 +1830,7 @@ Martin Garlovsky
 </div>
 </div>
 <div id="table-of-model-parameter-estimates---body-size" class="section level3 tabset">
-<h3 class="tabset">Table of model parameter estimates - body size</h3>
+<h3>Table of model parameter estimates - body size</h3>
 <div id="formatted-table-1" class="section level4">
 <h4>Formatted table</h4>
 <pre class="r"><code>wing_test &lt;- bind_rows(
@@ -1940,6 +2095,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/juvenile_development.Rmd/unnamed-chunk-15-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/juvenile_development.Rmd/unnamed-chunk-15-1.png" target="_blank">989e86f</a>
 </td>
 <td>
@@ -1975,32 +2141,32 @@ Martin Garlovsky
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Mojave 10.14.6
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.30       kableExtra_1.3.1 tidybayes_2.3.1 
- [5] brms_2.14.4      Rcpp_1.0.5       nlme_3.1-149     lme4_1.1-26     
- [9] Matrix_1.2-18    coxme_2.2-16     bdsmatrix_1.3-4  survival_3.2-7  
-[13] ggridges_0.5.3   forcats_0.5.0    stringr_1.4.0    dplyr_1.0.2     
-[17] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2      tibble_3.0.4    
+ [1] knitrhooks_0.0.4 knitr_1.31       kableExtra_1.3.1 tidybayes_2.3.1 
+ [5] brms_2.14.4      Rcpp_1.0.6       nlme_3.1-151     lme4_1.1-26     
+ [9] Matrix_1.3-2     coxme_2.2-16     bdsmatrix_1.3-4  survival_3.2-7  
+[13] ggridges_0.5.3   forcats_0.5.1    stringr_1.4.0    dplyr_1.0.3     
+[17] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2      tibble_3.0.5    
 [21] ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6          
   [4] igraph_1.2.6         splines_4.0.3        svUnit_1.0.3        
   [7] crosstalk_1.1.1      rstantools_2.1.1     inline_0.3.17       
- [10] digest_0.6.27        htmltools_0.5.0      rsconnect_0.8.16    
- [13] fansi_0.4.1          magrittr_2.0.1       openxlsx_4.2.3      
+ [10] digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.16    
+ [13] fansi_0.4.2          magrittr_2.0.1       openxlsx_4.2.3      
  [16] modelr_0.1.8         RcppParallel_5.0.2   matrixStats_0.57.0  
  [19] xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-0    
  [22] rvest_0.3.6          ggdist_2.4.0         haven_2.3.1         
@@ -2008,10 +2174,10 @@ loaded via a namespace (and not attached):
  [28] jsonlite_1.7.2       zoo_1.8-8            glue_1.4.2          
  [31] survminer_0.4.8      gtable_0.3.0         webshot_0.5.2       
  [34] V8_3.4.0             distributional_0.2.1 car_3.0-10          
- [37] pkgbuild_1.2.0       rstan_2.21.2         abind_1.4-5         
- [40] scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.0           
+ [37] pkgbuild_1.2.0       rstan_2.21.1         abind_1.4-5         
+ [40] scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.1           
  [43] rstatix_0.6.0        miniUI_0.1.1.1       viridisLite_0.3.0   
- [46] xtable_1.8-4         foreign_0.8-80       km.ci_0.5-2         
+ [46] xtable_1.8-4         foreign_0.8-81       km.ci_0.5-2         
  [49] stats4_4.0.3         StanHeaders_2.21.0-7 DT_0.17             
  [52] htmlwidgets_1.5.3    httr_1.4.2           threejs_0.3.3       
  [55] RColorBrewer_1.1-2   arrayhelpers_1.1-0   ellipsis_0.3.1      
@@ -2020,27 +2186,27 @@ loaded via a namespace (and not attached):
  [64] tidyselect_1.1.0     rlang_0.4.10         reshape2_1.4.4      
  [67] later_1.1.0.1        munsell_0.5.0        cellranger_1.1.0    
  [70] tools_4.0.3          cli_2.2.0            generics_0.1.0      
- [73] broom_0.7.3          evaluate_0.14        fastmap_1.0.1       
+ [73] broom_0.7.3          evaluate_0.14        fastmap_1.1.0       
  [76] yaml_2.2.1           processx_3.4.5       fs_1.5.0            
  [79] zip_2.1.1            survMisc_0.5.5       whisker_0.4         
  [82] mime_0.9             projpred_2.0.2       xml2_1.3.2          
- [85] compiler_4.0.3       bayesplot_1.8.0      shinythemes_1.1.2   
+ [85] compiler_4.0.3       bayesplot_1.8.0      shinythemes_1.2.0   
  [88] rstudioapi_0.13      gamm4_0.2-6          curl_4.3            
- [91] ggsignif_0.6.0       reprex_0.3.0         statmod_1.4.35      
+ [91] ggsignif_0.6.0       reprex_1.0.0         statmod_1.4.35      
  [94] stringi_1.5.3        highr_0.8            ps_1.5.0            
  [97] Brobdingnag_1.2-6    lattice_0.20-41      nloptr_1.2.2.2      
 [100] markdown_1.1         KMsurv_0.1-5         shinyjs_2.0.0       
 [103] vctrs_0.3.6          pillar_1.4.7         lifecycle_0.2.0     
-[106] bridgesampling_1.0-0 insight_0.11.1       data.table_1.13.6   
-[109] httpuv_1.5.4         R6_2.5.0             promises_1.1.1      
-[112] rio_0.5.16           gridExtra_2.3        codetools_0.2-16    
-[115] boot_1.3-25          colourpicker_1.1.0   MASS_7.3-53         
+[106] bridgesampling_1.0-0 insight_0.12.0       data.table_1.13.6   
+[109] httpuv_1.5.5         R6_2.5.0             promises_1.1.1      
+[112] rio_0.5.16           gridExtra_2.3        codetools_0.2-18    
+[115] boot_1.3-26          colourpicker_1.1.0   MASS_7.3-53         
 [118] gtools_3.8.2         assertthat_0.2.1     rprojroot_2.0.2     
-[121] withr_2.3.0          shinystan_2.5.0      bayestestR_0.8.0    
-[124] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
+[121] withr_2.4.1          shinystan_2.5.0      bayestestR_0.8.2    
+[124] mgcv_1.8-33          parallel_4.0.3       hms_1.0.0           
 [127] grid_4.0.3           coda_0.19-4          minqa_1.2.4         
 [130] rmarkdown_2.6        carData_3.0-4        ggpubr_0.4.0        
-[133] git2r_0.28.0         shiny_1.5.0          lubridate_1.7.9.2   
+[133] git2r_0.28.0         shiny_1.6.0          lubridate_1.7.9.2   
 [136] base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
@@ -2059,8 +2225,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-
 
 
 </div>
