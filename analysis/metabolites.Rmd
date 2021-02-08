@@ -608,7 +608,9 @@ treat_diff_standard_dryweight %>%
         text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
-  ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex")
+  ylab("Difference in means between\nselection treatments (P - M)") + xlab("Sex") + 
+  #ggsave('figures/metabolite_plotCONTROLLED.pdf', height=4, width=6) +
+  NULL
 ```
 
 **Figure XX**: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M > P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.

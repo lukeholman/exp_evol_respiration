@@ -17,8 +17,6 @@ library(tidyverse)
 library(ggridges)
 
 library(coxme)
-library(lme4)
-library(nlme)
 library(brms)
 library(tidybayes)
 
@@ -107,7 +105,6 @@ eclosion.dat.trim <- eclosion_long %>%
 ecl.dat <- reshape::untable(eclosion.dat.trim[ ,c(1:7, 9, 10)], 
                            num = eclosion.dat.trim[, 8])
 
-
 # load wing length data
 wing_length <- read.csv("data/1.wing_length.csv") %>% 
   filter(Side == 'L') %>% 
@@ -138,7 +135,6 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       fun = "event",
                       xlim = c(12, 21),
                       xlab = "Days",
-                      #ylab = "Cumulative proportion eclosed",
                       legend = 'right',
                       legend.title = "",
                       legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
@@ -172,7 +168,7 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
 We fit a Cox Proportional hazards model in `brms` using `family = cox()`, with time (days) to event (eclosion) as the response and sexual selection treatment (`TRT`; Monogamy or Polyandry), `SEX` (female or male) and their interaction as predictors with Seed day as a covariate. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals emerging from the same vial may show a correlated response. 
 
 #### Define priors
-We set fairly conservative normal priors on the fixed effects (mean = 0, sd = 1) and half Cauchy priors on the random effects - `LINE` - (mean = 0, scale = 0.1). All other priors were left at the default in `brms`.
+We set conservative normal priors on the fixed effects (mean = 0, sd = 1) and half Cauchy priors on the random effects - `LINE` and vial `ID` - (mean = 0, scale = 0.1). All other priors were left at the default in `brms`.
 
 #### Run the model
 The model is run over 4 chains with 5000 iterations each (with the first 2500 discarded as burn-in), for a total of 2500*4 = 10,000 posterior samples. Note that some of the `brms` functionality is not currently available for models using the `cox` family (e.g. posterior predictive checks).
@@ -182,6 +178,8 @@ if(!file.exists("output/cox_brms.rds")){
   
   cox_brm <- brm(DAY | cens(1 - EVENT) ~ TRT * SEX + SEED + (TRT|LINE) + (1|ID),
                iter = 5000, chains = 4, cores = 4,
+               prior = c(set_prior("normal(0,1)", class = "b"),
+                         set_prior("cauchy(0,0.1)", class = "sd")),
                control = list(max_treedepth = 20,
                               adapt_delta = 0.999),
                data = ecl.dat, family = cox())

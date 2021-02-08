@@ -17,7 +17,6 @@ knitr::opts_chunk$set(warning=FALSE, message=FALSE)
 library(tidyverse)
 
 library(coxme)
-library(lme4)
 library(brms)
 library(tidybayes)
 library(ggridges)
@@ -112,10 +111,11 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       xlab = "Time (hours)",
                       legend = 'right',
                       legend.title = "",
-                      legend.labs = c("Monogamy \u2640","Monogamy \u2642",
-                                      'Polandry \u2640','Polandry \u2642'),
+                      legend.labs = c("M \u2640","M \u2642",
+                                      'P \u2640','P \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
+#ggsave(filename = 'figures/desiccation.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
 
 survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
                       conf.int = TRUE,
@@ -125,10 +125,11 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       xlab = "Time (hours)",
                       legend = 'right',
                       legend.title = "",
-                      legend.labs = c("Monogamy \u2640","Monogamy \u2642",
-                                      'Polandry \u2640','Polandry \u2642'),
+                      legend.labs = c("M \u2640","M \u2642",
+                                      'P \u2640','P \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
+#ggsave(filename = 'figures/starvation.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
 
 ```
 **Figure 2:** Kaplan-Meier survival curves for flies in each treatment split by sex. + indicates censored individuals (n = 5).
@@ -204,7 +205,7 @@ if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, els
 ### Table of model parameter estimates - eclosion time {.tabset}
 
 #### Formatted table 
-Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)`, i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times shorter than Monogamy females.
+Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)` (95% confidence intervals = `r round(exp(fixef(des_brm)[3,3]), 3)` - `r round(exp(fixef(des_brm)[3,4]), 3)`), i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times shorter than Monogamy females.
 
 ```{r}
 
