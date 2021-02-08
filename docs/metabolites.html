@@ -13,7 +13,7 @@
 
 <title>Metabolite composition</title>
 
-<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -26,11 +26,9 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
-<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.13/datatables.js"></script>
+<script src="site_libs/datatables-binding-0.17/datatables.js"></script>
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -44,9 +42,10 @@
 <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.html5.min.js"></script>
 <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.colVis.min.js"></script>
 <script src="site_libs/dt-ext-buttons-1.10.20/js/buttons.print.min.js"></script>
-<link href="site_libs/crosstalk-1.1.0.1/css/crosstalk.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.1.0.1/js/crosstalk.min.js"></script>
+<link href="site_libs/crosstalk-1.1.1/css/crosstalk.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.1.1/js/crosstalk.min.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.6.1/grViz.js"></script>
@@ -114,6 +113,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 
 
@@ -404,7 +404,7 @@ div.tocify {
   <a href="resistance.html">Resistance</a>
 </li>
 <li>
-  <a href="metabolites.html">Respirometry</a>
+  <a href="respirometry.html">Respirometry</a>
 </li>
 <li>
   <a href="metabolites.html">Metabolites</a>
@@ -416,7 +416,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lukeholman/exp_evol_respiration">
-    <span class="fa fa-github"></span>
+    <span class="fas fa-github"></span>
      
     Source code
   </a>
@@ -463,7 +463,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-12-18
+<strong>Last updated:</strong> 2021-02-08
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -511,7 +511,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -554,16 +554,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02ctargetblank99fd9d4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02c" target="_blank">99fd9d4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02ctargetblank99fd9d4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/99fd9d4a0cd8aa7c221a80bbb625acf40ab2e02c" target="_blank">99fd9d4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -571,17 +571,30 @@ Note that you need to be careful to ensure that all relevant files for the analy
 <pre><code>
 Ignored files:
     Ignored:    .DS_Store
-    Ignored:    .Rapp.history
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/.DS_Store
-    Ignored:    code/old mediator variable code.R
+    Ignored:    figures/.DS_Store
     Ignored:    output/.DS_Store
 
 Untracked files:
-    Untracked:  figures/
+    Untracked:  data/1.eclosion_wide.csv
+    Untracked:  figures/desiccation.pdf
+    Untracked:  figures/eclosion.pdf
+    Untracked:  figures/metaboliteDAG.pdf
+    Untracked:  figures/metabolite_plotCONTROLLED.pdf
+    Untracked:  figures/metabolites_supp.pdf
+    Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/starvation.pdf
 
 Unstaged changes:
-    Modified:   .gitignore
+    Modified:   figures/metabolite_pairs_plot.pdf
+    Modified:   figures/respiration_figure.pdf
+    Modified:   figures/respiration_pairs_plot.pdf
+    Modified:   output/cox_brms.rds
+    Deleted:    output/coxmod.rds
+    Deleted:    output/coxmod_dropINT.rds
+    Deleted:    output/coxmod_dropSEX.rds
+    Deleted:    output/coxmod_dropTRT.rds
 
 </code></pre>
 <p>
@@ -620,6 +633,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/1b920460cfbb2f444fec0001dbbc9136f42d63ed/analysis/metabolites.Rmd" target="_blank">1b92046</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/41d232fe50f2e2d81eacb9efecc0f81170f8775f/docs/metabolites.html" target="_blank">41d232f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1373,8 +1420,8 @@ options(stringsAsFactors = FALSE)</code></pre>
 <ul>
 <li><code>Lipid_conc</code> (i.e. the weight of the hexane fraction, divided by the full dry weight),</li>
 <li><code>Carbohydrate_conc</code> (i.e. the weight of the aqueous fraction, divided by the full dry weight),</li>
-<li><code>Protein_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of protein per milligram as measured by the bicinchoninic acid protein assay),</li>
-<li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
+<li><code>Protein_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of protein per milligram as measured by the bicinchoninic acid protein assay),</li>
+<li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
 <li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
 <p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.</p>
@@ -1438,8 +1485,8 @@ scaled_metabolites %&gt;%
   select(-sextreat) %&gt;%
   mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %&gt;%
   my_data_table()</code></pre>
-<div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_metabolites"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-9cc47375f34d55b83601" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9cc47375f34d55b83601">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_metabolites"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="simple-plots" class="section level3">
 <h3>Simple plots</h3>
@@ -1794,8 +1841,8 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 {&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Lipids&quot;
 {&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Protein&quot;
 }&#39;)</code></pre>
-<div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="fit-brms-structural-equation-model" class="section level2">
 <h2>Fit <code>brms</code> structural equation model</h2>
@@ -2080,7 +2127,7 @@ p
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
@@ -2102,7 +2149,7 @@ Dry weight
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2124,7 +2171,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2146,7 +2193,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2173,7 +2220,7 @@ Sex (M) x Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
@@ -2196,7 +2243,7 @@ Dry weight
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2218,7 +2265,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2240,7 +2287,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2267,7 +2314,7 @@ Sex (M) x Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
@@ -2289,7 +2336,7 @@ Dry weight
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2311,7 +2358,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2333,7 +2380,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2360,7 +2407,7 @@ Sex (M) x Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
@@ -2383,7 +2430,7 @@ Dry weight
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2405,7 +2452,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2427,7 +2474,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2454,7 +2501,7 @@ Sex (M) x Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
@@ -2476,7 +2523,7 @@ Dry weight
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2498,7 +2545,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2520,7 +2567,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2547,7 +2594,7 @@ Sex (M) x Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
@@ -2570,7 +2617,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2593,7 +2640,7 @@ Treatment (P)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left: 2em;" indentlevel="1">
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
 Sex (M) x Treatment (P)
 </td>
 <td style="text-align:right;">
@@ -2621,7 +2668,7 @@ Sex (M) x Treatment (P)
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
 <ul>
-<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(Lipid_Intercept)</code>) and slopes (e.g. <code>sd(Dryweight_treatmentPolyandry)</code>), as well as the correlations between these effects (e.g. <code>cor(Lipid_Intercept,Protein_Intercept)</code> is the correlation in line effects on lipids and proteins)</li>
+<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(Lipid_Intercept)</code>) and slopes (e.g. <code>sd(Dryweight_treatmentPolyandry)</code>), as well as the correlations between these effects (e.g. <code>cor(Lipid_Intercept,Protein_Intercept)</code> is the correlation in line effects on lipids and proteins)</li>
 <li>‘Population-Level Effects:’ (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies) and the effects of treatment, sex, dry weight, and the treatment <span class="math inline">\(\times\)</span> sex interaction, for each response variable.</li>
 <li>‘Family Specific Parameters’: This is the parameter sigma for the residual variance for each response variable</li>
 <li>‘Residual Correlations:’ This give the correlations between the residuals for each pairs of response variables.</li>
@@ -3044,7 +3091,9 @@ lukeholman
         text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
-  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)</code></pre>
+  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;) + 
+  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=4, width=6) +
+  NULL</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
@@ -3696,9 +3745,11 @@ p2 &lt;- treatsex_interaction_data1 %&gt;%
   theme(legend.position = &#39;none&#39;,
         text = element_text(family = nice_font),
         strip.background = element_blank()) +
-  ylab(&quot;Posterior density&quot;)
-
-ggsave(&quot;figures/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
+  ylab(&quot;Posterior density&quot;)</code></pre>
+<pre><code>Warning: &#39;stat_halfeyeh&#39; is deprecated.
+Use &#39;stat_halfeye&#39; instead.
+See help(&quot;Deprecated&quot;) and help(&quot;tidybayes-deprecated&quot;).</code></pre>
+<pre class="r"><code>ggsave(&quot;figures/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
 p2</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3794,6 +3845,9 @@ treatsex_interaction_data2 %&gt;%
         text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)</code></pre>
+<pre><code>Warning: &#39;stat_halfeyeh&#39; is deprecated.
+Use &#39;stat_halfeye&#39; instead.
+See help(&quot;Deprecated&quot;) and help(&quot;tidybayes-deprecated&quot;).</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
@@ -4138,43 +4192,42 @@ Protein
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.4
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] showtext_0.9-1   showtextdb_3.0   sysfonts_0.8.2   knitrhooks_0.0.4 knitr_1.30       kableExtra_1.1.0 DT_0.13          tidybayes_2.0.3  brms_2.14.4     
-[10] Rcpp_1.0.4.6     ggridges_0.5.2   gridExtra_2.3    GGally_1.5.0     forcats_0.5.0    stringr_1.4.0    dplyr_1.0.0      purrr_0.3.4      readr_1.3.1     
-[19] tidyr_1.1.0      tibble_3.0.1     ggplot2_3.3.2    tidyverse_1.3.0  workflowr_1.6.2 
+ [1] showtext_0.9-2   showtextdb_3.0   sysfonts_0.8.3   knitrhooks_0.0.4 knitr_1.31       kableExtra_1.3.1 DT_0.17          tidybayes_2.3.1  brms_2.14.4     
+[10] Rcpp_1.0.6       ggridges_0.5.3   gridExtra_2.3    GGally_2.1.0     forcats_0.5.1    stringr_1.4.0    dplyr_1.0.3      purrr_0.3.4      readr_1.4.0     
+[19] tidyr_1.1.2      tibble_3.0.5     ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.1.7      plyr_1.8.6           igraph_1.2.5         svUnit_1.0.3         splines_4.0.3        crosstalk_1.1.0.1   
-  [8] TH.data_1.0-10       rstantools_2.1.1     inline_0.3.15        digest_0.6.25        htmltools_0.5.0      rsconnect_0.8.16     fansi_0.4.1         
- [15] magrittr_2.0.1       modelr_0.1.8         RcppParallel_5.0.1   matrixStats_0.56.0   xts_0.12-0           sandwich_2.5-1       prettyunits_1.1.1   
- [22] colorspace_1.4-1     blob_1.2.1           rvest_0.3.5          haven_2.3.1          xfun_0.19            callr_3.4.3          crayon_1.3.4        
- [29] jsonlite_1.7.0       lme4_1.1-23          survival_3.2-7       zoo_1.8-8            glue_1.4.2           gtable_0.3.0         emmeans_1.4.7       
- [36] webshot_0.5.2        V8_3.4.0             pkgbuild_1.0.8       rstan_2.21.2         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-0       
- [43] DBI_1.1.0            miniUI_0.1.1.1       viridisLite_0.3.0    xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-3 htmlwidgets_1.5.1   
- [50] httr_1.4.1           DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0   RColorBrewer_1.1-2   ellipsis_0.3.1       farver_2.0.3        
- [57] pkgconfig_2.0.3      reshape_0.8.8        loo_2.3.1            dbplyr_1.4.4         labeling_0.3         tidyselect_1.1.0     rlang_0.4.6         
- [64] reshape2_1.4.4       later_1.0.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.0.2           
- [71] generics_0.0.2       broom_0.5.6          evaluate_0.14        fastmap_1.0.1        yaml_2.2.1           processx_3.4.2       fs_1.4.1            
- [78] nlme_3.1-149         whisker_0.4          mime_0.9             projpred_2.0.2       xml2_1.3.2           compiler_4.0.3       bayesplot_1.7.2     
- [85] shinythemes_1.1.2    rstudioapi_0.11      gamm4_0.2-6          curl_4.3             reprex_0.3.0         statmod_1.4.34       stringi_1.5.3       
- [92] highr_0.8            ps_1.3.3             Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18        nloptr_1.2.2.1       markdown_1.1        
- [99] shinyjs_1.1          vctrs_0.3.0          pillar_1.4.4         lifecycle_0.2.0      bridgesampling_1.0-0 estimability_1.3     insight_0.8.4       
-[106] httpuv_1.5.3.1       R6_2.4.1             promises_1.1.0       codetools_0.2-16     boot_1.3-25          colourpicker_1.0     MASS_7.3-53         
-[113] gtools_3.8.2         assertthat_0.2.1     rprojroot_1.3-2      withr_2.2.0          shinystan_2.5.0      multcomp_1.4-13      bayestestR_0.6.0    
-[120] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3            grid_4.0.3           coda_0.19-3          minqa_1.2.4          rmarkdown_2.5       
-[127] git2r_0.27.1         shiny_1.4.0.2        lubridate_1.7.8      base64enc_0.1-3      dygraphs_1.1.1.6    
+  [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6           igraph_1.2.6         splines_4.0.3        svUnit_1.0.3         crosstalk_1.1.1     
+  [8] rstantools_2.1.1     inline_0.3.17        digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.16     fansi_0.4.2          magrittr_2.0.1      
+ [15] modelr_0.1.8         RcppParallel_5.0.2   matrixStats_0.57.0   xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-0     rvest_0.3.6         
+ [22] ggdist_2.4.0         haven_2.3.1          xfun_0.20            callr_3.5.1          crayon_1.3.4         jsonlite_1.7.2       lme4_1.1-26         
+ [29] zoo_1.8-8            glue_1.4.2           gtable_0.3.0         webshot_0.5.2        V8_3.4.0             distributional_0.2.1 pkgbuild_1.2.0      
+ [36] rstan_2.21.1         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.1            miniUI_0.1.1.1       viridisLite_0.3.0   
+ [43] xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-7 htmlwidgets_1.5.3    httr_1.4.2           DiagrammeR_1.0.6.1   threejs_0.3.3       
+ [50] arrayhelpers_1.1-0   RColorBrewer_1.1-2   ellipsis_0.3.1       pkgconfig_2.0.3      reshape_0.8.8        loo_2.4.1            farver_2.0.3        
+ [57] dbplyr_2.0.0         labeling_0.4.2       tidyselect_1.1.0     rlang_0.4.10         reshape2_1.4.4       later_1.1.0.1        visNetwork_2.0.9    
+ [64] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.2.0            generics_0.1.0       broom_0.7.3          evaluate_0.14       
+ [71] fastmap_1.1.0        yaml_2.2.1           processx_3.4.5       fs_1.5.0             nlme_3.1-151         whisker_0.4          mime_0.9            
+ [78] projpred_2.0.2       xml2_1.3.2           compiler_4.0.3       bayesplot_1.8.0      shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6         
+ [85] curl_4.3             reprex_1.0.0         statmod_1.4.35       stringi_1.5.3        highr_0.8            ps_1.5.0             Brobdingnag_1.2-6   
+ [92] lattice_0.20-41      Matrix_1.3-2         nloptr_1.2.2.2       markdown_1.1         shinyjs_2.0.0        vctrs_0.3.6          pillar_1.4.7        
+ [99] lifecycle_0.2.0      bridgesampling_1.0-0 insight_0.12.0       httpuv_1.5.5         R6_2.5.0             promises_1.1.1       codetools_0.2-18    
+[106] boot_1.3-26          colourpicker_1.1.0   MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.1         
+[113] shinystan_2.5.0      bayestestR_0.8.2     mgcv_1.8-33          parallel_4.0.3       hms_1.0.0            grid_4.0.3           coda_0.19-4         
+[120] minqa_1.2.4          rmarkdown_2.6        git2r_0.28.0         shiny_1.6.0          lubridate_1.7.9.2    base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
 </div>

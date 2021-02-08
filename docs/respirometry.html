@@ -13,7 +13,6 @@
 
 <title>Respirometry</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -60,8 +59,6 @@ div.section {
   padding-top: 12px;
 }
 </style>
-
-
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -466,7 +463,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-01-19
+<strong>Last updated:</strong> 2021-02-08
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -514,7 +511,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -557,34 +554,47 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64targetblankd0bfb9ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64" target="_blank">d0bfb9e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreed0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64targetblankd0bfb9ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/d0bfb9ef0e9d394b2a0df8cb248caec55ea1dd64" target="_blank">d0bfb9e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    figures/.DS_Store
     Ignored:    output/.DS_Store
 
+Untracked files:
+    Untracked:  data/1.eclosion_wide.csv
+    Untracked:  figures/desiccation.pdf
+    Untracked:  figures/eclosion.pdf
+    Untracked:  figures/metaboliteDAG.pdf
+    Untracked:  figures/metabolite_plotCONTROLLED.pdf
+    Untracked:  figures/metabolites_supp.pdf
+    Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/starvation.pdf
+
 Unstaged changes:
-    Modified:   analysis/resistance.Rmd
+    Modified:   figures/metabolite_pairs_plot.pdf
     Modified:   figures/respiration_figure.pdf
     Modified:   figures/respiration_pairs_plot.pdf
     Modified:   output/cox_brms.rds
-    Modified:   output/des_brm.rds
-    Modified:   output/sta_brm.rds
-    Modified:   output/wing_brms.rds
+    Deleted:    output/coxmod.rds
+    Deleted:    output/coxmod_dropINT.rds
+    Deleted:    output/coxmod_dropSEX.rds
+    Deleted:    output/coxmod_dropTRT.rds
 
 </code></pre>
 <p>
@@ -623,6 +633,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/0b750d99eddb7c41c7b854cc18b7b4a53be97a27/docs/respirometry.html" target="_blank">0b750d9</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1104,7 +1131,7 @@ inv_logit &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
 <li><code>CYCLE</code> The respirometry cycle (three measurements were taken, with cycle I being the first and cycle III the last)</li>
 <li><code>VO2</code> The amount of O<span class="math inline">\(_2\)</span> produced over the cycle</li>
 <li><code>VCO2</code> The amount of CO<span class="math inline">\(_2\)</span> consumed over the cycle</li>
-<li><code>RQ</code> The respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code></li>
+<li><code>RQ</code> The respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code></li>
 <li><code>ACTIVITY</code> The amount of locomotor activity by the triad of flies over the focal cycle; measured by infrared light</li>
 <li><code>BODYMASS</code> The mass/weight of the triad of flies, measured to the nearest 0.1mg.</li>
 </ul>
@@ -1259,7 +1286,7 @@ lukeholman
 <p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
 </div>
 <div id="group-means" class="section level3 tabset">
-<h3 class="tabset">Group means</h3>
+<h3>Group means</h3>
 <div id="body-weight-per-triad" class="section level4">
 <h4>Body weight (per triad)</h4>
 <pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
@@ -2493,8 +2520,9 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 {&quot;Metabolic\nsubstrate&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 }&#39;)</code></pre>
-<p><div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script> <br></br> <strong>Figure XX:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised <em>a priori</em> between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
+<div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p><br></br> <strong>Figure XX:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised <em>a priori</em> between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
 </div>
 <div id="fit-bayesian-structural-equation-model-sem-via-brms" class="section level2">
 <h2>Fit Bayesian structural equation model (SEM) via <code>brms</code></h2>
@@ -2517,7 +2545,7 @@ scaled_data %&gt;%
 </div>
 <div id="define-the-sems-sub-models" class="section level3">
 <h3>Define the SEM’s sub-models</h3>
-<p>Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (<code>VO2</code>) and another for <code>CO2</code> production (<code>VCO2</code>) which depends on the parameter <code>RQ</code> (the respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code>); there are also sub-models for body mass (<code>BODYMASS</code>) and activity level (<code>ACTIVITY</code>).</p>
+<p>Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (<code>VO2</code>) and another for <code>CO2</code> production (<code>VCO2</code>) which depends on the parameter <code>RQ</code> (the respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code>); there are also sub-models for body mass (<code>BODYMASS</code>) and activity level (<code>ACTIVITY</code>).</p>
 <p>In short, we assume that <code>VO2</code>, <code>RQ</code>, <code>BODYMASS</code>, and <code>ACTIVITY</code> are affected by the predictor variables related to the experimental design. These variables are <code>SELECTION</code> (i.e. M vs P treatment), <code>SEX</code> (Male or Female), <code>CYCLE</code> (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), <code>LINE</code> (8 levels, one for each of the four independent replicates of the M an P treatments), and <code>SAMPLE</code> (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, <code>VCO2</code> is predicted from the estimated values of <code>VO2</code> and <code>RQ</code> as <code>VO2</code> <code>RQ</code>, and thus is related to the predictor variables only indirectly (the choice to make <code>VCO2</code> dependent rather than <code>VO2</code> dependant on <code>RQ</code> is arbitrary, and does not affect the results).</p>
 <p>The <code>brms</code> notation for the line random effects (<code>(SELECTION | p | LINE)</code>) means that the model fits a random intercept for each of the 8 lines, and that these random intercepts are (potentially) correlated across each of the response variables. Furthermore, the model fits a random slope for <code>SELECTION</code>, which allows the treatment effect to vary across the replicate lines.</p>
 <div id="vo2" class="section level4">
@@ -2527,7 +2555,7 @@ scaled_data %&gt;%
 </div>
 <div id="vco2-as-determined-by-the-estimated-parameter-rq" class="section level4">
 <h4>VCO2 (as determined by the estimated parameter RQ)</h4>
-<p>Formulae (2-part model, see <code>vignette("brms_nonlinear")</code>):</p>
+<p>Formulae (2-part model, see <code>vignette(&quot;brms_nonlinear&quot;)</code>):</p>
 <p><code>VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))</code></p>
 <p><code>RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + (SELECTION | p | LINE) + (1 | SAMPLE)</code></p>
 <p><code>VCO2</code> is assumed to depend on the value of <code>VO2</code> from the same measurement, multiplied by <code>RQ</code>. We use a modified inverse logit function that forces <code>RQ</code> to lie 0.7 and 1 (this must be the case, given the chemistry of respiration, and building this information into the model should yield more precise estimates of the model’s parameters). In turn, <code>RQ</code> is predicted by the same set of predictors as for <code>VO2</code>.</p>
@@ -2705,7 +2733,7 @@ lukeholman
 </div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
-<h2 class="tabset">Table of model parameter estimates</h2>
+<h2>Table of model parameter estimates</h2>
 <div id="formatted-table" class="section level3">
 <h3>Formatted table</h3>
 <p>This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
@@ -3772,7 +3800,7 @@ Treatment (P) x Sex (M)
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
 <ul>
-<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(VO2_Intercept)</code>) and slopes (e.g. <code>sd(VO2_SELECTIONPoly)</code>), as well as the correlations between these effects (e.g. <code>cor(VO2_Intercept,VO2_SELECTIONPoly)</code>.</li>
+<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(VO2_Intercept)</code>) and slopes (e.g. <code>sd(VO2_SELECTIONPoly)</code>), as well as the correlations between these effects (e.g. <code>cor(VO2_Intercept,VO2_SELECTIONPoly)</code>.</li>
 <li>‘Population-Level Effects:’ (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies, in Cycle I) and the effects of treatment, sex, dry weight, and the various interaction terms, for each response variable.</li>
 <li>‘Family Specific Parameters’: This is the parameter sigma for the residual variance for each response variable</li>
 </ul>
@@ -4108,7 +4136,7 @@ post_preds_respiration &lt;- left_join(
 ) %&gt;% select(draw, VO2, RQ, SELECTION, SEX, CYCLE, mediators_blocked)</code></pre>
 </div>
 <div id="find-posterior-estimates-of-effect-size" class="section level3 tabset">
-<h3 class="tabset">Find posterior estimates of effect size</h3>
+<h3>Find posterior estimates of effect size</h3>
 <p>We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
 <pre class="r"><code>overall_SD_VO2 &lt;- scaled_data$VO2 %&gt;% sd()
 overall_SD_RQ &lt;- respiration$RQ %&gt;% sd()
@@ -5800,7 +5828,7 @@ Cycle III
 <h2>Posterior difference in treatment effect size between sexes</h2>
 <p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each cycle, for VO<span class="math inline">\(_2\)</span>. We find that the effect of the P/M treatment on VO<span class="math inline">\(_2\)</span> is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.</p>
 <div id="figure-1" class="section level3 tabset">
-<h3 class="tabset">Figure</h3>
+<h3>Figure</h3>
 <pre class="r"><code>treatsex_interaction &lt;- posterior_effect_size %&gt;%
   rename(Cycle = CYCLE) %&gt;%
   group_by(draw, Cycle, mediators_blocked) %&gt;%
@@ -5869,7 +5897,7 @@ lukeholman
 </div>
 </div>
 <div id="table" class="section level3 tabset">
-<h3 class="tabset">Table</h3>
+<h3>Table</h3>
 <pre class="r"><code>treatsex_interaction %&gt;%
   rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
   group_by(Cycle, mediators_blocked) %&gt;%
@@ -6119,35 +6147,35 @@ Activity
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Mojave 10.14.6
+Running under: macOS Catalina 10.15.7
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
 LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
 
 attached base packages:
 [1] grid      stats     graphics  grDevices utils     datasets  methods  
 [8] base     
 
 other attached packages:
- [1] knitrhooks_0.0.4   knitr_1.30         showtext_0.9-2     showtextdb_3.0    
+ [1] knitrhooks_0.0.4   knitr_1.31         showtext_0.9-2     showtextdb_3.0    
  [5] sysfonts_0.8.3     DT_0.17            GGally_2.1.0       future.apply_1.7.0
- [9] future_1.21.0      ggridges_0.5.3     MuMIn_1.43.17      bayestestR_0.8.0  
+ [9] future_1.21.0      ggridges_0.5.3     MuMIn_1.43.17      bayestestR_0.8.2  
 [13] tidybayes_2.3.1    kableExtra_1.3.1   glue_1.4.2         RColorBrewer_1.1-2
-[17] brms_2.14.4        Rcpp_1.0.5         gridExtra_2.3      forcats_0.5.0     
-[21] stringr_1.4.0      dplyr_1.0.2        purrr_0.3.4        readr_1.4.0       
-[25] tidyr_1.1.2        tibble_3.0.4       ggplot2_3.3.3      tidyverse_1.3.0   
+[17] brms_2.14.4        Rcpp_1.0.6         gridExtra_2.3      forcats_0.5.1     
+[21] stringr_1.4.0      dplyr_1.0.3        purrr_0.3.4        readr_1.4.0       
+[25] tidyr_1.1.2        tibble_3.0.5       ggplot2_3.3.3      tidyverse_1.3.0   
 [29] workflowr_1.6.2   
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6          
   [4] igraph_1.2.6         splines_4.0.3        svUnit_1.0.3        
   [7] listenv_0.8.0        crosstalk_1.1.1      rstantools_2.1.1    
- [10] inline_0.3.17        digest_0.6.27        htmltools_0.5.0     
- [13] rsconnect_0.8.16     fansi_0.4.1          magrittr_2.0.1      
+ [10] inline_0.3.17        digest_0.6.27        htmltools_0.5.1.1   
+ [13] rsconnect_0.8.16     fansi_0.4.2          magrittr_2.0.1      
  [16] globals_0.14.0       modelr_0.1.8         RcppParallel_5.0.2  
  [19] matrixStats_0.57.0   xts_0.12.1           prettyunits_1.1.1   
  [22] colorspace_2.0-0     rvest_0.3.6          ggdist_2.4.0        
@@ -6155,8 +6183,8 @@ loaded via a namespace (and not attached):
  [28] crayon_1.3.4         jsonlite_1.7.2       lme4_1.1-26         
  [31] zoo_1.8-8            gtable_0.3.0         webshot_0.5.2       
  [34] V8_3.4.0             distributional_0.2.1 pkgbuild_1.2.0      
- [37] rstan_2.21.2         abind_1.4-5          scales_1.1.1        
- [40] mvtnorm_1.1-1        DBI_1.1.0            miniUI_0.1.1.1      
+ [37] rstan_2.21.1         abind_1.4-5          scales_1.1.1        
+ [40] mvtnorm_1.1-1        DBI_1.1.1            miniUI_0.1.1.1      
  [43] viridisLite_0.3.0    xtable_1.8-4         stats4_4.0.3        
  [46] StanHeaders_2.21.0-7 htmlwidgets_1.5.3    httr_1.4.2          
  [49] DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0  
@@ -6166,24 +6194,24 @@ loaded via a namespace (and not attached):
  [61] reshape2_1.4.4       later_1.1.0.1        visNetwork_2.0.9    
  [64] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3         
  [67] cli_2.2.0            generics_0.1.0       broom_0.7.3         
- [70] evaluate_0.14        fastmap_1.0.1        yaml_2.2.1          
- [73] processx_3.4.5       fs_1.5.0             nlme_3.1-149        
+ [70] evaluate_0.14        fastmap_1.1.0        yaml_2.2.1          
+ [73] processx_3.4.5       fs_1.5.0             nlme_3.1-151        
  [76] whisker_0.4          mime_0.9             projpred_2.0.2      
  [79] xml2_1.3.2           compiler_4.0.3       bayesplot_1.8.0     
- [82] shinythemes_1.1.2    rstudioapi_0.13      gamm4_0.2-6         
- [85] curl_4.3             reprex_0.3.0         statmod_1.4.35      
+ [82] shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6         
+ [85] curl_4.3             reprex_1.0.0         statmod_1.4.35      
  [88] stringi_1.5.3        highr_0.8            ps_1.5.0            
- [91] Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.2-18       
+ [91] Brobdingnag_1.2-6    lattice_0.20-41      Matrix_1.3-2        
  [94] nloptr_1.2.2.2       markdown_1.1         shinyjs_2.0.0       
  [97] vctrs_0.3.6          pillar_1.4.7         lifecycle_0.2.0     
-[100] bridgesampling_1.0-0 insight_0.11.1       httpuv_1.5.4        
+[100] bridgesampling_1.0-0 insight_0.12.0       httpuv_1.5.5        
 [103] R6_2.5.0             promises_1.1.1       parallelly_1.23.0   
-[106] codetools_0.2-16     boot_1.3-25          colourpicker_1.1.0  
+[106] codetools_0.2-18     boot_1.3-26          colourpicker_1.1.0  
 [109] MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1    
-[112] rprojroot_2.0.2      withr_2.3.0          shinystan_2.5.0     
-[115] mgcv_1.8-33          parallel_4.0.3       hms_0.5.3           
+[112] rprojroot_2.0.2      withr_2.4.1          shinystan_2.5.0     
+[115] mgcv_1.8-33          parallel_4.0.3       hms_1.0.0           
 [118] coda_0.19-4          minqa_1.2.4          rmarkdown_2.6       
-[121] git2r_0.28.0         shiny_1.5.0          lubridate_1.7.9.2   
+[121] git2r_0.28.0         shiny_1.6.0          lubridate_1.7.9.2   
 [124] base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
@@ -6202,8 +6230,6 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
-
-
 
 
 </div>
