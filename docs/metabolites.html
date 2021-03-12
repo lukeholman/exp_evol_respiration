@@ -13,6 +13,7 @@
 
 <title>Metabolite composition</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -59,6 +60,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -463,7 +466,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-08
+<strong>Last updated:</strong> 2021-03-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -511,7 +514,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -554,16 +557,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -584,10 +587,26 @@ Untracked files:
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
     Untracked:  figures/metabolites_supp.pdf
     Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
+    Untracked:  gganim_plot0001.png
+    Untracked:  gganim_plot0002.png
+    Untracked:  gganim_plot0003.png
+    Untracked:  gganim_plot0004.png
+    Untracked:  gganim_plot0005.png
+    Untracked:  gganim_plot0006.png
+    Untracked:  gganim_plot0007.png
+    Untracked:  gganim_plot0008.png
+    Untracked:  gganim_plot0009.png
+    Untracked:  gganim_plot0010.png
+    Untracked:  gganim_plot0011.png
+    Untracked:  gganim_plot0012.png
+    Untracked:  output/stress_medians.csv
 
 Unstaged changes:
+    Modified:   figures/metabolite_interaction_plot.pdf
     Modified:   figures/metabolite_pairs_plot.pdf
+    Modified:   figures/metabolite_plot.pdf
     Modified:   figures/respiration_figure.pdf
     Modified:   figures/respiration_pairs_plot.pdf
     Modified:   output/cox_brms.rds
@@ -633,6 +652,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7b49ff83b491eb6b5b39da55d82c972f2d798a0/analysis/metabolites.Rmd" target="_blank">f7b49ff</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/metabolites.html" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1416,12 +1469,12 @@ options(stringsAsFactors = FALSE)</code></pre>
 </div>
 <div id="load-metabolite-composition-data" class="section level2">
 <h2>Load metabolite composition data</h2>
-<p>This analysis set out to test whether sexual selection treatment had an effect on metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the concentrations of five metabolites. These are:</p>
+<p>This analysis set out to test whether sexual selection treatment had an effect on macro-metabolite composition of flies. We measured fresh and dry fly weight in milligrams, plus the concentrations of five metabolites. These are:</p>
 <ul>
 <li><code>Lipid_conc</code> (i.e. the weight of the hexane fraction, divided by the full dry weight),</li>
 <li><code>Carbohydrate_conc</code> (i.e. the weight of the aqueous fraction, divided by the full dry weight),</li>
-<li><code>Protein_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of protein per milligram as measured by the bicinchoninic acid protein assay),</li>
-<li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
+<li><code>Protein_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of protein per milligram as measured by the bicinchoninic acid protein assay),</li>
+<li><code>Glycogen_conc</code> (i.e. <span class="math inline">\(\mu\)</span>g of glycogen per milligram as measured by the hexokinase assay), and</li>
 <li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
 <p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.</p>
@@ -1450,10 +1503,10 @@ scaled_metabolites &lt;- metabolites %&gt;%
   mutate(Dry_weight = as.numeric(scale(Dry_weight))) %&gt;%
   mutate(sextreat = paste(sex, treatment),
          sextreat = replace(sextreat, sextreat == &quot;Male Monogamy&quot;, &quot;M males&quot;),
-         sextreat = replace(sextreat, sextreat == &quot;Male Polyandry&quot;, &quot;P males&quot;),
+         sextreat = replace(sextreat, sextreat == &quot;Male Polyandry&quot;, &quot;E males&quot;),
          sextreat = replace(sextreat, sextreat == &quot;Female Monogamy&quot;, &quot;M females&quot;),
-         sextreat = replace(sextreat, sextreat == &quot;Female Polyandry&quot;, &quot;P females&quot;),
-         sextreat = factor(sextreat, c(&quot;M males&quot;, &quot;P males&quot;, &quot;M females&quot;, &quot;P females&quot;)))</code></pre>
+         sextreat = replace(sextreat, sextreat == &quot;Female Polyandry&quot;, &quot;E females&quot;),
+         sextreat = factor(sextreat, c(&quot;M males&quot;, &quot;E males&quot;, &quot;M females&quot;, &quot;E females&quot;)))</code></pre>
 </div>
 <div id="inspect-the-raw-data" class="section level2">
 <h2>Inspect the raw data</h2>
@@ -1490,13 +1543,13 @@ scaled_metabolites %&gt;%
 </div>
 <div id="simple-plots" class="section level3">
 <h3>Simple plots</h3>
-<p>The following plot shows how each metabolite varies between sexes and treatments, and how the consecration of each metabolite co-varies with dry weight across individuals.</p>
+<p>The following plot shows how each metabolite varies between sexes and treatments, and how the concentration of each metabolite co-varies with dry weight across individuals.</p>
 <pre class="r"><code>levels &lt;- c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dry weight&quot;)
 
 cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
-          &quot;P females&quot; = &quot;red&quot;, 
+          &quot;E females&quot; = &quot;red&quot;, 
           &quot;M males&quot; = &quot;skyblue&quot;, 
-          &quot;P males&quot; = &quot;blue&quot;)
+          &quot;E males&quot; = &quot;blue&quot;)
 
 grid.arrange(
   scaled_metabolites %&gt;% 
@@ -1623,7 +1676,7 @@ lukeholman
 </div>
 <div id="plot-of-correlations-between-variables" class="section level3">
 <h3>Plot of correlations between variables</h3>
-<p>Some of the metabolites, especially lipid concentration, are correlated with dry weight. There is also a large difference in dry weight between sexes (and treatments, to a less extent), and sex and treatment effects are evident for some of the metabolites in the raw data. Some of the metabolites are weakly correlated with other metabolites, e.g. lipid and glycogen concentration.</p>
+<p>Some of the metabolites, especially lipid concentration, are correlated with dry weight. There is also a large difference in dry weight between sexes (and treatments, to a lesser extent), and sex and treatment effects are evident for some of the metabolites in the raw data. Some of the metabolites are weakly correlated with other metabolites, e.g. lipid and glycogen concentration.</p>
 <pre class="r"><code>modified_densityDiag &lt;- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, colour = &quot;grey10&quot;, ...) + 
     scale_fill_manual(values = cols) + 
@@ -1662,7 +1715,7 @@ metabolite_pairs_plot &lt;- scaled_metabolites %&gt;%
                        discrete = wrap(&quot;blank&quot;),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-metabolite_pairs_plot %&gt;% ggsave(filename = &quot;figures/metabolite_pairs_plot.pdf&quot;, height = 10, width = 10)
+#metabolite_pairs_plot %&gt;% ggsave(filename = &quot;figures/metabolite_pairs_plot.pdf&quot;, height = 10, width = 10)
 metabolite_pairs_plot</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
@@ -1829,8 +1882,8 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 &quot;Metabolite\ncomposition&quot; [shape = oval, fillcolor = Beige]
 
 # edge definitions with the node IDs
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Dry weight&quot;}
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;} 
+&quot;Mating system\ntreatment (E vs M)&quot; -&gt; {&quot;Dry weight&quot;}
+&quot;Mating system\ntreatment (E vs M)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;} 
 
 &quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Dry weight&quot;} -&gt; {&quot;Metabolite\ncomposition&quot;}
 &quot;Sex\n(Female vs Male)&quot; -&gt; {&quot;Metabolite\ncomposition&quot;}
@@ -1842,14 +1895,14 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 {&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Protein&quot;
 }&#39;)</code></pre>
 <div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (M vs P)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (E vs M)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (E vs M)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="fit-brms-structural-equation-model" class="section level2">
 <h2>Fit <code>brms</code> structural equation model</h2>
 <p>Here we fit a model of the five metabolites, which includes dry body weight as a mediator variable. That is, our model estimates the effect of treatment, sex and line (and all the 2- and 3-way interactions) on dry weight, and then estimates the effect of those some predictors (plus dry weight) on the five metabolites. The model assumes that although the different sexes, treatment groups, and lines may differ in their dry weight, the relationship between dry weight and the metabolites does not vary by sex/treatment/line. This assumption was made to constrain the number of parameters in the model, and to reflect out prior beliefs about allometric scaling of metabolites.</p>
 <div id="define-priors" class="section level3">
 <h3>Define Priors</h3>
-<p>We use set fairly tight Normal priors on all fixed effect parameters, which ‘regularises’ the estimates towards zero – this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for <code>line</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition.</p>
+<p>We set fairly tight Normal priors on all fixed effect parameters, which ‘regularises’ the estimates towards zero – this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-cauchy prior (mean 0, scale 0.01) on the random effects for <code>line</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition.</p>
 <pre class="r"><code>prior1 &lt;- c(set_prior(&quot;normal(0, 0.5)&quot;, class = &quot;b&quot;, resp = &#39;Lipid&#39;),
             set_prior(&quot;normal(0, 0.5)&quot;, class = &quot;b&quot;, resp = &#39;Carbohydrate&#39;),
             set_prior(&quot;normal(0, 0.5)&quot;, class = &quot;b&quot;, resp = &#39;Protein&#39;),
@@ -1966,6 +2019,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">034431b</a>
 </td>
 <td>
@@ -2026,10 +2090,10 @@ lukeholman
 </div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
-<h2>Table of model parameter estimates</h2>
+<h2 class="tabset">Table of model parameter estimates</h2>
 <div id="formatted-table" class="section level3">
 <h3>Formatted table</h3>
-<p>This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
+<p>This tables shows the fixed effects estimates for treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
 <pre class="r"><code>vars &lt;- c(&quot;Lipid&quot;, &quot;Carbohydrate&quot;, &quot;Glycogen&quot;, &quot;Protein&quot;, &quot;Chitin&quot;)
 tests &lt;- c(&#39;_Dryweight&#39;, &#39;_sexMale&#39;,
            &#39;_sexMale:treatmentPolyandry&#39;,
@@ -2076,12 +2140,12 @@ pvals &lt;- bayestestR::p_direction(brms_metabolite_SEM) %&gt;%
 
 hypSEM &lt;- hypSEM %&gt;% left_join(pvals, by = c(&quot;vars&quot;, &quot;tests&quot;))
 
-hypSEM  %&gt;% 
+hypSEM %&gt;% 
   mutate(Parameter = c(rep(c(&#39;Dry weight&#39;, &#39;Sex (M)&#39;, 
-                             &#39;Sex (M) x Treatment (P)&#39;, 
-                             &#39;Treatment (P)&#39;), 5), 
-                       &#39;Sex (M)&#39;, &#39;Treatment (P)&#39;, &#39;Sex (M) x Treatment (P)&#39;))  %&gt;% 
-  mutate(Parameter = factor(Parameter, c(&quot;Dry weight&quot;, &quot;Sex (M)&quot;, &quot;Treatment (P)&quot;, &quot;Sex (M) x Treatment (P)&quot;)),
+                             &#39;Sex (M) x Treatment (E)&#39;, 
+                             &#39;Treatment (E)&#39;), 5), 
+                       &#39;Sex (M)&#39;, &#39;Treatment (E)&#39;, &#39;Sex (M) x Treatment (E)&#39;))  %&gt;% 
+  mutate(Parameter = factor(Parameter, c(&quot;Dry weight&quot;, &quot;Sex (M)&quot;, &quot;Treatment (E)&quot;, &quot;Sex (M) x Treatment (E)&quot;)),
          vars = factor(vars, c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;, &quot;Dryweight&quot;))) %&gt;%
   arrange(vars, Parameter) %&gt;%
   select(Parameter, Estimate = est, `Est. error` = err, 
@@ -2172,7 +2236,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.246
@@ -2194,7 +2258,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.414
@@ -2266,7 +2330,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.113
@@ -2288,7 +2352,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.317
@@ -2359,7 +2423,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.220
@@ -2381,7 +2445,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 0.387
@@ -2453,7 +2517,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.389
@@ -2475,7 +2539,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.050
@@ -2546,7 +2610,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.216
@@ -2568,7 +2632,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 0.352
@@ -2618,7 +2682,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.525
@@ -2641,7 +2705,7 @@ Treatment (P)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (P)
+Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.354
@@ -2668,7 +2732,7 @@ Sex (M) x Treatment (P)
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
 <ul>
-<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(Lipid_Intercept)</code>) and slopes (e.g. <code>sd(Dryweight_treatmentPolyandry)</code>), as well as the correlations between these effects (e.g. <code>cor(Lipid_Intercept,Protein_Intercept)</code> is the correlation in line effects on lipids and proteins)</li>
+<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(Lipid_Intercept)</code>) and slopes (e.g. <code>sd(Dryweight_treatmentPolyandry)</code>), as well as the correlations between these effects (e.g. <code>cor(Lipid_Intercept,Protein_Intercept)</code> is the correlation in line effects on lipids and proteins)</li>
 <li>‘Population-Level Effects:’ (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies) and the effects of treatment, sex, dry weight, and the treatment <span class="math inline">\(\times\)</span> sex interaction, for each response variable.</li>
 <li>‘Family Specific Parameters’: This is the parameter sigma for the residual variance for each response variable</li>
 <li>‘Residual Correlations:’ This give the correlations between the residuals for each pairs of response variables.</li>
@@ -2841,11 +2905,11 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
 </div>
 <div id="posterior-effect-size-of-treatment-on-metabolite-abundance-for-each-sex" class="section level2">
 <h2>Posterior effect size of treatment on metabolite abundance, for each sex</h2>
-<p>Here, we use the model to predict the mean concentration of each metabolite (in standard units) in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
-<p>Because the model contains dry weight as a mediator variable, we created these predictions two different ways, and display the answer for both using tabs in the following figures/tables. Firstly, we predicted the means <em>controlling for differences in dry weight between sexes and treatments</em>; this was done by deriving the predictions dry weight set to its global mean, for both sexes and treatments. Secondly, we derived predictions without controlling for dry weight. This was done by deriving the predictions with dry weight set to its average value for the appropriate treatment-sex combination.</p>
-<p>By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry weight are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs P treatments caused metabolite composition to evolve, through mechanisms other than the evolution of dry weight.</p>
+<p>Here, we use the model to predict the mean concentration of each metabolite (in standard units) in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the E treatment; thus a value of 1 would mean that the E treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
+<p>Because the model contains dry weight as a mediator variable, we created these predictions two different ways, and display the answer for both using tabs in the following figures/tables. Firstly, we predicted the means <em>controlling for differences in dry weight between sexes and treatments</em>; this was done by deriving the predictions with dry weight set to its global mean, for both sexes and treatments. Secondly, we derived predictions without controlling for dry weight. This was done by deriving the predictions with dry weight set to its average value for the appropriate treatment-sex combination.</p>
+<p>By clicking the tabs and comparing, one can see that the estimates of the treatment effect hardly change when differences in dry weight are controlled for. This indicates that dry mass does not have an important role in mediating the effect of treatment on metabolite composition, even though body size differs between treatments. Thus, we conclude that the M vs E treatments caused metabolite composition to evolve, through mechanisms other than the evolution of dry weight.</p>
 <div id="figure" class="section level3 tabset">
-<h3>Figure</h3>
+<h3 class="tabset">Figure</h3>
 <div id="not-controlling-for-differences-in-dry-weight-between-treatments" class="section level4">
 <h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>new &lt;- expand_grid(sex = c(&quot;Male&quot;, &quot;Female&quot;),
@@ -2948,10 +3012,9 @@ p1 &lt;- treat_diff_actual_dryweight %&gt;%
         text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
-  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;)
-
-
-ggsave(&quot;figures/metabolite_plot.pdf&quot;, p1, height=4, width=6)
+  ylab(&quot;Difference in means between\nselection treatments (E - M)&quot;) + xlab(&quot;Sex&quot;) +
+  #ggsave(&quot;figures/metabolite_plot.pdf&quot;, height=3, width=6) +
+  NULL
 p1</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -2976,6 +3039,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">034431b</a>
@@ -3068,13 +3142,13 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure XX</strong>: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M &gt; P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were <em>not</em> adjusted for differences in dry weight between treatments.</p>
+<p><strong>Figure XX</strong>: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the E treatment than the M treatment, while a negative effects denotes M &gt; E. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were <em>not</em> adjusted for differences in dry weight between treatments.</p>
 </div>
 <div id="controlling-for-differences-in-dry-weight-between-treatments" class="section level4">
 <h4>Controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treat_diff_standard_dryweight %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
-  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
+  ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`, fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
   geom_line(data = treat_diff_standard_dryweight %&gt;%
@@ -3091,8 +3165,8 @@ lukeholman
         text = element_text(family = nice_font),
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
-  ylab(&quot;Difference in means between\nselection treatments (P - M)&quot;) + xlab(&quot;Sex&quot;) + 
-  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=4, width=6) +
+  ylab(&quot;Difference in means between\nselection treatments (E - M)&quot;) + xlab(&quot;Sex&quot;) + 
+  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=3, width=6) +
   NULL</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3117,6 +3191,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">034431b</a>
@@ -3198,11 +3283,11 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure XX</strong>: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M &gt; P. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.</p>
+<p><strong>Figure XX</strong>: Posterior estimates of the treatment effect size for both sexes, for each of the five metabolites. A positive value means that the mean metabolite concentration is higher in the P treatment than the M treatment, while a negative effects denotes M &gt; E. A strongly supported treatment effect is implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.</p>
 </div>
 </div>
 <div id="table" class="section level3 tabset">
-<h3>Table</h3>
+<h3 class="tabset">Table</h3>
 <div id="not-controlling-for-differences-in-dry-weight-between-treatments-1" class="section level4">
 <h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>summary_dat1 %&gt;%
@@ -3721,9 +3806,9 @@ Male
 </div>
 <div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
 <h2>Posterior difference in treatment effect size between sexes</h2>
-<p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the treatment effects did not differ detectably between sexes.</p>
+<p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes, for each of the five metabolites. We find no strong evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the treatment effects did not differ detectably between sexes.</p>
 <div id="figure-1" class="section level3 tabset">
-<h3>Figure</h3>
+<h3 class="tabset">Figure</h3>
 <div id="not-controlling-for-differences-in-dry-weight-between-treatments-2" class="section level4">
 <h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data1 &lt;- treat_diff_actual_dryweight %&gt;%
@@ -3738,18 +3823,17 @@ p2 &lt;- treatsex_interaction_data1 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
-  stat_halfeyeh() +
+  stat_halfeye() +
   facet_wrap( ~ variable) +
   scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
   theme_bw() +
   theme(legend.position = &#39;none&#39;,
         text = element_text(family = nice_font),
         strip.background = element_blank()) +
-  ylab(&quot;Posterior density&quot;)</code></pre>
-<pre><code>Warning: &#39;stat_halfeyeh&#39; is deprecated.
-Use &#39;stat_halfeye&#39; instead.
-See help(&quot;Deprecated&quot;) and help(&quot;tidybayes-deprecated&quot;).</code></pre>
-<pre class="r"><code>ggsave(&quot;figures/metabolite_interaction_plot.pdf&quot;, p2, height=4, width=6)
+  ylab(&quot;Posterior density&quot;) +
+  #ggsave(&quot;figures/metabolite_interaction_plot.pdf&quot;, height=4, width=6) +
+  NULL
+
 p2</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3822,7 +3906,7 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure XX</strong>: Posterior estimates of the difference in the treatment effect size (i.e. mean of P minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were <em>not</em> adjusted for differences in dry weight between treatments.</p>
+<p><strong>Figure XX</strong>: Posterior estimates of the difference in the treatment effect size (i.e. mean of E minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were <em>not</em> adjusted for differences in dry weight between treatments.</p>
 </div>
 <div id="controlling-for-differences-in-dry-weight-between-treatments-2" class="section level4">
 <h4>Controlling for differences in dry weight between treatments</h4>
@@ -3837,7 +3921,7 @@ treatsex_interaction_data2 %&gt;%
   filter(variable != &#39;Dryweight&#39;) %&gt;% 
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
-  stat_halfeyeh() +
+  stat_halfeye() +
   facet_wrap( ~ variable) +
   scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
   theme_bw() +
@@ -3845,9 +3929,6 @@ treatsex_interaction_data2 %&gt;%
         text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab(&quot;Posterior density&quot;)</code></pre>
-<pre><code>Warning: &#39;stat_halfeyeh&#39; is deprecated.
-Use &#39;stat_halfeye&#39; instead.
-See help(&quot;Deprecated&quot;) and help(&quot;tidybayes-deprecated&quot;).</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-20-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-20-1">
@@ -3908,11 +3989,11 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure XX</strong>: Posterior estimates of the difference in the treatment effect size (i.e. mean of P minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.</p>
+<p><strong>Figure XX</strong>: Posterior estimates of the difference in the treatment effect size (i.e. mean of E minus mean of M) between males and females, for each of the five metabolites. A positive value means that the effect size is more positive in males, and negative means it is more positive in females. A strongly supported sex difference in effect size would be implied by the majority of the posterior lying to one side of zero. The error bars summarise the 66% and 95% quantiles of the posterior. This plot was created used posterior predictions of the means that were adjusted for differences in dry weight between treatments.</p>
 </div>
 </div>
 <div id="table-1" class="section level3 tabset">
-<h3>Table</h3>
+<h3 class="tabset">Table</h3>
 <div id="not-controlling-for-differences-in-dry-weight-between-treatments-3" class="section level4">
 <h4>Not controlling for differences in dry weight between treatments</h4>
 <pre class="r"><code>treatsex_interaction_data1 %&gt;%
@@ -4182,6 +4263,314 @@ Protein
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+</div>
+<div id="posterior-effect-size-of-sex-on-metabolite-abundance-for-each-treatment" class="section level2">
+<h2>Posterior effect size of sex on metabolite abundance, for each treatment</h2>
+<p>Similar to above, in this section we calculate the effect size of sex for each metabolite by subtracting the (treatment-specific) mean for males from the mean for females.</p>
+<pre class="r"><code>sex_diff_actual_dryweight &lt;- fitted_values %&gt;%
+  filter(!(Dryweight %in% c(male_dryweight, female_dryweight))) %&gt;% 
+  select(-Dryweight) %&gt;%
+  pivot_wider(names_from = sex, 
+              values_from = c(value)) %&gt;% 
+  mutate(`Difference in means (Female - Male)` = Female - Male)</code></pre>
+<div id="not-controlling-for-differences-in-dry-weight-between-sexes" class="section level4">
+<h4>Not controlling for differences in dry weight between sexes</h4>
+<p>We find that most metabolites differ between the sexes and as the previous analysis looking at the treatment x sex interaction shows, this is largely the same across treatments. Males have more chitin and females have more lipids in both treatments, E females have more carbohydrates and E males, M females have more glycogen than M males,and E males have more protein than E females.</p>
+<pre class="r"><code>summary_dat4 &lt;- sex_diff_actual_dryweight %&gt;%
+  rename(x = `Difference in means (Female - Male)`) %&gt;%
+  group_by(variable, treatment)  %&gt;%
+  summarise(`Difference in means (Female - Male)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;)
+
+sex_diff_actual_dryweight %&gt;%
+  ggplot(aes(x = treatment, y = `Difference in means (Female - Male)`, fill = treatment)) +
+  geom_hline(yintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  geom_line(data = sex_diff_actual_dryweight %&gt;%
+              filter(draw %in% sampled_draws) %&gt;%
+              filter(variable != &#39;Dryweight&#39;), 
+            alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
+  geom_point(data = summary_dat4, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
+  scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  facet_wrap( ~ variable,  nrow = 1) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        strip.background = element_blank(),
+        text = element_text(family = nice_font),
+        panel.grid.major.x = element_blank()) +
+  coord_cartesian(ylim = c(-2, 2)) + 
+  ylab(&quot;Difference in means between\nsexes (Female - Male)&quot;) + xlab(&quot;Treatment&quot;) + 
+  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=3, width=6) +
+  NULL</code></pre>
+<p><img src="figure/metabolites.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="table-2" class="section level4">
+<h4>Table</h4>
+<pre class="r"><code>summary_dat4 %&gt;%
+  kable(digits = 3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:left;">
+treatment
+</th>
+<th style="text-align:right;">
+Difference in means (Female - Male)
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+0.142
+</td>
+<td style="text-align:right;">
+-0.430
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+0.310
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Carbohydrate
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.603
+</td>
+<td style="text-align:right;">
+-0.096
+</td>
+<td style="text-align:right;">
+1.252
+</td>
+<td style="text-align:right;">
+0.043
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+-1.181
+</td>
+<td style="text-align:right;">
+-1.698
+</td>
+<td style="text-align:right;">
+-0.671
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Chitin
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+-1.040
+</td>
+<td style="text-align:right;">
+-1.635
+</td>
+<td style="text-align:right;">
+-0.452
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+0.807
+</td>
+<td style="text-align:right;">
+0.222
+</td>
+<td style="text-align:right;">
+1.368
+</td>
+<td style="text-align:right;">
+0.003
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+0.532
+</td>
+<td style="text-align:right;">
+-0.134
+</td>
+<td style="text-align:right;">
+1.177
+</td>
+<td style="text-align:right;">
+0.055
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+0.993
+</td>
+<td style="text-align:right;">
+0.512
+</td>
+<td style="text-align:right;">
+1.452
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+1.234
+</td>
+<td style="text-align:right;">
+0.690
+</td>
+<td style="text-align:right;">
+1.750
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Monogamy
+</td>
+<td style="text-align:right;">
+-0.322
+</td>
+<td style="text-align:right;">
+-0.918
+</td>
+<td style="text-align:right;">
+0.284
+</td>
+<td style="text-align:right;">
+0.146
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:left;">
+Polyandry
+</td>
+<td style="text-align:right;">
+-0.746
+</td>
+<td style="text-align:right;">
+-1.424
+</td>
+<td style="text-align:right;">
+-0.054
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+</tbody>
+</table>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -4192,7 +4581,7 @@ Protein
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.7
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -4232,7 +4621,6 @@ loaded via a namespace (and not attached):
 </div>
 </div>
 </div>
-</div>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
@@ -4246,6 +4634,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>

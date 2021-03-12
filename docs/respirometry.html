@@ -13,6 +13,7 @@
 
 <title>Respirometry</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -59,6 +60,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -463,7 +466,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-08
+<strong>Last updated:</strong> 2021-03-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -511,7 +514,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -554,16 +557,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -584,10 +587,14 @@ Untracked files:
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
     Untracked:  figures/metabolites_supp.pdf
     Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
+    Untracked:  output/stress_medians.csv
 
 Unstaged changes:
+    Modified:   figures/metabolite_interaction_plot.pdf
     Modified:   figures/metabolite_pairs_plot.pdf
+    Modified:   figures/metabolite_plot.pdf
     Modified:   figures/respiration_figure.pdf
     Modified:   figures/respiration_pairs_plot.pdf
     Modified:   output/cox_brms.rds
@@ -633,6 +640,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7b49ff83b491eb6b5b39da55d82c972f2d798a0/analysis/respirometry.Rmd" target="_blank">f7b49ff</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/respirometry.html" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1124,14 +1165,14 @@ inv_logit &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
 <h2>Inspect the raw data</h2>
 <p>This analysis set out to test whether sexual selection treatment had an effect on respiration in the flies. The variables in the raw data are as follows:</p>
 <ul>
-<li><code>SELECTION</code> The selection treatment of the focal triad of flies (monandry or polyandry)</li>
+<li><code>SELECTION</code> The selection treatment of the focal triad of flies (monogamy or polyandry)</li>
 <li><code>SEX</code> The sex of the focal triad of flies (male or female)</li>
 <li><code>LINE</code> The replicate selection line (M1-4 and P1-4)</li>
 <li><code>SAMPLE</code> Grouping variable that identifies the specific triad of flies (there are three measurements of each for all response variables except body weight). The have names like <code>M1T1F</code> (i.e. the first triad of females from line M1)</li>
 <li><code>CYCLE</code> The respirometry cycle (three measurements were taken, with cycle I being the first and cycle III the last)</li>
 <li><code>VO2</code> The amount of O<span class="math inline">\(_2\)</span> produced over the cycle</li>
 <li><code>VCO2</code> The amount of CO<span class="math inline">\(_2\)</span> consumed over the cycle</li>
-<li><code>RQ</code> The respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code></li>
+<li><code>RQ</code> The respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code></li>
 <li><code>ACTIVITY</code> The amount of locomotor activity by the triad of flies over the focal cycle; measured by infrared light</li>
 <li><code>BODYMASS</code> The mass/weight of the triad of flies, measured to the nearest 0.1mg.</li>
 </ul>
@@ -1172,9 +1213,9 @@ respiration %&gt;%
 <div id="plot-of-correlations-between-variables" class="section level3">
 <h3>Plot of correlations between variables</h3>
 <pre class="r"><code>cols &lt;- c(&quot;M females&quot; = &quot;pink&quot;, 
-          &quot;P females&quot; = &quot;red&quot;, 
+          &quot;E females&quot; = &quot;red&quot;, 
           &quot;M males&quot; = &quot;skyblue&quot;, 
-          &quot;P males&quot; = &quot;blue&quot;)
+          &quot;E males&quot; = &quot;blue&quot;)
 
 modified_densityDiag &lt;- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, colour = &quot;grey10&quot;, ...) + 
@@ -1205,8 +1246,8 @@ respiration_pairs_plot &lt;- respiration %&gt;%
          BODYMASS = BODYMASS * 1000, 
          ACTIVITY = ACTIVITY * 100) %&gt;%
   mutate(SEX = factor(ifelse(SEX == &quot;M&quot;, &quot;males&quot;, &quot;females&quot;)),
-         SELECTION = factor(ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;P&quot;)),
-         `Sex and treatment` = factor(paste(SELECTION, SEX), c(&quot;M males&quot;, &quot;P males&quot;, &quot;M females&quot;, &quot;P females&quot;))) %&gt;%
+         SELECTION = factor(ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;E&quot;)),
+         `Sex and treatment` = factor(paste(SELECTION, SEX), c(&quot;M males&quot;, &quot;E males&quot;, &quot;M females&quot;, &quot;E females&quot;))) %&gt;%
   mutate_if(is.numeric, ~ as.numeric(scale(.x))) %&gt;%
   select(-SEX, -SELECTION) %&gt;%
   rename(Cycle = CYCLE, Activity = ACTIVITY, `Body mass` = BODYMASS) %&gt;% 
@@ -1221,7 +1262,7 @@ respiration_pairs_plot &lt;- respiration %&gt;%
                        discrete = wrap(&quot;blank&quot;),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-respiration_pairs_plot %&gt;% ggsave(filename = &quot;figures/respiration_pairs_plot.pdf&quot;, height = 10, width = 10)
+#respiration_pairs_plot %&gt;% ggsave(filename = &quot;figures/respiration_pairs_plot.pdf&quot;, height = 10, width = 10)
 respiration_pairs_plot</code></pre>
 <p><img src="figure/respirometry.Rmd/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>
@@ -1246,6 +1287,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">709456c</a>
@@ -1283,10 +1335,10 @@ lukeholman
 </table>
 </div>
 </div>
-<p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
+<p><strong>Figure XX:</strong> Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (<code>Treatment</code>, <code>Sex</code>, and <code>Cycle</code>) and the five response variables. The data are coloured by treatment (red: elevated polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O<span class="math inline">\(_2\)</span> consumed or CO<span class="math inline">\(_2\)</span> produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio (CO<span class="math inline">\(_2\)</span> produced / O<span class="math inline">\(_2\)</span> consumed). Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O<span class="math inline">\(_2\)</span> and CO<span class="math inline">\(_2\)</span>.</p>
 </div>
 <div id="group-means" class="section level3 tabset">
-<h3>Group means</h3>
+<h3 class="tabset">Group means</h3>
 <div id="body-weight-per-triad" class="section level4">
 <h4>Body weight (per triad)</h4>
 <pre class="r"><code>se &lt;- function(x) sd(x) / sqrt(length(x))
@@ -2514,14 +2566,14 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 &quot;Other factors\n(e.g. physiology)&quot; [shape = oval, fillcolor = Beige]
 
 # edge definitions with the node IDs
-&quot;Mating system\ntreatment (M vs P)&quot; -&gt; {&quot;Other factors\n(e.g. physiology)&quot;, &quot;Body mass&quot; , &quot;Activity&quot;} -&gt; {&quot;Metabolic\nrate&quot;, &quot;Metabolic\nsubstrate&quot;} 
+&quot;Mating system\ntreatment (E vs. M)&quot; -&gt; {&quot;Other factors\n(e.g. physiology)&quot;, &quot;Body mass&quot; , &quot;Activity&quot;} -&gt; {&quot;Metabolic\nrate&quot;, &quot;Metabolic\nsubstrate&quot;} 
 
 {&quot;Metabolic\nrate&quot;} -&gt; {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;}
 {&quot;O\u2082 consumption&quot;, &quot;CO\u2082 production&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 {&quot;Metabolic\nsubstrate&quot;} -&gt; &quot;Respiratory\nquotient (RQ)&quot;
 }&#39;)</code></pre>
 <div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (M vs P)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolic\nrate\" [shape = oval, fillcolor = Beige]\n\"Metabolic\nsubstrate\" [shape = oval, fillcolor = Beige]\n\"Other factors\n(e.g. physiology)\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (E vs. M)\" -> {\"Other factors\n(e.g. physiology)\", \"Body mass\" , \"Activity\"} -> {\"Metabolic\nrate\", \"Metabolic\nsubstrate\"} \n\n{\"Metabolic\nrate\"} -> {\"O₂ consumption\", \"CO₂ production\"}\n{\"O₂ consumption\", \"CO₂ production\"} -> \"Respiratory\nquotient (RQ)\"\n{\"Metabolic\nsubstrate\"} -> \"Respiratory\nquotient (RQ)\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p><br></br> <strong>Figure XX:</strong> Directed acyclic graph (DAG) showing the key causal relationships that we hypothesised <em>a priori</em> between the measured variables (squares) and latent variables (ovals). This DAG motivated the Bayesian structural equation model discussed in the Methods and Results, which attempts to decompose the effects of treatment on respiration (measured via O2 and CO2 flux, and their ratio, RQ) into paths that travel via body mass, activity, or other unmeasured factors such as physiology.</p>
 </div>
 <div id="fit-bayesian-structural-equation-model-sem-via-brms" class="section level2">
@@ -2545,8 +2597,8 @@ scaled_data %&gt;%
 </div>
 <div id="define-the-sems-sub-models" class="section level3">
 <h3>Define the SEM’s sub-models</h3>
-<p>Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (<code>VO2</code>) and another for <code>CO2</code> production (<code>VCO2</code>) which depends on the parameter <code>RQ</code> (the respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code>); there are also sub-models for body mass (<code>BODYMASS</code>) and activity level (<code>ACTIVITY</code>).</p>
-<p>In short, we assume that <code>VO2</code>, <code>RQ</code>, <code>BODYMASS</code>, and <code>ACTIVITY</code> are affected by the predictor variables related to the experimental design. These variables are <code>SELECTION</code> (i.e. M vs P treatment), <code>SEX</code> (Male or Female), <code>CYCLE</code> (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), <code>LINE</code> (8 levels, one for each of the four independent replicates of the M an P treatments), and <code>SAMPLE</code> (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, <code>VCO2</code> is predicted from the estimated values of <code>VO2</code> and <code>RQ</code> as <code>VO2</code> <code>RQ</code>, and thus is related to the predictor variables only indirectly (the choice to make <code>VCO2</code> dependent rather than <code>VO2</code> dependant on <code>RQ</code> is arbitrary, and does not affect the results).</p>
+<p>Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (<code>VO2</code>) and another for <code>CO2</code> production (<code>VCO2</code>) which depends on the parameter <code>RQ</code> (the respiratory quotient, i.e. <code>VCO2</code> / <code>VO2</code>); there are also sub-models for body mass (<code>BODYMASS</code>) and activity level (<code>ACTIVITY</code>).</p>
+<p>In short, we assume that <code>VO2</code>, <code>RQ</code>, <code>BODYMASS</code>, and <code>ACTIVITY</code> are affected by the predictor variables related to the experimental design. These variables are <code>SELECTION</code> (i.e. M vs E treatment), <code>SEX</code> (Male or Female), <code>CYCLE</code> (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), <code>LINE</code> (8 levels, one for each of the four independent replicates of the M an P treatments), and <code>SAMPLE</code> (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, <code>VCO2</code> is predicted from the estimated values of <code>VO2</code> and <code>RQ</code> as <code>VO2</code> <code>RQ</code>, and thus is related to the predictor variables only indirectly (the choice to make <code>VCO2</code> dependent rather than <code>VO2</code> dependant on <code>RQ</code> is arbitrary, and does not affect the results).</p>
 <p>The <code>brms</code> notation for the line random effects (<code>(SELECTION | p | LINE)</code>) means that the model fits a random intercept for each of the 8 lines, and that these random intercepts are (potentially) correlated across each of the response variables. Furthermore, the model fits a random slope for <code>SELECTION</code>, which allows the treatment effect to vary across the replicate lines.</p>
 <div id="vo2" class="section level4">
 <h4>VO2</h4>
@@ -2555,7 +2607,7 @@ scaled_data %&gt;%
 </div>
 <div id="vco2-as-determined-by-the-estimated-parameter-rq" class="section level4">
 <h4>VCO2 (as determined by the estimated parameter RQ)</h4>
-<p>Formulae (2-part model, see <code>vignette(&quot;brms_nonlinear&quot;)</code>):</p>
+<p>Formulae (2-part model, see <code>vignette("brms_nonlinear")</code>):</p>
 <p><code>VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ))</code></p>
 <p><code>RQ ~ SELECTION * SEX * CYCLE + BODYMASS + ACTIVITY + (SELECTION | p | LINE) + (1 | SAMPLE)</code></p>
 <p><code>VCO2</code> is assumed to depend on the value of <code>VO2</code> from the same measurement, multiplied by <code>RQ</code>. We use a modified inverse logit function that forces <code>RQ</code> to lie 0.7 and 1 (this must be the case, given the chemistry of respiration, and building this information into the model should yield more precise estimates of the model’s parameters). In turn, <code>RQ</code> is predicted by the same set of predictors as for <code>VO2</code>.</p>
@@ -2602,7 +2654,7 @@ ACTIVITY ~ SELECTION * SEX * CYCLE + (SELECTION | p | LINE) + (1 | SAMPLE)
 </div>
 <div id="define-priors" class="section level3">
 <h3>Define Priors</h3>
-<p>We use set fairly tight Normal priors on all fixed effect parameters, which ‘regularises’ the estimates towards zero – this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for <code>LINE</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition.</p>
+<p>We set fairly tight Normal priors on all fixed effect parameters, which ‘regularises’ the estimates towards zero – this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for <code>LINE</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition.</p>
 <pre class="r"><code>prior_SEM &lt;- c(set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;VO2&#39;),
             set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;),
             set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;BODYMASS&quot;),
@@ -2684,6 +2736,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">709456c</a>
 </td>
 <td>
@@ -2733,10 +2796,10 @@ lukeholman
 </div>
 </div>
 <div id="table-of-model-parameter-estimates" class="section level2 tabset">
-<h2>Table of model parameter estimates</h2>
+<h2 class="tabset">Table of model parameter estimates</h2>
 <div id="formatted-table" class="section level3">
 <h3>Formatted table</h3>
-<p>This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
+<p>This tables shows the fixed effects estimates for treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the response variables. The <code>p</code> column shows 1 - minus the “probability of direction”, i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable <code>line</code>, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.</p>
 <pre class="r"><code>hypSEM &lt;- left_join(
   fixef(brms_SEM_respiration) %&gt;% as.data.frame() %&gt;% rownames_to_column(&quot;Parameter&quot;),
   bayestestR::p_direction(brms_SEM_respiration) %&gt;% as.data.frame() %&gt;% select(Parameter, pd) %&gt;%
@@ -2747,7 +2810,7 @@ lukeholman
              pd = 1 - pd) %&gt;%
   select(Response, Parameter, everything()) %&gt;% 
   rename(p = pd) %&gt;%
-  mutate(Parameter = str_replace_all(Parameter, &quot;SELECTIONPoly&quot;, &quot;Treatment (P)&quot;),
+  mutate(Parameter = str_replace_all(Parameter, &quot;SELECTIONPoly&quot;, &quot;Treatment (E)&quot;),
          Parameter = str_replace_all(Parameter, &quot;SEXM&quot;, &quot;Sex (M)&quot;),
          Parameter = str_replace_all(Parameter, &quot;BODYMASS&quot;, &quot;Body weight&quot;),
          Parameter = str_replace_all(Parameter, &quot;ACTIVITY&quot;, &quot;Activity level&quot;),
@@ -2826,7 +2889,7 @@ Intercept
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 -0.139
@@ -2962,7 +3025,7 @@ Activity level
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 0.647
@@ -2984,7 +3047,7 @@ Treatment (P) x Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (II)
+Treatment (E) x Cycle (II)
 </td>
 <td style="text-align:right;">
 0.309
@@ -3006,7 +3069,7 @@ Treatment (P) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (III)
+Treatment (E) x Cycle (III)
 </td>
 <td style="text-align:right;">
 -0.135
@@ -3072,7 +3135,7 @@ Sex (M) x Cycle (III)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (II)
+Treatment (E) x Sex (M) x Cycle (II)
 </td>
 <td style="text-align:right;">
 -0.160
@@ -3094,7 +3157,7 @@ Treatment (P) x Sex (M) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (III)
+Treatment (E) x Sex (M) x Cycle (III)
 </td>
 <td style="text-align:right;">
 0.514
@@ -3143,7 +3206,7 @@ Intercept
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.297
@@ -3275,7 +3338,7 @@ Activity level
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 0.134
@@ -3297,7 +3360,7 @@ Treatment (P) x Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (II)
+Treatment (E) x Cycle (II)
 </td>
 <td style="text-align:right;">
 0.028
@@ -3319,7 +3382,7 @@ Treatment (P) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (III)
+Treatment (E) x Cycle (III)
 </td>
 <td style="text-align:right;">
 0.571
@@ -3385,7 +3448,7 @@ Sex (M) x Cycle (III)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (II)
+Treatment (E) x Sex (M) x Cycle (II)
 </td>
 <td style="text-align:right;">
 -0.467
@@ -3407,7 +3470,7 @@ Treatment (P) x Sex (M) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (III)
+Treatment (E) x Sex (M) x Cycle (III)
 </td>
 <td style="text-align:right;">
 -0.815
@@ -3457,7 +3520,7 @@ Intercept
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 1.047
@@ -3546,7 +3609,7 @@ Cycle (III)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 -0.065
@@ -3568,7 +3631,7 @@ Treatment (P) x Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (II)
+Treatment (E) x Cycle (II)
 </td>
 <td style="text-align:right;">
 0.104
@@ -3590,7 +3653,7 @@ Treatment (P) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Cycle (III)
+Treatment (E) x Cycle (III)
 </td>
 <td style="text-align:right;">
 -0.012
@@ -3658,7 +3721,7 @@ Sex (M) x Cycle (III)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (II)
+Treatment (E) x Sex (M) x Cycle (II)
 </td>
 <td style="text-align:right;">
 0.325
@@ -3680,7 +3743,7 @@ Treatment (P) x Sex (M) x Cycle (II)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M) x Cycle (III)
+Treatment (E) x Sex (M) x Cycle (III)
 </td>
 <td style="text-align:right;">
 0.519
@@ -3729,7 +3792,7 @@ Intercept
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.526
@@ -3774,7 +3837,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 -0.444
@@ -3800,7 +3863,7 @@ Treatment (P) x Sex (M)
 <div id="complete-output-from-summary.brmsfit" class="section level3">
 <h3>Complete output from <code>summary.brmsfit()</code></h3>
 <ul>
-<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(VO2_Intercept)</code>) and slopes (e.g. <code>sd(VO2_SELECTIONPoly)</code>), as well as the correlations between these effects (e.g. <code>cor(VO2_Intercept,VO2_SELECTIONPoly)</code>.</li>
+<li>‘Group-Level Effects’ (also called random effects): This shows the (co)variances associated with the line-specific intercepts (which have names like <code>sd(VO2_Intercept)</code>) and slopes (e.g. <code>sd(VO2_SELECTIONPoly)</code>), as well as the correlations between these effects (e.g. <code>cor(VO2_Intercept,VO2_SELECTIONPoly)</code>.</li>
 <li>‘Population-Level Effects:’ (also called fixed effects): These give the estimates of the intercept (i.e. for female M flies, in Cycle I) and the effects of treatment, sex, dry weight, and the various interaction terms, for each response variable.</li>
 <li>‘Family Specific Parameters’: This is the parameter sigma for the residual variance for each response variable</li>
 </ul>
@@ -4056,9 +4119,9 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
 <h3>Derive posterior predictions of group means</h3>
 <p>Here, we use the model to predict the means for each response variable (and the parameter <code>RQ</code>) in each treatment, sex and cycle (averaged across the eight replicate selection lines).</p>
 <p>Because the model contains body mass and activity level as mediator variables, we derived the posterior predictions in three different ways, and display the answer for all three in the following figures/tables.</p>
-<p>Firstly, we predicted the posterior means without controlling for either of the mediator variables, by deriving our predictions for each cycle, sex, and treatment with <code>BODYMASS</code> and <code>ACTIVITY</code> set to their estimated mean values for that specific cycle/sex/treatment combination. This means that (for example) if activity level positively affects respiration, and P flies evolved higher activity levels, we would predict higher VO2 in P flies due to their larger activity levels.</p>
-<p>Secondly, we predicted the posterior means while controlling for differences in activity level between cycles, sexes, and treatments. This was accomplished by producing the posterior predictions with <code>ACTIVITY</code> set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if activity levels were the same across cycles, sexes, and treatments.</p>
-<p>Thirdly, we predicted the posterior means while controlling for differences in body mass between sexes and treatment. This was accomplished by producing the posterior predictions with <code>BODYMASS</code> set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if body mass were the same across sexes and treatments.</p>
+<p>First, we predicted the posterior means without controlling for either of the mediator variables, by deriving our predictions for each cycle, sex, and treatment with <code>BODYMASS</code> and <code>ACTIVITY</code> set to their estimated mean values for that specific cycle/sex/treatment combination. This means that (for example) if activity level positively affects respiration, and E flies evolved higher activity levels, we would predict higher VO2 in E flies due to their larger activity levels.</p>
+<p>Second, we predicted the posterior means while controlling for differences in activity level between cycles, sexes, and treatments. This was accomplished by producing the posterior predictions with <code>ACTIVITY</code> set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if activity levels were the same across cycles, sexes, and treatments.</p>
+<p>Third, we predicted the posterior means while controlling for differences in body mass between sexes and treatment. This was accomplished by producing the posterior predictions with <code>BODYMASS</code> set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if body mass were the same across sexes and treatments.</p>
 <pre class="r"><code>new &lt;- scaled_data %&gt;%
   select(SELECTION, SEX, CYCLE) %&gt;%
   distinct() %&gt;%
@@ -4073,7 +4136,7 @@ bodymass_posterior &lt;- brms_SEM_respiration %&gt;%
   left_join(new %&gt;% mutate(parameter_space = 1:n()), by = &quot;parameter_space&quot;) %&gt;%
   select(draw, SELECTION, SEX, `Body mass`) %&gt;% as_tibble() %&gt;% distinct() %&gt;%
   mutate(
-    treat = ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;P&quot;), 
+    treat = ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;E&quot;), 
     sex = ifelse(SEX == &quot;F&quot;, &quot;females&quot;, &quot;males&quot;), 
     sextreat = paste(treat, sex),
     SEX = factor(ifelse(SEX == &quot;F&quot;, &quot;Females&quot;, &quot;Males&quot;), c(&quot;Males&quot;, &quot;Females&quot;)),
@@ -4087,7 +4150,7 @@ activity_posterior &lt;- brms_SEM_respiration %&gt;%
   left_join(new %&gt;% mutate(parameter_space = 1:n()), by = &quot;parameter_space&quot;) %&gt;%
   select(draw, SELECTION, SEX, CYCLE, `Activity level`) %&gt;% as_tibble() %&gt;%
   mutate(
-    treat = ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;P&quot;), 
+    treat = ifelse(SELECTION == &quot;Mono&quot;, &quot;M&quot;, &quot;E&quot;), 
     sex = ifelse(SEX == &quot;F&quot;, &quot;females&quot;, &quot;males&quot;), 
     sextreat = paste(treat, sex),
     SEX = factor(ifelse(SEX == &quot;F&quot;, &quot;Females&quot;, &quot;Males&quot;), c(&quot;Males&quot;, &quot;Females&quot;)),
@@ -4136,8 +4199,8 @@ post_preds_respiration &lt;- left_join(
 ) %&gt;% select(draw, VO2, RQ, SELECTION, SEX, CYCLE, mediators_blocked)</code></pre>
 </div>
 <div id="find-posterior-estimates-of-effect-size" class="section level3 tabset">
-<h3>Find posterior estimates of effect size</h3>
-<p>We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
+<h3 class="tabset">Find posterior estimates of effect size</h3>
+<p>We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the E treatment; thus a value of 1 would mean that the E treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen’s d), from the model shown above.</p>
 <pre class="r"><code>overall_SD_VO2 &lt;- scaled_data$VO2 %&gt;% sd()
 overall_SD_RQ &lt;- respiration$RQ %&gt;% sd()
 
@@ -4151,7 +4214,7 @@ posterior_effect_size &lt;- post_preds_respiration %&gt;%
             .groups = &quot;drop&quot;) </code></pre>
 <div id="figure" class="section level4">
 <h4>Figure</h4>
-<p>Note that the females are larger than males, and that P females are somewhat larger than M females. P individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while P males maintain consistent, high activity levels).</p>
+<p>Note that the females are larger than males, and that E females are somewhat larger than M females. E individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while E males maintain consistent, high activity levels).</p>
 <pre class="r"><code>p1 &lt;- arrangeGrob(
   
   bodymass_posterior %&gt;%
@@ -4173,7 +4236,7 @@ posterior_effect_size &lt;- post_preds_respiration %&gt;%
     mutate(CYCLE = paste(&quot;Cycle&quot;, CYCLE)) %&gt;%
     ggplot(aes(y = SELECTION, x = `Activity level`, fill = sextreat)) + 
     geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey20&quot;) + 
-    stat_halfeyeh(alpha = 0.7, size = 0.6) + 
+    stat_halfeye(alpha = 0.7, size = 0.6) + 
     facet_grid(SEX ~ CYCLE) +
     scale_fill_manual(values = cols, name = &quot;&quot;) + 
     theme_bw() + 
@@ -4194,9 +4257,9 @@ p2 &lt;- arrangeGrob(
                x = VO2_effect,
                fill = mediators_blocked)) + 
     geom_vline(xintercept = 0, linetype = 2) + 
-    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(expression(VO[2]~(P~-~M))) + 
+    xlab(expression(VO[2]~(E~-~M))) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = &quot;Set2&quot;) + 
     theme_bw() +
@@ -4210,9 +4273,9 @@ p2 &lt;- arrangeGrob(
                x = RQ_effect,
                fill = mediators_blocked)) + 
     geom_vline(xintercept = 0, linetype = 2) + 
-    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(&quot;RQ (P - M)&quot;) + 
+    xlab(&quot;RQ (E - M)&quot;) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = &quot;Set2&quot;) + 
     theme_bw() +
@@ -4227,12 +4290,6 @@ p2 &lt;- arrangeGrob(
 )
 
 p_filler &lt;- ggplot() + theme_void()
-
-grid.arrange(p1, 
-             arrangeGrob(p_filler, p2, p_filler, 
-                         nrow = 1, widths = c(0.1, 0.8, 0.1)), 
-             heights = c(0.35, 0.65)) %&gt;%
-  ggsave(&quot;figures/respiration_figure.pdf&quot;, plot = ., height = 8, width = 5)
 
 grid.arrange(p1, 
              arrangeGrob(p_filler, p2, p_filler, 
@@ -4261,6 +4318,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">709456c</a>
@@ -4298,6 +4366,39 @@ lukeholman
 </table>
 </div>
 </div>
+<pre class="r"><code># grid.arrange(p1, 
+#              arrangeGrob(p_filler, p2, p_filler, 
+#                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
+#              heights = c(0.35, 0.65)) %&gt;% 
+#   ggsave(&quot;figures/respiration_figure.pdf&quot;, plot = ., height = 8, width = 5)
+
+
+# omit RQ
+p3 &lt;- arrangeGrob(
+  posterior_effect_size %&gt;% 
+    ggplot(aes(y = mediators_blocked, 
+               x = VO2_effect,
+               fill = mediators_blocked)) + 
+    geom_vline(xintercept = 0, linetype = 2) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
+    facet_grid(SEX ~ CYCLE) +
+    xlab(expression(VO[2]~(E~-~M))) + 
+    ylab(NULL)  +
+    scale_fill_brewer(palette = &quot;Set2&quot;) + 
+    theme_bw() +
+    coord_cartesian(xlim = c(-0.6, 1.9)) + 
+    theme(legend.position = &quot;none&quot;,
+          text = element_text(family = nice_font),
+          strip.background = element_blank()), 
+  left = textGrob(&quot;Mediator variables controlled for&quot;, rot = 90, gp=gpar(fontfamily = nice_font)),
+  top = textGrob(&quot;B. Metabolic rate (effect sizes)&quot;, hjust = 1, gp=gpar(fontfamily = nice_font))
+)
+
+# grid.arrange(p1,
+#              arrangeGrob(p_filler, p3, p_filler,
+#                          nrow = 1, widths = c(0.1, 0.8, 0.1)),
+#              heights = c(0.35, 0.65)) %&gt;%
+#   ggsave(&quot;figures/respiration_figure_noRQ.pdf&quot;, plot = ., height = 5, width = 5)</code></pre>
 </div>
 <div id="tables" class="section level4">
 <h4>Tables</h4>
@@ -5826,9 +5927,9 @@ Cycle III
 </div>
 <div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
 <h2>Posterior difference in treatment effect size between sexes</h2>
-<p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each cycle, for VO<span class="math inline">\(_2\)</span>. We find that the effect of the P/M treatment on VO<span class="math inline">\(_2\)</span> is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.</p>
+<p>This section essentially examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes, for each cycle, for VO<span class="math inline">\(_2\)</span>. We find that the effect of the E/M treatment on VO<span class="math inline">\(_2\)</span> is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.</p>
 <div id="figure-1" class="section level3 tabset">
-<h3>Figure</h3>
+<h3 class="tabset">Figure</h3>
 <pre class="r"><code>treatsex_interaction &lt;- posterior_effect_size %&gt;%
   rename(Cycle = CYCLE) %&gt;%
   group_by(draw, Cycle, mediators_blocked) %&gt;%
@@ -5838,7 +5939,7 @@ Cycle III
 treatsex_interaction %&gt;%
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
-  stat_halfeyeh() +
+  stat_halfeye() +
   facet_grid(mediators_blocked ~ Cycle) +
   scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
   theme_bw() +
@@ -5871,6 +5972,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">709456c</a>
 </td>
 <td>
@@ -5897,7 +6009,7 @@ lukeholman
 </div>
 </div>
 <div id="table" class="section level3 tabset">
-<h3>Table</h3>
+<h3 class="tabset">Table</h3>
 <pre class="r"><code>treatsex_interaction %&gt;%
   rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
   group_by(Cycle, mediators_blocked) %&gt;%
@@ -6147,7 +6259,7 @@ Activity
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.7
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -6230,6 +6342,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>

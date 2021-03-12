@@ -13,6 +13,7 @@
 
 <title>Desiccation and starvation resistance</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
@@ -38,6 +39,8 @@ div.section {
   padding-top: 12px;
 }
 </style>
+
+
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -442,7 +445,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-08
+<strong>Last updated:</strong> 2021-03-12
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -490,7 +493,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongSeedstrongcodesetseed20190703code" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+<p>The command <code>set.seed(20190703)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
 </div>
 </div>
 </div>
@@ -533,16 +536,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1b920460cfbb2f444fec0001dbbc9136f42d63edtargetblank1b92046a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1b920460cfbb2f444fec0001dbbc9136f42d63ed" target="_blank">1b92046</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -563,10 +566,14 @@ Untracked files:
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
     Untracked:  figures/metabolites_supp.pdf
     Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
+    Untracked:  output/stress_medians.csv
 
 Unstaged changes:
+    Modified:   figures/metabolite_interaction_plot.pdf
     Modified:   figures/metabolite_pairs_plot.pdf
+    Modified:   figures/metabolite_plot.pdf
     Modified:   figures/respiration_figure.pdf
     Modified:   figures/respiration_pairs_plot.pdf
     Modified:   output/cox_brms.rds
@@ -612,6 +619,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/f7b49ff83b491eb6b5b39da55d82c972f2d798a0/analysis/resistance.Rmd" target="_blank">f7b49ff</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/resistance.html" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1038,10 +1079,16 @@ library(ggridges)
 
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github(&quot;nathaneastwood/knitrhooks&quot;)
+library(showtext)
 
 output_max_height() # a knitrhook option
 
-options(stringsAsFactors = FALSE)</code></pre>
+options(stringsAsFactors = FALSE)
+
+# set up nice font for figure
+nice_font &lt;- &quot;Lora&quot;
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()</code></pre>
 </div>
 <div id="load-data" class="section level2">
 <h2>Load data</h2>
@@ -1127,6 +1174,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">709456c</a>
 </td>
 <td>
@@ -1188,7 +1246,7 @@ Martin Garlovsky
 </div>
 <div id="survival-analysis" class="section level1">
 <h1>Survival analysis</h1>
-<p>We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (<code>EVENT</code> = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three P females) were right censored (<code>EVENT</code> = 0) at the end of the observation period as death times were not recorded or remained alive.</p>
+<p>We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (<code>EVENT</code> = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and Parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three E females) were right censored (<code>EVENT</code> = 0) at the end of the observation period as death times were not recorded or remained alive.</p>
 <div id="kaplan-meier-survival-curve" class="section level3">
 <h3>Kaplan-Meier survival curve</h3>
 <p>First we plot Kaplan-Meier survival curves.</p>
@@ -1201,10 +1259,10 @@ Martin Garlovsky
                       legend = &#39;right&#39;,
                       legend.title = &quot;&quot;,
                       legend.labs = c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,
-                                      &#39;P \u2640&#39;,&#39;P \u2642&#39;),
+                                      &#39;E \u2640&#39;,&#39;E \u2642&#39;),
                       break.time.by = 12,
                       ggtheme = theme_bw()) </code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-4-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-1">
 Past versions of unnamed-chunk-4-1.png
@@ -1227,6 +1285,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/resistance.Rmd/unnamed-chunk-4-1.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-4-1.png" target="_blank">709456c</a>
@@ -1286,10 +1355,10 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       legend = &#39;right&#39;,
                       legend.title = &quot;&quot;,
                       legend.labs = c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,
-                                      &#39;P \u2640&#39;,&#39;P \u2642&#39;),
+                                      &#39;E \u2640&#39;,&#39;E \u2642&#39;),
                       break.time.by = 12,
                       ggtheme = theme_bw()) </code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-4-2.png" width="480" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-4-2.png" width="384" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-4-2">
 Past versions of unnamed-chunk-4-2.png
@@ -1312,6 +1381,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">ffb09dd</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-02-08
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">709456c</a>
@@ -1363,9 +1443,197 @@ Martin Garlovsky
 <pre class="r"><code>#ggsave(filename = &#39;figures/starvation.pdf&#39;, width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)</code></pre>
 <p><strong>Figure 2:</strong> Kaplan-Meier survival curves for flies in each treatment split by sex. + indicates censored individuals (n = 5).</p>
 </div>
+<div id="median-survival-times" class="section level3">
+<h3>Median survival times</h3>
+<pre class="r"><code>bind_rows(
+  summary(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes))$table %&gt;% 
+    as_tibble() %&gt;% 
+    mutate(Treatment = c(&#39;M&#39;, &#39;M&#39;, &#39;E&#39;, &#39;E&#39;),
+           Sex = c(&#39;Female&#39;, &#39;Male&#39;, &#39;Female&#39;, &#39;Male&#39;)),
+  summary(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes))$table %&gt;% 
+    as_tibble() %&gt;% 
+    mutate(Treatment = c(&#39;M&#39;, &#39;M&#39;, &#39;E&#39;, &#39;E&#39;),
+           Sex = c(&#39;Female&#39;, &#39;Male&#39;, &#39;Female&#39;, &#39;Male&#39;))) %&gt;% 
+  mutate(`Median (± 95% CI)` = paste0(median, &#39; (&#39;, `0.95LCL`, &#39;-&#39;, `0.95UCL`, &#39;)&#39;)) %&gt;% 
+  dplyr::select(Treatment, Sex, N = records, `N events` = events, `Median (± 95% CI)`) %&gt;%
+  #write_csv(&#39;output/stress_medians.csv&#39;)
+  kable() %&gt;% 
+  kable_styling(full_width = FALSE) %&gt;%
+  group_rows(&quot;Desiccation&quot;, 1, 4) %&gt;%
+  group_rows(&quot;Starvation&quot;, 5, 8)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Treatment
+</th>
+<th style="text-align:left;">
+Sex
+</th>
+<th style="text-align:right;">
+N
+</th>
+<th style="text-align:right;">
+N events
+</th>
+<th style="text-align:left;">
+Median (± 95% CI)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr grouplength="4">
+<td colspan="5" style="border-bottom: 1px solid;">
+<strong>Desiccation</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+M
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:right;">
+108
+</td>
+<td style="text-align:left;">
+38 (38-42)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+M
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:right;">
+111
+</td>
+<td style="text-align:left;">
+32 (32-34)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+E
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:right;">
+114
+</td>
+<td style="text-align:left;">
+40 (38-42)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+E
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:right;">
+105
+</td>
+<td style="text-align:left;">
+32 (32-34)
+</td>
+</tr>
+<tr grouplength="4">
+<td colspan="5" style="border-bottom: 1px solid;">
+<strong>Starvation</strong>
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+M
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+118
+</td>
+<td style="text-align:left;">
+57 (52-62)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+M
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:left;">
+40 (38-44)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+E
+</td>
+<td style="text-align:left;">
+Female
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+117
+</td>
+<td style="text-align:left;">
+66 (62-70)
+</td>
+</tr>
+<tr>
+<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+E
+</td>
+<td style="text-align:left;">
+Male
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:right;">
+120
+</td>
+<td style="text-align:left;">
+42 (40-42)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="check-proportional-hazards-assumption" class="section level3">
 <h3>Check proportional hazards assumption</h3>
-<p>Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see <a href="https://pubmed.ncbi.nlm.nih.gov/17080754/">here</a>).</p>
+<p>Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We therefore fit accelerated failure time (AFT) models with a Weibull distribution (see <a href="https://pubmed.ncbi.nlm.nih.gov/17080754/">here</a>).</p>
 <pre class="r"><code># assess proportional hazards assumption
 par(mar = c(2, 2, 2, 2), mfrow = c(1, 2))
 plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes), 
@@ -1374,7 +1642,7 @@ plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
      main = &#39;Desiccation&#39;,
      fun = &quot;cloglog&quot;)
 
-legend(&quot;topleft&quot;, c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,&#39;P \u2640&#39;,&#39;P \u2642&#39;), 
+legend(&quot;topleft&quot;, c(&quot;M \u2640&quot;,&quot;M \u2642&quot;,&#39;E \u2640&#39;,&#39;E \u2642&#39;), 
        col = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), 
        lty = 1:2, 
        lwd = 2,
@@ -1386,13 +1654,13 @@ plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes),
      col = c(&quot;pink&quot;, &quot;skyblue&quot;, &quot;red&quot;, &quot;blue&quot;), 
      main = &#39;Starvation&#39;,
      fun = &quot;cloglog&quot;)</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-5-1">
-Past versions of unnamed-chunk-5-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-6-1">
+Past versions of unnamed-chunk-6-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-5-1" class="collapse">
+<div id="fig-unnamed-chunk-6-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1411,7 +1679,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">709456c</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">709456c</a>
 </td>
 <td>
 Martin Garlovsky
@@ -1422,7 +1690,7 @@ Martin Garlovsky
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">989e86f</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">989e86f</a>
 </td>
 <td>
 lukeholman
@@ -1433,7 +1701,18 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/resistance.Rmd/unnamed-chunk-5-1.png" target="_blank">df61dde</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">96d1188</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-13
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/df61ddee93bc42f59613ae416f7a00684388bf71/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">df61dde</a>
 </td>
 <td>
 Martin Garlovsky
@@ -1450,7 +1729,7 @@ Martin Garlovsky
 </div>
 <div id="fit-the-survival-models-for-desiccation-and-starvation-resistance" class="section level2">
 <h2>Fit the survival models for desiccation and starvation resistance</h2>
-<p>We fit an accelerated failure time model in <code>brms</code> using <code>family = weibull()</code>, with time (hours) to event (death) as the response and sexual selection treatment (<code>Treatment</code>; Monogamy or Polyandry), <code>Sex</code> (female or male) and their interaction as predictors. <a href="https://bookdown.org/content/4857/god-spiked-the-integers.html">See here</a> for a helpful explanation on fitting survival models in <code>brms</code>. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial <code>ID</code> as a random intercept term as individuals housed in the same vial may show a correlated response.</p>
+<p>We fit an accelerated failure time model in <code>brms</code> using <code>family = weibull()</code>, with time (hours) to event (death) as the response and sexual selection treatment (<code>Treatment</code>; Monogamy or Elevated polyandry), <code>Sex</code> (female or male) and their interaction as predictors. <a href="https://bookdown.org/content/4857/god-spiked-the-integers.html">See here</a> for a helpful explanation on fitting survival models in <code>brms</code>. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial <code>ID</code> as a random intercept term as individuals housed in the same vial may show a correlated response.</p>
 <pre class="r"><code>if(!file.exists(&quot;output/des_brm.rds&quot;)){ # if the model doesn&#39;t exist fit it, else load it
   
   des_brm &lt;- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
@@ -1484,16 +1763,16 @@ if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exi
   sta_brm &lt;- readRDS(&#39;output/sta_brm.rds&#39;)
 }</code></pre>
 <div id="table-of-model-parameter-estimates---eclosion-time" class="section level3 tabset">
-<h3>Table of model parameter estimates - eclosion time</h3>
+<h3 class="tabset">Table of model parameter estimates - eclosion time</h3>
 <div id="formatted-table" class="section level4">
 <h4>Formatted table</h4>
-<p>Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) (<a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">see here</a>). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(-0.167) = 0.847 (95% confidence intervals = 0.795 - 0.902), i.e. Monogamy males live 0.847 times shorter than Monogamy females.</p>
+<p>Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) (<a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">see here</a>). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(-0.167) = 0.847 (95% confidence intervals = 0.795 - 0.902), i.e. Monogamy males live 0.847 times as long as Monogamy females.</p>
 <pre class="r"><code>des_test &lt;- bind_rows(
   hypothesis(des_brm, &#39;TreatmentP = 0&#39;)$hypothesis,
   hypothesis(des_brm, &#39;Sexm = 0&#39;)$hypothesis,
   hypothesis(des_brm, &#39;TreatmentP:Sexm = 0&#39;)$hypothesis
 ) %&gt;% 
-  mutate(Parameter = c(&#39;Treatment (P)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (P) x Sex (M)&#39;),
+  mutate(Parameter = c(&#39;Treatment (E)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (E) x Sex (M)&#39;),
          across(2:5, round, 3)) %&gt;% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
@@ -1502,7 +1781,7 @@ sta_test &lt;- bind_rows(
   hypothesis(sta_brm, &#39;Sexm = 0&#39;)$hypothesis,
   hypothesis(sta_brm, &#39;TreatmentP:Sexm = 0&#39;)$hypothesis
 ) %&gt;% 
-  mutate(Parameter = c(&#39;Treatment (P)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (P) x Sex (M)&#39;),
+  mutate(Parameter = c(&#39;Treatment (E)&#39;, &#39;Sex (M)&#39;, &#39;Treatment (E) x Sex (M)&#39;),
          across(2:5, round, 3)) %&gt;% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
@@ -1571,7 +1850,7 @@ p
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.055
@@ -1616,7 +1895,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 -0.097
@@ -1644,7 +1923,7 @@ Treatment (P) x Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P)
+Treatment (E)
 </td>
 <td style="text-align:right;">
 0.088
@@ -1689,7 +1968,7 @@ Sex (M)
 </tr>
 <tr>
 <td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Treatment (P) x Sex (M)
+Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
 -0.131
@@ -1714,7 +1993,7 @@ Treatment (P) x Sex (M)
 </table>
 </div>
 <div id="complete-output-from-summary.brmsfit" class="section level4 tabset">
-<h4>Complete output from <code>summary.brmsfit()</code></h4>
+<h4 class="tabset">Complete output from <code>summary.brmsfit()</code></h4>
 <p>The shape parameter (<span class="math inline">\(1/\)</span>scale parameter; see <a href="http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html">here</a>) describes the change in hazard over time where:</p>
 <ul>
 <li><span class="math inline">\(p\)</span> = 1: constant hazard</li>
@@ -1824,7 +2103,7 @@ post_sta &lt;- posterior_samples(sta_brm) %&gt;%
 
 bind_rows(post_des %&gt;% mutate(var = &#39;Desiccation&#39;), 
           post_sta %&gt;% mutate(var = &#39;Starvation&#39;)) %&gt;%
-  mutate(key = recode(key, TreatmentP = &quot;Treatment (P)&quot;, Sexm = &#39;Sex (M)&#39;, `TreatmentP:Sexm` = &#39;Treatment (P) x Sex (M)&#39;)) %&gt;% 
+  mutate(key = recode(key, TreatmentP = &quot;Treatment (E)&quot;, Sexm = &#39;Sex (M)&#39;, `TreatmentP:Sexm` = &#39;Treatment (E) x Sex (M)&#39;)) %&gt;% 
   ggplot(aes(x = value, y = key, fill = key)) + 
   geom_vline(xintercept = 0, linetype = 2) + 
   stat_halfeye(alpha = .8) +
@@ -1836,13 +2115,13 @@ bind_rows(post_des %&gt;% mutate(var = &#39;Desiccation&#39;),
   theme(legend.position = &#39;none&#39;,
         legend.title = element_blank()) +
   NULL</code></pre>
-<p><img src="figure/resistance.Rmd/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-10-1">
-Past versions of unnamed-chunk-10-1.png
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-11-1">
+Past versions of unnamed-chunk-11-1.png
 </button>
 </p>
-<div id="fig-unnamed-chunk-10-1" class="collapse">
+<div id="fig-unnamed-chunk-11-1" class="collapse">
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
 <thead>
@@ -1861,29 +2140,7 @@ Date
 <tbody>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/8000504b3c190b5186a02a6bffdaa3a2ae0a3b1d/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">8000504</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2021-01-19
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">709456c</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2021-01-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">989e86f</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-11-1.png" target="_blank">989e86f</a>
 </td>
 <td>
 lukeholman
@@ -1894,18 +2151,7 @@ lukeholman
 </tr>
 <tr>
 <td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">96d1188</a>
-</td>
-<td>
-Martin Garlovsky
-</td>
-<td>
-2020-12-13
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7d4b609075052dc7e107bda649d7ffd41e36ce84/docs/figure/resistance.Rmd/unnamed-chunk-10-1.png" target="_blank">7d4b609</a>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7d4b609075052dc7e107bda649d7ffd41e36ce84/docs/figure/resistance.Rmd/unnamed-chunk-11-1.png" target="_blank">7d4b609</a>
 </td>
 <td>
 Martin Garlovsky
@@ -1918,6 +2164,440 @@ Martin Garlovsky
 </table>
 </div>
 </div>
+</div>
+</div>
+<div id="posterior-effect-size-of-treatment-on-survival-for-each-sex" class="section level2 tabset">
+<h2 class="tabset">Posterior effect size of treatment on survival, for each sex</h2>
+<p>Here, we use the model to predict the mean survival coefficient in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the E treatment. We see that there is no overall effect of treatment in males or females.</p>
+<pre class="r"><code>new_data_stress &lt;- expand_grid(Sex = c(&quot;m&quot;, &quot;f&quot;),
+                               Treatment = c(&quot;M&quot;, &quot;P&quot;), 
+                               LINE = NA) %&gt;%
+  mutate(type = 1:4)
+
+fitted_des &lt;- posterior_epred(
+  des_brm, newdata = new_data_stress, re_formula = NA,
+  summary = FALSE) %&gt;% 
+  reshape2::melt() %&gt;% rename(draw = Var1, type = Var2) %&gt;% 
+  as_tibble() %&gt;%
+  left_join(new_data_stress, by = &quot;type&quot;) %&gt;%
+  select(draw, value, Sex, Treatment)
+
+treat_diff_des &lt;- fitted_des %&gt;%
+  spread(Treatment, value) %&gt;%
+  mutate(`Difference in means (Poly - Mono)` = P - M) 
+
+fitted_sta &lt;- posterior_epred(
+  sta_brm, newdata = new_data_stress, re_formula = NA,
+  summary = FALSE) %&gt;% 
+  reshape2::melt() %&gt;% rename(draw = Var1, type = Var2) %&gt;% 
+  as_tibble() %&gt;%
+  left_join(new_data_stress, by = &quot;type&quot;) %&gt;%
+  select(draw, value, Sex, Treatment)
+
+treat_diff_sta &lt;- fitted_sta %&gt;%
+  spread(Treatment, value) %&gt;%
+  mutate(`Difference in means (Poly - Mono)` = P - M)</code></pre>
+<div id="dessication-resistance" class="section level3">
+<h3>Dessication resistance</h3>
+<pre class="r"><code>treat_diff_des %&gt;% 
+  mutate(Sex = factor(ifelse(Sex == &quot;m&quot;, &quot;Males&quot;, &quot;Females&quot;))) %&gt;% 
+  ggplot(aes(x = `Difference in means (Poly - Mono)`, y = Sex, fill = Sex)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  labs(x = &#39;Difference in means between\nselection treatments (E - M)&#39;, y = &#39;Sex&#39;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-13-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-13-1">
+Past versions of unnamed-chunk-13-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-13-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-13-1.png" target="_blank">989e86f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-13-1.png" target="_blank">96d1188</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-13
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/7d4b609075052dc7e107bda649d7ffd41e36ce84/docs/figure/resistance.Rmd/unnamed-chunk-13-1.png" target="_blank">7d4b609</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-05
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="starvation-resistance" class="section level3">
+<h3>Starvation resistance</h3>
+<pre class="r"><code>treat_diff_sta %&gt;% 
+  mutate(Sex = factor(ifelse(Sex == &quot;m&quot;, &quot;Males&quot;, &quot;Females&quot;))) %&gt;% 
+  ggplot(aes(x = `Difference in means (Poly - Mono)`, y = Sex, fill = Sex)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
+  labs(x = &#39;Difference in means between\nselection treatments (E - M)&#39;, y = &#39;Sex&#39;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-14-1">
+Past versions of unnamed-chunk-14-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-14-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-14-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-14-1.png" target="_blank">989e86f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-14-1.png" target="_blank">96d1188</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="posterior-difference-in-treatment-effect-size-between-sexes" class="section level2">
+<h2>Posterior difference in treatment effect size between sexes</h2>
+<p>This section examines the treatment <span class="math inline">\(\times\)</span> sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes. We find evidence for a treatment <span class="math inline">\(\times\)</span> sex interaction, i.e. the difference in survival time between the sexes was greater in the E treatment than the M treatment.</p>
+<div id="figure" class="section level3 tabset">
+<h3 class="tabset">Figure</h3>
+<div id="dessication" class="section level4">
+<h4>Dessication</h4>
+<pre class="r"><code>treat_diff_des %&gt;%
+  rename(d = `Difference in means (Poly - Mono)`) %&gt;% 
+  select(draw, Sex, d) %&gt;%
+  group_by(draw) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = &quot;drop&quot;) %&gt;% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab(&quot;Posterior density&quot;) +
+  #ggsave(&quot;figures/des_interaction_plot.pdf&quot;, height=4, width=4) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-15-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-15-1">
+Past versions of unnamed-chunk-15-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-15-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-15-1.png" target="_blank">989e86f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-15-1.png" target="_blank">96d1188</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="starvation-1" class="section level4">
+<h4>Starvation</h4>
+<pre class="r"><code>treat_diff_sta %&gt;%
+  rename(d = `Difference in means (Poly - Mono)`) %&gt;% 
+  select(draw, Sex, d) %&gt;%
+  group_by(draw) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = &quot;drop&quot;) %&gt;% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x &lt; 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = &#39;Pastel2&#39;, direction = 1, name = &quot;&quot;) +
+  theme_bw() +
+  theme(legend.position = &#39;none&#39;,
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab(&quot;Posterior density&quot;) +
+  #ggsave(&quot;figures/sta_interaction_plot.pdf&quot;, height=4, width=4) +
+  NULL</code></pre>
+<p><img src="figure/resistance.Rmd/unnamed-chunk-16-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-16-1">
+Past versions of unnamed-chunk-16-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-16-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/709456c95d21a3528ad4dfa46afbe700888ef4ce/docs/figure/resistance.Rmd/unnamed-chunk-16-1.png" target="_blank">709456c</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2021-01-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/989e86ff1733879de61f286d01a7386021a6a84d/docs/figure/resistance.Rmd/unnamed-chunk-16-1.png" target="_blank">989e86f</a>
+</td>
+<td>
+lukeholman
+</td>
+<td>
+2020-12-18
+</td>
+</tr>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/96d1188439aa0c873595bff6ae718123224f28df/docs/figure/resistance.Rmd/unnamed-chunk-16-1.png" target="_blank">96d1188</a>
+</td>
+<td>
+Martin Garlovsky
+</td>
+<td>
+2020-12-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="table" class="section level3">
+<h3>Table</h3>
+<pre class="r"><code>treatsex_interaction_des &lt;- treat_diff_des %&gt;%
+  select(draw, Sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
+  arrange(draw, Sex) %&gt;%
+  group_by(draw) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = &quot;drop&quot;) # males - females
+
+treatsex_interaction_sta &lt;- treat_diff_sta %&gt;%
+  select(draw, Sex, d =  `Difference in means (Poly - Mono)`) %&gt;%
+  arrange(draw, Sex) %&gt;%
+  group_by(draw) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = &quot;drop&quot;) # males - females
+
+bind_rows(treatsex_interaction_des %&gt;% mutate(variable = &#39;Dessication&#39;),
+          treatsex_interaction_sta %&gt;% mutate(variable = &#39;Starvation&#39;)) %&gt;%
+  rename(x = `Difference in effect size between sexes (male - female)`) %&gt;%
+  group_by(variable) %&gt;%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
+            .groups = &quot;drop&quot;) %&gt;%
+  kable(digits=3) %&gt;%
+  kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+variable
+</th>
+<th style="text-align:right;">
+Difference in effect size between sexes (male - female)
+</th>
+<th style="text-align:right;">
+Lower 95% CI
+</th>
+<th style="text-align:right;">
+Upper 95% CI
+</th>
+<th style="text-align:right;">
+p
+</th>
+<th style="text-align:left;">
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Dessication
+</td>
+<td style="text-align:right;">
+-3.554
+</td>
+<td style="text-align:right;">
+-7.214
+</td>
+<td style="text-align:right;">
+-0.018
+</td>
+<td style="text-align:right;">
+0.024
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Starvation
+</td>
+<td style="text-align:right;">
+-7.149
+</td>
+<td style="text-align:right;">
+-14.148
+</td>
+<td style="text-align:right;">
+-0.460
+</td>
+<td style="text-align:right;">
+0.018
+</td>
+<td style="text-align:left;">
+*
+</td>
+</tr>
+</tbody>
+</table>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1928,7 +2608,7 @@ Martin Garlovsky
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre>R version 4.0.3 (2020-10-10)
 Platform: x86_64-apple-darwin17.0 (64-bit)
-Running under: macOS Catalina 10.15.7
+Running under: macOS Big Sur 10.16
 
 Matrix products: default
 BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -1941,11 +2621,12 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitrhooks_0.0.4 knitr_1.31       kableExtra_1.3.1 ggridges_0.5.3  
- [5] tidybayes_2.3.1  brms_2.14.4      Rcpp_1.0.6       coxme_2.2-16    
- [9] bdsmatrix_1.3-4  survival_3.2-7   forcats_0.5.1    stringr_1.4.0   
-[13] dplyr_1.0.3      purrr_0.3.4      readr_1.4.0      tidyr_1.1.2     
-[17] tibble_3.0.5     ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
+ [1] showtext_0.9-2   showtextdb_3.0   sysfonts_0.8.3   knitrhooks_0.0.4
+ [5] knitr_1.31       kableExtra_1.3.1 ggridges_0.5.3   tidybayes_2.3.1 
+ [9] brms_2.14.4      Rcpp_1.0.6       coxme_2.2-16     bdsmatrix_1.3-4 
+[13] survival_3.2-7   forcats_0.5.1    stringr_1.4.0    dplyr_1.0.3     
+[17] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2      tibble_3.0.5    
+[21] ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6          
@@ -2013,6 +2694,8 @@ footer is added to webpages before the MathJax javascript. -->
     "HTML-CSS": { availableFonts: ["TeX"] }
   });
 </script>
+
+
 
 
 </div>
