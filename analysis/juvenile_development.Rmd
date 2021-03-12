@@ -22,10 +22,17 @@ library(tidybayes)
 
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+library(showtext)
 
 output_max_height() # a knitrhook option
 
 options(stringsAsFactors = FALSE)
+
+# set up nice font for figure
+nice_font <- "Lora"
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
+
 ```
 
 ## Load data
@@ -116,11 +123,31 @@ wing_length$LINE <- paste0(wing_length$Treatment, substr(wing_length$Rep, 2, 2))
 
 ```
 
+
+## Inspecting the raw data
+
+```{r, fig.height=3}
+ecl.dat %>% 
+  filter(EVENT == 1) %>% 
+  select(TRT, SEX, DAY) %>% 
+  mutate(TRT_SEX = paste0(TRT, SEX),
+         SEX = factor(ifelse(SEX == "m", "Males", "Females"))) %>% 
+  ggplot(aes(x = DAY, y = SEX, fill = TRT_SEX)) +
+  geom_boxplot() +
+  scale_fill_manual(values = c("pink", "skyblue", "red", "blue"), name = "",
+                    labels = c('Monogamy Females', 'Monogamy Males',
+                               'Polandry Females', 'Polandry Males')) +
+  labs(x = 'Eclosion time (days)', y = 'Sex') +
+  theme_bw() +
+  NULL
+
+```
+
 # Survival analysis 
-We modeled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` per `Treatment` x 6 `VIAL` per `LINE` x 3 `SEED` days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies eclosed during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. 
+We modelled juvenile development time using survival analysis. We measured the time in days from 1st instar larvae until eclosion (`EVENT` = 1) upon which flies were stored in ethanol before counting. Of the initially seeded 100 flies per vial, the remaining flies not emerging after two consecutive days of no observed eclosions were right censored (`EVENT` = 0) on the last observation day. In total 14400 larvae were seeded (100 larvae x 2 `Treatment` x 4 `LINE` per `Treatment` x 6 `VIAL` per `LINE` x 3 `SEED` days). For P1 only three vials were seeded on day B so we seeded 3 additional vials on day C. Four vials were seeded with too many larvae and excluded from analysis. In total `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 1) %>% pull(n)` flies eclosed during the observation period leaving `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)` individuals to be right censored on day 9. 
 
 ### Censoring
-Censored flies were assigned sex based on the observed sex ratio of eclosees assuming an equal (50:50) sex ratio of larvae seeded to each vial at the beginning of the experiment. We calculate the number of number of males and females that did eclose and susbsequently assign sex to the remaining (uneclosed) individuals of unknown sex based on the proportion of individuals of each sex that did emerge. For example, if 70 flies were counted eclosing from a vial with 40 females and 30 males, we then designate the remaining 30 flies as 10 females and 20 males and so on so that each vial ends with 50 females and 50 males some of which are right censored (`EVENT` = 0).
+Censored flies were assigned sex based on the observed sex ratio of eclosees assuming an equal (50:50) sex ratio of larvae seeded to each vial at the beginning of the experiment. We calculate the number of number of males and females that did eclose and subsequently assign sex to the remaining (uneclosed) individuals of unknown sex based on the proportion of individuals of each sex that did emerge. For example, if 70 flies were counted eclosing from a vial with 40 females and 30 males, we then designate the remaining 30 flies as 10 females and 20 males and so on so that each vial ends with 50 females and 50 males some of which are right censored (`EVENT` = 0).
 
 
 ### Kaplan-Meier survival curve
@@ -137,13 +164,27 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       xlab = "Days",
                       legend = 'right',
                       legend.title = "",
-                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      legend.labs = c("M \u2640","M \u2642",'E \u2640','E \u2642'),
                       break.time.by = 2,
                       ggtheme = theme_bw())
 #ggsave(filename = 'figures/eclosion.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
 
 ```
 **Figure X:** Kaplan-Meier curve for eclosion time (in days) for flies in each treatment and sex. +'s indicate censored individuals (n = `r ecl.dat %>% count(EVENT) %>% filter(EVENT == 0) %>% pull(n)`).
+
+### Median eclosion times
+
+```{r}
+summary(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat))$table %>% 
+  as_tibble() %>% 
+  mutate(Treatment = c('M', 'M', 'E', 'E'),
+         Sex = c('Female', 'Male', 'Female', 'Male')) %>% 
+  mutate(`Median (± 95% CI)` = paste0(median, ' (', `0.95LCL`, '-', `0.95UCL`, ')')) %>% 
+  dplyr::select(Treatment, Sex, N = records, `N events` = events, `Median (± 95% CI)`) %>%
+  kable() %>% 
+  kable_styling(full_width = FALSE)
+
+```
 
 ### Check proportional hazards assumption
 Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. 
@@ -157,7 +198,7 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
                       xlim = c(13, 21),
                       legend = 'right',
                       legend.title = "",
-                      legend.labs = c("M \u2640","M \u2642",'P \u2640','P \u2642'),
+                      legend.labs = c("M \u2640","M \u2642",'E \u2640','E \u2642'),
                       break.time.by = 2,
                       ggtheme = theme_bw())
 
@@ -165,7 +206,7 @@ survminer::ggsurvplot(survfit(Surv(DAY, EVENT) ~ TRT + SEX, data = ecl.dat),
 **Figure X:** ln(-ln(survival))
 
 ## Fit the model in `brms`
-We fit a Cox Proportional hazards model in `brms` using `family = cox()`, with time (days) to event (eclosion) as the response and sexual selection treatment (`TRT`; Monogamy or Polyandry), `SEX` (female or male) and their interaction as predictors with Seed day as a covariate. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals emerging from the same vial may show a correlated response. 
+We fit a Cox Proportional hazards model in `brms` using `family = cox()`, with time (days) to event (eclosion) as the response and sexual selection treatment (`TRT`; Monogamy or Elevated polyandry), `SEX` (female or male) and their interaction as predictors with Seed day as a covariate. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals emerging from the same vial may show a correlated response. 
 
 #### Define priors
 We set conservative normal priors on the fixed effects (mean = 0, sd = 1) and half Cauchy priors on the random effects - `LINE` and vial `ID` - (mean = 0, scale = 0.1). All other priors were left at the default in `brms`.
@@ -203,7 +244,7 @@ hyp_test <- bind_rows(
   hypothesis(cox_brm, 'SEEDB = 0')$hypothesis,
   hypothesis(cox_brm, 'SEEDC = 0')$hypothesis
 ) %>% 
-  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)', 'Seed (B)', 'Seed (C)'),
+  mutate(Parameter = c('Treatment (E)', 'Sex (M)', 'Treatment (E) x Sex (M)', 'Seed (B)', 'Seed (C)'),
          across(2:5, round, 3)) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
@@ -235,11 +276,12 @@ cox_brm
 As `posterior_eprid()` is not available for `brms` models using the `cox` family, we manually calculate the estimates for each group from the posterior predictions. The $\beta$ coefficients from a Cox model measure the impact of covariates and give an estimate of the effect size ([see here](http://www.sthda.com/english/wiki/cox-proportional-hazards-model)). Taking the exponent of the coefficients give the hazard ratio. In short, hazard ratios give the probability of the event occurring compared to the 'control' group, in our case compared to Monogamy females, where:
 
 * Hazard ratio = 1 ($\beta$ = 0): no effect
-* Hazard ratio > 1 ($\beta$ > 0): reduced hazard (higher probabilty of eclosion)
-* Hazard ratio < 1 ($\beta$ < 0): increased hazard (lower probabilty of eclosion)
+* Hazard ratio > 1 ($\beta$ > 0): reduced hazard (higher probability of eclosion)
+* Hazard ratio < 1 ($\beta$ < 0): increased hazard (lower probability of eclosion)
 
 ```{r, fig.height=4, fig.width=4}
-posterior_samples(cox_brm) %>% 
+
+treatsex_eclosion <- posterior_samples(cox_brm) %>% 
   as_tibble() %>%
   select(starts_with("b_")) %>% 
   mutate(draw = 1:n()) %>% 
@@ -254,21 +296,106 @@ posterior_samples(cox_brm) %>%
   select(draw, value, SEX, TRT) %>% 
   pivot_wider(names_from = TRT,
               values_from = value) %>%
-  mutate(`Difference in means (Poly - Mono)` = P - M) %>%
+  mutate(`Difference in means (Poly - Mono)` = P - M)
+
+treatsex_eclosion %>%
   ggplot(aes(x = SEX, y = `Difference in means (Poly - Mono)`, fill = SEX)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  labs(y = 'Difference in means between\nselection treatments (P - M)') +
+  labs(y = 'Difference in means (\u03b2) between\nselection treatments (E - M)') +
   theme_bw() +
   theme(legend.position = 'none',
         strip.background = element_blank(),
         panel.grid.major.x = element_blank()) +
   NULL
-  
+
 ```
-**Figure X:** Difference in mean $\beta$ coefficients for the survival analysis on eclosion time between the selection treatments (Polyandry - Monogamy).
+**Figure X:** Difference in mean $\beta$ coefficients for the survival analysis on eclosion time between the selection treatments (Elevated polyandry - Monogamy).
+
+
+## Posterior difference in treatment effect size between sexes {.tabset}
+
+This section examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes. We find evidence for a treatment $\times$ sex interaction, i.e. the difference in eclosion time between the sexes was greater in the E treatment than the M treatment.
+
+### Figure
+```{r, fig.height=3, fig.width=3}
+treatsex_eclosion %>%
+  rename(d = `Difference in means (Poly - Mono)`) %>% 
+  select(draw, SEX, d) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") %>% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab("Posterior density") +
+  #ggsave("figures/metabolite_interaction_plot.pdf", height=4, width=6) +
+  NULL
+```
+
+### Table
+```{r}
+treatsex_interaction_eclosion <- treatsex_eclosion %>%
+  select(draw, SEX, d =  `Difference in means (Poly - Mono)`) %>%
+  arrange(draw, SEX) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") # males - females
+
+treatsex_interaction_eclosion %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
+
+```
+
+
+```{r}
+sex_eclosion <- posterior_samples(cox_brm) %>% 
+  as_tibble() %>%
+  select(starts_with("b_")) %>% 
+  mutate(draw = 1:n()) %>% 
+  mutate(M_f = b_Intercept,
+         P_f = b_Intercept + b_TRTP,
+         M_m = b_Intercept + b_SEXm,
+         P_m = b_TRTP + b_SEXm + `b_TRTP:SEXm`) %>% 
+  select(draw, M_f, P_f, M_m, P_m) %>% 
+  pivot_longer(cols = 2:5) %>% 
+  mutate(SEX = str_sub(name, -1),
+         TRT = str_sub(name, 1, 1)) %>%
+  select(draw, value, SEX, TRT) %>% 
+  pivot_wider(names_from = SEX,
+              values_from = value) %>%
+  mutate(`Difference in means (Female - Male)` = f - m)
+
+sex_eclosion %>%
+  ggplot(aes(x = TRT, y = `Difference in means (Female - Male)`, fill = TRT)) +
+  #geom_hline(yintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  labs(y = 'Difference in means (\u03b2) between\nsexess (Female - Male)') +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  NULL
+
+```
+
 
 # Body size differences (wing vein IV length) {.tabset}
 We measured the length of wing vein VI as a proxy for body size to test for differences between sexes and treatments as body size may influence development time. Prior to measurement, wing images were anonymised using a custom [python script provided by Henry Barton](https://github.com/henryjuho/Drosophila_wing_length) and then decoded for statistical analysis. Wing length was scaled by subtracting the mean (across all measurements) and dividing by the standard deviation.
@@ -352,7 +479,7 @@ wing_test <- bind_rows(
   hypothesis(wing_brms, 'SeedB = 0')$hypothesis,
   hypothesis(wing_brms, 'SeedC = 0')$hypothesis,
 ) %>% 
-  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)',
+  mutate(Parameter = c('Treatment (E)', 'Sex (M)', 'Treatment (E) x Sex (M)',
                        'Seed (B)', 'Seed (C)'),
          across(2:5, round, 3)) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
@@ -380,8 +507,9 @@ wing_test %>% mutate(vars = c('TreatmentP', 'SexM', 'TreatmentP.SexM', 'SeedB', 
 wing_brms
 ```
 
+
 ### Posterior effect size of treatment on body size for each sex
-We predict the mean wing vein IV length for each treatment and sex from the model averaged across the eight replicate selection lines and seeding days. The plots show the difference in posterior estimates between the P and M treatment for each sex separately. Note that females are larger than males but effect sizes are plotted for each sex separately.
+We predict the mean wing vein IV length for each treatment and sex from the model averaged across the eight replicate selection lines and seeding days. The plots show the difference in posterior estimates between the E and M treatment for each sex separately. Note that females are larger than males but effect sizes are plotted for each sex separately.
 
 ```{r, fig.height=3, fig.width=3}
 new <- expand_grid(Sex = c("M", "F"),
@@ -389,22 +517,25 @@ new <- expand_grid(Sex = c("M", "F"),
                    LINE = NA, Seed = NA) %>%
   mutate(type = 1:n())
 
-posterior_epred(
+fitted_wing <- posterior_epred(
   wing_brms, newdata = new, re_formula = NA,
   summary = FALSE, resp = 'Length') %>%
   reshape2::melt() %>% rename(draw = Var1, type = Var2) %>%
   as_tibble() %>%
   left_join(new, by = "type") %>%
-  select(draw, value, Sex, Treatment) %>% 
-  pivot_wider(names_from = Treatment, 
-              values_from = value) %>%
-  mutate(`Difference in means (Poly - Mono)` = P - M) %>% 
+  select(draw, value, Sex, Treatment)
+
+treat_diff_wing <- fitted_wing %>%
+  spread(Treatment, value) %>%
+  mutate(`Difference in means (Poly - Mono)` = P - M) 
+
+treat_diff_wing %>% 
   ggplot(aes(x = Sex, y = `Difference in means (Poly - Mono)`, fill = Sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  labs(y = 'Difference in means between\nselection treatments (P - M)') +
+  labs(y = 'Difference in means between\nselection treatments (E - M)') +
   theme_bw() +
   theme(legend.position = 'none',
         strip.background = element_blank(),
@@ -413,3 +544,51 @@ posterior_epred(
 
 ```
 **Figure XX:** Posterior estimates of treatment effects on wing vein IV length (proxy for body size).
+
+
+### Posterior difference in treatment effect size between sexes {.tabset}
+
+This section examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes. We find no evidence for a treatment $\times$ sex interaction, i.e. the treatment effects did not differ detectably between sexes.
+
+#### Figure
+```{r, fig.height=3, fig.width=3}
+treat_diff_wing %>%
+  rename(d = `Difference in means (Poly - Mono)`) %>% 
+  select(draw, Sex, d) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") %>% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab("Posterior density") +
+  #ggsave("figures/wing_interaction_plot.pdf", height=4, width=4) +
+  NULL
+```
+
+#### Table
+```{r}
+treatsex_interaction_wing <- treat_diff_wing %>%
+  select(draw, Sex, d =  `Difference in means (Poly - Mono)`) %>%
+  arrange(draw, Sex) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") # males - females
+
+treatsex_interaction_wing %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
+
+```

@@ -23,10 +23,17 @@ library(ggridges)
 
 library(kableExtra)
 library(knitrhooks) # install with devtools::install_github("nathaneastwood/knitrhooks")
+library(showtext)
 
 output_max_height() # a knitrhook option
 
 options(stringsAsFactors = FALSE)
+
+# set up nice font for figure
+nice_font <- "Lora"
+font_add_google(name = nice_font, family = nice_font, regular.wt = 400, bold.wt = 700)
+showtext_auto()
+
 ```
 
 
@@ -97,12 +104,12 @@ bind_rows(
 **Figure 1:** Survival time in hours for flies in each treatment split by sex. 
 
 # Survival analysis
-We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (`EVENT` = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three P females) were right censored (`EVENT` = 0) at the end of the observation period as death times were not recorded or remained alive. 
+We modeled desiccation and starvation resistance using survival analysis. We measured time in hours until death (`EVENT` = 1) for single sex triads of flies housed in vials (n = 7-10 vials per replicate per sex) containing no media and silica gel beads between the cotton and Parafilm enclosing the vial (desiccation resistance) or an agar media providing moisture only (starvation resistance). We monitored vials for deaths every two hours until all flies perished. For the starvation resistance assay five individuals (two M females and three E females) were right censored (`EVENT` = 0) at the end of the observation period as death times were not recorded or remained alive. 
 
 ### Kaplan-Meier survival curve
 First we plot Kaplan-Meier survival curves. 
 
-```{r, fig.width=5, fig.height=3}
+```{r, fig.width=4, fig.height=3}
 survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
                       conf.int = TRUE,
                       risk.table = FALSE,
@@ -112,7 +119,7 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       legend = 'right',
                       legend.title = "",
                       legend.labs = c("M \u2640","M \u2642",
-                                      'P \u2640','P \u2642'),
+                                      'E \u2640','E \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
 #ggsave(filename = 'figures/desiccation.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
@@ -126,7 +133,7 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
                       legend = 'right',
                       legend.title = "",
                       legend.labs = c("M \u2640","M \u2642",
-                                      'P \u2640','P \u2642'),
+                                      'E \u2640','E \u2642'),
                       break.time.by = 12,
                       ggtheme = theme_bw()) 
 #ggsave(filename = 'figures/starvation.pdf', width = 5.5, height = 5, dpi = 600, useDingbats = FALSE)
@@ -134,8 +141,34 @@ survminer::ggsurvplot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data
 ```
 **Figure 2:** Kaplan-Meier survival curves for flies in each treatment split by sex. + indicates censored individuals (n = 5).
 
+
+
+### Median survival times
+
+```{r}
+bind_rows(
+  summary(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes))$table %>% 
+    as_tibble() %>% 
+    mutate(Treatment = c('M', 'M', 'E', 'E'),
+           Sex = c('Female', 'Male', 'Female', 'Male')),
+  summary(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = StaRes))$table %>% 
+    as_tibble() %>% 
+    mutate(Treatment = c('M', 'M', 'E', 'E'),
+           Sex = c('Female', 'Male', 'Female', 'Male'))) %>% 
+  mutate(`Median (± 95% CI)` = paste0(median, ' (', `0.95LCL`, '-', `0.95UCL`, ')')) %>% 
+  dplyr::select(Treatment, Sex, N = records, `N events` = events, `Median (± 95% CI)`) %>%
+  #write_csv('output/stress_medians.csv')
+  kable() %>% 
+  kable_styling(full_width = FALSE) %>%
+  group_rows("Desiccation", 1, 4) %>%
+  group_rows("Starvation", 5, 8)
+
+```
+
+
 ### Check proportional hazards assumption
-Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We will therefore fit accelerated failure time (AFT) models with a Weibull distribution (see [here](https://pubmed.ncbi.nlm.nih.gov/17080754/)).
+Next we need to check that the proportional hazards assumption is not violated before fitting the model, where crossing hazards (lines) indicate violation of the proportional hazards assumption. For both desiccation and starvation we see crossing hazards for the male survival curves. We therefore fit accelerated failure time (AFT) models with a Weibull distribution (see [here](https://pubmed.ncbi.nlm.nih.gov/17080754/)).
+
 ```{r, fig.width=8, fig.height=4}
 # assess proportional hazards assumption
 par(mar = c(2, 2, 2, 2), mfrow = c(1, 2))
@@ -145,7 +178,7 @@ plot(survfit(Surv(survival.time, EVENT) ~ Treatment + Sex, data = DesRes),
      main = 'Desiccation',
      fun = "cloglog")
 
-legend("topleft", c("M \u2640","M \u2642",'P \u2640','P \u2642'), 
+legend("topleft", c("M \u2640","M \u2642",'E \u2640','E \u2642'), 
        col = c("pink", "skyblue", "red", "blue"), 
        lty = 1:2, 
        lwd = 2,
@@ -163,7 +196,7 @@ par(mfrow = c(1, 1))
 ```
 
 ## Fit the survival models for desiccation and starvation resistance
-We fit an accelerated failure time model in `brms` using `family = weibull()`, with time (hours) to event (death) as the response and sexual selection treatment (`Treatment`; Monogamy or Polyandry), `Sex` (female or male) and their interaction as predictors. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals housed in the same vial may show a correlated response. 
+We fit an accelerated failure time model in `brms` using `family = weibull()`, with time (hours) to event (death) as the response and sexual selection treatment (`Treatment`; Monogamy or Elevated polyandry), `Sex` (female or male) and their interaction as predictors. [See here](https://bookdown.org/content/4857/god-spiked-the-integers.html) for a helpful explanation on fitting survival models in `brms`. We also include replicate treatment as a random intercept term for each of the 8 lines and a random slope term to allow the effect of selection treatment to vary across replicate lines. We also include vial `ID` as a random intercept term as individuals housed in the same vial may show a correlated response. 
 
 ```{r}
 
@@ -205,7 +238,7 @@ if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, els
 ### Table of model parameter estimates - eclosion time {.tabset}
 
 #### Formatted table 
-Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)` (95% confidence intervals = `r round(exp(fixef(des_brm)[3,3]), 3)` - `r round(exp(fixef(des_brm)[3,4]), 3)`), i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times shorter than Monogamy females.
+Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)` (95% confidence intervals = `r round(exp(fixef(des_brm)[3,3]), 3)` - `r round(exp(fixef(des_brm)[3,4]), 3)`), i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times as long as Monogamy females.
 
 ```{r}
 
@@ -214,7 +247,7 @@ des_test <- bind_rows(
   hypothesis(des_brm, 'Sexm = 0')$hypothesis,
   hypothesis(des_brm, 'TreatmentP:Sexm = 0')$hypothesis
 ) %>% 
-  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)'),
+  mutate(Parameter = c('Treatment (E)', 'Sex (M)', 'Treatment (E) x Sex (M)'),
          across(2:5, round, 3)) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
@@ -223,7 +256,7 @@ sta_test <- bind_rows(
   hypothesis(sta_brm, 'Sexm = 0')$hypothesis,
   hypothesis(sta_brm, 'TreatmentP:Sexm = 0')$hypothesis
 ) %>% 
-  mutate(Parameter = c('Treatment (P)', 'Sex (M)', 'Treatment (P) x Sex (M)'),
+  mutate(Parameter = c('Treatment (E)', 'Sex (M)', 'Treatment (E) x Sex (M)'),
          across(2:5, round, 3)) %>% 
   relocate(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, Star)
 
@@ -299,7 +332,7 @@ post_sta <- posterior_samples(sta_brm) %>%
 
 bind_rows(post_des %>% mutate(var = 'Desiccation'), 
           post_sta %>% mutate(var = 'Starvation')) %>%
-  mutate(key = recode(key, TreatmentP = "Treatment (P)", Sexm = 'Sex (M)', `TreatmentP:Sexm` = 'Treatment (P) x Sex (M)')) %>% 
+  mutate(key = recode(key, TreatmentP = "Treatment (E)", Sexm = 'Sex (M)', `TreatmentP:Sexm` = 'Treatment (E) x Sex (M)')) %>% 
   ggplot(aes(x = value, y = key, fill = key)) + 
   geom_vline(xintercept = 0, linetype = 2) + 
   stat_halfeye(alpha = .8) +
@@ -311,5 +344,156 @@ bind_rows(post_des %>% mutate(var = 'Desiccation'),
   theme(legend.position = 'none',
         legend.title = element_blank()) +
   NULL
+
+```
+
+## Posterior effect size of treatment on survival, for each sex {.tabset}
+
+Here, we use the model to predict the mean survival coefficient in each treatment and sex (averaged across the eight replicate selection lines). We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the E treatment. We see that there is no overall effect of treatment in males or females. 
+
+```{r}
+new_data_stress <- expand_grid(Sex = c("m", "f"),
+                               Treatment = c("M", "P"), 
+                               LINE = NA) %>%
+  mutate(type = 1:4)
+
+fitted_des <- posterior_epred(
+  des_brm, newdata = new_data_stress, re_formula = NA,
+  summary = FALSE) %>% 
+  reshape2::melt() %>% rename(draw = Var1, type = Var2) %>% 
+  as_tibble() %>%
+  left_join(new_data_stress, by = "type") %>%
+  select(draw, value, Sex, Treatment)
+
+treat_diff_des <- fitted_des %>%
+  spread(Treatment, value) %>%
+  mutate(`Difference in means (Poly - Mono)` = P - M) 
+
+fitted_sta <- posterior_epred(
+  sta_brm, newdata = new_data_stress, re_formula = NA,
+  summary = FALSE) %>% 
+  reshape2::melt() %>% rename(draw = Var1, type = Var2) %>% 
+  as_tibble() %>%
+  left_join(new_data_stress, by = "type") %>%
+  select(draw, value, Sex, Treatment)
+
+treat_diff_sta <- fitted_sta %>%
+  spread(Treatment, value) %>%
+  mutate(`Difference in means (Poly - Mono)` = P - M)
+
+```
+
+### Dessication resistance
+```{r, fig.height=3, fig.width=3}
+treat_diff_des %>% 
+  mutate(Sex = factor(ifelse(Sex == "m", "Males", "Females"))) %>% 
+  ggplot(aes(x = `Difference in means (Poly - Mono)`, y = Sex, fill = Sex)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  labs(x = 'Difference in means between\nselection treatments (E - M)', y = 'Sex') +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  NULL
+```
+
+### Starvation resistance
+```{r, fig.height=3, fig.width=3}
+treat_diff_sta %>% 
+  mutate(Sex = factor(ifelse(Sex == "m", "Males", "Females"))) %>% 
+  ggplot(aes(x = `Difference in means (Poly - Mono)`, y = Sex, fill = Sex)) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() + 
+  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
+  labs(x = 'Difference in means between\nselection treatments (E - M)', y = 'Sex') +
+  theme_bw() +
+  theme(legend.position = 'none',
+        strip.background = element_blank(),
+        panel.grid.major.x = element_blank()) +
+  NULL
+
+```
+
+
+## Posterior difference in treatment effect size between sexes
+
+This section examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes. We find evidence for a treatment $\times$ sex interaction, i.e. the difference in survival time between the sexes was greater in the E treatment than the M treatment.
+
+### Figure {.tabset}
+
+#### Dessication
+```{r, fig.height=3, fig.width=3}
+treat_diff_des %>%
+  rename(d = `Difference in means (Poly - Mono)`) %>% 
+  select(draw, Sex, d) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") %>% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab("Posterior density") +
+  #ggsave("figures/des_interaction_plot.pdf", height=4, width=4) +
+  NULL
+```
+
+#### Starvation
+```{r, fig.height=3, fig.width=3}
+treat_diff_sta %>%
+  rename(d = `Difference in means (Poly - Mono)`) %>% 
+  select(draw, Sex, d) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") %>% 
+  ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
+  geom_vline(xintercept = 0, linetype = 2) +
+  stat_halfeye() +
+  scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
+  theme_bw() +
+  theme(legend.position = 'none',
+        text = element_text(family = nice_font),
+        strip.background = element_blank()) +
+  ylab("Posterior density") +
+  #ggsave("figures/sta_interaction_plot.pdf", height=4, width=4) +
+  NULL
+```
+
+### Table
+```{r}
+treatsex_interaction_des <- treat_diff_des %>%
+  select(draw, Sex, d =  `Difference in means (Poly - Mono)`) %>%
+  arrange(draw, Sex) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") # males - females
+
+treatsex_interaction_sta <- treat_diff_sta %>%
+  select(draw, Sex, d =  `Difference in means (Poly - Mono)`) %>%
+  arrange(draw, Sex) %>%
+  group_by(draw) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = d[2] - d[1],
+            .groups = "drop") # males - females
+
+bind_rows(treatsex_interaction_des %>% mutate(variable = 'Dessication'),
+          treatsex_interaction_sta %>% mutate(variable = 'Starvation')) %>%
+  rename(x = `Difference in effect size between sexes (male - female)`) %>%
+  group_by(variable) %>%
+  summarise(`Difference in effect size between sexes (male - female)` = median(x),
+            `Lower 95% CI` = quantile(x, probs = 0.025), 
+            `Upper 95% CI` = quantile(x, probs = 0.975),
+            p = 1 - as.numeric(bayestestR::p_direction(x)),
+            ` ` = ifelse(p < 0.05, "\\*", ""),
+            .groups = "drop") %>%
+  kable(digits=3) %>%
+  kable_styling(full_width = FALSE)
 
 ```

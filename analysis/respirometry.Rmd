@@ -54,7 +54,7 @@ inv_logit <- function(x) 1 / (1 + exp(-x))
 
 This analysis set out to test whether sexual selection treatment had an effect on respiration in the flies. The variables in the raw data are as follows:
 
-- `SELECTION` The selection treatment of the focal triad of flies (monandry or polyandry)
+- `SELECTION` The selection treatment of the focal triad of flies (monogamy or polyandry)
 - `SEX` The sex of the focal triad of flies (male or female)
 - `LINE` The replicate selection line (M1-4 and P1-4)
 - `SAMPLE` Grouping variable that identifies the specific triad of flies (there are three measurements of each for all response variables except body weight). The have names like `M1T1F` (i.e. the first triad of females from line M1)
@@ -105,9 +105,9 @@ respiration %>%
 
 ```{r fig.height=10, fig.width=10}
 cols <- c("M females" = "pink", 
-          "P females" = "red", 
+          "E females" = "red", 
           "M males" = "skyblue", 
-          "P males" = "blue")
+          "E males" = "blue")
 
 modified_densityDiag <- function(data, mapping, ...) {
   ggally_densityDiag(data, mapping, colour = "grey10", ...) + 
@@ -138,8 +138,8 @@ respiration_pairs_plot <- respiration %>%
          BODYMASS = BODYMASS * 1000, 
          ACTIVITY = ACTIVITY * 100) %>%
   mutate(SEX = factor(ifelse(SEX == "M", "males", "females")),
-         SELECTION = factor(ifelse(SELECTION == "Mono", "M", "P")),
-         `Sex and treatment` = factor(paste(SELECTION, SEX), c("M males", "P males", "M females", "P females"))) %>%
+         SELECTION = factor(ifelse(SELECTION == "Mono", "M", "E")),
+         `Sex and treatment` = factor(paste(SELECTION, SEX), c("M males", "E males", "M females", "E females"))) %>%
   mutate_if(is.numeric, ~ as.numeric(scale(.x))) %>%
   select(-SEX, -SELECTION) %>%
   rename(Cycle = CYCLE, Activity = ACTIVITY, `Body mass` = BODYMASS) %>% 
@@ -154,11 +154,11 @@ respiration_pairs_plot <- respiration %>%
                        discrete = wrap("blank"),
                        combo = wrap(modified_box_no_facet, alpha = 0.7, size = 0.5))) 
 
-respiration_pairs_plot %>% ggsave(filename = "figures/respiration_pairs_plot.pdf", height = 10, width = 10)
+#respiration_pairs_plot %>% ggsave(filename = "figures/respiration_pairs_plot.pdf", height = 10, width = 10)
 respiration_pairs_plot
 ```
 
-**Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio. Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
+**Figure XX:** Boxplots, scatterplots, and density plots illustrating the means, variances and covariances of the explanatory variables (`Treatment`, `Sex`, and `Cycle`) and the five response variables. The data are coloured by treatment (red: elevated polyandry, blue: monogamy). The plot shows the raw data in their original units, namely the number of mm of O$_2$ consumed or CO$_2$ produced, the % time spent active, and the body mass in milligrams; the respiratory quotient (RQ) is a unitless ratio (CO$_2$ produced / O$_2$ consumed). Note that the true value of RQ must lie within the range of 0.7-1.0 because of the chemistry of respiration, but estimates of RQ can lie outside this range due to sampling variance and measurement error for O$_2$ and CO$_2$. 
 
 ### Group means {.tabset}
 
@@ -244,7 +244,7 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 "Other factors\n(e.g. physiology)" [shape = oval, fillcolor = Beige]
 
 # edge definitions with the node IDs
-"Mating system\ntreatment (M vs P)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"} -> {"Metabolic\nrate", "Metabolic\nsubstrate"} 
+"Mating system\ntreatment (E vs. M)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"} -> {"Metabolic\nrate", "Metabolic\nsubstrate"} 
 
 {"Metabolic\nrate"} -> {"O\u2082 consumption", "CO\u2082 production"}
 {"O\u2082 consumption", "CO\u2082 production"} -> "Respiratory\nquotient (RQ)"
@@ -280,7 +280,7 @@ scaled_data %>%
 
 Here, we write out all the formulae of the sub-models in the SEM. There is a sub-model for oxygen consumption (`VO2`) and another for `CO2` production (`VCO2`) which depends on the parameter `RQ` (the respiratory quotient, i.e. `VCO2` / `VO2`); there are also sub-models for body mass (`BODYMASS`) and activity level (`ACTIVITY`).
 
-In short, we assume that `VO2`, `RQ`, `BODYMASS`, and `ACTIVITY` are affected by the predictor variables related to the experimental design. These variables are `SELECTION` (i.e. M vs P treatment), `SEX` (Male or Female), `CYCLE` (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), `LINE` (8 levels, one for each of the four independent replicates of the M an P treatments), and `SAMPLE` (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, `VCO2` is predicted from the estimated values of `VO2` and `RQ` as `VO2` \times `RQ`, and thus is related to the predictor variables only indirectly (the choice to make `VCO2` dependent rather than `VO2` dependant on `RQ` is arbitrary, and does not affect the results).
+In short, we assume that `VO2`, `RQ`, `BODYMASS`, and `ACTIVITY` are affected by the predictor variables related to the experimental design. These variables are `SELECTION` (i.e. M vs E treatment), `SEX` (Male or Female), `CYCLE` (I, II, or III: this refers to the first, second, and third measurement of O2 and CO2 for each triad of flies), `LINE` (8 levels, one for each of the four independent replicates of the M an P treatments), and `SAMPLE` (a random intercept that groups the three replicate measures of each triad of flies across the three cycles). Unlike the other response variables, `VCO2` is predicted from the estimated values of `VO2` and `RQ` as `VO2` \times `RQ`, and thus is related to the predictor variables only indirectly (the choice to make `VCO2` dependent rather than `VO2` dependant on `RQ` is arbitrary, and does not affect the results).
 
 The `brms` notation for the line random effects (`(SELECTION | p | LINE)`) means that the model fits a random intercept for each of the 8 lines, and that these random intercepts are (potentially) correlated across each of the response variables. Furthermore, the model fits a random slope for `SELECTION`, which allows the treatment effect to vary across the replicate lines. 
 
@@ -340,7 +340,7 @@ brms_formula
 ```
 
 ### Define Priors
-We use set fairly tight Normal priors on all fixed effect parameters, which 'regularises' the estimates towards zero -- this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for `LINE` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition. 
+We set fairly tight Normal priors on all fixed effect parameters, which 'regularises' the estimates towards zero -- this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for `LINE` (i.e. we consider large differences between lines -- in terms of means and treatment effects -- to be possible but improbable). We leave all other priors at the defaults used by `brms`. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition. 
 
 ```{r}
 prior_SEM <- c(set_prior("normal(0, 1)", class = "b", resp = 'VO2'),
@@ -400,7 +400,7 @@ grid.arrange(
 
 ### Formatted table
 
-This tables shows the fixed effects estimates for the treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the six response variables. The `p` column shows 1 - minus the "probability of direction", i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable `line`, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.
+This tables shows the fixed effects estimates for treatment, sex, their interaction, as well as the slope associated with dry weight (where relevant), for each of the response variables. The `p` column shows 1 - minus the "probability of direction", i.e. the posterior probability that the reported sign of the estimate is correct given the data and the prior; subtracting this value from one gives a Bayesian equivalent of a one-sided p-value. For brevity, we have omitted all the parameter estimates involving the predictor variable `line`, as well as the estimates of residual (co)variance. Click the next tab to see a complete summary of the model and its output.
 
 ```{r}
 hypSEM <- left_join(
@@ -413,7 +413,7 @@ hypSEM <- left_join(
              pd = 1 - pd) %>%
   select(Response, Parameter, everything()) %>% 
   rename(p = pd) %>%
-  mutate(Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Treatment (P)"),
+  mutate(Parameter = str_replace_all(Parameter, "SELECTIONPoly", "Treatment (E)"),
          Parameter = str_replace_all(Parameter, "SEXM", "Sex (M)"),
          Parameter = str_replace_all(Parameter, "BODYMASS", "Body weight"),
          Parameter = str_replace_all(Parameter, "ACTIVITY", "Activity level"),
@@ -451,8 +451,6 @@ brms_SEM_respiration
 ```
 
 
-
-
 ## Posterior estimates of the effect size
 
 Here, we calculate the effect size of the selection treatment on each response variable (and `RQ`) from the posterior estimates of the SEM.
@@ -463,11 +461,11 @@ Here, we use the model to predict the means for each response variable (and the 
 
 Because the model contains body mass and activity level as mediator variables, we derived the posterior predictions in three different ways, and display the answer for all three in the following figures/tables. 
 
-Firstly, we predicted the posterior means without controlling for either of the mediator variables, by deriving our predictions for each cycle, sex, and treatment with `BODYMASS` and `ACTIVITY` set to their estimated mean values for that specific cycle/sex/treatment combination. This means that (for example) if activity level positively affects respiration, and P flies evolved higher activity levels, we would predict higher VO2 in P flies due to their larger activity levels. 
+First, we predicted the posterior means without controlling for either of the mediator variables, by deriving our predictions for each cycle, sex, and treatment with `BODYMASS` and `ACTIVITY` set to their estimated mean values for that specific cycle/sex/treatment combination. This means that (for example) if activity level positively affects respiration, and E flies evolved higher activity levels, we would predict higher VO2 in E flies due to their larger activity levels. 
 
-Secondly, we predicted the posterior means while controlling for differences in activity level between cycles, sexes, and treatments. This was accomplished by producing the posterior predictions with `ACTIVITY` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if activity levels were the same across cycles, sexes, and treatments.
+Second, we predicted the posterior means while controlling for differences in activity level between cycles, sexes, and treatments. This was accomplished by producing the posterior predictions with `ACTIVITY` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if activity levels were the same across cycles, sexes, and treatments.
 
-Thirdly, we predicted the posterior means while controlling for differences in body mass between sexes and treatment. This was accomplished by producing the posterior predictions with `BODYMASS` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if body mass were the same across sexes and treatments.
+Third, we predicted the posterior means while controlling for differences in body mass between sexes and treatment. This was accomplished by producing the posterior predictions with `BODYMASS` set to its global mean value (i.e. 0), which is equivalent to asking what the response variables would be if body mass were the same across sexes and treatments.
 
 ```{r}
 new <- scaled_data %>%
@@ -484,7 +482,7 @@ bodymass_posterior <- brms_SEM_respiration %>%
   left_join(new %>% mutate(parameter_space = 1:n()), by = "parameter_space") %>%
   select(draw, SELECTION, SEX, `Body mass`) %>% as_tibble() %>% distinct() %>%
   mutate(
-    treat = ifelse(SELECTION == "Mono", "M", "P"), 
+    treat = ifelse(SELECTION == "Mono", "M", "E"), 
     sex = ifelse(SEX == "F", "females", "males"), 
     sextreat = paste(treat, sex),
     SEX = factor(ifelse(SEX == "F", "Females", "Males"), c("Males", "Females")),
@@ -498,7 +496,7 @@ activity_posterior <- brms_SEM_respiration %>%
   left_join(new %>% mutate(parameter_space = 1:n()), by = "parameter_space") %>%
   select(draw, SELECTION, SEX, CYCLE, `Activity level`) %>% as_tibble() %>%
   mutate(
-    treat = ifelse(SELECTION == "Mono", "M", "P"), 
+    treat = ifelse(SELECTION == "Mono", "M", "E"), 
     sex = ifelse(SEX == "F", "females", "males"), 
     sextreat = paste(treat, sex),
     SEX = factor(ifelse(SEX == "F", "Females", "Males"), c("Males", "Females")),
@@ -548,7 +546,7 @@ post_preds_respiration <- left_join(
 ```
 
 ### Find posterior estimates of effect size {.tabset}
-We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the P treatment; thus a value of 1 would mean that the P treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen's d), from the model shown above. 
+We then calculate the effect size of treatment by subtracting the (sex-specific) mean for the M treatment from the mean for the E treatment; thus a value of 1 would mean that the E treatment has a mean that is larger by 1 standard deviation. Thus, the y-axis in the following graphs essentially shows the posterior estimate of standardised effect size (Cohen's d), from the model shown above. 
 
 ```{r}
 overall_SD_VO2 <- scaled_data$VO2 %>% sd()
@@ -566,7 +564,7 @@ posterior_effect_size <- post_preds_respiration %>%
 
 #### Figure
 
-Note that the females are larger than males, and that P females are somewhat larger than M females. P individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while P males maintain consistent, high activity levels).
+Note that the females are larger than males, and that E females are somewhat larger than M females. E individuals of both sexes are more active than M individuals, and there are changes in activity level across cycles (in particular, M males become less active with time, while E males maintain consistent, high activity levels).
 
 ```{r fig.height=7.5, fig.width=5, fig.showtext=TRUE}
 p1 <- arrangeGrob(
@@ -590,7 +588,7 @@ p1 <- arrangeGrob(
     mutate(CYCLE = paste("Cycle", CYCLE)) %>%
     ggplot(aes(y = SELECTION, x = `Activity level`, fill = sextreat)) + 
     geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
-    stat_halfeyeh(alpha = 0.7, size = 0.6) + 
+    stat_halfeye(alpha = 0.7, size = 0.6) + 
     facet_grid(SEX ~ CYCLE) +
     scale_fill_manual(values = cols, name = "") + 
     theme_bw() + 
@@ -611,9 +609,9 @@ p2 <- arrangeGrob(
                x = VO2_effect,
                fill = mediators_blocked)) + 
     geom_vline(xintercept = 0, linetype = 2) + 
-    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab(expression(VO[2]~(P~-~M))) + 
+    xlab(expression(VO[2]~(E~-~M))) + 
     ylab(NULL)  +
     scale_fill_brewer(palette = "Set2") + 
     theme_bw() +
@@ -627,9 +625,9 @@ p2 <- arrangeGrob(
                x = RQ_effect,
                fill = mediators_blocked)) + 
     geom_vline(xintercept = 0, linetype = 2) + 
-    stat_halfeyeh(size = 0.5, alpha = 0.5) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
     facet_grid(SEX ~ CYCLE) +
-    xlab("RQ (P - M)") + 
+    xlab("RQ (E - M)") + 
     ylab(NULL)  +
     scale_fill_brewer(palette = "Set2") + 
     theme_bw() +
@@ -648,13 +646,42 @@ p_filler <- ggplot() + theme_void()
 grid.arrange(p1, 
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
-             heights = c(0.35, 0.65)) %>%
-  ggsave("figures/respiration_figure.pdf", plot = ., height = 8, width = 5)
-
-grid.arrange(p1, 
-             arrangeGrob(p_filler, p2, p_filler, 
-                         nrow = 1, widths = c(0.1, 0.8, 0.1)), 
              heights = c(0.35, 0.65)) 
+
+# grid.arrange(p1, 
+#              arrangeGrob(p_filler, p2, p_filler, 
+#                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
+#              heights = c(0.35, 0.65)) %>% 
+#   ggsave("figures/respiration_figure.pdf", plot = ., height = 8, width = 5)
+
+
+# omit RQ
+p3 <- arrangeGrob(
+  posterior_effect_size %>% 
+    ggplot(aes(y = mediators_blocked, 
+               x = VO2_effect,
+               fill = mediators_blocked)) + 
+    geom_vline(xintercept = 0, linetype = 2) + 
+    stat_halfeye(size = 0.5, alpha = 0.5) + 
+    facet_grid(SEX ~ CYCLE) +
+    xlab(expression(VO[2]~(E~-~M))) + 
+    ylab(NULL)  +
+    scale_fill_brewer(palette = "Set2") + 
+    theme_bw() +
+    coord_cartesian(xlim = c(-0.6, 1.9)) + 
+    theme(legend.position = "none",
+          text = element_text(family = nice_font),
+          strip.background = element_blank()), 
+  left = textGrob("Mediator variables controlled for", rot = 90, gp=gpar(fontfamily = nice_font)),
+  top = textGrob("B. Metabolic rate (effect sizes)", hjust = 1, gp=gpar(fontfamily = nice_font))
+)
+
+# grid.arrange(p1,
+#              arrangeGrob(p_filler, p3, p_filler,
+#                          nrow = 1, widths = c(0.1, 0.8, 0.1)),
+#              heights = c(0.35, 0.65)) %>%
+#   ggsave("figures/respiration_figure_noRQ.pdf", plot = ., height = 5, width = 5)
+
 ```
 
 
@@ -718,7 +745,7 @@ posterior_effect_size %>%
 
 ## Posterior difference in treatment effect size between sexes 
 
-This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the P/M treatment between sexes, for each cycle, for VO$_2$. We find that the effect of the P/M treatment on VO$_2$ is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.
+This section essentially examines the treatment $\times$ sex interaction term, by calculating the difference in the effect size of the E/M treatment between sexes, for each cycle, for VO$_2$. We find that the effect of the E/M treatment on VO$_2$ is greater in males than females, but only in the final cycle. Statistically correcting for differences in activity between sexes and treatments partly attenuated this effect, which suggests that the greater effect of treatment on activity in males is what explains the greater effect of treatment on VO2 in males.
 
 ### Figure {.tabset}
 
@@ -732,7 +759,7 @@ treatsex_interaction <- posterior_effect_size %>%
 treatsex_interaction %>%
   ggplot(aes(x = `Difference in effect size between sexes (male - female)`, y = 1, fill = stat(x < 0))) +
   geom_vline(xintercept = 0, linetype = 2) +
-  stat_halfeyeh() +
+  stat_halfeye() +
   facet_grid(mediators_blocked ~ Cycle) +
   scale_fill_brewer(palette = 'Pastel2', direction = 1, name = "") +
   theme_bw() +
