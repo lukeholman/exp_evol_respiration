@@ -466,7 +466,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-12
+<strong>Last updated:</strong> 2021-03-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -557,16 +557,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1e31cebd530adac126a3624134c3a3860e585742targetblank1e31ceba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1e31cebd530adac126a3624134c3a3860e585742" target="_blank">1e31ceb</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1e31cebd530adac126a3624134c3a3860e585742targetblank1e31ceba" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1e31cebd530adac126a3624134c3a3860e585742" target="_blank">1e31ceb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -576,22 +576,39 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
     Ignored:    figures/.DS_Store
     Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  data/1.eclosion_wide.csv
+    Untracked:  data/2.DesRes.csv
+    Untracked:  data/2.StarvRes.csv
+    Untracked:  data/3.metabolic_rates.csv
+    Untracked:  data/4.metabolite_data.csv
     Untracked:  figures/desiccation.pdf
     Untracked:  figures/eclosion.pdf
     Untracked:  figures/metaboliteDAG.pdf
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
+    Untracked:  figures/metabolite_plotCONTROLLED_nolines.pdf
+    Untracked:  figures/metabolite_plot_nolines.pdf
     Untracked:  figures/metabolites_supp.pdf
     Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/respiration_figure_cycleI.pdf
+    Untracked:  figures/respiration_figure_cycleI_inkscape.pdf
     Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
+    Untracked:  output/metabolite_SEM_table.csv
+    Untracked:  output/respirometry_SEM_table.csv
     Untracked:  output/stress_medians.csv
 
 Unstaged changes:
+    Modified:   analysis/metabolites.Rmd
+    Deleted:    data/1.eclosion_times.csv
+    Deleted:    data/2.metabolic_rates.csv
+    Deleted:    data/3.DesRes.csv
+    Deleted:    data/3.StarvRes.csv
+    Deleted:    data/3.metabolite_data.csv
     Modified:   figures/metabolite_interaction_plot.pdf
     Modified:   figures/metabolite_pairs_plot.pdf
     Modified:   figures/metabolite_plot.pdf
@@ -640,6 +657,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/1e31cebd530adac126a3624134c3a3860e585742/analysis/respirometry.Rmd" target="_blank">1e31ceb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-23
+</td>
+<td>
+wflow_publish(c(“analysis/juvenile_development.Rmd”, “analysis/resistance.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/respirometry.html" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1179,7 +1230,7 @@ inv_logit &lt;- function(x) 1 / (1 + exp(-x))</code></pre>
 <p>We expect body weight and activity levels to vary between the sexes and potentially between treatments. In turn, we expect these two ‘mediator variables’ to co-vary with respiratory flux, e.g. because larger flies have more respiring tissue, and because more active flies would have more active metabolism. There might also be weight- and activity-independent effects of sex and selection treatment on respiration, e.g. because of differences in resting metabolic rate.</p>
 <div id="raw-numbers" class="section level3">
 <h3>Raw numbers</h3>
-<pre class="r"><code>respiration &lt;- read_csv(&quot;data/2.metabolic_rates.csv&quot;) %&gt;%
+<pre class="r"><code>respiration &lt;- read_csv(&quot;data/3.metabolic_rates.csv&quot;) %&gt;%
   rename(SELECTION = `?SELECTION`,
          BODYMASS = BODY_WEIGHT)
 
@@ -1287,6 +1338,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-3-1.png" target="_blank">ffb09dd</a>
@@ -2656,17 +2718,17 @@ ACTIVITY ~ SELECTION * SEX * CYCLE + (SELECTION | p | LINE) + (1 | SAMPLE)
 <h3>Define Priors</h3>
 <p>We set fairly tight Normal priors on all fixed effect parameters, which ‘regularises’ the estimates towards zero – this is conservative (because it ensures that a stronger signal in the data is needed to produce a given posterior effect size estimate), and it also helps the model to converge. Similarly, we set a somewhat conservative half-Cauchy prior (mean 0, scale 0.1) on the random effects for <code>LINE</code> (i.e. we consider large differences between lines – in terms of means and treatment effects – to be possible but improbable). We leave all other priors at the defaults used by <code>brms</code>. Note that the Normal priors are slightly wider in the model of dry weight, because we expect larger effect sizes of sex and treatment on dry weight than on the metabolite composition.</p>
 <pre class="r"><code>prior_SEM &lt;- c(set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &#39;VO2&#39;),
-            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;),
-            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;BODYMASS&quot;),
-            set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;ACTIVITY&quot;),
-            
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;VO2&#39;, group = &quot;LINE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;, group = &quot;LINE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;VO2&#39;, group = &quot;SAMPLE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;, group = &quot;SAMPLE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;BODYMASS&#39;, group = &quot;LINE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;ACTIVITY&#39;, group = &quot;LINE&quot;),
-            set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;ACTIVITY&#39;, group = &quot;SAMPLE&quot;))
+               set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;),
+               set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;BODYMASS&quot;),
+               set_prior(&quot;normal(0, 1)&quot;, class = &quot;b&quot;, resp = &quot;ACTIVITY&quot;),
+               
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;VO2&#39;, group = &quot;LINE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;, group = &quot;LINE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;VO2&#39;, group = &quot;SAMPLE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &quot;VCO2&quot;, nlpar = &quot;RQ&quot;, group = &quot;SAMPLE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;BODYMASS&#39;, group = &quot;LINE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;ACTIVITY&#39;, group = &quot;LINE&quot;),
+               set_prior(&quot;cauchy(0, 0.1)&quot;, class = &quot;sd&quot;, resp = &#39;ACTIVITY&#39;, group = &quot;SAMPLE&quot;))
 
 prior_SEM</code></pre>
 <pre>          prior class coef  group     resp dpar nlpar bound source
@@ -2734,6 +2796,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-14-1.png" target="_blank">ffb09dd</a>
@@ -2826,7 +2899,8 @@ lukeholman
   arrange(Response) %&gt;%
   select(-Response)
 
-hypSEM  %&gt;% 
+hypSEM %&gt;% 
+  #write_csv(&#39;output/respirometry_SEM_table.csv&#39;)
   kable(digits = 3) %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
   group_rows(&quot;Oxygen consumption (VO2)&quot;, 1, 14) %&gt;%
@@ -4221,7 +4295,7 @@ posterior_effect_size &lt;- post_preds_respiration %&gt;%
     mutate(CYCLE = &quot;All cycles&quot;) %&gt;%
     ggplot(aes(y = SELECTION, x = `Body mass`, fill = sextreat)) + 
     geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey20&quot;) + 
-    geom_halfeyeh(alpha = 0.7, size = 0.6) +
+    stat_halfeye(alpha = 0.7, size = 0.6) +
     facet_grid(SEX ~ CYCLE) +
     coord_cartesian(xlim = c(-1.9, 1.9)) + 
     scale_fill_manual(values = cols, name = &quot;&quot;) + 
@@ -4320,6 +4394,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-19-1.png" target="_blank">ffb09dd</a>
 </td>
 <td>
@@ -4398,7 +4483,63 @@ p3 &lt;- arrangeGrob(
 #              arrangeGrob(p_filler, p3, p_filler,
 #                          nrow = 1, widths = c(0.1, 0.8, 0.1)),
 #              heights = c(0.35, 0.65)) %&gt;%
-#   ggsave(&quot;figures/respiration_figure_noRQ.pdf&quot;, plot = ., height = 5, width = 5)</code></pre>
+#   ggsave(&quot;figures/respiration_figure_noRQ.pdf&quot;, plot = ., height = 5, width = 5)
+
+# first cycle only
+px &lt;- bodymass_posterior %&gt;%
+  mutate(CYCLE = &quot;All cycles&quot;) %&gt;%
+  ggplot(aes(y = SELECTION, x = `Body mass`, fill = sextreat)) + 
+  geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey20&quot;) + 
+  stat_halfeye(alpha = 0.7, size = 0.6) +
+  facet_grid(SEX ~ CYCLE) +
+  coord_cartesian(xlim = c(-1.9, 1.9)) + 
+  scale_fill_manual(values = cols, name = &quot;&quot;) + 
+  theme_bw() + 
+  theme(legend.position = &quot;none&quot;,
+        strip.text.y = element_text(colour = &quot;white&quot;),
+        text = element_text(family = nice_font),
+        strip.background = element_rect(fill = &quot;white&quot;, colour = &quot;white&quot;)) + 
+  ylab(NULL)
+
+py &lt;- activity_posterior %&gt;% filter(CYCLE == &#39;I&#39;) %&gt;%
+  mutate(CYCLE = paste(&quot;Cycle&quot;, CYCLE)) %&gt;%
+  ggplot(aes(y = SELECTION, x = `Activity level`, fill = sextreat)) + 
+  geom_vline(xintercept = 0, linetype = 2, colour = &quot;grey20&quot;) + 
+  stat_halfeye(alpha = 0.7, size = 0.6) + 
+  facet_grid(SEX ~ CYCLE) +
+  scale_fill_manual(values = cols, name = &quot;&quot;) + 
+  theme_bw() + 
+  coord_cartesian(xlim = c(-1.5, 1.7)) + 
+  theme(legend.position = &quot;none&quot;, 
+        axis.text.y = element_blank(), 
+        text = element_text(family = nice_font),
+        strip.background = element_blank(),
+        axis.ticks.y = element_blank()) + ylab(NULL)
+
+pz &lt;- posterior_effect_size %&gt;% filter(CYCLE == &#39;Cycle I&#39;) %&gt;% 
+  ggplot(aes(y = mediators_blocked, 
+             x = VO2_effect,
+             fill = mediators_blocked)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(size = 0.5, alpha = 0.5) + 
+  facet_grid(SEX ~ CYCLE) +
+  xlab(expression(VO[2]~(E~-~M))) + 
+  ylab(NULL)  +
+  scale_fill_brewer(palette = &quot;Set2&quot;) + 
+  theme_bw() +
+  coord_cartesian(xlim = c(-0.6, 1.9)) + 
+  theme(legend.position = &quot;none&quot;,
+        text = element_text(family = nice_font),
+        strip.background = element_blank())
+
+lay &lt;- rbind(c(1, 1, 1, 2, 2, 3, 3, 3),
+             c(1, 1, 1, 2, 2, 3, 3, 3))
+
+# grid.arrange(grobs = list(ggplotGrob(px),
+#                           ggplotGrob(py),
+#                           ggplotGrob(pz)),
+#              layout_matrix = lay) %&gt;% 
+#   ggsave(&quot;figures/respiration_figure_cycleI.pdf&quot;, plot = ., height = 2.5, width = 5.5)</code></pre>
 </div>
 <div id="tables" class="section level4">
 <h4>Tables</h4>
@@ -5970,6 +6111,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/respirometry.Rmd/unnamed-chunk-22-1.png" target="_blank">ffb09dd</a>
