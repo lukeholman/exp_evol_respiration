@@ -70,7 +70,7 @@ We expect body weight and activity levels to vary between the sexes and potentia
 ### Raw numbers 
 
 ```{r}
-respiration <- read_csv("data/2.metabolic_rates.csv") %>%
+respiration <- read_csv("data/3.metabolic_rates.csv") %>%
   rename(SELECTION = `?SELECTION`,
          BODYMASS = BODY_WEIGHT)
 
@@ -344,17 +344,17 @@ We set fairly tight Normal priors on all fixed effect parameters, which 'regular
 
 ```{r}
 prior_SEM <- c(set_prior("normal(0, 1)", class = "b", resp = 'VO2'),
-            set_prior("normal(0, 1)", class = "b", resp = "VCO2", nlpar = "RQ"),
-            set_prior("normal(0, 1)", class = "b", resp = "BODYMASS"),
-            set_prior("normal(0, 1)", class = "b", resp = "ACTIVITY"),
-            
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "LINE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "LINE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "SAMPLE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "SAMPLE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'BODYMASS', group = "LINE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "LINE"),
-            set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "SAMPLE"))
+               set_prior("normal(0, 1)", class = "b", resp = "VCO2", nlpar = "RQ"),
+               set_prior("normal(0, 1)", class = "b", resp = "BODYMASS"),
+               set_prior("normal(0, 1)", class = "b", resp = "ACTIVITY"),
+               
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "LINE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "LINE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = 'VO2', group = "SAMPLE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = "VCO2", nlpar = "RQ", group = "SAMPLE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = 'BODYMASS', group = "LINE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "LINE"),
+               set_prior("cauchy(0, 0.1)", class = "sd", resp = 'ACTIVITY', group = "SAMPLE"))
 
 prior_SEM
 ```
@@ -429,7 +429,8 @@ hypSEM <- left_join(
   arrange(Response) %>%
   select(-Response)
 
-hypSEM  %>% 
+hypSEM %>% 
+  #write_csv('output/respirometry_SEM_table.csv')
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
   group_rows("Oxygen consumption (VO2)", 1, 14) %>%
@@ -573,7 +574,7 @@ p1 <- arrangeGrob(
     mutate(CYCLE = "All cycles") %>%
     ggplot(aes(y = SELECTION, x = `Body mass`, fill = sextreat)) + 
     geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
-    geom_halfeyeh(alpha = 0.7, size = 0.6) +
+    stat_halfeye(alpha = 0.7, size = 0.6) +
     facet_grid(SEX ~ CYCLE) +
     coord_cartesian(xlim = c(-1.9, 1.9)) + 
     scale_fill_manual(values = cols, name = "") + 
@@ -681,6 +682,62 @@ p3 <- arrangeGrob(
 #                          nrow = 1, widths = c(0.1, 0.8, 0.1)),
 #              heights = c(0.35, 0.65)) %>%
 #   ggsave("figures/respiration_figure_noRQ.pdf", plot = ., height = 5, width = 5)
+
+# first cycle only
+px <- bodymass_posterior %>%
+  mutate(CYCLE = "All cycles") %>%
+  ggplot(aes(y = SELECTION, x = `Body mass`, fill = sextreat)) + 
+  geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
+  stat_halfeye(alpha = 0.7, size = 0.6) +
+  facet_grid(SEX ~ CYCLE) +
+  coord_cartesian(xlim = c(-1.9, 1.9)) + 
+  scale_fill_manual(values = cols, name = "") + 
+  theme_bw() + 
+  theme(legend.position = "none",
+        strip.text.y = element_text(colour = "white"),
+        text = element_text(family = nice_font),
+        strip.background = element_rect(fill = "white", colour = "white")) + 
+  ylab(NULL)
+
+py <- activity_posterior %>% filter(CYCLE == 'I') %>%
+  mutate(CYCLE = paste("Cycle", CYCLE)) %>%
+  ggplot(aes(y = SELECTION, x = `Activity level`, fill = sextreat)) + 
+  geom_vline(xintercept = 0, linetype = 2, colour = "grey20") + 
+  stat_halfeye(alpha = 0.7, size = 0.6) + 
+  facet_grid(SEX ~ CYCLE) +
+  scale_fill_manual(values = cols, name = "") + 
+  theme_bw() + 
+  coord_cartesian(xlim = c(-1.5, 1.7)) + 
+  theme(legend.position = "none", 
+        axis.text.y = element_blank(), 
+        text = element_text(family = nice_font),
+        strip.background = element_blank(),
+        axis.ticks.y = element_blank()) + ylab(NULL)
+
+pz <- posterior_effect_size %>% filter(CYCLE == 'Cycle I') %>% 
+  ggplot(aes(y = mediators_blocked, 
+             x = VO2_effect,
+             fill = mediators_blocked)) + 
+  geom_vline(xintercept = 0, linetype = 2) + 
+  stat_halfeye(size = 0.5, alpha = 0.5) + 
+  facet_grid(SEX ~ CYCLE) +
+  xlab(expression(VO[2]~(E~-~M))) + 
+  ylab(NULL)  +
+  scale_fill_brewer(palette = "Set2") + 
+  theme_bw() +
+  coord_cartesian(xlim = c(-0.6, 1.9)) + 
+  theme(legend.position = "none",
+        text = element_text(family = nice_font),
+        strip.background = element_blank())
+
+lay <- rbind(c(1, 1, 1, 2, 2, 3, 3, 3),
+             c(1, 1, 1, 2, 2, 3, 3, 3))
+
+# grid.arrange(grobs = list(ggplotGrob(px),
+#                           ggplotGrob(py),
+#                           ggplotGrob(pz)),
+#              layout_matrix = lay) %>% 
+#   ggsave("figures/respiration_figure_cycleI.pdf", plot = ., height = 2.5, width = 5.5)
 
 ```
 

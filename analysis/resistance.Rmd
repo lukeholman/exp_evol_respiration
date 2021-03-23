@@ -40,7 +40,7 @@ showtext_auto()
 ## Load data
 ```{r, results='hide'}
 # load desiccation resistance data
-DesRes <- read.csv("data/3.DesRes.csv") %>% 
+DesRes <- read.csv("data/2.DesRes.csv") %>% 
   # add event (all flies died)
   mutate(EVENT = 1,
          LINE = paste0(Treatment, substr(Replicate, 2, 2)),
@@ -57,7 +57,7 @@ DesRes$survival.time <- as.numeric(strptime(DesRes$d, format = "%d/%m/%Y %H") - 
 
 
 # load starvation resistance data
-StaRes <- read.csv("data/3.StarvRes.csv") %>% 
+StaRes <- read.csv("data/2.StarvRes.csv") %>% 
   # add event (all flies died)
   mutate(EVENT = 1,
          LINE = paste0(Treatment, substr(Replicate, 2, 2)),
@@ -68,7 +68,7 @@ StaRes <- read.csv("data/3.StarvRes.csv") %>%
 StaRes$d <- paste(StaRes$Death_date, StaRes$Death_time, sep = ' ')
 
 # experiment start time
-start_timeSta <- "04/02/2017 12:00"
+start_timeSta <- "04/02/2017 10:00"
 
 StaRes$survival.time <- as.numeric(strptime(StaRes$d, format = "%d/%m/%Y %H") - strptime(start_timeSta, format = "%d/%m/%Y %H"))
 
