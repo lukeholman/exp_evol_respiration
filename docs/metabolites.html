@@ -13,13 +13,22 @@
 
 <title>Metabolite composition</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-3.5.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -29,7 +38,7 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <script src="site_libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
-<script src="site_libs/datatables-binding-0.17/datatables.js"></script>
+<script src="site_libs/datatables-binding-0.18/datatables.js"></script>
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.min.css" rel="stylesheet" />
 <link href="site_libs/dt-core-1.10.20/css/jquery.dataTables.extra.css" rel="stylesheet" />
 <script src="site_libs/dt-core-1.10.20/js/jquery.dataTables.min.js"></script>
@@ -73,11 +82,6 @@ div.section {
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -90,32 +94,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 
@@ -126,10 +104,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -146,40 +120,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -207,7 +154,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -219,7 +166,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -230,10 +177,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -245,7 +205,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -374,7 +333,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -419,7 +378,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lukeholman/exp_evol_respiration">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
     Source code
   </a>
@@ -429,11 +388,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
@@ -466,7 +425,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-12
+<strong>Last updated:</strong> 2021-10-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -557,16 +516,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea823c3e715704137c7a43c3c2af30de84c2f0258targetblanka823c3ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a823c3e715704137c7a43c3c2af30de84c2f0258" target="_blank">a823c3e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreef7b49ff83b491eb6b5b39da55d82c972f2d798a0targetblankf7b49ffa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreea823c3e715704137c7a43c3c2af30de84c2f0258targetblanka823c3ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/f7b49ff83b491eb6b5b39da55d82c972f2d798a0" target="_blank">f7b49ff</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/a823c3e715704137c7a43c3c2af30de84c2f0258" target="_blank">a823c3e</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -576,34 +535,45 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    data/.DS_Store
     Ignored:    figures/.DS_Store
     Ignored:    output/.DS_Store
 
 Untracked files:
     Untracked:  data/1.eclosion_wide.csv
+    Untracked:  data/2.DesRes.csv
+    Untracked:  data/2.StarvRes.csv
+    Untracked:  data/3.metabolic_rates.csv
+    Untracked:  data/4.metabolite_data.csv
     Untracked:  figures/desiccation.pdf
     Untracked:  figures/eclosion.pdf
+    Untracked:  figures/eclosion_interaction_plot.pdf
     Untracked:  figures/metaboliteDAG.pdf
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
+    Untracked:  figures/metabolite_plotCONTROLLED_nolines.pdf
+    Untracked:  figures/metabolite_plot_nolines.pdf
     Untracked:  figures/metabolites_supp.pdf
     Untracked:  figures/respirationDAG.pdf
+    Untracked:  figures/respiration_figure_cycleI.pdf
+    Untracked:  figures/respiration_figure_cycleI_inkscape.pdf
     Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
-    Untracked:  gganim_plot0001.png
-    Untracked:  gganim_plot0002.png
-    Untracked:  gganim_plot0003.png
-    Untracked:  gganim_plot0004.png
-    Untracked:  gganim_plot0005.png
-    Untracked:  gganim_plot0006.png
-    Untracked:  gganim_plot0007.png
-    Untracked:  gganim_plot0008.png
-    Untracked:  gganim_plot0009.png
-    Untracked:  gganim_plot0010.png
-    Untracked:  gganim_plot0011.png
-    Untracked:  gganim_plot0012.png
+    Untracked:  output/brms_SEM_respiration_noslope.rds
+    Untracked:  output/brms_metabolite_SEM_noslope.rds
+    Untracked:  output/cox_brms_noslope.rds
+    Untracked:  output/des_brm_noslope.rds
+    Untracked:  output/metabolite_SEM_table.csv
+    Untracked:  output/respirometry_SEM_table.csv
+    Untracked:  output/sta_brm_noslope.rds
     Untracked:  output/stress_medians.csv
+    Untracked:  output/wing_brms_noslope.rds
 
 Unstaged changes:
+    Deleted:    data/1.eclosion_times.csv
+    Deleted:    data/2.metabolic_rates.csv
+    Deleted:    data/3.DesRes.csv
+    Deleted:    data/3.StarvRes.csv
+    Deleted:    data/3.metabolite_data.csv
     Modified:   figures/metabolite_interaction_plot.pdf
     Modified:   figures/metabolite_pairs_plot.pdf
     Modified:   figures/metabolite_plot.pdf
@@ -652,6 +622,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/a823c3e715704137c7a43c3c2af30de84c2f0258/analysis/metabolites.Rmd" target="_blank">a823c3e</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-10-05
+</td>
+<td>
+wflow_publish(c(“analysis/metabolites.Rmd”))
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/metabolites.html" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1478,7 +1482,7 @@ options(stringsAsFactors = FALSE)</code></pre>
 <li><code>Chitin_conc</code> (estimated as the difference between the initial and final dry weights)</li>
 </ul>
 <p>We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.</p>
-<pre class="r"><code>metabolites &lt;- read_csv(&#39;data/3.metabolite_data.csv&#39;) %&gt;%
+<pre class="r"><code>metabolites &lt;- read_csv(&#39;data/4.metabolite_data.csv&#39;) %&gt;%
   mutate(sex = ifelse(sex == &quot;m&quot;, &quot;Male&quot;, &quot;Female&quot;),
          line = paste(treatment, line, sep = &quot;&quot;),
          treatment = ifelse(treatment == &quot;M&quot;, &quot;Monogamy&quot;, &quot;Polyandry&quot;)) %&gt;%
@@ -1538,8 +1542,8 @@ scaled_metabolites %&gt;%
   select(-sextreat) %&gt;%
   mutate_if(is.numeric, ~ format(round(.x, 3), nsmall = 3)) %&gt;%
   my_data_table()</code></pre>
-<div id="htmlwidget-9cc47375f34d55b83601" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-9cc47375f34d55b83601">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_metabolites"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-6ec5e240e3b68e9cc473" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6ec5e240e3b68e9cc473">{"x":{"filter":"none","extensions":["Scroller","Buttons"],"autoHideNavigation":true,"data":[["Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female","Female"],["Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Monogamy","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry","Polyandry"],["M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","M1","M1","M1","M2","M2","M2","M3","M3","M3","M4","M4","M4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4","P1","P1","P1","P2","P2","P2","P3","P3","P3","P4","P4","P4"],["-0.963","-0.768","-0.851","-0.824","-1.332","-0.817","-1.081","-0.942","-1.360","-1.248","-0.775","-0.907"," 0.068","-0.281"," 0.297"," 0.618"," 0.743"," 1.558"," 0.659"," 1.049"," 0.520"," 0.750"," 0.722"," 0.792","-0.455","-0.740","-0.719","-1.033","-0.789","-0.879","-1.165","-1.241","-0.803","-0.698","-0.684","-0.747"," 1.056"," 0.632"," 1.189"," 0.534"," 0.597"," 1.307"," 1.648"," 1.307"," 1.418"," 1.551"," 1.425"," 1.662"],[" 1.022"," 0.018","-1.257","-1.378","-1.056","-1.265","-0.946"," 0.635","-1.707","-1.711","-1.668","-0.888","-0.472","-0.838","-0.002"," 1.557"," 1.207"," 0.471"," 0.301"," 0.637","-0.255"," 0.149"," 0.304","-1.016"," 0.319","-0.168"," 0.205","-0.336","-0.477","-0.134","-0.513","-1.019","-0.469","-1.069","-0.529"," 0.394"," 1.350"," 1.509"," 0.878"," 0.110","-0.395"," 0.131"," 2.238"," 1.611"," 1.952"," 0.767"," 0.925"," 0.881"],["-1.620","-0.289"," 1.070","-1.020","-0.567"," 1.973","-0.587","-0.103"," 1.665"," 0.474"," 1.236"," 0.177"," 0.234"," 0.318"," 0.581"," 0.671"," 0.975"," 1.472"," 0.368"," 0.396"," 0.737","-0.622","-1.599"," 0.425","-0.057","-1.667","-1.451","-2.615","-1.863","-1.951"," 0.867"," 1.341"," 0.165","-0.155"," 0.594","-0.477","-0.257"," 0.092"," 0.082"," 0.090","-0.233","-0.414","-0.171","-0.502","-0.242"," 0.609"," 0.773"," 1.074"],["-0.896","-1.160"," 1.678"," 1.719"," 1.953"," 0.629","-0.346","-1.206","-1.879","-0.424"," 0.026"," 1.856"," 0.250"," 0.239"," 0.072"," 0.655"," 1.838","-1.130"," 0.310","-0.499","-0.196","-0.444","-0.561"," 0.071"," 0.343","-0.055","-0.586"," 0.153"," 1.178","-0.554"," 1.481","-0.063"," 1.717"," 1.230","-0.537"," 0.572","-0.579","-0.477","-1.569","-0.095","-0.549","-0.025"," 0.607","-0.937","-0.032","-2.150","-0.963","-0.666"],["-1.259"," 0.009","-1.261","-0.029","-0.811","-1.044"," 0.056"," 0.057","-1.390","-1.733","-2.346","-0.504","-0.514"," 0.740"," 0.289","-0.727"," 0.094"," 1.481"," 0.869"," 0.827"," 1.100","-1.264","-0.634"," 0.552"," 1.035"," 0.475"," 1.316"," 0.745","-0.347"," 0.111"," 0.642"," 0.664"," 0.766","-3.068","-0.703","-0.549"," 0.542","-0.221"," 0.730"," 0.725"," 0.343","-0.106"," 0.310"," 0.207","-0.198"," 1.750"," 1.338"," 0.935"],[" 1.632"," 1.016"," 2.034"," 2.019"," 1.665"," 0.574"," 0.312"," 0.169"," 1.119"," 0.760","-0.342"," 0.001"," 0.094","-0.518","-0.119","-0.741","-1.024","-0.534","-0.689","-0.947","-0.431"," 0.018","-0.574","-0.035"," 0.247"," 1.013"," 0.867"," 1.246"," 2.620","-0.072","-1.277","-2.084"," 0.042","-0.339"," 0.440"," 0.676","-1.288","-1.400","-0.872","-0.567"," 0.130","-0.131","-0.972","-1.008","-0.758","-1.098","-0.470","-0.402"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>sex<\/th>\n      <th>treatment<\/th>\n      <th>line<\/th>\n      <th>Dry_weight<\/th>\n      <th>Lipid_conc<\/th>\n      <th>Carbohydrate_conc<\/th>\n      <th>Protein_conc<\/th>\n      <th>Glycogen_conc<\/th>\n      <th>Chitin_conc<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"dom":"Bfrtip","deferRender":true,"scrollX":true,"scrollY":400,"scrollCollapse":true,"buttons":["csv",{"extend":"pdf","pageSize":"A4","orientation":"landscape","filename":"Dpseudo_metabolites"}],"pageLength":50,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="simple-plots" class="section level3">
 <h3>Simple plots</h3>
@@ -1614,6 +1618,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-5-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-5-1.png" target="_blank">034431b</a>
@@ -1740,6 +1755,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-6-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-6-1.png" target="_blank">034431b</a>
@@ -1894,8 +1920,8 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 {&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Lipids&quot;
 {&quot;Metabolite\ncomposition&quot;} -&gt; &quot;Protein&quot;
 }&#39;)</code></pre>
-<div id="htmlwidget-86c6cf7906f35e2c2233" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-86c6cf7906f35e2c2233">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (E vs M)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (E vs M)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-75f34d55b8360186c6cf" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-75f34d55b8360186c6cf">{"x":{"diagram":"digraph {\n\ngraph [layout = dot, rankdir = LR]\n\n# define the global styles of the nodes. We can override these in box if we wish\nnode [shape = rectangle, style = filled, fillcolor = Linen]\n\n\"Metabolite\ncomposition\" [shape = oval, fillcolor = Beige]\n\n# edge definitions with the node IDs\n\"Mating system\ntreatment (E vs M)\" -> {\"Dry weight\"}\n\"Mating system\ntreatment (E vs M)\" -> {\"Metabolite\ncomposition\"} \n\n\"Sex\n(Female vs Male)\" -> {\"Dry weight\"} -> {\"Metabolite\ncomposition\"}\n\"Sex\n(Female vs Male)\" -> {\"Metabolite\ncomposition\"}\n\n{\"Metabolite\ncomposition\"} -> \"Carbohydrates\"\n{\"Metabolite\ncomposition\"} -> \"Chitin\"\n{\"Metabolite\ncomposition\"} -> \"Glycogen\"\n{\"Metabolite\ncomposition\"} -> \"Lipids\"\n{\"Metabolite\ncomposition\"} -> \"Protein\"\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="fit-brms-structural-equation-model" class="section level2">
 <h2>Fit <code>brms</code> structural equation model</h2>
@@ -1971,9 +1997,10 @@ Dryweight ~ sex * treatment + (treatment | p | line)
                    adapt_delta = 0.99)
   )
   
+  #saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM_noslope.rds&quot;) # save with no random slope term
   saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM.rds&quot;)
 } else {
-  brms_metabolite_SEM &lt;- readRDS(&#39;output/brms_metabolite_SEM.rds&#39;)
+  brms_metabolite_SEM &lt;- readRDS(&#39;output/brms_metabolite_SEM_noslope.rds&#39;)
 }</code></pre>
 </div>
 <div id="posterior-predictive-check-of-model-fit" class="section level3">
@@ -2017,6 +2044,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-12-1.png" target="_blank">ffb09dd</a>
@@ -2151,6 +2189,8 @@ hypSEM %&gt;%
   select(Parameter, Estimate = est, `Est. error` = err, 
          `CI lower` = lwr, `CI upper` = upr, `p` = p_val, star) %&gt;% 
   rename(` ` = star) %&gt;%
+  #write_csv(&#39;output/metabolite_SEM_table.csv&#39;)
+  mutate(p = ifelse(p &gt; 0.001, round(p, 3), &#39;&lt; 0.001&#39;)) %&gt;% 
   kable() %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
   group_rows(&quot;Carbohydrates&quot;, 1, 4) %&gt;%
@@ -2177,7 +2217,7 @@ CI lower
 <th style="text-align:right;">
 CI upper
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 p
 </th>
 <th style="text-align:left;">
@@ -2191,89 +2231,89 @@ p
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
-0.105
+0.087
 </td>
 <td style="text-align:right;">
-0.269
+0.265
 </td>
 <td style="text-align:right;">
--0.419
+-0.441
 </td>
 <td style="text-align:right;">
-0.622
+0.600
 </td>
-<td style="text-align:right;">
-0.3516
+<td style="text-align:left;">
+0.364
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
-0.024
+0.004
 </td>
 <td style="text-align:right;">
-0.427
+0.419
 </td>
 <td style="text-align:right;">
--0.812
+-0.804
 </td>
 <td style="text-align:right;">
-0.864
+0.844
 </td>
-<td style="text-align:right;">
-0.4771
+<td style="text-align:left;">
+0.499
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
--0.246
+-0.245
 </td>
 <td style="text-align:right;">
-0.302
+0.303
 </td>
 <td style="text-align:right;">
--0.832
+-0.838
+</td>
+<td style="text-align:right;">
+0.353
+</td>
+<td style="text-align:left;">
+0.205
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
+Sex (M) x Treatment (E)
+</td>
+<td style="text-align:right;">
+-0.418
 </td>
 <td style="text-align:right;">
 0.348
 </td>
 <td style="text-align:right;">
-0.2074
+-1.101
+</td>
+<td style="text-align:right;">
+0.253
 </td>
 <td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
-Sex (M) x Treatment (E)
-</td>
-<td style="text-align:right;">
--0.414
-</td>
-<td style="text-align:right;">
-0.347
-</td>
-<td style="text-align:right;">
--1.090
-</td>
-<td style="text-align:right;">
-0.263
-</td>
-<td style="text-align:right;">
-0.1172
+0.117
 </td>
 <td style="text-align:left;">
 </td>
@@ -2284,90 +2324,90 @@ Sex (M) x Treatment (E)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
--0.486
+-0.484
 </td>
 <td style="text-align:right;">
-0.260
+0.268
 </td>
 <td style="text-align:right;">
--0.995
+-1.014
 </td>
 <td style="text-align:right;">
-0.023
+0.041
 </td>
-<td style="text-align:right;">
-0.0314
+<td style="text-align:left;">
+0.036
 </td>
 <td style="text-align:left;">
 *
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
-0.399
+0.398
 </td>
 <td style="text-align:right;">
-0.420
+0.430
 </td>
 <td style="text-align:right;">
--0.435
+-0.455
 </td>
 <td style="text-align:right;">
-1.206
+1.244
 </td>
-<td style="text-align:right;">
-0.1699
+<td style="text-align:left;">
+0.176
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
--0.113
+-0.120
 </td>
 <td style="text-align:right;">
-0.285
+0.282
 </td>
 <td style="text-align:right;">
--0.673
+-0.658
 </td>
 <td style="text-align:right;">
-0.453
+0.446
 </td>
-<td style="text-align:right;">
-0.3405
+<td style="text-align:left;">
+0.326
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
--0.317
+-0.313
+</td>
+<td style="text-align:right;">
+0.325
+</td>
+<td style="text-align:right;">
+-0.962
 </td>
 <td style="text-align:right;">
 0.328
 </td>
-<td style="text-align:right;">
--0.957
-</td>
-<td style="text-align:right;">
-0.320
-</td>
-<td style="text-align:right;">
-0.1663
+<td style="text-align:left;">
+0.161
 </td>
 <td style="text-align:left;">
 </td>
@@ -2378,89 +2418,89 @@ Sex (M) x Treatment (E)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
-0.332
+0.339
 </td>
 <td style="text-align:right;">
-0.267
+0.263
 </td>
 <td style="text-align:right;">
--0.180
+-0.177
 </td>
 <td style="text-align:right;">
-0.850
+0.856
 </td>
-<td style="text-align:right;">
-0.1096
+<td style="text-align:left;">
+0.101
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
--0.267
+-0.268
 </td>
 <td style="text-align:right;">
-0.427
+0.419
 </td>
 <td style="text-align:right;">
--1.096
+-1.094
 </td>
 <td style="text-align:right;">
-0.567
+0.550
 </td>
-<td style="text-align:right;">
-0.2652
+<td style="text-align:left;">
+0.259
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
-0.220
+0.216
 </td>
 <td style="text-align:right;">
-0.296
+0.297
 </td>
 <td style="text-align:right;">
--0.367
+-0.359
 </td>
 <td style="text-align:right;">
-0.787
+0.803
 </td>
-<td style="text-align:right;">
-0.2244
+<td style="text-align:left;">
+0.233
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
-0.387
+0.394
 </td>
 <td style="text-align:right;">
-0.351
+0.346
 </td>
 <td style="text-align:right;">
--0.297
+-0.292
 </td>
 <td style="text-align:right;">
-1.066
+1.059
 </td>
-<td style="text-align:right;">
-0.1395
+<td style="text-align:left;">
+0.126
 </td>
 <td style="text-align:left;">
 </td>
@@ -2471,90 +2511,90 @@ Sex (M) x Treatment (E)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
-0.539
+0.537
 </td>
 <td style="text-align:right;">
-0.254
+0.255
 </td>
 <td style="text-align:right;">
-0.041
+0.026
 </td>
 <td style="text-align:right;">
-1.029
+1.028
 </td>
-<td style="text-align:right;">
-0.0171
+<td style="text-align:left;">
+0.019
 </td>
 <td style="text-align:left;">
 *
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
--0.119
+-0.120
 </td>
 <td style="text-align:right;">
-0.411
+0.415
 </td>
 <td style="text-align:right;">
--0.926
+-0.930
 </td>
 <td style="text-align:right;">
 0.680
 </td>
-<td style="text-align:right;">
-0.3825
+<td style="text-align:left;">
+0.393
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
-0.389
+0.392
 </td>
 <td style="text-align:right;">
-0.276
+0.271
 </td>
 <td style="text-align:right;">
--0.156
+-0.152
 </td>
 <td style="text-align:right;">
-0.919
+0.918
 </td>
-<td style="text-align:right;">
-0.0774
+<td style="text-align:left;">
+0.075
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
--0.050
+-0.053
 </td>
 <td style="text-align:right;">
-0.313
+0.314
 </td>
 <td style="text-align:right;">
--0.672
+-0.681
 </td>
 <td style="text-align:right;">
-0.555
+0.547
 </td>
-<td style="text-align:right;">
-0.4372
+<td style="text-align:left;">
+0.431
 </td>
 <td style="text-align:left;">
 </td>
@@ -2565,89 +2605,89 @@ Sex (M) x Treatment (E)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Dry weight
 </td>
 <td style="text-align:right;">
--0.206
+-0.211
 </td>
 <td style="text-align:right;">
-0.275
+0.271
 </td>
 <td style="text-align:right;">
--0.742
+-0.734
 </td>
 <td style="text-align:right;">
-0.340
+0.331
 </td>
-<td style="text-align:right;">
-0.2252
+<td style="text-align:left;">
+0.214
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
--0.011
+-0.009
 </td>
 <td style="text-align:right;">
-0.435
+0.427
 </td>
 <td style="text-align:right;">
--0.858
+-0.831
 </td>
 <td style="text-align:right;">
-0.850
+0.828
 </td>
-<td style="text-align:right;">
-0.4844
+<td style="text-align:left;">
+0.491
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
--0.216
+-0.211
 </td>
 <td style="text-align:right;">
-0.306
+0.312
 </td>
 <td style="text-align:right;">
--0.818
+-0.826
 </td>
 <td style="text-align:right;">
-0.378
+0.402
 </td>
-<td style="text-align:right;">
-0.2414
+<td style="text-align:left;">
+0.251
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
-0.352
+0.343
 </td>
 <td style="text-align:right;">
-0.361
+0.357
 </td>
 <td style="text-align:right;">
--0.347
+-0.366
 </td>
 <td style="text-align:right;">
-1.057
+1.045
 </td>
-<td style="text-align:right;">
-0.1667
+<td style="text-align:left;">
+0.166
 </td>
 <td style="text-align:left;">
 </td>
@@ -2658,69 +2698,69 @@ Sex (M) x Treatment (E)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
--1.614
+-1.616
 </td>
 <td style="text-align:right;">
-0.143
+0.140
 </td>
 <td style="text-align:right;">
--1.895
+-1.894
 </td>
 <td style="text-align:right;">
--1.334
+-1.347
 </td>
-<td style="text-align:right;">
-0.0000
+<td style="text-align:left;">
+&lt; 0.001
 </td>
 <td style="text-align:left;">
 *
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
-0.525
+0.522
 </td>
 <td style="text-align:right;">
-0.155
+0.156
 </td>
 <td style="text-align:right;">
-0.218
+0.211
 </td>
 <td style="text-align:right;">
-0.827
+0.821
 </td>
-<td style="text-align:right;">
-0.0006
+<td style="text-align:left;">
+0.002
 </td>
 <td style="text-align:left;">
 *
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M) x Treatment (E)
 </td>
 <td style="text-align:right;">
--0.354
+-0.352
 </td>
 <td style="text-align:right;">
 0.196
 </td>
 <td style="text-align:right;">
--0.733
+-0.741
 </td>
 <td style="text-align:right;">
-0.035
+0.043
 </td>
-<td style="text-align:right;">
-0.0378
+<td style="text-align:left;">
+0.038
 </td>
 <td style="text-align:left;">
 *
@@ -2746,158 +2786,101 @@ Sex (M) x Treatment (E)
          mu = identity; sigma = identity
          mu = identity; sigma = identity
          mu = identity; sigma = identity 
-Formula: Lipid ~ sex * treatment + Dryweight + (treatment | p | line) 
-         Carbohydrate ~ sex * treatment + Dryweight + (treatment | p | line) 
-         Protein ~ sex * treatment + Dryweight + (treatment | p | line) 
-         Glycogen ~ sex * treatment + Dryweight + (treatment | p | line) 
-         Chitin ~ sex * treatment + Dryweight + (treatment | p | line) 
-         Dryweight ~ sex * treatment + (treatment | p | line) 
+Formula: Lipid ~ sex * treatment + Dryweight + (1 | p | line) 
+         Carbohydrate ~ sex * treatment + Dryweight + (1 | p | line) 
+         Protein ~ sex * treatment + Dryweight + (1 | p | line) 
+         Glycogen ~ sex * treatment + Dryweight + (1 | p | line) 
+         Chitin ~ sex * treatment + Dryweight + (1 | p | line) 
+         Dryweight ~ sex * treatment + (1 | p | line) 
    Data: scaled_metabolites %>% rename(Dryweight = Dry_weig (Number of observations: 48) 
-Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
-         total post-warmup samples = 10000
+  Draws: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup draws = 10000
 
 Group-Level Effects: 
 ~line (Number of levels: 8) 
-                                                                  Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Lipid_Intercept)                                                   0.09      0.15     0.00     0.52 1.00     1855     2733
-sd(Lipid_treatmentPolyandry)                                          0.03      0.07     0.00     0.24 1.00     8128     4958
-sd(Carbohydrate_Intercept)                                            0.07      0.14     0.00     0.49 1.00     3043     2670
-sd(Carbohydrate_treatmentPolyandry)                                   0.05      0.13     0.00     0.43 1.00     5937     3170
-sd(Protein_Intercept)                                                 0.05      0.11     0.00     0.43 1.00     4709     2722
-sd(Protein_treatmentPolyandry)                                        0.03      0.07     0.00     0.20 1.00    11030     5733
-sd(Glycogen_Intercept)                                                0.03      0.07     0.00     0.22 1.00     8668     4932
-sd(Glycogen_treatmentPolyandry)                                       0.03      0.06     0.00     0.18 1.00    10665     4948
-sd(Chitin_Intercept)                                                  0.07      0.12     0.00     0.44 1.00     3539     3474
-sd(Chitin_treatmentPolyandry)                                         0.04      0.11     0.00     0.35 1.00     6341     3872
-sd(Dryweight_Intercept)                                               0.05      0.07     0.00     0.25 1.00     2761     4938
-sd(Dryweight_treatmentPolyandry)                                      0.03      0.05     0.00     0.17 1.00     8009     5976
-cor(Lipid_Intercept,Lipid_treatmentPolyandry)                         0.00      0.28    -0.53     0.52 1.00    13085     6894
-cor(Lipid_Intercept,Carbohydrate_Intercept)                           0.01      0.27    -0.52     0.54 1.00    13834     6815
-cor(Lipid_treatmentPolyandry,Carbohydrate_Intercept)                  0.00      0.27    -0.52     0.53 1.00     9816     7196
-cor(Lipid_Intercept,Carbohydrate_treatmentPolyandry)                 -0.00      0.28    -0.53     0.53 1.00    13922     7281
-cor(Lipid_treatmentPolyandry,Carbohydrate_treatmentPolyandry)         0.00      0.28    -0.53     0.55 1.00    12566     7569
-cor(Carbohydrate_Intercept,Carbohydrate_treatmentPolyandry)           0.00      0.28    -0.54     0.53 1.00    11563     7714
-cor(Lipid_Intercept,Protein_Intercept)                                0.00      0.28    -0.52     0.54 1.00    13637     6712
-cor(Lipid_treatmentPolyandry,Protein_Intercept)                       0.00      0.28    -0.53     0.53 1.00    11022     7065
-cor(Carbohydrate_Intercept,Protein_Intercept)                         0.00      0.28    -0.53     0.53 1.00    10145     7426
-cor(Carbohydrate_treatmentPolyandry,Protein_Intercept)               -0.00      0.28    -0.53     0.53 1.00     9156     6841
-cor(Lipid_Intercept,Protein_treatmentPolyandry)                       0.00      0.28    -0.53     0.54 1.00    15294     6636
-cor(Lipid_treatmentPolyandry,Protein_treatmentPolyandry)             -0.00      0.27    -0.53     0.52 1.00    12057     6512
-cor(Carbohydrate_Intercept,Protein_treatmentPolyandry)                0.00      0.28    -0.53     0.53 1.00    10481     7316
-cor(Carbohydrate_treatmentPolyandry,Protein_treatmentPolyandry)      -0.01      0.28    -0.54     0.53 1.00     9051     7446
-cor(Protein_Intercept,Protein_treatmentPolyandry)                     0.00      0.28    -0.53     0.54 1.00     8856     7479
-cor(Lipid_Intercept,Glycogen_Intercept)                               0.01      0.28    -0.52     0.54 1.00    14706     7112
-cor(Lipid_treatmentPolyandry,Glycogen_Intercept)                      0.00      0.28    -0.53     0.54 1.00    12127     7024
-cor(Carbohydrate_Intercept,Glycogen_Intercept)                        0.00      0.27    -0.52     0.54 1.00    11292     6363
-cor(Carbohydrate_treatmentPolyandry,Glycogen_Intercept)              -0.00      0.28    -0.53     0.53 1.00     9910     7085
-cor(Protein_Intercept,Glycogen_Intercept)                            -0.00      0.28    -0.54     0.54 1.00     8748     7275
-cor(Protein_treatmentPolyandry,Glycogen_Intercept)                   -0.00      0.28    -0.54     0.52 1.00     7251     7812
-cor(Lipid_Intercept,Glycogen_treatmentPolyandry)                      0.00      0.28    -0.53     0.54 1.00    15138     7138
-cor(Lipid_treatmentPolyandry,Glycogen_treatmentPolyandry)             0.00      0.27    -0.51     0.53 1.00    12441     7367
-cor(Carbohydrate_Intercept,Glycogen_treatmentPolyandry)               0.00      0.27    -0.52     0.54 1.00    10449     7529
-cor(Carbohydrate_treatmentPolyandry,Glycogen_treatmentPolyandry)      0.00      0.28    -0.53     0.54 1.00     9418     7092
-cor(Protein_Intercept,Glycogen_treatmentPolyandry)                   -0.00      0.28    -0.53     0.54 1.00     8620     7282
-cor(Protein_treatmentPolyandry,Glycogen_treatmentPolyandry)          -0.00      0.27    -0.53     0.52 1.00     7272     6969
-cor(Glycogen_Intercept,Glycogen_treatmentPolyandry)                  -0.00      0.28    -0.54     0.53 1.00     6255     7043
-cor(Lipid_Intercept,Chitin_Intercept)                                -0.00      0.28    -0.54     0.54 1.00    13268     7280
-cor(Lipid_treatmentPolyandry,Chitin_Intercept)                       -0.00      0.27    -0.53     0.52 1.00    11731     7629
-cor(Carbohydrate_Intercept,Chitin_Intercept)                         -0.00      0.28    -0.53     0.54 1.00    10469     7643
-cor(Carbohydrate_treatmentPolyandry,Chitin_Intercept)                -0.01      0.28    -0.54     0.52 1.00     8100     7306
-cor(Protein_Intercept,Chitin_Intercept)                               0.00      0.28    -0.52     0.54 1.00     8134     8168
-cor(Protein_treatmentPolyandry,Chitin_Intercept)                     -0.00      0.28    -0.53     0.53 1.00     8115     7497
-cor(Glycogen_Intercept,Chitin_Intercept)                              0.01      0.28    -0.53     0.54 1.00     7361     8201
-cor(Glycogen_treatmentPolyandry,Chitin_Intercept)                    -0.01      0.28    -0.53     0.53 1.00     6437     8302
-cor(Lipid_Intercept,Chitin_treatmentPolyandry)                       -0.01      0.28    -0.54     0.53 1.00    13334     7468
-cor(Lipid_treatmentPolyandry,Chitin_treatmentPolyandry)              -0.00      0.27    -0.52     0.53 1.00    13046     7663
-cor(Carbohydrate_Intercept,Chitin_treatmentPolyandry)                -0.00      0.28    -0.54     0.53 1.00    10428     7286
-cor(Carbohydrate_treatmentPolyandry,Chitin_treatmentPolyandry)        0.00      0.28    -0.53     0.54 1.00     9408     7132
-cor(Protein_Intercept,Chitin_treatmentPolyandry)                      0.00      0.28    -0.53     0.53 1.00     8664     7507
-cor(Protein_treatmentPolyandry,Chitin_treatmentPolyandry)            -0.00      0.28    -0.53     0.53 1.00     8111     7681
-cor(Glycogen_Intercept,Chitin_treatmentPolyandry)                     0.00      0.28    -0.54     0.53 1.00     6966     8175
-cor(Glycogen_treatmentPolyandry,Chitin_treatmentPolyandry)           -0.00      0.28    -0.54     0.54 1.00     6497     7897
-cor(Chitin_Intercept,Chitin_treatmentPolyandry)                      -0.00      0.28    -0.53     0.54 1.00     6219     7985
-cor(Lipid_Intercept,Dryweight_Intercept)                             -0.01      0.28    -0.52     0.52 1.00    13442     7316
-cor(Lipid_treatmentPolyandry,Dryweight_Intercept)                    -0.00      0.28    -0.54     0.54 1.00    10824     7108
-cor(Carbohydrate_Intercept,Dryweight_Intercept)                       0.00      0.28    -0.52     0.52 1.00     9437     6945
-cor(Carbohydrate_treatmentPolyandry,Dryweight_Intercept)              0.01      0.27    -0.51     0.53 1.00     8050     8002
-cor(Protein_Intercept,Dryweight_Intercept)                            0.00      0.28    -0.53     0.53 1.00     8664     7933
-cor(Protein_treatmentPolyandry,Dryweight_Intercept)                  -0.00      0.28    -0.54     0.52 1.00     7988     7892
-cor(Glycogen_Intercept,Dryweight_Intercept)                          -0.00      0.28    -0.53     0.53 1.00     7131     8108
-cor(Glycogen_treatmentPolyandry,Dryweight_Intercept)                 -0.01      0.28    -0.54     0.53 1.00     6788     7768
-cor(Chitin_Intercept,Dryweight_Intercept)                            -0.01      0.28    -0.55     0.52 1.00     6101     7577
-cor(Chitin_treatmentPolyandry,Dryweight_Intercept)                    0.00      0.28    -0.53     0.54 1.00     5527     7602
-cor(Lipid_Intercept,Dryweight_treatmentPolyandry)                     0.01      0.28    -0.53     0.55 1.00    12880     7422
-cor(Lipid_treatmentPolyandry,Dryweight_treatmentPolyandry)            0.00      0.27    -0.53     0.52 1.00    12106     7046
-cor(Carbohydrate_Intercept,Dryweight_treatmentPolyandry)              0.00      0.28    -0.53     0.53 1.00    10910     7333
-cor(Carbohydrate_treatmentPolyandry,Dryweight_treatmentPolyandry)     0.01      0.28    -0.52     0.54 1.00     8704     7439
-cor(Protein_Intercept,Dryweight_treatmentPolyandry)                   0.00      0.28    -0.54     0.54 1.00     8369     7795
-cor(Protein_treatmentPolyandry,Dryweight_treatmentPolyandry)         -0.00      0.28    -0.52     0.53 1.00     7772     7856
-cor(Glycogen_Intercept,Dryweight_treatmentPolyandry)                 -0.00      0.28    -0.53     0.53 1.00     7041     7735
-cor(Glycogen_treatmentPolyandry,Dryweight_treatmentPolyandry)         0.00      0.28    -0.53     0.53 1.00     6473     7736
-cor(Chitin_Intercept,Dryweight_treatmentPolyandry)                   -0.01      0.28    -0.53     0.54 1.00     6425     7813
-cor(Chitin_treatmentPolyandry,Dryweight_treatmentPolyandry)          -0.00      0.27    -0.53     0.52 1.00     5625     7451
-cor(Dryweight_Intercept,Dryweight_treatmentPolyandry)                 0.00      0.28    -0.54     0.54 1.00     5710     7350
+                                                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Lipid_Intercept)                                 0.09      0.15     0.00     0.50 1.00     2226     3040
+sd(Carbohydrate_Intercept)                          0.07      0.13     0.00     0.50 1.00     3422     2717
+sd(Protein_Intercept)                               0.05      0.12     0.00     0.44 1.00     4846     3055
+sd(Glycogen_Intercept)                              0.03      0.07     0.00     0.26 1.00     9019     5018
+sd(Chitin_Intercept)                                0.07      0.12     0.00     0.44 1.00     3130     2735
+sd(Dryweight_Intercept)                             0.05      0.08     0.00     0.27 1.00     2860     4008
+cor(Lipid_Intercept,Carbohydrate_Intercept)         0.02      0.38    -0.70     0.71 1.00    13199     6832
+cor(Lipid_Intercept,Protein_Intercept)              0.00      0.38    -0.70     0.71 1.00    14787     6474
+cor(Carbohydrate_Intercept,Protein_Intercept)       0.01      0.38    -0.70     0.72 1.00    11274     6759
+cor(Lipid_Intercept,Glycogen_Intercept)             0.01      0.37    -0.69     0.71 1.00    15679     6795
+cor(Carbohydrate_Intercept,Glycogen_Intercept)      0.01      0.37    -0.69     0.70 1.00    11674     7312
+cor(Protein_Intercept,Glycogen_Intercept)           0.00      0.38    -0.71     0.71 1.00     9312     7759
+cor(Lipid_Intercept,Chitin_Intercept)               0.00      0.38    -0.70     0.71 1.00    12344     7086
+cor(Carbohydrate_Intercept,Chitin_Intercept)       -0.00      0.38    -0.71     0.71 1.00    11084     7659
+cor(Protein_Intercept,Chitin_Intercept)             0.01      0.38    -0.70     0.71 1.00     8263     7879
+cor(Glycogen_Intercept,Chitin_Intercept)            0.01      0.38    -0.70     0.71 1.00     7362     7966
+cor(Lipid_Intercept,Dryweight_Intercept)           -0.01      0.37    -0.69     0.69 1.00    11583     7502
+cor(Carbohydrate_Intercept,Dryweight_Intercept)     0.01      0.38    -0.70     0.72 1.00     9377     7379
+cor(Protein_Intercept,Dryweight_Intercept)          0.01      0.38    -0.70     0.71 1.00     8299     7795
+cor(Glycogen_Intercept,Dryweight_Intercept)        -0.01      0.38    -0.70     0.71 1.00     7296     8107
+cor(Chitin_Intercept,Dryweight_Intercept)          -0.01      0.38    -0.71     0.70 1.00     7056     8688
 
 Population-Level Effects: 
                                         Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Lipid_Intercept                            -0.12      0.24    -0.59     0.36 1.00     6932     7152
-Carbohydrate_Intercept                      0.22      0.27    -0.32     0.76 1.00     8961     7440
-Protein_Intercept                           0.02      0.28    -0.53     0.56 1.00     9467     8065
-Glycogen_Intercept                         -0.07      0.26    -0.58     0.45 1.00     9134     7728
-Chitin_Intercept                           -0.06      0.25    -0.55     0.44 1.00     7653     8105
-Dryweight_Intercept                         0.63      0.11     0.42     0.85 1.00     7256     7086
-Lipid_sexMale                              -0.12      0.41    -0.93     0.68 1.00     5583     6918
-Lipid_treatmentPolyandry                    0.39      0.28    -0.16     0.92 1.00     6242     6327
-Lipid_Dryweight                             0.54      0.25     0.04     1.03 1.00     4680     6226
-Lipid_sexMale:treatmentPolyandry           -0.05      0.31    -0.67     0.55 1.00     7546     6786
-Carbohydrate_sexMale                        0.02      0.43    -0.81     0.86 1.00     7608     7494
-Carbohydrate_treatmentPolyandry            -0.25      0.30    -0.83     0.35 1.00     8609     7096
-Carbohydrate_Dryweight                      0.10      0.27    -0.42     0.62 1.00     6376     6979
-Carbohydrate_sexMale:treatmentPolyandry    -0.41      0.35    -1.09     0.26 1.00     8926     7472
-Protein_sexMale                            -0.01      0.44    -0.86     0.85 1.00     6467     7640
-Protein_treatmentPolyandry                 -0.22      0.31    -0.82     0.38 1.00     8496     7777
-Protein_Dryweight                          -0.21      0.27    -0.74     0.34 1.00     5492     7121
-Protein_sexMale:treatmentPolyandry          0.35      0.36    -0.35     1.06 1.00     9640     7873
-Glycogen_sexMale                           -0.27      0.43    -1.10     0.57 1.00     6445     7335
-Glycogen_treatmentPolyandry                 0.22      0.30    -0.37     0.79 1.00     8260     7660
-Glycogen_Dryweight                          0.33      0.27    -0.18     0.85 1.00     5430     6925
-Glycogen_sexMale:treatmentPolyandry         0.39      0.35    -0.30     1.07 1.00     9674     8182
-Chitin_sexMale                              0.40      0.42    -0.43     1.21 1.00     5956     7056
-Chitin_treatmentPolyandry                  -0.11      0.28    -0.67     0.45 1.00     7677     7040
-Chitin_Dryweight                           -0.49      0.26    -1.00     0.02 1.00     5296     6576
-Chitin_sexMale:treatmentPolyandry          -0.32      0.33    -0.96     0.32 1.00     8787     7616
-Dryweight_sexMale                          -1.61      0.14    -1.90    -1.33 1.00     6937     6906
-Dryweight_treatmentPolyandry                0.53      0.16     0.22     0.83 1.00     6826     6910
-Dryweight_sexMale:treatmentPolyandry       -0.35      0.20    -0.73     0.03 1.00     6057     6748
+Lipid_Intercept                            -0.12      0.24    -0.58     0.36 1.00     8283     7353
+Carbohydrate_Intercept                      0.22      0.27    -0.31     0.77 1.00     9902     7985
+Protein_Intercept                           0.02      0.28    -0.52     0.56 1.00    10823     8268
+Glycogen_Intercept                         -0.07      0.26    -0.58     0.43 1.00    10745     8442
+Chitin_Intercept                           -0.06      0.26    -0.57     0.45 1.00     8522     6813
+Dryweight_Intercept                         0.63      0.11     0.42     0.85 1.00     8348     7726
+Lipid_sexMale                              -0.12      0.42    -0.93     0.68 1.00     6798     7196
+Lipid_treatmentPolyandry                    0.39      0.27    -0.15     0.92 1.00     8798     7658
+Lipid_Dryweight                             0.54      0.25     0.03     1.03 1.00     5568     6453
+Lipid_sexMale:treatmentPolyandry           -0.05      0.31    -0.68     0.55 1.00     9816     7636
+Carbohydrate_sexMale                        0.00      0.42    -0.80     0.84 1.00     7962     7496
+Carbohydrate_treatmentPolyandry            -0.24      0.30    -0.84     0.35 1.00    10245     7539
+Carbohydrate_Dryweight                      0.09      0.26    -0.44     0.60 1.00     6631     7408
+Carbohydrate_sexMale:treatmentPolyandry    -0.42      0.35    -1.10     0.25 1.00    11374     7608
+Protein_sexMale                            -0.01      0.43    -0.83     0.83 1.00     8339     7487
+Protein_treatmentPolyandry                 -0.21      0.31    -0.83     0.40 1.00    10374     8676
+Protein_Dryweight                          -0.21      0.27    -0.73     0.33 1.00     6785     7231
+Protein_sexMale:treatmentPolyandry          0.34      0.36    -0.37     1.04 1.00    10331     7256
+Glycogen_sexMale                           -0.27      0.42    -1.09     0.55 1.00     7302     7487
+Glycogen_treatmentPolyandry                 0.22      0.30    -0.36     0.80 1.00     9860     8345
+Glycogen_Dryweight                          0.34      0.26    -0.18     0.86 1.00     6689     7518
+Glycogen_sexMale:treatmentPolyandry         0.39      0.35    -0.29     1.06 1.00    11426     8369
+Chitin_sexMale                              0.40      0.43    -0.45     1.24 1.00     7576     7166
+Chitin_treatmentPolyandry                  -0.12      0.28    -0.66     0.45 1.00     8551     7564
+Chitin_Dryweight                           -0.48      0.27    -1.01     0.04 1.00     6202     6889
+Chitin_sexMale:treatmentPolyandry          -0.31      0.32    -0.96     0.33 1.00     9734     8005
+Dryweight_sexMale                          -1.62      0.14    -1.89    -1.35 1.00     8443     7594
+Dryweight_treatmentPolyandry                0.52      0.16     0.21     0.82 1.00     6327     7005
+Dryweight_sexMale:treatmentPolyandry       -0.35      0.20    -0.74     0.04 1.00     7145     7157
 
 Family Specific Parameters: 
                    Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sigma_Lipid            0.74      0.09     0.58     0.94 1.00     6443     7012
-sigma_Carbohydrate     1.00      0.11     0.80     1.25 1.00     8636     7372
-sigma_Protein          1.02      0.12     0.82     1.29 1.00     9523     6888
-sigma_Glycogen         0.95      0.11     0.76     1.19 1.00    11707     7446
-sigma_Chitin           0.84      0.10     0.67     1.06 1.00     7464     7642
-sigma_Dryweight        0.36      0.04     0.29     0.46 1.00     9207     7629
+sigma_Lipid            0.74      0.09     0.59     0.93 1.00     6746     7390
+sigma_Carbohydrate     1.00      0.11     0.81     1.25 1.00     9278     7809
+sigma_Protein          1.02      0.12     0.82     1.28 1.00     9185     7780
+sigma_Glycogen         0.95      0.11     0.76     1.19 1.00    11909     7770
+sigma_Chitin           0.85      0.10     0.67     1.06 1.00     7486     7023
+sigma_Dryweight        0.36      0.04     0.29     0.46 1.00     8239     7406
 
 Residual Correlations: 
                                Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-rescor(Lipid,Carbohydrate)        -0.33      0.14    -0.59    -0.04 1.00     5091     6469
-rescor(Lipid,Protein)             -0.06      0.15    -0.35     0.23 1.00     9533     7092
-rescor(Carbohydrate,Protein)       0.04      0.15    -0.25     0.32 1.00    10144     7494
-rescor(Lipid,Glycogen)             0.04      0.15    -0.26     0.32 1.00     6330     6923
-rescor(Carbohydrate,Glycogen)     -0.01      0.15    -0.30     0.28 1.00    10140     6808
-rescor(Protein,Glycogen)          -0.14      0.14    -0.41     0.15 1.00     8731     7742
-rescor(Lipid,Chitin)              -0.06      0.15    -0.35     0.23 1.00     7493     7682
-rescor(Carbohydrate,Chitin)       -0.42      0.13    -0.64    -0.15 1.00     9009     6900
-rescor(Protein,Chitin)             0.07      0.15    -0.22     0.35 1.00     8593     7175
-rescor(Glycogen,Chitin)           -0.03      0.15    -0.32     0.26 1.00     8371     7499
-rescor(Lipid,Dryweight)            0.16      0.18    -0.21     0.49 1.00     5252     6335
-rescor(Carbohydrate,Dryweight)    -0.00      0.18    -0.35     0.34 1.00     6169     7470
-rescor(Protein,Dryweight)         -0.04      0.17    -0.38     0.30 1.00     5852     7018
-rescor(Glycogen,Dryweight)         0.01      0.18    -0.33     0.35 1.00     5373     6886
-rescor(Chitin,Dryweight)           0.26      0.18    -0.10     0.58 1.00     4795     7120
+rescor(Lipid,Carbohydrate)        -0.32      0.14    -0.58    -0.04 1.00     5457     6371
+rescor(Lipid,Protein)             -0.06      0.15    -0.34     0.24 1.00    10423     7214
+rescor(Carbohydrate,Protein)       0.04      0.14    -0.25     0.31 1.00    11539     7956
+rescor(Lipid,Glycogen)             0.04      0.15    -0.26     0.33 1.00     7796     6676
+rescor(Carbohydrate,Glycogen)     -0.01      0.15    -0.29     0.28 1.00    11161     7736
+rescor(Protein,Glycogen)          -0.13      0.14    -0.41     0.16 1.00    10372     7470
+rescor(Lipid,Chitin)              -0.07      0.15    -0.35     0.22 1.00     8329     7466
+rescor(Carbohydrate,Chitin)       -0.42      0.12    -0.64    -0.16 1.00     9965     8172
+rescor(Protein,Chitin)             0.06      0.15    -0.22     0.35 1.00     9097     7373
+rescor(Glycogen,Chitin)           -0.04      0.15    -0.32     0.25 1.00     9577     7869
+rescor(Lipid,Dryweight)            0.16      0.18    -0.20     0.49 1.00     5978     6731
+rescor(Carbohydrate,Dryweight)     0.02      0.17    -0.33     0.35 1.00     5275     5847
+rescor(Protein,Dryweight)         -0.04      0.17    -0.38     0.30 1.00     6616     7322
+rescor(Glycogen,Dryweight)         0.01      0.17    -0.33     0.35 1.00     6280     7242
+rescor(Chitin,Dryweight)           0.25      0.18    -0.12     0.57 1.00     4907     5998
 
-Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
 </pre>
@@ -2949,7 +2932,7 @@ new_metabolites &lt;- bind_rows(
 # this function predicts at the global means across the 4 lines (see ?posterior_epred)
 fitted_values &lt;- posterior_epred(
   brms_metabolite_SEM, newdata = new_metabolites, re_formula = NA,
-  summary = FALSE, resp = c(&quot;Carbohydrate&quot;, &quot;Chitin&quot;, &quot;Glycogen&quot;, &quot;Lipid&quot;, &quot;Protein&quot;)) %&gt;% 
+  summary = FALSE) %&gt;% 
   reshape2::melt() %&gt;% rename(draw = Var1, type = Var2, variable = Var3) %&gt;% 
   as_tibble() %&gt;%
   left_join(new_metabolites, by = &quot;type&quot;) %&gt;%
@@ -2998,10 +2981,10 @@ p1 &lt;- treat_diff_actual_dryweight %&gt;%
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
-  geom_line(data = treat_diff_actual_dryweight %&gt;%
-              filter(draw %in% sampled_draws) %&gt;%
-              filter(variable != &#39;Dryweight&#39;), 
-            alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
+  # geom_line(data = treat_diff_actual_dryweight %&gt;%
+  #             filter(draw %in% sampled_draws) %&gt;%
+  #             filter(variable != &#39;Dryweight&#39;), 
+  #           alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
   geom_point(data = summary_dat1, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
   scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
@@ -3013,7 +2996,7 @@ p1 &lt;- treat_diff_actual_dryweight %&gt;%
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab(&quot;Difference in means between\nselection treatments (E - M)&quot;) + xlab(&quot;Sex&quot;) +
-  #ggsave(&quot;figures/metabolite_plot.pdf&quot;, height=3, width=6) +
+  #ggsave(&quot;figures/metabolite_plot_nolines.pdf&quot;, height=2.5, width=6) +
   NULL
 p1</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
@@ -3039,6 +3022,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-15-1.png" target="_blank">ffb09dd</a>
@@ -3151,10 +3145,10 @@ lukeholman
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`, fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
-  geom_line(data = treat_diff_standard_dryweight %&gt;%
-              filter(draw %in% sampled_draws) %&gt;%
-              filter(variable != &#39;Dryweight&#39;), 
-            alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
+  # geom_line(data = treat_diff_standard_dryweight %&gt;%
+  #             filter(draw %in% sampled_draws) %&gt;%
+  #             filter(variable != &#39;Dryweight&#39;), 
+  #           alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
   geom_point(data = summary_dat2, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
   scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
   scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
@@ -3166,7 +3160,7 @@ lukeholman
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab(&quot;Difference in means between\nselection treatments (E - M)&quot;) + xlab(&quot;Sex&quot;) + 
-  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=3, width=6) +
+  #ggsave(&#39;figures/metabolite_plotCONTROLLED_nolines.pdf&#39;, height=2.5, width=6) +
   NULL</code></pre>
 <p><img src="figure/metabolites.Rmd/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
@@ -3191,6 +3185,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/ffb09ddd62fccb7ff88e77136354a02b73ff3fc8/docs/figure/metabolites.Rmd/unnamed-chunk-16-1.png" target="_blank">ffb09dd</a>
@@ -3327,16 +3332,16 @@ Carbohydrate
 Female
 </td>
 <td style="text-align:right;">
--0.192
+-0.198
 </td>
 <td style="text-align:right;">
--0.743
+-0.759
 </td>
 <td style="text-align:right;">
-0.359
+0.370
 </td>
 <td style="text-align:right;">
-0.249
+0.237
 </td>
 <td style="text-align:left;">
 </td>
@@ -3349,16 +3354,16 @@ Carbohydrate
 Male
 </td>
 <td style="text-align:right;">
--0.647
+-0.650
 </td>
 <td style="text-align:right;">
--1.303
+-1.320
 </td>
 <td style="text-align:right;">
-0.028
+0.034
 </td>
 <td style="text-align:right;">
-0.031
+0.030
 </td>
 <td style="text-align:left;">
 *
@@ -3372,13 +3377,13 @@ Chitin
 Female
 </td>
 <td style="text-align:right;">
--0.366
+-0.374
 </td>
 <td style="text-align:right;">
--0.874
+-0.884
 </td>
 <td style="text-align:right;">
-0.141
+0.143
 </td>
 <td style="text-align:right;">
 0.077
@@ -3394,16 +3399,16 @@ Chitin
 Male
 </td>
 <td style="text-align:right;">
--0.515
+-0.518
 </td>
 <td style="text-align:right;">
--1.106
+-1.087
 </td>
 <td style="text-align:right;">
-0.095
+0.065
 </td>
 <td style="text-align:right;">
-0.044
+0.041
 </td>
 <td style="text-align:left;">
 *
@@ -3417,16 +3422,16 @@ Glycogen
 Female
 </td>
 <td style="text-align:right;">
-0.398
+0.391
 </td>
 <td style="text-align:right;">
--0.150
+-0.139
 </td>
 <td style="text-align:right;">
-0.934
+0.931
 </td>
 <td style="text-align:right;">
-0.077
+0.076
 </td>
 <td style="text-align:left;">
 </td>
@@ -3439,16 +3444,16 @@ Glycogen
 Male
 </td>
 <td style="text-align:right;">
-0.669
+0.672
 </td>
 <td style="text-align:right;">
-0.018
+0.035
 </td>
 <td style="text-align:right;">
-1.278
+1.285
 </td>
 <td style="text-align:right;">
-0.022
+0.021
 </td>
 <td style="text-align:left;">
 *
@@ -3462,13 +3467,13 @@ Lipid
 Female
 </td>
 <td style="text-align:right;">
-0.679
+0.674
 </td>
 <td style="text-align:right;">
-0.157
+0.184
 </td>
 <td style="text-align:right;">
-1.152
+1.150
 </td>
 <td style="text-align:right;">
 0.006
@@ -3485,16 +3490,16 @@ Lipid
 Male
 </td>
 <td style="text-align:right;">
-0.434
+0.432
 </td>
 <td style="text-align:right;">
--0.142
+-0.139
 </td>
 <td style="text-align:right;">
-0.976
+0.979
 </td>
 <td style="text-align:right;">
-0.063
+0.064
 </td>
 <td style="text-align:left;">
 </td>
@@ -3507,16 +3512,16 @@ Protein
 Female
 </td>
 <td style="text-align:right;">
--0.323
+-0.321
 </td>
 <td style="text-align:right;">
--0.891
+-0.899
 </td>
 <td style="text-align:right;">
-0.242
+0.268
 </td>
 <td style="text-align:right;">
-0.128
+0.138
 </td>
 <td style="text-align:left;">
 </td>
@@ -3529,16 +3534,16 @@ Protein
 Male
 </td>
 <td style="text-align:right;">
-0.100
+0.101
 </td>
 <td style="text-align:right;">
--0.563
+-0.575
 </td>
 <td style="text-align:right;">
-0.781
+0.773
 </td>
 <td style="text-align:right;">
-0.385
+0.386
 </td>
 <td style="text-align:left;">
 </td>
@@ -3585,16 +3590,16 @@ Carbohydrate
 Female
 </td>
 <td style="text-align:right;">
--0.251
+-0.245
 </td>
 <td style="text-align:right;">
--0.832
+-0.838
 </td>
 <td style="text-align:right;">
-0.348
+0.353
 </td>
 <td style="text-align:right;">
-0.207
+0.205
 </td>
 <td style="text-align:left;">
 </td>
@@ -3607,16 +3612,16 @@ Carbohydrate
 Male
 </td>
 <td style="text-align:right;">
--0.666
+-0.663
 </td>
 <td style="text-align:right;">
--1.317
+-1.326
 </td>
 <td style="text-align:right;">
-0.019
+0.015
 </td>
 <td style="text-align:right;">
-0.028
+0.027
 </td>
 <td style="text-align:left;">
 *
@@ -3630,16 +3635,16 @@ Chitin
 Female
 </td>
 <td style="text-align:right;">
--0.113
+-0.124
 </td>
 <td style="text-align:right;">
--0.673
+-0.658
 </td>
 <td style="text-align:right;">
-0.453
+0.446
 </td>
 <td style="text-align:right;">
-0.340
+0.326
 </td>
 <td style="text-align:left;">
 </td>
@@ -3655,13 +3660,13 @@ Male
 -0.435
 </td>
 <td style="text-align:right;">
--1.020
+-1.002
 </td>
 <td style="text-align:right;">
-0.179
+0.147
 </td>
 <td style="text-align:right;">
-0.078
+0.074
 </td>
 <td style="text-align:left;">
 </td>
@@ -3674,16 +3679,16 @@ Glycogen
 Female
 </td>
 <td style="text-align:right;">
-0.224
+0.214
 </td>
 <td style="text-align:right;">
--0.367
+-0.359
 </td>
 <td style="text-align:right;">
-0.787
+0.803
 </td>
 <td style="text-align:right;">
-0.224
+0.233
 </td>
 <td style="text-align:left;">
 </td>
@@ -3696,16 +3701,16 @@ Glycogen
 Male
 </td>
 <td style="text-align:right;">
-0.613
+0.612
 </td>
 <td style="text-align:right;">
--0.040
+-0.023
 </td>
 <td style="text-align:right;">
-1.222
+1.225
 </td>
 <td style="text-align:right;">
-0.033
+0.029
 </td>
 <td style="text-align:left;">
 *
@@ -3722,13 +3727,13 @@ Female
 0.390
 </td>
 <td style="text-align:right;">
--0.156
+-0.152
 </td>
 <td style="text-align:right;">
-0.919
+0.918
 </td>
 <td style="text-align:right;">
-0.077
+0.075
 </td>
 <td style="text-align:left;">
 </td>
@@ -3741,16 +3746,16 @@ Lipid
 Male
 </td>
 <td style="text-align:right;">
-0.339
+0.343
 </td>
 <td style="text-align:right;">
--0.226
+-0.217
 </td>
 <td style="text-align:right;">
-0.885
+0.888
 </td>
 <td style="text-align:right;">
-0.110
+0.113
 </td>
 <td style="text-align:left;">
 </td>
@@ -3763,16 +3768,16 @@ Protein
 Female
 </td>
 <td style="text-align:right;">
--0.215
+-0.210
 </td>
 <td style="text-align:right;">
--0.818
+-0.826
 </td>
 <td style="text-align:right;">
-0.378
+0.402
 </td>
 <td style="text-align:right;">
-0.241
+0.251
 </td>
 <td style="text-align:left;">
 </td>
@@ -3785,16 +3790,16 @@ Protein
 Male
 </td>
 <td style="text-align:right;">
-0.136
+0.132
 </td>
 <td style="text-align:right;">
--0.526
+-0.539
 </td>
 <td style="text-align:right;">
-0.810
+0.803
 </td>
 <td style="text-align:right;">
-0.344
+0.343
 </td>
 <td style="text-align:left;">
 </td>
@@ -3858,6 +3863,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-19-1.png" target="_blank">034431b</a>
@@ -3954,6 +3970,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">21567bb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-12
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/034431b586a5d504a05c88a3096dfb9a8c9dc125/docs/figure/metabolites.Rmd/unnamed-chunk-20-1.png" target="_blank">034431b</a>
 </td>
 <td>
@@ -4036,16 +4063,16 @@ p
 Carbohydrate
 </td>
 <td style="text-align:right;">
--0.452
+-0.451
 </td>
 <td style="text-align:right;">
--1.092
+-1.103
 </td>
 <td style="text-align:right;">
-0.203
+0.209
 </td>
 <td style="text-align:right;">
-0.091
+0.092
 </td>
 <td style="text-align:left;">
 </td>
@@ -4055,16 +4082,16 @@ Carbohydrate
 Chitin
 </td>
 <td style="text-align:right;">
--0.145
+-0.139
 </td>
 <td style="text-align:right;">
--0.756
+-0.743
 </td>
 <td style="text-align:right;">
-0.463
+0.479
 </td>
 <td style="text-align:right;">
-0.321
+0.318
 </td>
 <td style="text-align:left;">
 </td>
@@ -4074,16 +4101,16 @@ Chitin
 Glycogen
 </td>
 <td style="text-align:right;">
-0.269
+0.279
 </td>
 <td style="text-align:right;">
--0.379
+-0.381
 </td>
 <td style="text-align:right;">
-0.911
+0.900
 </td>
 <td style="text-align:right;">
-0.212
+0.202
 </td>
 <td style="text-align:left;">
 </td>
@@ -4093,16 +4120,16 @@ Glycogen
 Lipid
 </td>
 <td style="text-align:right;">
--0.240
+-0.244
 </td>
 <td style="text-align:right;">
--0.821
+-0.831
 </td>
 <td style="text-align:right;">
-0.338
+0.326
 </td>
 <td style="text-align:right;">
-0.208
+0.207
 </td>
 <td style="text-align:left;">
 </td>
@@ -4112,16 +4139,16 @@ Lipid
 Protein
 </td>
 <td style="text-align:right;">
-0.421
+0.422
 </td>
 <td style="text-align:right;">
--0.244
+-0.255
 </td>
 <td style="text-align:right;">
-1.099
+1.098
 </td>
 <td style="text-align:right;">
-0.111
+0.112
 </td>
 <td style="text-align:left;">
 </td>
@@ -4171,13 +4198,13 @@ p
 Carbohydrate
 </td>
 <td style="text-align:right;">
--0.416
+-0.420
 </td>
 <td style="text-align:right;">
--1.090
+-1.101
 </td>
 <td style="text-align:right;">
-0.263
+0.253
 </td>
 <td style="text-align:right;">
 0.117
@@ -4190,383 +4217,75 @@ Carbohydrate
 Chitin
 </td>
 <td style="text-align:right;">
--0.316
+-0.308
 </td>
 <td style="text-align:right;">
--0.957
+-0.962
 </td>
 <td style="text-align:right;">
-0.320
+0.328
+</td>
+<td style="text-align:right;">
+0.161
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycogen
+</td>
+<td style="text-align:right;">
+0.399
+</td>
+<td style="text-align:right;">
+-0.292
+</td>
+<td style="text-align:right;">
+1.059
+</td>
+<td style="text-align:right;">
+0.126
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipid
+</td>
+<td style="text-align:right;">
+-0.053
+</td>
+<td style="text-align:right;">
+-0.681
+</td>
+<td style="text-align:right;">
+0.547
+</td>
+<td style="text-align:right;">
+0.431
+</td>
+<td style="text-align:left;">
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Protein
+</td>
+<td style="text-align:right;">
+0.344
+</td>
+<td style="text-align:right;">
+-0.366
+</td>
+<td style="text-align:right;">
+1.045
 </td>
 <td style="text-align:right;">
 0.166
 </td>
 <td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Glycogen
-</td>
-<td style="text-align:right;">
-0.388
-</td>
-<td style="text-align:right;">
--0.297
-</td>
-<td style="text-align:right;">
-1.066
-</td>
-<td style="text-align:right;">
-0.139
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:right;">
--0.050
-</td>
-<td style="text-align:right;">
--0.672
-</td>
-<td style="text-align:right;">
-0.555
-</td>
-<td style="text-align:right;">
-0.437
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Protein
-</td>
-<td style="text-align:right;">
-0.348
-</td>
-<td style="text-align:right;">
--0.347
-</td>
-<td style="text-align:right;">
-1.057
-</td>
-<td style="text-align:right;">
-0.167
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="posterior-effect-size-of-sex-on-metabolite-abundance-for-each-treatment" class="section level2">
-<h2>Posterior effect size of sex on metabolite abundance, for each treatment</h2>
-<p>Similar to above, in this section we calculate the effect size of sex for each metabolite by subtracting the (treatment-specific) mean for males from the mean for females.</p>
-<pre class="r"><code>sex_diff_actual_dryweight &lt;- fitted_values %&gt;%
-  filter(!(Dryweight %in% c(male_dryweight, female_dryweight))) %&gt;% 
-  select(-Dryweight) %&gt;%
-  pivot_wider(names_from = sex, 
-              values_from = c(value)) %&gt;% 
-  mutate(`Difference in means (Female - Male)` = Female - Male)</code></pre>
-<div id="not-controlling-for-differences-in-dry-weight-between-sexes" class="section level4">
-<h4>Not controlling for differences in dry weight between sexes</h4>
-<p>We find that most metabolites differ between the sexes and as the previous analysis looking at the treatment x sex interaction shows, this is largely the same across treatments. Males have more chitin and females have more lipids in both treatments, E females have more carbohydrates and E males, M females have more glycogen than M males,and E males have more protein than E females.</p>
-<pre class="r"><code>summary_dat4 &lt;- sex_diff_actual_dryweight %&gt;%
-  rename(x = `Difference in means (Female - Male)`) %&gt;%
-  group_by(variable, treatment)  %&gt;%
-  summarise(`Difference in means (Female - Male)` = median(x),
-            `Lower 95% CI` = quantile(x, probs = 0.025), 
-            `Upper 95% CI` = quantile(x, probs = 0.975),
-            p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p &lt; 0.05, &quot;\\*&quot;, &quot;&quot;),
-            .groups = &quot;drop&quot;)
-
-sex_diff_actual_dryweight %&gt;%
-  ggplot(aes(x = treatment, y = `Difference in means (Female - Male)`, fill = treatment)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  stat_halfeye() + 
-  geom_line(data = sex_diff_actual_dryweight %&gt;%
-              filter(draw %in% sampled_draws) %&gt;%
-              filter(variable != &#39;Dryweight&#39;), 
-            alpha = 0.8, size = 0.12, colour = &quot;black&quot;, aes(group = draw)) +
-  geom_point(data = summary_dat4, pch = 21, colour = &quot;black&quot;, size = 3.1) + 
-  scale_fill_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
-  scale_colour_brewer(palette = &#39;Pastel1&#39;, direction = 1, name = &quot;&quot;) +
-  facet_wrap( ~ variable,  nrow = 1) +
-  theme_bw() +
-  theme(legend.position = &#39;none&#39;,
-        strip.background = element_blank(),
-        text = element_text(family = nice_font),
-        panel.grid.major.x = element_blank()) +
-  coord_cartesian(ylim = c(-2, 2)) + 
-  ylab(&quot;Difference in means between\nsexes (Female - Male)&quot;) + xlab(&quot;Treatment&quot;) + 
-  #ggsave(&#39;figures/metabolite_plotCONTROLLED.pdf&#39;, height=3, width=6) +
-  NULL</code></pre>
-<p><img src="figure/metabolites.Rmd/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
-</div>
-<div id="table-2" class="section level4">
-<h4>Table</h4>
-<pre class="r"><code>summary_dat4 %&gt;%
-  kable(digits = 3) %&gt;%
-  kable_styling(full_width = FALSE)</code></pre>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead>
-<tr>
-<th style="text-align:left;">
-variable
-</th>
-<th style="text-align:left;">
-treatment
-</th>
-<th style="text-align:right;">
-Difference in means (Female - Male)
-</th>
-<th style="text-align:right;">
-Lower 95% CI
-</th>
-<th style="text-align:right;">
-Upper 95% CI
-</th>
-<th style="text-align:right;">
-p
-</th>
-<th style="text-align:left;">
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-Carbohydrate
-</td>
-<td style="text-align:left;">
-Monogamy
-</td>
-<td style="text-align:right;">
-0.142
-</td>
-<td style="text-align:right;">
--0.430
-</td>
-<td style="text-align:right;">
-0.732
-</td>
-<td style="text-align:right;">
-0.310
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Carbohydrate
-</td>
-<td style="text-align:left;">
-Polyandry
-</td>
-<td style="text-align:right;">
-0.603
-</td>
-<td style="text-align:right;">
--0.096
-</td>
-<td style="text-align:right;">
-1.252
-</td>
-<td style="text-align:right;">
-0.043
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Chitin
-</td>
-<td style="text-align:left;">
-Monogamy
-</td>
-<td style="text-align:right;">
--1.181
-</td>
-<td style="text-align:right;">
--1.698
-</td>
-<td style="text-align:right;">
--0.671
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Chitin
-</td>
-<td style="text-align:left;">
-Polyandry
-</td>
-<td style="text-align:right;">
--1.040
-</td>
-<td style="text-align:right;">
--1.635
-</td>
-<td style="text-align:right;">
--0.452
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Glycogen
-</td>
-<td style="text-align:left;">
-Monogamy
-</td>
-<td style="text-align:right;">
-0.807
-</td>
-<td style="text-align:right;">
-0.222
-</td>
-<td style="text-align:right;">
-1.368
-</td>
-<td style="text-align:right;">
-0.003
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Glycogen
-</td>
-<td style="text-align:left;">
-Polyandry
-</td>
-<td style="text-align:right;">
-0.532
-</td>
-<td style="text-align:right;">
--0.134
-</td>
-<td style="text-align:right;">
-1.177
-</td>
-<td style="text-align:right;">
-0.055
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Monogamy
-</td>
-<td style="text-align:right;">
-0.993
-</td>
-<td style="text-align:right;">
-0.512
-</td>
-<td style="text-align:right;">
-1.452
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Lipid
-</td>
-<td style="text-align:left;">
-Polyandry
-</td>
-<td style="text-align:right;">
-1.234
-</td>
-<td style="text-align:right;">
-0.690
-</td>
-<td style="text-align:right;">
-1.750
-</td>
-<td style="text-align:right;">
-0.000
-</td>
-<td style="text-align:left;">
-*
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Protein
-</td>
-<td style="text-align:left;">
-Monogamy
-</td>
-<td style="text-align:right;">
--0.322
-</td>
-<td style="text-align:right;">
--0.918
-</td>
-<td style="text-align:right;">
-0.284
-</td>
-<td style="text-align:right;">
-0.146
-</td>
-<td style="text-align:left;">
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-Protein
-</td>
-<td style="text-align:left;">
-Polyandry
-</td>
-<td style="text-align:right;">
--0.746
-</td>
-<td style="text-align:right;">
--1.424
-</td>
-<td style="text-align:right;">
--0.054
-</td>
-<td style="text-align:right;">
-0.018
-</td>
-<td style="text-align:left;">
-*
 </td>
 </tr>
 </tbody>
@@ -4594,30 +4313,33 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] showtext_0.9-2   showtextdb_3.0   sysfonts_0.8.3   knitrhooks_0.0.4 knitr_1.31       kableExtra_1.3.1 DT_0.17          tidybayes_2.3.1  brms_2.14.4     
-[10] Rcpp_1.0.6       ggridges_0.5.3   gridExtra_2.3    GGally_2.1.0     forcats_0.5.1    stringr_1.4.0    dplyr_1.0.3      purrr_0.3.4      readr_1.4.0     
-[19] tidyr_1.1.2      tibble_3.0.5     ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
+ [1] showtext_0.9-4   showtextdb_3.0   sysfonts_0.8.5   knitrhooks_0.0.4 knitr_1.33       kableExtra_1.3.4 DT_0.18          tidybayes_3.0.1  brms_2.16.1     
+[10] Rcpp_1.0.7       ggridges_0.5.3   gridExtra_2.3    GGally_2.1.2     forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7      purrr_0.3.4      readr_2.0.1     
+[19] tidyr_1.1.3      tibble_3.1.3     ggplot2_3.3.5    tidyverse_1.3.1  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6           igraph_1.2.6         splines_4.0.3        svUnit_1.0.3         crosstalk_1.1.1     
-  [8] rstantools_2.1.1     inline_0.3.17        digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.16     fansi_0.4.2          magrittr_2.0.1      
- [15] modelr_0.1.8         RcppParallel_5.0.2   matrixStats_0.57.0   xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-0     rvest_0.3.6         
- [22] ggdist_2.4.0         haven_2.3.1          xfun_0.20            callr_3.5.1          crayon_1.3.4         jsonlite_1.7.2       lme4_1.1-26         
- [29] zoo_1.8-8            glue_1.4.2           gtable_0.3.0         webshot_0.5.2        V8_3.4.0             distributional_0.2.1 pkgbuild_1.2.0      
- [36] rstan_2.21.1         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-1        DBI_1.1.1            miniUI_0.1.1.1       viridisLite_0.3.0   
- [43] xtable_1.8-4         stats4_4.0.3         StanHeaders_2.21.0-7 htmlwidgets_1.5.3    httr_1.4.2           DiagrammeR_1.0.6.1   threejs_0.3.3       
- [50] arrayhelpers_1.1-0   RColorBrewer_1.1-2   ellipsis_0.3.1       pkgconfig_2.0.3      reshape_0.8.8        loo_2.4.1            farver_2.0.3        
- [57] dbplyr_2.0.0         labeling_0.4.2       tidyselect_1.1.0     rlang_0.4.10         reshape2_1.4.4       later_1.1.0.1        visNetwork_2.0.9    
- [64] munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_2.2.0            generics_0.1.0       broom_0.7.3          evaluate_0.14       
- [71] fastmap_1.1.0        yaml_2.2.1           processx_3.4.5       fs_1.5.0             nlme_3.1-151         whisker_0.4          mime_0.9            
- [78] projpred_2.0.2       xml2_1.3.2           compiler_4.0.3       bayesplot_1.8.0      shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6         
- [85] curl_4.3             reprex_1.0.0         statmod_1.4.35       stringi_1.5.3        highr_0.8            ps_1.5.0             Brobdingnag_1.2-6   
- [92] lattice_0.20-41      Matrix_1.3-2         nloptr_1.2.2.2       markdown_1.1         shinyjs_2.0.0        vctrs_0.3.6          pillar_1.4.7        
- [99] lifecycle_0.2.0      bridgesampling_1.0-0 insight_0.12.0       httpuv_1.5.5         R6_2.5.0             promises_1.1.1       codetools_0.2-18    
-[106] boot_1.3-26          colourpicker_1.1.0   MASS_7.3-53          gtools_3.8.2         assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.1         
-[113] shinystan_2.5.0      bayestestR_0.8.2     mgcv_1.8-33          parallel_4.0.3       hms_1.0.0            grid_4.0.3           coda_0.19-4         
-[120] minqa_1.2.4          rmarkdown_2.6        git2r_0.28.0         shiny_1.6.0          lubridate_1.7.9.2    base64enc_0.1-3      dygraphs_1.1.1.6    
+  [1] readxl_1.3.1         backports_1.2.1      systemfonts_1.0.2    plyr_1.8.6           igraph_1.2.6         svUnit_1.0.6         splines_4.0.3       
+  [8] crosstalk_1.1.1      rstantools_2.1.1     inline_0.3.19        digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.24     fansi_0.5.0         
+ [15] magrittr_2.0.1       checkmate_2.0.0      tzdb_0.1.2           modelr_0.1.8         RcppParallel_5.1.4   matrixStats_0.60.0   vroom_1.5.4         
+ [22] svglite_2.0.0        xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-2     rvest_1.0.1          ggdist_3.0.0         haven_2.4.3         
+ [29] xfun_0.25            callr_3.7.0          crayon_1.4.1         jsonlite_1.7.2       lme4_1.1-27.1        zoo_1.8-9            glue_1.4.2          
+ [36] gtable_0.3.0         webshot_0.5.2        V8_3.4.2             distributional_0.2.2 pkgbuild_1.2.0       rstan_2.21.1         abind_1.4-5         
+ [43] scales_1.1.1         mvtnorm_1.1-2        DBI_1.1.1            miniUI_0.1.1.1       viridisLite_0.4.0    xtable_1.8-4         bit_4.0.4           
+ [50] stats4_4.0.3         StanHeaders_2.21.0-7 datawizard_0.2.0     htmlwidgets_1.5.3    httr_1.4.2           DiagrammeR_1.0.6.1   threejs_0.3.3       
+ [57] arrayhelpers_1.1-0   RColorBrewer_1.1-2   posterior_1.0.1      ellipsis_0.3.2       pkgconfig_2.0.3      reshape_0.8.8        loo_2.4.1           
+ [64] farver_2.1.0         sass_0.4.0           dbplyr_2.1.1         utf8_1.2.2           labeling_0.4.2       tidyselect_1.1.1     rlang_0.4.11        
+ [71] reshape2_1.4.4       later_1.3.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_3.0.1           
+ [78] generics_0.1.0       broom_0.7.9          evaluate_0.14        fastmap_1.1.0        yaml_2.2.1           bit64_4.0.5          processx_3.5.2      
+ [85] fs_1.5.0             nlme_3.1-152         whisker_0.4          mime_0.11            projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
+ [92] bayesplot_1.8.1      shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6          curl_4.3.2           reprex_2.0.1         bslib_0.2.5.1       
+ [99] stringi_1.7.3        highr_0.9            ps_1.6.0             Brobdingnag_1.2-6    lattice_0.20-44      Matrix_1.3-4         nloptr_1.2.2.2      
+[106] markdown_1.1         shinyjs_2.0.0        tensorA_0.36.2       vctrs_0.3.8          pillar_1.6.2         lifecycle_1.0.0      jquerylib_0.1.4     
+[113] bridgesampling_1.1-2 insight_0.14.3       httpuv_1.6.2         R6_2.5.1             promises_1.2.0.1     codetools_0.2-18     boot_1.3-28         
+[120] colourpicker_1.1.0   MASS_7.3-54          gtools_3.9.2         assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.2          shinystan_2.5.0     
+[127] bayestestR_0.10.5    mgcv_1.8-36          parallel_4.0.3       hms_1.1.0            grid_4.0.3           coda_0.19-4          minqa_1.2.4         
+[134] rmarkdown_2.10       git2r_0.28.0         shiny_1.6.0          lubridate_1.7.10     base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
+</div>
 </div>
 </div>
 </div>
@@ -4665,7 +4387,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -4679,6 +4401,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
