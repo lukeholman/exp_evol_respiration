@@ -210,9 +210,10 @@ if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, els
                               adapt_delta = 0.999),
                data = DesRes, family = weibull())
   
+  #saveRDS(des_brm, "output/des_brm_noslope.rds") # save with no random slope term
   saveRDS(des_brm, "output/des_brm.rds")
 } else {
-  des_brm <- readRDS('output/des_brm.rds')
+  des_brm <- readRDS('output/des_brm_noslope.rds')
 }
 
 
@@ -228,9 +229,10 @@ if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, els
                data = StaRes %>% mutate(EVENT = if_else(EVENT == 1, 0, 1)), 
                family = weibull())
   
+  #saveRDS(sta_brm, "output/sta_brm_noslope.rds") # save with no random slope term
   saveRDS(sta_brm, "output/sta_brm.rds")
 } else {
-  sta_brm <- readRDS('output/sta_brm.rds')
+  sta_brm <- readRDS('output/sta_brm_noslope.rds')
 }
 
 ```
@@ -276,12 +278,12 @@ sta_pvals <- bayestestR::p_direction(sta_brm) %>%
 
 bind_rows(
   des_test %>% 
-    mutate(vars = c('TreatmentP', 'Sexm', 'TreatmentP.Sexm')) %>% 
+    mutate(vars = c('TreatmentP', 'Sexm', 'TreatmentP:Sexm')) %>% 
     left_join(des_pvals %>% filter(vars != 'Intercept'), 
               by = c("vars")) %>% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star),
   sta_test %>% 
-    mutate(vars = c('TreatmentP', 'Sexm', 'TreatmentP.Sexm')) %>% 
+    mutate(vars = c('TreatmentP', 'Sexm', 'TreatmentP:Sexm')) %>% 
     left_join(sta_pvals %>% filter(vars != 'Intercept'), 
               by = c("vars")) %>% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star)

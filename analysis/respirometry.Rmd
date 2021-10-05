@@ -246,6 +246,8 @@ node [shape = rectangle, style = filled, fillcolor = Linen]
 # edge definitions with the node IDs
 "Mating system\ntreatment (E vs. M)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"} -> {"Metabolic\nrate", "Metabolic\nsubstrate"} 
 
+"Sex\n(Female vs. Male)" -> {"Other factors\n(e.g. physiology)", "Body mass" , "Activity"}
+
 {"Metabolic\nrate"} -> {"O\u2082 consumption", "CO\u2082 production"}
 {"O\u2082 consumption", "CO\u2082 production"} -> "Respiratory\nquotient (RQ)"
 {"Metabolic\nsubstrate"} -> "Respiratory\nquotient (RQ)"
@@ -372,8 +374,11 @@ if(!file.exists("output/brms_SEM_respiration.rds")){
     prior = prior_SEM,
     control = list(max_treedepth = 20, adapt_delta = 0.99))
   
+  #saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration_noslope.rds") # save with no random slope term
   saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration.rds")
-} else brms_SEM_respiration <- readRDS("output/brms_SEM_respiration.rds")
+} else {
+  brms_SEM_respiration <- readRDS("output/brms_SEM_respiration_noslope.rds")
+}
 ```
 
 
@@ -431,12 +436,14 @@ hypSEM <- left_join(
 
 hypSEM %>% 
   #write_csv('output/respirometry_SEM_table.csv')
+  mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
   group_rows("Oxygen consumption (VO2)", 1, 14) %>%
   group_rows("Respiratory quotient (RQ)", 15, 28) %>%
   group_rows("Activity level", 29, 40) %>%
   group_rows("Body weight", 41, 44) 
+
 ```
 
 ### Complete output from `summary.brmsfit()`
@@ -736,7 +743,7 @@ lay <- rbind(c(1, 1, 1, 2, 2, 3, 3, 3),
 # grid.arrange(grobs = list(ggplotGrob(px),
 #                           ggplotGrob(py),
 #                           ggplotGrob(pz)),
-#              layout_matrix = lay) %>% 
+#              layout_matrix = lay) %>%
 #   ggsave("figures/respiration_figure_cycleI.pdf", plot = ., height = 2.5, width = 5.5)
 
 ```
@@ -842,7 +849,3 @@ treatsex_interaction %>%
   kable(digits=3) %>%
   kable_styling(full_width = FALSE)
 ```
-
-
-
-

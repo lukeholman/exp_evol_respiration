@@ -8,7 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-The following website details the statistical analysis for a forthcoming paper by Garlovsky, Brooks, Holman and Snook.
+The following website details the statistical analysis for a forthcoming paper by Garlovsky, Holman, Brooks, Novicic  and Snook.
 
 ### [1. Juvenile development time](juvenile_development.html)
 

@@ -225,9 +225,10 @@ if(!file.exists("output/cox_brms.rds")){
                               adapt_delta = 0.999),
                data = ecl.dat, family = cox())
   
+  #saveRDS(cox_brm, "output/cox_brms_noslope.rds") # save with no random slope term
   saveRDS(cox_brm, "output/cox_brms.rds")
 } else {
-  cox_brm <- readRDS('output/cox_brms.rds')
+  cox_brm <- readRDS('output/cox_brms_noslope.rds')
 }
 
 ```
@@ -256,7 +257,7 @@ pvals <- bayestestR::p_direction(cox_brm) %>%
   select(vars, p_val, star)
 
 hyp_test %>% 
-  mutate(vars = c('TRTP', 'SEXm', 'TRTP.SEXm', 'SEEDB', 'SEEDC')) %>% 
+  mutate(vars = c('TRTP', 'SEXm', 'TRTP:SEXm', 'SEEDB', 'SEEDC')) %>% 
   left_join(pvals %>% filter(vars != 'Intercept'), 
             by = c("vars")) %>% 
   select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
@@ -336,7 +337,7 @@ treatsex_eclosion %>%
         text = element_text(family = nice_font),
         strip.background = element_blank()) +
   ylab("Posterior density") +
-  #ggsave("figures/metabolite_interaction_plot.pdf", height=4, width=6) +
+  #ggsave("figures/eclosion_interaction_plot.pdf", height=4, width=6) +
   NULL
 ```
 
@@ -383,7 +384,7 @@ sex_eclosion <- posterior_samples(cox_brm) %>%
 
 sex_eclosion %>%
   ggplot(aes(x = TRT, y = `Difference in means (Female - Male)`, fill = TRT)) +
-  #geom_hline(yintercept = 0, linetype = 2) +
+  geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
@@ -456,9 +457,10 @@ if(!file.exists("output/wing_brms.rds")){
                  adapt_delta = 0.999)
   )
   
+  #saveRDS(wing_brms, "output/wing_brms_noslope.rds") # save with no random slope term
   saveRDS(wing_brms, "output/wing_brms.rds")
 } else {
-  wing_brms <- readRDS('output/wing_brms.rds')
+  wing_brms <- readRDS('output/wing_brms_noslope.rds')
 }
 
 ```
@@ -491,7 +493,7 @@ pvals <- bayestestR::p_direction(wing_brms) %>%
          star = ifelse(p_val < 0.05, "\\*", "")) %>%
   select(vars, p_val, star)
 
-wing_test %>% mutate(vars = c('TreatmentP', 'SexM', 'TreatmentP.SexM', 'SeedB', 'SeedC')) %>% 
+wing_test %>% mutate(vars = c('TreatmentP', 'SexM', 'TreatmentP:SexM', 'SeedB', 'SeedC')) %>% 
   left_join(pvals %>% filter(vars != 'Intercept'), 
               by = c("vars")) %>% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
