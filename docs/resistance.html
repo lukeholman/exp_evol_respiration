@@ -13,13 +13,22 @@
 
 <title>Desiccation and starvation resistance</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
@@ -52,11 +61,6 @@ div.section {
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -69,32 +73,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 
@@ -105,10 +83,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -125,40 +99,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -186,7 +133,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -198,7 +145,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -209,10 +156,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -224,7 +184,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -353,7 +312,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -398,7 +357,7 @@ div.tocify {
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/lukeholman/exp_evol_respiration">
-    <span class="fas fa-github"></span>
+    <span class="fa fa-github"></span>
      
     Source code
   </a>
@@ -408,11 +367,11 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
-<div class="btn-group pull-right">
-<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
-<ul class="dropdown-menu" style="min-width: 50px;">
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
 <li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
 <li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
 </ul>
@@ -445,7 +404,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-03-23
+<strong>Last updated:</strong> 2021-10-05
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -536,16 +495,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1e31cebd530adac126a3624134c3a3860e585742targetblank1e31ceba"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1e31cebd530adac126a3624134c3a3860e585742" target="_blank">1e31ceb</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1c2e52c92c2f8db45fbfb28ee9fe4ba543b13f38targetblank1c2e52ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1c2e52c92c2f8db45fbfb28ee9fe4ba543b13f38" target="_blank">1c2e52c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1e31cebd530adac126a3624134c3a3860e585742targetblank1e31ceba" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree1c2e52c92c2f8db45fbfb28ee9fe4ba543b13f38targetblank1c2e52ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1e31cebd530adac126a3624134c3a3860e585742" target="_blank">1e31ceb</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/1c2e52c92c2f8db45fbfb28ee9fe4ba543b13f38" target="_blank">1c2e52c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -567,6 +526,7 @@ Untracked files:
     Untracked:  data/4.metabolite_data.csv
     Untracked:  figures/desiccation.pdf
     Untracked:  figures/eclosion.pdf
+    Untracked:  figures/eclosion_interaction_plot.pdf
     Untracked:  figures/metaboliteDAG.pdf
     Untracked:  figures/metabolite_plotCONTROLLED.pdf
     Untracked:  figures/metabolite_plotCONTROLLED_nolines.pdf
@@ -577,9 +537,15 @@ Untracked files:
     Untracked:  figures/respiration_figure_cycleI_inkscape.pdf
     Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
+    Untracked:  output/brms_SEM_respiration_noslope.rds
+    Untracked:  output/brms_metabolite_SEM_noslope.rds
+    Untracked:  output/cox_brms_noslope.rds
+    Untracked:  output/des_brm_noslope.rds
     Untracked:  output/metabolite_SEM_table.csv
     Untracked:  output/respirometry_SEM_table.csv
+    Untracked:  output/sta_brm_noslope.rds
     Untracked:  output/stress_medians.csv
+    Untracked:  output/wing_brms_noslope.rds
 
 Unstaged changes:
     Modified:   analysis/metabolites.Rmd
@@ -636,6 +602,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/1c2e52c92c2f8db45fbfb28ee9fe4ba543b13f38/analysis/resistance.Rmd" target="_blank">1c2e52c</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-10-05
+</td>
+<td>
+wflow_publish(c(“analysis/index.Rmd”, “analysis/juvenile_development.Rmd”,
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/151e6fb225a2326a9de0e1239ad5b69a739c52cd/docs/resistance.html" target="_blank">151e6fb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -1225,6 +1225,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/151e6fb225a2326a9de0e1239ad5b69a739c52cd/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">151e6fb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/resistance.Rmd/unnamed-chunk-3-1.png" target="_blank">21567bb</a>
 </td>
 <td>
@@ -1456,6 +1467,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/151e6fb225a2326a9de0e1239ad5b69a739c52cd/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">151e6fb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-23
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/resistance.Rmd/unnamed-chunk-4-2.png" target="_blank">21567bb</a>
 </td>
 <td>
@@ -1572,7 +1594,7 @@ Median (± 95% CI)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 M
 </td>
 <td style="text-align:left;">
@@ -1589,7 +1611,7 @@ Female
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 M
 </td>
 <td style="text-align:left;">
@@ -1606,7 +1628,7 @@ Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 E
 </td>
 <td style="text-align:left;">
@@ -1623,7 +1645,7 @@ Female
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 E
 </td>
 <td style="text-align:left;">
@@ -1645,7 +1667,7 @@ Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 M
 </td>
 <td style="text-align:left;">
@@ -1662,7 +1684,7 @@ Female
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 M
 </td>
 <td style="text-align:left;">
@@ -1679,7 +1701,7 @@ Male
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 E
 </td>
 <td style="text-align:left;">
@@ -1696,7 +1718,7 @@ Female
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 E
 </td>
 <td style="text-align:left;">
@@ -1761,6 +1783,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/151e6fb225a2326a9de0e1239ad5b69a739c52cd/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">151e6fb</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-03-23
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/lukeholman/exp_evol_respiration/blob/21567bbae3fc026d5c2b3c4f9cb4a6bbed091da2/docs/figure/resistance.Rmd/unnamed-chunk-6-1.png" target="_blank">21567bb</a>
@@ -1835,9 +1868,10 @@ Martin Garlovsky
                               adapt_delta = 0.999),
                data = DesRes, family = weibull())
   
+  #saveRDS(des_brm, &quot;output/des_brm_noslope.rds&quot;) # save with no random slope term
   saveRDS(des_brm, &quot;output/des_brm.rds&quot;)
 } else {
-  des_brm &lt;- readRDS(&#39;output/des_brm.rds&#39;)
+  des_brm &lt;- readRDS(&#39;output/des_brm_noslope.rds&#39;)
 }
 
 
@@ -1853,9 +1887,10 @@ if(!file.exists(&quot;output/sta_brm.rds&quot;)){ # if the model doesn&#39;t exi
                data = StaRes %&gt;% mutate(EVENT = if_else(EVENT == 1, 0, 1)), 
                family = weibull())
   
+  #saveRDS(sta_brm, &quot;output/sta_brm_noslope.rds&quot;) # save with no random slope term
   saveRDS(sta_brm, &quot;output/sta_brm.rds&quot;)
 } else {
-  sta_brm &lt;- readRDS(&#39;output/sta_brm.rds&#39;)
+  sta_brm &lt;- readRDS(&#39;output/sta_brm_noslope.rds&#39;)
 }</code></pre>
 <div id="table-of-model-parameter-estimates---eclosion-time" class="section level3 tabset">
 <h3 class="tabset">Table of model parameter estimates - eclosion time</h3>
@@ -1896,12 +1931,12 @@ sta_pvals &lt;- bayestestR::p_direction(sta_brm) %&gt;%
 
 bind_rows(
   des_test %&gt;% 
-    mutate(vars = c(&#39;TreatmentP&#39;, &#39;Sexm&#39;, &#39;TreatmentP.Sexm&#39;)) %&gt;% 
+    mutate(vars = c(&#39;TreatmentP&#39;, &#39;Sexm&#39;, &#39;TreatmentP:Sexm&#39;)) %&gt;% 
     left_join(des_pvals %&gt;% filter(vars != &#39;Intercept&#39;), 
               by = c(&quot;vars&quot;)) %&gt;% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star),
   sta_test %&gt;% 
-    mutate(vars = c(&#39;TreatmentP&#39;, &#39;Sexm&#39;, &#39;TreatmentP.Sexm&#39;)) %&gt;% 
+    mutate(vars = c(&#39;TreatmentP&#39;, &#39;Sexm&#39;, &#39;TreatmentP:Sexm&#39;)) %&gt;% 
     left_join(sta_pvals %&gt;% filter(vars != &#39;Intercept&#39;), 
               by = c(&quot;vars&quot;)) %&gt;% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star)
@@ -1944,36 +1979,36 @@ p
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
-0.055
+0.054
 </td>
 <td style="text-align:right;">
-0.098
+0.085
 </td>
 <td style="text-align:right;">
--0.139
+-0.117
 </td>
 <td style="text-align:right;">
-0.256
+0.224
 </td>
 <td style="text-align:left;">
-0.269
+0.24
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
 -0.167
 </td>
 <td style="text-align:right;">
-0.033
+0.032
 </td>
 <td style="text-align:right;">
 -0.229
@@ -1989,7 +2024,7 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
@@ -1999,13 +2034,13 @@ Treatment (E) x Sex (M)
 0.046
 </td>
 <td style="text-align:right;">
--0.189
+-0.188
 </td>
 <td style="text-align:right;">
 -0.007
 </td>
 <td style="text-align:left;">
-0.017
+0.018
 </td>
 <td style="text-align:left;">
 *
@@ -2017,42 +2052,42 @@ Treatment (E) x Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E)
 </td>
 <td style="text-align:right;">
-0.088
+0.083
 </td>
 <td style="text-align:right;">
-0.108
+0.097
 </td>
 <td style="text-align:right;">
--0.132
+-0.112
 </td>
 <td style="text-align:right;">
-0.302
+0.273
 </td>
 <td style="text-align:left;">
-0.184
+0.181
 </td>
 <td style="text-align:left;">
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Sex (M)
 </td>
 <td style="text-align:right;">
--0.334
+-0.322
 </td>
 <td style="text-align:right;">
-0.036
+0.035
 </td>
 <td style="text-align:right;">
--0.404
+-0.391
 </td>
 <td style="text-align:right;">
--0.265
+-0.256
 </td>
 <td style="text-align:left;">
 &lt; 0.001
@@ -2062,20 +2097,20 @@ Sex (M)
 </td>
 </tr>
 <tr>
-<td style="text-align:left; padding-left:  2em;" indentlevel="1">
+<td style="text-align:left;padding-left: 2em;" indentlevel="1">
 Treatment (E) x Sex (M)
 </td>
 <td style="text-align:right;">
--0.131
+-0.126
 </td>
 <td style="text-align:right;">
-0.050
+0.049
 </td>
 <td style="text-align:right;">
--0.228
+-0.222
 </td>
 <td style="text-align:right;">
--0.031
+-0.029
 </td>
 <td style="text-align:left;">
 0.005
@@ -2100,38 +2135,32 @@ Treatment (E) x Sex (M)
 <pre class="r"><code>des_brm</code></pre>
 <pre> Family: weibull 
   Links: mu = log; shape = identity 
-Formula: survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment | LINE) + (1 | ID) 
+Formula: survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1 | LINE) + (1 | ID) 
    Data: DesRes (Number of observations: 438) 
-Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
-         total post-warmup samples = 10000
+  Draws: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup draws = 10000
 
 Group-Level Effects: 
 ~ID (Number of levels: 146) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.11      0.01     0.09     0.13 1.00     2793     4912
+sd(Intercept)     0.11      0.01     0.09     0.13 1.00     3552     5532
 
 ~LINE (Number of levels: 8) 
-                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-sd(Intercept)                 0.11      0.04     0.05     0.22 1.00     3291
-sd(TreatmentP)                0.07      0.07     0.00     0.26 1.00     3111
-cor(Intercept,TreatmentP)    -0.15      0.57    -0.96     0.92 1.00     4892
-                          Tail_ESS
-sd(Intercept)                 5284
-sd(TreatmentP)                5026
-cor(Intercept,TreatmentP)     5213
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.11      0.04     0.06     0.20 1.00     3911     5251
 
 Population-Level Effects: 
                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept           3.66      0.06     3.53     3.79 1.00     2749     4013
-TreatmentP          0.05      0.10    -0.14     0.26 1.00     2782     3535
-Sexm               -0.17      0.03    -0.23    -0.10 1.00     2900     4317
-TreatmentP:Sexm    -0.10      0.05    -0.19    -0.01 1.00     2685     4957
+Intercept           3.66      0.06     3.54     3.78 1.00     4601     5308
+TreatmentP          0.05      0.09    -0.12     0.22 1.00     4334     6055
+Sexm               -0.17      0.03    -0.23    -0.10 1.00     5200     6875
+TreatmentP:Sexm    -0.10      0.05    -0.19    -0.01 1.00     4810     6616
 
 Family Specific Parameters: 
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-shape     7.56      0.37     6.86     8.29 1.00     4599     6970
+shape     7.56      0.36     6.89     8.28 1.00     6108     7957
 
-Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
 </pre>
@@ -2141,38 +2170,32 @@ scale reduction factor on split chains (at convergence, Rhat = 1).
 <pre class="r"><code>sta_brm</code></pre>
 <pre> Family: weibull 
   Links: mu = log; shape = identity 
-Formula: survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment | LINE) + (1 | ID) 
+Formula: survival.time | cens(EVENT) ~ Treatment * Sex + (1 | LINE) + (1 | ID) 
    Data: StaRes %>% mutate(EVENT = if_else(EVENT == 1, 0, 1 (Number of observations: 480) 
-Samples: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
-         total post-warmup samples = 10000
+  Draws: 4 chains, each with iter = 5000; warmup = 2500; thin = 1;
+         total post-warmup draws = 10000
 
 Group-Level Effects: 
 ~ID (Number of levels: 160) 
               Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-sd(Intercept)     0.12      0.01     0.10     0.14 1.00     3767     5984
+sd(Intercept)     0.12      0.01     0.09     0.14 1.00     4057     6009
 
 ~LINE (Number of levels: 8) 
-                          Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS
-sd(Intercept)                 0.14      0.05     0.07     0.27 1.00     3864
-sd(TreatmentP)                0.08      0.08     0.00     0.27 1.00     3801
-cor(Intercept,TreatmentP)    -0.24      0.56    -0.98     0.91 1.00     6686
-                          Tail_ESS
-sd(Intercept)                 4216
-sd(TreatmentP)                4370
-cor(Intercept,TreatmentP)     5591
+              Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
+sd(Intercept)     0.13      0.04     0.07     0.23 1.00     3677     5482
 
 Population-Level Effects: 
                 Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-Intercept           4.07      0.08     3.92     4.23 1.00     3627     4963
-TreatmentP          0.09      0.11    -0.13     0.30 1.00     4401     4844
-Sexm               -0.33      0.04    -0.40    -0.27 1.00     4801     6136
-TreatmentP:Sexm    -0.13      0.05    -0.23    -0.03 1.00     4838     5556
+Intercept           4.11      0.07     3.97     4.25 1.00     3511     4489
+TreatmentP          0.08      0.10    -0.11     0.27 1.00     3727     4908
+Sexm               -0.32      0.03    -0.39    -0.26 1.00     4942     5685
+TreatmentP:Sexm    -0.13      0.05    -0.22    -0.03 1.00     4874     6607
 
 Family Specific Parameters: 
       Estimate Est.Error l-95% CI u-95% CI Rhat Bulk_ESS Tail_ESS
-shape     5.68      0.26     5.19     6.19 1.00     5846     6682
+shape     5.96      0.27     5.45     6.49 1.00     6453     7484
 
-Samples were drawn using sampling(NUTS). For each parameter, Bulk_ESS
+Draws were sampled using sampling(NUTS). For each parameter, Bulk_ESS
 and Tail_ESS are effective sample size measures, and Rhat is the potential
 scale reduction factor on split chains (at convergence, Rhat = 1).
 </pre>
@@ -2711,16 +2734,16 @@ p
 Dessication
 </td>
 <td style="text-align:right;">
--3.554
+-3.562
 </td>
 <td style="text-align:right;">
--7.214
+-7.090
 </td>
 <td style="text-align:right;">
--0.018
+-0.065
 </td>
 <td style="text-align:right;">
-0.024
+0.023
 </td>
 <td style="text-align:left;">
 *
@@ -2731,16 +2754,16 @@ Dessication
 Starvation
 </td>
 <td style="text-align:right;">
--7.149
+-7.111
 </td>
 <td style="text-align:right;">
--14.148
+-13.423
 </td>
 <td style="text-align:right;">
--0.460
+-0.573
 </td>
 <td style="text-align:right;">
-0.018
+0.016
 </td>
 <td style="text-align:left;">
 *
@@ -2771,61 +2794,64 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] showtext_0.9-2   showtextdb_3.0   sysfonts_0.8.3   knitrhooks_0.0.4
- [5] knitr_1.31       kableExtra_1.3.1 ggridges_0.5.3   tidybayes_2.3.1 
- [9] brms_2.14.4      Rcpp_1.0.6       coxme_2.2-16     bdsmatrix_1.3-4 
-[13] survival_3.2-7   forcats_0.5.1    stringr_1.4.0    dplyr_1.0.3     
-[17] purrr_0.3.4      readr_1.4.0      tidyr_1.1.2      tibble_3.0.5    
-[21] ggplot2_3.3.3    tidyverse_1.3.0  workflowr_1.6.2 
+ [1] showtext_0.9-4   showtextdb_3.0   sysfonts_0.8.5   knitrhooks_0.0.4
+ [5] knitr_1.33       kableExtra_1.3.4 ggridges_0.5.3   tidybayes_3.0.1 
+ [9] brms_2.16.1      Rcpp_1.0.7       coxme_2.2-16     bdsmatrix_1.3-4 
+[13] survival_3.2-12  forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7     
+[17] purrr_0.3.4      readr_2.0.1      tidyr_1.1.3      tibble_3.1.3    
+[21] ggplot2_3.3.5    tidyverse_1.3.1  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
-  [1] readxl_1.3.1         backports_1.2.1      plyr_1.8.6          
-  [4] igraph_1.2.6         splines_4.0.3        svUnit_1.0.3        
-  [7] crosstalk_1.1.1      rstantools_2.1.1     inline_0.3.17       
- [10] digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.16    
- [13] fansi_0.4.2          magrittr_2.0.1       openxlsx_4.2.3      
- [16] modelr_0.1.8         RcppParallel_5.0.2   matrixStats_0.57.0  
- [19] xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-0    
- [22] rvest_0.3.6          ggdist_2.4.0         haven_2.3.1         
- [25] xfun_0.20            callr_3.5.1          crayon_1.3.4        
- [28] jsonlite_1.7.2       lme4_1.1-26          zoo_1.8-8           
- [31] glue_1.4.2           survminer_0.4.8      gtable_0.3.0        
- [34] webshot_0.5.2        V8_3.4.0             distributional_0.2.1
- [37] car_3.0-10           pkgbuild_1.2.0       rstan_2.21.1        
- [40] abind_1.4-5          scales_1.1.1         mvtnorm_1.1-1       
- [43] DBI_1.1.1            rstatix_0.6.0        miniUI_0.1.1.1      
- [46] viridisLite_0.3.0    xtable_1.8-4         foreign_0.8-81      
- [49] km.ci_0.5-2          stats4_4.0.3         StanHeaders_2.21.0-7
- [52] DT_0.17              htmlwidgets_1.5.3    httr_1.4.2          
- [55] threejs_0.3.3        RColorBrewer_1.1-2   arrayhelpers_1.1-0  
- [58] ellipsis_0.3.1       pkgconfig_2.0.3      loo_2.4.1           
- [61] farver_2.0.3         dbplyr_2.0.0         labeling_0.4.2      
- [64] tidyselect_1.1.0     rlang_0.4.10         reshape2_1.4.4      
- [67] later_1.1.0.1        munsell_0.5.0        cellranger_1.1.0    
- [70] tools_4.0.3          cli_2.2.0            generics_0.1.0      
- [73] broom_0.7.3          evaluate_0.14        fastmap_1.1.0       
- [76] yaml_2.2.1           processx_3.4.5       fs_1.5.0            
- [79] zip_2.1.1            survMisc_0.5.5       nlme_3.1-151        
- [82] whisker_0.4          mime_0.9             projpred_2.0.2      
- [85] xml2_1.3.2           compiler_4.0.3       bayesplot_1.8.0     
- [88] shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6         
- [91] curl_4.3             ggsignif_0.6.0       reprex_1.0.0        
- [94] statmod_1.4.35       stringi_1.5.3        highr_0.8           
- [97] ps_1.5.0             Brobdingnag_1.2-6    lattice_0.20-41     
-[100] Matrix_1.3-2         nloptr_1.2.2.2       markdown_1.1        
-[103] KMsurv_0.1-5         shinyjs_2.0.0        vctrs_0.3.6         
-[106] pillar_1.4.7         lifecycle_0.2.0      bridgesampling_1.0-0
-[109] insight_0.12.0       data.table_1.13.6    httpuv_1.5.5        
-[112] R6_2.5.0             promises_1.1.1       rio_0.5.16          
-[115] gridExtra_2.3        codetools_0.2-18     boot_1.3-26         
-[118] colourpicker_1.1.0   MASS_7.3-53          gtools_3.8.2        
-[121] assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.1         
-[124] shinystan_2.5.0      bayestestR_0.8.2     mgcv_1.8-33         
-[127] parallel_4.0.3       hms_1.0.0            grid_4.0.3          
-[130] coda_0.19-4          minqa_1.2.4          rmarkdown_2.6       
-[133] carData_3.0-4        ggpubr_0.4.0         git2r_0.28.0        
-[136] shiny_1.6.0          lubridate_1.7.9.2    base64enc_0.1-3     
-[139] dygraphs_1.1.1.6    
+  [1] utf8_1.2.2           tidyselect_1.1.1     lme4_1.1-27.1       
+  [4] htmlwidgets_1.5.3    grid_4.0.3           munsell_0.5.0       
+  [7] codetools_0.2-18     DT_0.18              miniUI_0.1.1.1      
+ [10] withr_2.4.2          Brobdingnag_1.2-6    colorspace_2.0-2    
+ [13] highr_0.9            rstudioapi_0.13      stats4_4.0.3        
+ [16] ggsignif_0.6.2       bayesplot_1.8.1      labeling_0.4.2      
+ [19] git2r_0.28.0         rstan_2.21.1         KMsurv_0.1-5        
+ [22] farver_2.1.0         datawizard_0.2.0     bridgesampling_1.1-2
+ [25] rprojroot_2.0.2      coda_0.19-4          vctrs_0.3.8         
+ [28] generics_0.1.0       xfun_0.25            R6_2.5.1            
+ [31] markdown_1.1         gamm4_0.2-6          projpred_2.0.2      
+ [34] assertthat_0.2.1     promises_1.2.0.1     scales_1.1.1        
+ [37] gtable_0.3.0         processx_3.5.2       rlang_0.4.11        
+ [40] systemfonts_1.0.2    splines_4.0.3        rstatix_0.7.0       
+ [43] broom_0.7.9          checkmate_2.0.0      inline_0.3.19       
+ [46] yaml_2.2.1           reshape2_1.4.4       abind_1.4-5         
+ [49] modelr_0.1.8         threejs_0.3.3        crosstalk_1.1.1     
+ [52] backports_1.2.1      httpuv_1.6.2         rsconnect_0.8.24    
+ [55] tensorA_0.36.2       tools_4.0.3          ellipsis_0.3.2      
+ [58] RColorBrewer_1.1-2   jquerylib_0.1.4      posterior_1.0.1     
+ [61] plyr_1.8.6           base64enc_0.1-3      ps_1.6.0            
+ [64] prettyunits_1.1.1    ggpubr_0.4.0         zoo_1.8-9           
+ [67] haven_2.4.3          fs_1.5.0             magrittr_2.0.1      
+ [70] data.table_1.14.0    ggdist_3.0.0         openxlsx_4.2.4      
+ [73] colourpicker_1.1.0   reprex_2.0.1         survminer_0.4.9     
+ [76] mvtnorm_1.1-2        whisker_0.4          matrixStats_0.60.0  
+ [79] hms_1.1.0            shinyjs_2.0.0        mime_0.11           
+ [82] evaluate_0.14        arrayhelpers_1.1-0   xtable_1.8-4        
+ [85] shinystan_2.5.0      rio_0.5.27           readxl_1.3.1        
+ [88] gridExtra_2.3        rstantools_2.1.1     compiler_4.0.3      
+ [91] V8_3.4.2             crayon_1.4.1         minqa_1.2.4         
+ [94] StanHeaders_2.21.0-7 htmltools_0.5.1.1    mgcv_1.8-36         
+ [97] later_1.3.0          tzdb_0.1.2           RcppParallel_5.1.4  
+[100] lubridate_1.7.10     DBI_1.1.1            dbplyr_2.1.1        
+[103] MASS_7.3-54          boot_1.3-28          Matrix_1.3-4        
+[106] car_3.0-11           cli_3.0.1            parallel_4.0.3      
+[109] insight_0.14.3       igraph_1.2.6         pkgconfig_2.0.3     
+[112] km.ci_0.5-2          foreign_0.8-81       xml2_1.3.2          
+[115] svUnit_1.0.6         dygraphs_1.1.1.6     svglite_2.0.0       
+[118] bslib_0.2.5.1        webshot_0.5.2        rvest_1.0.1         
+[121] distributional_0.2.2 callr_3.7.0          digest_0.6.27       
+[124] rmarkdown_2.10       cellranger_1.1.0     survMisc_0.5.5      
+[127] curl_4.3.2           shiny_1.6.0          gtools_3.9.2        
+[130] nloptr_1.2.2.2       lifecycle_1.0.0      nlme_3.1-152        
+[133] jsonlite_1.7.2       carData_3.0-4        viridisLite_0.4.0   
+[136] fansi_0.5.0          pillar_1.6.2         lattice_0.20-44     
+[139] loo_2.4.1            fastmap_1.1.0        httr_1.4.2          
+[142] pkgbuild_1.2.0       glue_1.4.2           xts_0.12.1          
+[145] bayestestR_0.10.5    zip_2.2.0            shinythemes_1.2.0   
+[148] stringi_1.7.3        sass_0.4.0          
 </pre>
 </div>
 </div>
@@ -2875,7 +2901,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -2889,6 +2915,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
