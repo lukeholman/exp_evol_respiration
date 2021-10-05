@@ -69,7 +69,7 @@ This analysis set out to test whether sexual selection treatment had an effect o
 We expect body weight to vary between the sexes and potentially between treatments. In turn, we expect body weight might co-vary with the five metabolite concentrations, e.g. because flies might become heavier by sequestering proportionally more of particular metabolites. There might also be weight-independent effects of sex and selection treatment on metabolite composition.
 
 ```{r}
-metabolites <- read_csv('data/3.metabolite_data.csv') %>%
+metabolites <- read_csv('data/4.metabolite_data.csv') %>%
   mutate(sex = ifelse(sex == "m", "Male", "Female"),
          line = paste(treatment, line, sep = ""),
          treatment = ifelse(treatment == "M", "Monogamy", "Polyandry")) %>%
@@ -343,9 +343,10 @@ if(!file.exists("output/brms_metabolite_SEM.rds")){
                    adapt_delta = 0.99)
   )
   
+  #saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM_noslope.rds") # save with no random slope term
   saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM.rds")
 } else {
-  brms_metabolite_SEM <- readRDS('output/brms_metabolite_SEM.rds')
+  brms_metabolite_SEM <- readRDS('output/brms_metabolite_SEM_noslope.rds')
 }
 ```
 
@@ -436,6 +437,8 @@ hypSEM %>%
   select(Parameter, Estimate = est, `Est. error` = err, 
          `CI lower` = lwr, `CI upper` = upr, `p` = p_val, star) %>% 
   rename(` ` = star) %>%
+  #write_csv('output/metabolite_SEM_table.csv')
+  mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
   kable() %>% 
   kable_styling(full_width = FALSE) %>%
   group_rows("Carbohydrates", 1, 4) %>%
@@ -509,7 +512,7 @@ new_metabolites <- bind_rows(
 # this function predicts at the global means across the 4 lines (see ?posterior_epred)
 fitted_values <- posterior_epred(
   brms_metabolite_SEM, newdata = new_metabolites, re_formula = NA,
-  summary = FALSE, resp = c("Carbohydrate", "Chitin", "Glycogen", "Lipid", "Protein")) %>% 
+  summary = FALSE) %>% 
   reshape2::melt() %>% rename(draw = Var1, type = Var2, variable = Var3) %>% 
   as_tibble() %>%
   left_join(new_metabolites, by = "type") %>%
@@ -558,10 +561,10 @@ p1 <- treat_diff_actual_dryweight %>%
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`,fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
-  geom_line(data = treat_diff_actual_dryweight %>%
-              filter(draw %in% sampled_draws) %>%
-              filter(variable != 'Dryweight'), 
-            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
+  # geom_line(data = treat_diff_actual_dryweight %>%
+  #             filter(draw %in% sampled_draws) %>%
+  #             filter(variable != 'Dryweight'), 
+  #           alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
   geom_point(data = summary_dat1, pch = 21, colour = "black", size = 3.1) + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
@@ -573,7 +576,7 @@ p1 <- treat_diff_actual_dryweight %>%
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab("Difference in means between\nselection treatments (E - M)") + xlab("Sex") +
-  #ggsave("figures/metabolite_plot.pdf", height=3, width=6) +
+  #ggsave("figures/metabolite_plot_nolines.pdf", height=2.5, width=6) +
   NULL
 p1
 ```
@@ -589,10 +592,10 @@ treat_diff_standard_dryweight %>%
   ggplot(aes(x = sex, y = `Difference in means (Poly - Mono)`, fill = sex)) +
   geom_hline(yintercept = 0, linetype = 2) +
   stat_halfeye() + 
-  geom_line(data = treat_diff_standard_dryweight %>%
-              filter(draw %in% sampled_draws) %>%
-              filter(variable != 'Dryweight'), 
-            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
+  # geom_line(data = treat_diff_standard_dryweight %>%
+  #             filter(draw %in% sampled_draws) %>%
+  #             filter(variable != 'Dryweight'), 
+  #           alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
   geom_point(data = summary_dat2, pch = 21, colour = "black", size = 3.1) + 
   scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
   scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
@@ -604,7 +607,7 @@ treat_diff_standard_dryweight %>%
         panel.grid.major.x = element_blank()) +
   coord_cartesian(ylim = ylims) + 
   ylab("Difference in means between\nselection treatments (E - M)") + xlab("Sex") + 
-  #ggsave('figures/metabolite_plotCONTROLLED.pdf', height=3, width=6) +
+  #ggsave('figures/metabolite_plotCONTROLLED_nolines.pdf', height=2.5, width=6) +
   NULL
 ```
 
@@ -730,68 +733,5 @@ treatsex_interaction_data2 %>%
   kable(digits=3) %>%
   kable_styling(full_width = FALSE)
 
-```
-
-
-## Posterior effect size of sex on metabolite abundance, for each treatment
-
-Similar to above, in this section we calculate the effect size of sex for each metabolite by subtracting the (treatment-specific) mean for males from the mean for females.
-
-
-```{r}
-sex_diff_actual_dryweight <- fitted_values %>%
-  filter(!(Dryweight %in% c(male_dryweight, female_dryweight))) %>% 
-  select(-Dryweight) %>%
-  pivot_wider(names_from = sex, 
-              values_from = c(value)) %>% 
-  mutate(`Difference in means (Female - Male)` = Female - Male)
-```
-
-
-#### Not controlling for differences in dry weight between sexes
-
-We find that most metabolites differ between the sexes and as the previous analysis looking at the treatment x sex interaction shows, this is largely the same across treatments. Males have more chitin and females have more lipids
-in both treatments, E females have more carbohydrates and E males, M females have more glycogen than M males,and E males have more protein than E females.
-
-```{r}
-summary_dat4 <- sex_diff_actual_dryweight %>%
-  rename(x = `Difference in means (Female - Male)`) %>%
-  group_by(variable, treatment)  %>%
-  summarise(`Difference in means (Female - Male)` = median(x),
-            `Lower 95% CI` = quantile(x, probs = 0.025), 
-            `Upper 95% CI` = quantile(x, probs = 0.975),
-            p = 1 - as.numeric(bayestestR::p_direction(x)),
-            ` ` = ifelse(p < 0.05, "\\*", ""),
-            .groups = "drop")
-
-sex_diff_actual_dryweight %>%
-  ggplot(aes(x = treatment, y = `Difference in means (Female - Male)`, fill = treatment)) +
-  geom_hline(yintercept = 0, linetype = 2) +
-  stat_halfeye() + 
-  geom_line(data = sex_diff_actual_dryweight %>%
-              filter(draw %in% sampled_draws) %>%
-              filter(variable != 'Dryweight'), 
-            alpha = 0.8, size = 0.12, colour = "black", aes(group = draw)) +
-  geom_point(data = summary_dat4, pch = 21, colour = "black", size = 3.1) + 
-  scale_fill_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  scale_colour_brewer(palette = 'Pastel1', direction = 1, name = "") +
-  facet_wrap( ~ variable,  nrow = 1) +
-  theme_bw() +
-  theme(legend.position = 'none',
-        strip.background = element_blank(),
-        text = element_text(family = nice_font),
-        panel.grid.major.x = element_blank()) +
-  coord_cartesian(ylim = c(-2, 2)) + 
-  ylab("Difference in means between\nsexes (Female - Male)") + xlab("Treatment") + 
-  #ggsave('figures/metabolite_plotCONTROLLED.pdf', height=3, width=6) +
-  NULL
-```
-
-#### Table
-
-```{r}
-summary_dat4 %>%
-  kable(digits = 3) %>%
-  kable_styling(full_width = FALSE)
 ```
 
