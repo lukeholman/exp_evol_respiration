@@ -1,5 +1,5 @@
 ---
-title: "Sexual selection shapes the evolution of physiological and life history traits: an experimental evolution approach"
+title: "Experimental sexual selection affects the evolution of physiological and life history traits"
 site: workflowr::wflow_site
 output:
   workflowr::wflow_html:
