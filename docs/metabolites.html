@@ -425,7 +425,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-10-06
+<strong>Last updated:</strong> 2022-02-24
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -516,16 +516,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7095d8f23d70a3e0a2944466e0e157ca890ad3a1targetblank7095d8fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7095d8f23d70a3e0a2944466e0e157ca890ad3a1" target="_blank">7095d8f</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec34db88ef86eb99b7ed1c5a1a3f9fa5b4f2114a5targetblankc34db88a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c34db88ef86eb99b7ed1c5a1a3f9fa5b4f2114a5" target="_blank">c34db88</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtree7095d8f23d70a3e0a2944466e0e157ca890ad3a1targetblank7095d8fa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomlukeholmanexpevolrespirationtreec34db88ef86eb99b7ed1c5a1a3f9fa5b4f2114a5targetblankc34db88a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/7095d8f23d70a3e0a2944466e0e157ca890ad3a1" target="_blank">7095d8f</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/lukeholman/exp_evol_respiration/tree/c34db88ef86eb99b7ed1c5a1a3f9fa5b4f2114a5" target="_blank">c34db88</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -559,17 +559,25 @@ Untracked files:
     Untracked:  figures/respiration_figure_noRQ.pdf
     Untracked:  figures/starvation.pdf
     Untracked:  output/brms_SEM_respiration_noslope.rds
+    Untracked:  output/brms_SEM_respiration_sextreatslope.rds
     Untracked:  output/brms_metabolite_SEM_noslope.rds
+    Untracked:  output/brms_metabolite_SEM_sextreatslope.rds
     Untracked:  output/cox_brms_noslope.rds
     Untracked:  output/des_brm_noslope.rds
+    Untracked:  output/des_brm_sexslope.rds
+    Untracked:  output/devotime_slopes_table.csv
+    Untracked:  output/metabolite_SEM_slopes_table.csv
     Untracked:  output/metabolite_SEM_table.csv
+    Untracked:  output/respirometry_SEM_slopes_table.csv
     Untracked:  output/respirometry_SEM_table.csv
     Untracked:  output/sta_brm_noslope.rds
     Untracked:  output/stress_medians.csv
+    Untracked:  output/stress_slopes_table.csv
     Untracked:  output/wing_brms_noslope.rds
+    Untracked:  output/wing_brms_sextreatslope.rds
+    Untracked:  output/wing_slopes_table.csv
 
 Unstaged changes:
-    Modified:   analysis/respirometry.Rmd
     Deleted:    data/1.eclosion_times.csv
     Deleted:    data/2.metabolic_rates.csv
     Deleted:    data/3.DesRes.csv
@@ -623,6 +631,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/lukeholman/exp_evol_respiration/blob/c34db88ef86eb99b7ed1c5a1a3f9fa5b4f2114a5/analysis/metabolites.Rmd" target="_blank">c34db88</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2022-02-24
+</td>
+<td>
+push revisions
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/lukeholman/exp_evol_respiration/64f386ba241b500b6cf462c06b8d4bfe6c256683/docs/metabolites.html" target="_blank">64f386b</a>
+</td>
+<td>
+MartinGarlovsky
+</td>
+<td>
+2021-10-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -2011,27 +2053,54 @@ prior1</code></pre>
   
   # Sub-models of the 5 metabolites
   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
-       sex*treatment + Dryweight + (treatment | p | line)) +
+       sex * treatment + Dryweight + (1 | p | line)) +
   
   # dry weight sub-model
-   bf(Dryweight ~ sex*treatment + (treatment | p | line)) +
+   bf(Dryweight ~ sex * treatment + (1 | p | line)) +
   
   # Allow for (and estimate) covariance between the residuals of the difference response variables
   set_rescor(TRUE)
 
+# # specify models with random slopes terms for sex and treatment
+# brms_formula &lt;- 
+#   
+#   # Sub-models of the 5 metabolites
+#   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
+#        sex*treatment + Dryweight + (sex + treatment| p | line)) +
+#   
+#   # dry weight sub-model
+#    bf(Dryweight ~ sex * treatment + (sex + treatment| p | line)) +
+#   
+#   # Allow for (and estimate) covariance between the residuals of the difference response variables
+#   set_rescor(TRUE)
+
+# # specify models with random slopes terms for treatment
+# brms_formula &lt;- 
+#   
+#   # Sub-models of the 5 metabolites
+#   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
+#        sex*treatment + Dryweight + (treatment | p | line)) +
+#   
+#   # dry weight sub-model
+#    bf(Dryweight ~ sex * treatment + (treatment | p | line)) +
+#   
+#   # Allow for (and estimate) covariance between the residuals of the difference response variables
+#   set_rescor(TRUE)
+
 brms_formula</code></pre>
-<pre>Lipid ~ sex * treatment + Dryweight + (treatment | p | line) 
-Carbohydrate ~ sex * treatment + Dryweight + (treatment | p | line) 
-Protein ~ sex * treatment + Dryweight + (treatment | p | line) 
-Glycogen ~ sex * treatment + Dryweight + (treatment | p | line) 
-Chitin ~ sex * treatment + Dryweight + (treatment | p | line) 
-Dryweight ~ sex * treatment + (treatment | p | line) 
+<pre>Lipid ~ sex * treatment + Dryweight + (1 | p | line) 
+Carbohydrate ~ sex * treatment + Dryweight + (1 | p | line) 
+Protein ~ sex * treatment + Dryweight + (1 | p | line) 
+Glycogen ~ sex * treatment + Dryweight + (1 | p | line) 
+Chitin ~ sex * treatment + Dryweight + (1 | p | line) 
+Dryweight ~ sex * treatment + (1 | p | line) 
 </pre>
 </div>
 <div id="running-the-model" class="section level3">
 <h3>Running the model</h3>
 <p>The model is run over 4 chains with 5000 iterations each (with the first 2500 discarded as burn-in), for a total of 2500*4 = 10,000 posterior samples.</p>
-<pre class="r"><code>if(!file.exists(&quot;output/brms_metabolite_SEM.rds&quot;)){
+<pre class="r"><code>if(!file.exists(&quot;output/brms_metabolite_SEM_noslope.rds&quot;)){
+  
   brms_metabolite_SEM &lt;- brm(
     brms_formula,
     data = scaled_metabolites %&gt;% # brms does not like underscores in variable names
@@ -2043,8 +2112,9 @@ Dryweight ~ sex * treatment + (treatment | p | line)
                    adapt_delta = 0.99)
   )
   
-  #saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM_noslope.rds&quot;) # save with no random slope term
-  saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM.rds&quot;)
+  saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM_noslope.rds&quot;)
+  #saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM.rds&quot;) # save with treatment random slope 
+  #saveRDS(brms_metabolite_SEM, &quot;output/brms_metabolite_SEM_sextreatslope.rds&quot;) # save with sex and treatment random slopes
 } else {
   brms_metabolite_SEM &lt;- readRDS(&#39;output/brms_metabolite_SEM_noslope.rds&#39;)
 }</code></pre>
@@ -2248,6 +2318,7 @@ hypSEM %&gt;%
   rename(` ` = star) %&gt;%
   #write_csv(&#39;output/metabolite_SEM_table.csv&#39;)
   mutate(p = ifelse(p &gt; 0.001, round(p, 3), &#39;&lt; 0.001&#39;)) %&gt;% 
+  #write_csv(&#39;output/metabolite_SEM_slopes_table.csv&#39;)
   kable() %&gt;% 
   kable_styling(full_width = FALSE) %&gt;%
   group_rows(&quot;Carbohydrates&quot;, 1, 4) %&gt;%
@@ -4415,31 +4486,32 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] showtext_0.9-4   showtextdb_3.0   sysfonts_0.8.5   knitrhooks_0.0.4 knitr_1.33       kableExtra_1.3.4 DT_0.18          tidybayes_3.0.1  brms_2.16.1     
+ [1] showtext_0.9-4   showtextdb_3.0   sysfonts_0.8.5   knitrhooks_0.0.4 knitr_1.33       kableExtra_1.3.4 DT_0.18          tidybayes_3.0.1  brms_2.16.3     
 [10] Rcpp_1.0.7       ggridges_0.5.3   gridExtra_2.3    GGally_2.1.2     forcats_0.5.1    stringr_1.4.0    dplyr_1.0.7      purrr_0.3.4      readr_2.0.1     
-[19] tidyr_1.1.3      tibble_3.1.3     ggplot2_3.3.5    tidyverse_1.3.1  workflowr_1.6.2 
+[19] tidyr_1.1.4      tibble_3.1.5     ggplot2_3.3.5    tidyverse_1.3.1  workflowr_1.6.2 
 
 loaded via a namespace (and not attached):
   [1] readxl_1.3.1         backports_1.2.1      systemfonts_1.0.2    plyr_1.8.6           igraph_1.2.6         svUnit_1.0.6         splines_4.0.3       
-  [8] crosstalk_1.1.1      rstantools_2.1.1     inline_0.3.19        digest_0.6.27        htmltools_0.5.1.1    rsconnect_0.8.24     fansi_0.5.0         
- [15] magrittr_2.0.1       checkmate_2.0.0      tzdb_0.1.2           modelr_0.1.8         RcppParallel_5.1.4   matrixStats_0.60.0   vroom_1.5.4         
- [22] svglite_2.0.0        xts_0.12.1           prettyunits_1.1.1    colorspace_2.0-2     rvest_1.0.1          ggdist_3.0.0         haven_2.4.3         
- [29] xfun_0.25            callr_3.7.0          crayon_1.4.1         jsonlite_1.7.2       lme4_1.1-27.1        zoo_1.8-9            glue_1.4.2          
- [36] gtable_0.3.0         webshot_0.5.2        V8_3.4.2             distributional_0.2.2 pkgbuild_1.2.0       rstan_2.21.1         abind_1.4-5         
- [43] scales_1.1.1         mvtnorm_1.1-2        DBI_1.1.1            miniUI_0.1.1.1       viridisLite_0.4.0    xtable_1.8-4         bit_4.0.4           
- [50] stats4_4.0.3         StanHeaders_2.21.0-7 datawizard_0.2.0     htmlwidgets_1.5.3    httr_1.4.2           DiagrammeR_1.0.6.1   threejs_0.3.3       
- [57] arrayhelpers_1.1-0   RColorBrewer_1.1-2   posterior_1.0.1      ellipsis_0.3.2       pkgconfig_2.0.3      reshape_0.8.8        loo_2.4.1           
- [64] farver_2.1.0         sass_0.4.0           dbplyr_2.1.1         utf8_1.2.2           labeling_0.4.2       tidyselect_1.1.1     rlang_0.4.11        
- [71] reshape2_1.4.4       later_1.3.0          visNetwork_2.0.9     munsell_0.5.0        cellranger_1.1.0     tools_4.0.3          cli_3.0.1           
- [78] generics_0.1.0       broom_0.7.9          evaluate_0.14        fastmap_1.1.0        yaml_2.2.1           bit64_4.0.5          processx_3.5.2      
- [85] fs_1.5.0             nlme_3.1-152         whisker_0.4          mime_0.11            projpred_2.0.2       xml2_1.3.2           compiler_4.0.3      
- [92] bayesplot_1.8.1      shinythemes_1.2.0    rstudioapi_0.13      gamm4_0.2-6          curl_4.3.2           reprex_2.0.1         bslib_0.2.5.1       
- [99] stringi_1.7.3        highr_0.9            ps_1.6.0             Brobdingnag_1.2-6    lattice_0.20-44      Matrix_1.3-4         nloptr_1.2.2.2      
-[106] markdown_1.1         shinyjs_2.0.0        tensorA_0.36.2       vctrs_0.3.8          pillar_1.6.2         lifecycle_1.0.0      jquerylib_0.1.4     
-[113] bridgesampling_1.1-2 insight_0.14.3       httpuv_1.6.2         R6_2.5.1             promises_1.2.0.1     codetools_0.2-18     boot_1.3-28         
-[120] colourpicker_1.1.0   MASS_7.3-54          gtools_3.9.2         assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.2          shinystan_2.5.0     
-[127] bayestestR_0.10.5    mgcv_1.8-36          parallel_4.0.3       hms_1.1.0            grid_4.0.3           coda_0.19-4          minqa_1.2.4         
-[134] rmarkdown_2.10       git2r_0.28.0         shiny_1.6.0          lubridate_1.7.10     base64enc_0.1-3      dygraphs_1.1.1.6    
+  [8] crosstalk_1.1.1      TH.data_1.0-10       rstantools_2.1.1     inline_0.3.19        digest_0.6.28        htmltools_0.5.1.1    rsconnect_0.8.24    
+ [15] fansi_0.5.0          magrittr_2.0.1       checkmate_2.0.0      tzdb_0.1.2           modelr_0.1.8         RcppParallel_5.1.4   matrixStats_0.60.0  
+ [22] vroom_1.5.4          svglite_2.0.0        xts_0.12.1           sandwich_3.0-1       prettyunits_1.1.1    colorspace_2.0-2     rvest_1.0.1         
+ [29] ggdist_3.0.0         haven_2.4.3          xfun_0.25            callr_3.7.0          crayon_1.4.2         jsonlite_1.7.2       lme4_1.1-27.1       
+ [36] survival_3.2-12      zoo_1.8-9            glue_1.5.0           gtable_0.3.0         emmeans_1.7.0        webshot_0.5.2        distributional_0.2.2
+ [43] pkgbuild_1.2.0       rstan_2.21.3         abind_1.4-5          scales_1.1.1         mvtnorm_1.1-2        DBI_1.1.1            miniUI_0.1.1.1      
+ [50] viridisLite_0.4.0    xtable_1.8-4         bit_4.0.4            stats4_4.0.3         StanHeaders_2.21.0-7 datawizard_0.2.0     htmlwidgets_1.5.3   
+ [57] httr_1.4.2           DiagrammeR_1.0.6.1   threejs_0.3.3        arrayhelpers_1.1-0   RColorBrewer_1.1-2   posterior_1.0.1      ellipsis_0.3.2      
+ [64] pkgconfig_2.0.3      reshape_0.8.8        loo_2.4.1            farver_2.1.0         sass_0.4.0           dbplyr_2.1.1         utf8_1.2.2          
+ [71] labeling_0.4.2       tidyselect_1.1.1     rlang_0.4.12         reshape2_1.4.4       later_1.3.0          visNetwork_2.0.9     munsell_0.5.0       
+ [78] cellranger_1.1.0     tools_4.0.3          cli_3.1.0            generics_0.1.1       broom_0.7.9          evaluate_0.14        fastmap_1.1.0       
+ [85] yaml_2.2.1           bit64_4.0.5          processx_3.5.2       fs_1.5.0             nlme_3.1-152         projpred_2.0.2       whisker_0.4         
+ [92] mime_0.11            xml2_1.3.2           compiler_4.0.3       bayesplot_1.8.1      shinythemes_1.2.0    rstudioapi_0.13      curl_4.3.2          
+ [99] gamm4_0.2-6          reprex_2.0.1         bslib_0.2.5.1        stringi_1.7.5        highr_0.9            ps_1.6.0             Brobdingnag_1.2-6   
+[106] lattice_0.20-44      Matrix_1.3-4         nloptr_1.2.2.2       markdown_1.1         shinyjs_2.0.0        tensorA_0.36.2       vctrs_0.3.8         
+[113] pillar_1.6.4         lifecycle_1.0.1      jquerylib_0.1.4      bridgesampling_1.1-2 estimability_1.3     insight_0.14.3       httpuv_1.6.2        
+[120] R6_2.5.1             promises_1.2.0.1     codetools_0.2-18     boot_1.3-28          colourpicker_1.1.0   MASS_7.3-54          gtools_3.9.2        
+[127] assertthat_0.2.1     rprojroot_2.0.2      withr_2.4.2          shinystan_2.5.0      multcomp_1.4-17      bayestestR_0.10.5    mgcv_1.8-36         
+[134] parallel_4.0.3       hms_1.1.0            grid_4.0.3           minqa_1.2.4          coda_0.19-4          rmarkdown_2.10       git2r_0.28.0        
+[141] shiny_1.6.0          lubridate_1.7.10     base64enc_0.1-3      dygraphs_1.1.1.6    
 </pre>
 </div>
 </div>
