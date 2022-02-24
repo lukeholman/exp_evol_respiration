@@ -322,21 +322,61 @@ brms_data <- scaled_data %>%
 brms_formula <- 
   bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model
        BODYMASS + ACTIVITY +  
-       (SELECTION | p | LINE) + (1 | SAMPLE)) +
+       (1 | p | LINE) + (1 | SAMPLE)) +
   
   bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models
      RQ ~ SELECTION * SEX * CYCLE + 
        BODYMASS + ACTIVITY + 
-       (SELECTION | p | LINE) + (1 | SAMPLE),
+       (1 | p | LINE) + (1 | SAMPLE),
      nl = TRUE) +
   
   bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
-       (SELECTION | p | LINE)) +
+       (1 | p | LINE)) +
   
   bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
-       (SELECTION | p | LINE) + (1 | SAMPLE)) +  
+       (1 | p | LINE) + (1 | SAMPLE)) +  
   
   set_rescor(FALSE) # cannot estimate residual correlations when using the subset() argument
+
+# # specify models with random slopes terms for sex and treatment
+# brms_formula <-
+#   bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model
+#        BODYMASS + ACTIVITY +
+#        (SEX + SELECTION| p | LINE) + (1 | SAMPLE)) +
+# 
+#   bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models
+#      RQ ~ SELECTION * SEX * CYCLE +
+#        BODYMASS + ACTIVITY +
+#        (SEX + SELECTION| p | LINE) + (1 | SAMPLE),
+#      nl = TRUE) +
+# 
+#   bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
+#        (SEX + SELECTION| p | LINE)) +
+# 
+#   bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
+#        (SEX + SELECTION| p | LINE) + (1 | SAMPLE)) +
+# 
+#   set_rescor(FALSE) # cannot estimate residual correlations when using the subset() argument
+
+# # specify models with random slopes terms for treatment
+# brms_formula <- 
+#   bf(VO2 ~ SELECTION * SEX * CYCLE +  # VO2 sub-model
+#        BODYMASS + ACTIVITY +  
+#        (SELECTION | p | LINE) + (1 | SAMPLE)) +
+#   
+#   bf(VCO2 ~ VO2 * (0.7 + 0.3 * inv_logit(RQ)),   # VCO2 and RQ sub-models
+#      RQ ~ SELECTION * SEX * CYCLE + 
+#        BODYMASS + ACTIVITY + 
+#        (SELECTION | p | LINE) + (1 | SAMPLE),
+#      nl = TRUE) +
+#   
+#   bf(BODYMASS | subset(body_subset) ~ SELECTION * SEX + # body mass sub-model
+#        (SELECTION | p | LINE)) +
+#   
+#   bf(ACTIVITY ~ SELECTION * SEX * CYCLE +   # activity sub-model
+#        (SELECTION | p | LINE) + (1 | SAMPLE)) +  
+#   
+#   set_rescor(FALSE) # cannot estimate residual correlations when using the subset() argument
 
 brms_formula
 ```
@@ -366,7 +406,8 @@ prior_SEM
 The model is run over 4 chains with 7000 iterations each (with the first 3500 discarded as burn-in), for a total of 3500*4 = 14,000 posterior samples. 
 
 ```{r}
-if(!file.exists("output/brms_SEM_respiration.rds")){
+if (!file.exists("output/brms_SEM_respiration_noslope.rds")) {
+  
   brms_SEM_respiration <- brm(
     brms_formula, 
     data = brms_data, 
@@ -374,8 +415,9 @@ if(!file.exists("output/brms_SEM_respiration.rds")){
     prior = prior_SEM,
     control = list(max_treedepth = 20, adapt_delta = 0.99))
   
-  #saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration_noslope.rds") # save with no random slope term
-  saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration.rds")
+  saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration_noslope.rds")
+  #saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration_sextreatslope.rds") # save with random slope for sex and treatment
+  #saveRDS(brms_SEM_respiration, "output/brms_SEM_respiration.rds") # save with random slope for selection
 } else {
   brms_SEM_respiration <- readRDS("output/brms_SEM_respiration_noslope.rds")
 }
@@ -434,15 +476,16 @@ hypSEM <- left_join(
   arrange(Response) %>%
   select(-Response)
 
-hypSEM %>% 
+hypSEM %>% filter(Parameter != 'Intercept') %>% 
   #write_csv('output/respirometry_SEM_table.csv')
   mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  #write_csv('output/respirometry_SEM_slopes_table.csv')
   kable(digits = 3) %>% 
   kable_styling(full_width = FALSE) %>%
-  group_rows("Oxygen consumption (VO2)", 1, 14) %>%
-  group_rows("Respiratory quotient (RQ)", 15, 28) %>%
-  group_rows("Activity level", 29, 40) %>%
-  group_rows("Body weight", 41, 44) 
+  group_rows("Oxygen consumption (VO2)", 1, 13) %>%
+  group_rows("Respiratory quotient (RQ)", 14, 26) %>%
+  group_rows("Activity level", 27, 37) %>%
+  group_rows("Body weight", 38, 40) 
 
 ```
 
@@ -651,17 +694,12 @@ p2 <- arrangeGrob(
 
 p_filler <- ggplot() + theme_void()
 
+# pdf(file = "figures/respiration_figure.pdf", height = 8, width = 5)
 grid.arrange(p1, 
              arrangeGrob(p_filler, p2, p_filler, 
                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
-             heights = c(0.35, 0.65)) 
-
-# grid.arrange(p1, 
-#              arrangeGrob(p_filler, p2, p_filler, 
-#                          nrow = 1, widths = c(0.1, 0.8, 0.1)), 
-#              heights = c(0.35, 0.65)) %>% 
-#   ggsave("figures/respiration_figure.pdf", plot = ., height = 8, width = 5)
-
+             heights = c(0.35, 0.65))
+#dev.off()
 
 # omit RQ
 p3 <- arrangeGrob(
@@ -701,6 +739,7 @@ px <- bodymass_posterior %>%
   scale_fill_manual(values = cols, name = "") + 
   theme_bw() + 
   theme(legend.position = "none",
+        strip.text.x = element_text(colour = "white"),
         strip.text.y = element_text(colour = "white"),
         text = element_text(family = nice_font),
         strip.background = element_rect(fill = "white", colour = "white")) + 
@@ -716,6 +755,7 @@ py <- activity_posterior %>% filter(CYCLE == 'I') %>%
   theme_bw() + 
   coord_cartesian(xlim = c(-1.5, 1.7)) + 
   theme(legend.position = "none", 
+        strip.text.x = element_text(colour = "white"),
         axis.text.y = element_blank(), 
         text = element_text(family = nice_font),
         strip.background = element_blank(),
@@ -734,17 +774,19 @@ pz <- posterior_effect_size %>% filter(CYCLE == 'Cycle I') %>%
   theme_bw() +
   coord_cartesian(xlim = c(-0.6, 1.9)) + 
   theme(legend.position = "none",
+        strip.text.x = element_text(colour = "white"),
         text = element_text(family = nice_font),
         strip.background = element_blank())
 
 lay <- rbind(c(1, 1, 1, 2, 2, 3, 3, 3),
              c(1, 1, 1, 2, 2, 3, 3, 3))
 
+# pdf(file = "figures/respiration_figure_cycleI.pdf", height = 2.5, width = 5.5)
 # grid.arrange(grobs = list(ggplotGrob(px),
 #                           ggplotGrob(py),
 #                           ggplotGrob(pz)),
-#              layout_matrix = lay) %>%
-#   ggsave("figures/respiration_figure_cycleI.pdf", plot = ., height = 2.5, width = 5.5)
+#              layout_matrix = lay)
+# dev.off()
 
 ```
 

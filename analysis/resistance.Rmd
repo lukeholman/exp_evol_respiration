@@ -200,37 +200,41 @@ We fit an accelerated failure time model in `brms` using `family = weibull()`, w
 
 ```{r}
 
-if(!file.exists("output/des_brm.rds")){ # if the model doesn't exist fit it, else load it
+if (!file.exists("output/des_brm_noslope.rds")) { # if the model doesn't exist fit it, else load it
   
-  des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
-               prior = c(set_prior("normal(0,0.5)", class = "b"),
-                         set_prior("cauchy(0,0.1)", class = "sd")),
-               iter = 5000, chains = 4, cores = 4,
-               control = list(max_treedepth = 20,
-                              adapt_delta = 0.999),
-               data = DesRes, family = weibull())
+  des_brm <- brm(survival.time | cens(1 - EVENT) ~ Treatment * Sex + (1|LINE) + (1|ID),
+                 # specify model with random slopes term for treatment
+                 #survival.time | cens(1 - EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+                 prior = c(set_prior("normal(0,0.5)", class = "b"),
+                           set_prior("cauchy(0,0.1)", class = "sd")),
+                 iter = 5000, chains = 4, cores = 2,
+                 control = list(max_treedepth = 20,
+                                adapt_delta = 0.999),
+                 data = DesRes, family = weibull())
   
-  #saveRDS(des_brm, "output/des_brm_noslope.rds") # save with no random slope term
-  saveRDS(des_brm, "output/des_brm.rds")
+  saveRDS(des_brm, "output/des_brm_noslope.rds")
+  #saveRDS(des_brm, "output/des_brm.rds") # save with random slope term for treatment
 } else {
   des_brm <- readRDS('output/des_brm_noslope.rds')
 }
 
 
-if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, else load it
+if(!file.exists("output/sta_brm_noslope.rds")){ # if the model doesn't exist fit it, else load it
   
-  sta_brm <- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
-               prior = c(set_prior("normal(0,0.5)", class = "b"),
-                         set_prior("cauchy(0,0.1)", class = "sd")),
-               iter = 5000, chains = 4, cores = 4,
-               control = list(max_treedepth = 20,
-                              adapt_delta = 0.999),
-               # brm uses 0 = event, 1 = censor so need to recode
-               data = StaRes %>% mutate(EVENT = if_else(EVENT == 1, 0, 1)), 
-               family = weibull())
+  sta_brm <- brm(survival.time | cens(EVENT) ~ Treatment * Sex + (1|LINE) + (1|ID),
+                 # specify model with random slopes term for treatment
+                 #survival.time | cens(EVENT) ~ Treatment * Sex + (Treatment|LINE) + (1|ID),
+                 prior = c(set_prior("normal(0,0.5)", class = "b"),
+                           set_prior("cauchy(0,0.1)", class = "sd")),
+                 iter = 5000, chains = 4, cores = 2,
+                 control = list(max_treedepth = 20,
+                                adapt_delta = 0.999),
+                 # brm uses 0 = event, 1 = censor so need to recode
+                 data = StaRes %>% mutate(EVENT = if_else(EVENT == 1, 0, 1)), 
+                 family = weibull())
   
-  #saveRDS(sta_brm, "output/sta_brm_noslope.rds") # save with no random slope term
-  saveRDS(sta_brm, "output/sta_brm.rds")
+  saveRDS(sta_brm, "output/sta_brm_noslope.rds")
+  #saveRDS(sta_brm, "output/sta_brm.rds") # save with random slope term for treatment
 } else {
   sta_brm <- readRDS('output/sta_brm_noslope.rds')
 }
@@ -243,7 +247,6 @@ if(!file.exists("output/sta_brm.rds")){ # if the model doesn't exist fit it, els
 Taking the exponent of the coefficients gives an estimate of the multiplicative effect of the time to event compared to baseline (Monogamy females) ([see here](http://rstudio-pubs-static.s3.amazonaws.com/5564_bc9e2d9a458c4660aa82882df90b7a6b.html)). For instance, for desiccation resistance, being male accelerates time to event by a factor of exp(`r round(fixef(des_brm)[3], 3)`) = `r round(exp(fixef(des_brm)[3]), 3)` (95% confidence intervals = `r round(exp(fixef(des_brm)[3,3]), 3)` - `r round(exp(fixef(des_brm)[3,4]), 3)`), i.e. Monogamy males live `r round(exp(fixef(des_brm)[3]), 3)` times as long as Monogamy females.
 
 ```{r}
-
 des_test <- bind_rows(
   hypothesis(des_brm, 'TreatmentP = 0')$hypothesis,
   hypothesis(des_brm, 'Sexm = 0')$hypothesis,
@@ -266,6 +269,7 @@ des_pvals <- bayestestR::p_direction(des_brm) %>%
   as.data.frame() %>%
   mutate(vars = map_chr(str_split(Parameter, "_"), ~ .x[2]),
          p_val = 1 - pd, 
+         #p.val = bayestestR::pd_to_p(pd, direction = "two-sided"),
          star = ifelse(p_val < 0.05, "\\*", "")) %>%
   select(vars, p_val, star)
 
@@ -289,6 +293,7 @@ bind_rows(
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star)
   ) %>% 
   mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  #write_csv('output/stress_slopes_table.csv')
   rename(` ` = star) %>%
   kable() %>% 
   kable_styling(full_width = FALSE) %>%

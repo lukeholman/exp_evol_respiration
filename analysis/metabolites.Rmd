@@ -313,13 +313,39 @@ brms_formula <-
   
   # Sub-models of the 5 metabolites
   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
-       sex*treatment + Dryweight + (treatment | p | line)) +
+       sex * treatment + Dryweight + (1 | p | line)) +
   
   # dry weight sub-model
-   bf(Dryweight ~ sex*treatment + (treatment | p | line)) +
+   bf(Dryweight ~ sex * treatment + (1 | p | line)) +
   
   # Allow for (and estimate) covariance between the residuals of the difference response variables
   set_rescor(TRUE)
+
+# # specify models with random slopes terms for sex and treatment
+# brms_formula <- 
+#   
+#   # Sub-models of the 5 metabolites
+#   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
+#        sex*treatment + Dryweight + (sex + treatment| p | line)) +
+#   
+#   # dry weight sub-model
+#    bf(Dryweight ~ sex * treatment + (sex + treatment| p | line)) +
+#   
+#   # Allow for (and estimate) covariance between the residuals of the difference response variables
+#   set_rescor(TRUE)
+
+# # specify models with random slopes terms for treatment
+# brms_formula <- 
+#   
+#   # Sub-models of the 5 metabolites
+#   bf(mvbind(Lipid, Carbohydrate, Protein, Glycogen, Chitin) ~ 
+#        sex*treatment + Dryweight + (treatment | p | line)) +
+#   
+#   # dry weight sub-model
+#    bf(Dryweight ~ sex * treatment + (treatment | p | line)) +
+#   
+#   # Allow for (and estimate) covariance between the residuals of the difference response variables
+#   set_rescor(TRUE)
 
 brms_formula
 ```
@@ -331,7 +357,8 @@ brms_formula
 The model is run over 4 chains with 5000 iterations each (with the first 2500 discarded as burn-in), for a total of 2500*4 = 10,000 posterior samples. 
 
 ```{r}
-if(!file.exists("output/brms_metabolite_SEM.rds")){
+if(!file.exists("output/brms_metabolite_SEM_noslope.rds")){
+  
   brms_metabolite_SEM <- brm(
     brms_formula,
     data = scaled_metabolites %>% # brms does not like underscores in variable names
@@ -343,8 +370,9 @@ if(!file.exists("output/brms_metabolite_SEM.rds")){
                    adapt_delta = 0.99)
   )
   
-  #saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM_noslope.rds") # save with no random slope term
-  saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM.rds")
+  saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM_noslope.rds")
+  #saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM.rds") # save with treatment random slope 
+  #saveRDS(brms_metabolite_SEM, "output/brms_metabolite_SEM_sextreatslope.rds") # save with sex and treatment random slopes
 } else {
   brms_metabolite_SEM <- readRDS('output/brms_metabolite_SEM_noslope.rds')
 }
@@ -439,6 +467,7 @@ hypSEM %>%
   rename(` ` = star) %>%
   #write_csv('output/metabolite_SEM_table.csv')
   mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  #write_csv('output/metabolite_SEM_slopes_table.csv')
   kable() %>% 
   kable_styling(full_width = FALSE) %>%
   group_rows("Carbohydrates", 1, 4) %>%

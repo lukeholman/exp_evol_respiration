@@ -217,16 +217,18 @@ The model is run over 4 chains with 5000 iterations each (with the first 2500 di
 
 if(!file.exists("output/cox_brms.rds")){
   
-  cox_brm <- brm(DAY | cens(1 - EVENT) ~ TRT * SEX + SEED + (TRT|LINE) + (1|ID),
-               iter = 5000, chains = 4, cores = 4,
-               prior = c(set_prior("normal(0,1)", class = "b"),
-                         set_prior("cauchy(0,0.1)", class = "sd")),
-               control = list(max_treedepth = 20,
-                              adapt_delta = 0.999),
-               data = ecl.dat, family = cox())
+  cox_brm <- brm(DAY | cens(1 - EVENT) ~ TRT * SEX + SEED + (1|LINE) + (1|ID),
+                 # specify model with random slopes term
+                 #DAY | cens(1 - EVENT) ~ TRT * SEX + SEED + (TRT|LINE) + (1|ID),
+                 iter = 5000, chains = 4, cores = 4,
+                 prior = c(set_prior("normal(0,1)", class = "b"),
+                           set_prior("cauchy(0,0.1)", class = "sd")),
+                 control = list(max_treedepth = 20,
+                                adapt_delta = 0.999),
+                 data = ecl.dat, family = cox())
   
-  #saveRDS(cox_brm, "output/cox_brms_noslope.rds") # save with no random slope term
-  saveRDS(cox_brm, "output/cox_brms.rds")
+  saveRDS(cox_brm, "output/cox_brms_noslope.rds")
+  #saveRDS(cox_brm, "output/cox_brms.rds") # save with random slope term
 } else {
   cox_brm <- readRDS('output/cox_brms_noslope.rds')
 }
@@ -263,6 +265,7 @@ hyp_test %>%
   select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
   rename(` ` = star) %>%
   mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  #write_csv('output/devotime_slopes_table.csv')
   kable() %>% 
   kable_styling(full_width = FALSE)
 
@@ -446,19 +449,24 @@ As above we set conservative normal priors on the fixed effects (mean = 0, sd = 
 The model is run over 4 chains with 10000 iterations each (with the first 2500 discarded as burn-in), for a total of 7500*4 = 30,000 posterior samples.
 ```{r}
 
-if(!file.exists("output/wing_brms.rds")){
+if(!file.exists("output/wing_brms_noslope.rds")){
   
-  wing_brms <- brm(Length ~ Treatment * Sex + Seed + (Treatment|LINE),
-                 data = wing_length,
-  iter = 10000, chains = 4, cores = 4,
-  prior = c(set_prior("normal(0,1)", class = "b"),
-            set_prior("cauchy(0,0.1)", class = "sd")),
-  control = list(max_treedepth = 20,
-                 adapt_delta = 0.999)
-  )
+  wing_brms <- brm(Length ~ Treatment * Sex + Seed + (1|LINE),
+                   # specify model with random slopes term for treatment
+                   #Length ~ Treatment * Sex + Seed + (Treatment|LINE),
+                   # specify model with random slopes term for sex and treatment
+                   #Length ~ Treatment * Sex + Seed + (Sex + Treatment|LINE),
+                   data = wing_length,
+                   iter = 10000, chains = 4, cores = 1,
+                   prior = c(set_prior("normal(0,1)", class = "b"),
+                             set_prior("cauchy(0,0.1)", class = "sd")),
+                   control = list(max_treedepth = 20,
+                                  adapt_delta = 0.999)
+                   )
   
-  #saveRDS(wing_brms, "output/wing_brms_noslope.rds") # save with no random slope term
-  saveRDS(wing_brms, "output/wing_brms.rds")
+  saveRDS(wing_brms, "output/wing_brms_noslope.rds") # save with no random slopes
+  #saveRDS(wing_brms, "output/wing_brms.rds") # save with random slope term for treatment
+  #saveRDS(wing_brms, "output/wing_brms_sextreatslope.rds") # save with random slope term for sex and treatment
 } else {
   wing_brms <- readRDS('output/wing_brms_noslope.rds')
 }
@@ -498,6 +506,7 @@ wing_test %>% mutate(vars = c('TreatmentP', 'SexM', 'TreatmentP:SexM', 'SeedB', 
               by = c("vars")) %>% 
     select(Parameter, Estimate, Est.Error, CI.Lower, CI.Upper, `p` = p_val, star) %>% 
   mutate(p = ifelse(p > 0.001, round(p, 3), '< 0.001')) %>% 
+  #write_csv('output/wing_slopes_table.csv')
   rename(` ` = star) %>%
   kable() %>% 
   kable_styling(full_width = FALSE)
